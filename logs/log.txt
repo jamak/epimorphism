@@ -1,0 +1,149 @@
+(21:53:43) EP:  START - 10/16/08
+(21:53:43) st:  load state - default
+(21:53:43) st:  with vars - {'shiz': 'asdf', 'thing': '2'}
+(21:54:00) EP:  START - 10/16/08
+(21:54:00) st:  load state - default
+(21:54:00) st:  with vars - {'shiz': 'asdf', 'thing': '2'}
+(21:54:00) st:  load state - box1
+(21:54:00) st:  with vars - {'shiz': '1', 'profile': 'box1', 'state': 'default'}
+(21:54:00) en:  initializing
+(21:54:00) in:  initializing
+(21:54:00) en:  starting
+(21:54:00) in:  starting
+(22:35:27) EP:  START - 10/16/08
+(22:35:27) st:  load state - default
+(22:35:27) st:  with vars - {'shiz': 'asdf', 'thing': '2'}
+(22:35:27) st:  load profile - box1
+(22:35:27) st:  with vars - {'shiz': '1', 'profile': 'box1', 'state': 'default'}
+(22:35:27) en:  initializing
+(22:35:27) in:  initializing
+(22:35:37) EP:  START - 10/16/08
+(22:35:37) st:  load state - default
+(22:35:37) st:  with vars - {'shiz': 'asdf', 'thing': '2'}
+(22:35:37) st:  load profile - box1
+(22:35:37) st:  with vars - {'shiz': '1', 'profile': 'box1', 'state': 'default'}
+(22:35:37) en:  initializing
+(22:35:37) in:  initializing
+(22:43:39) EP:  START - 10/16/08
+(22:43:39) st:  load state - default
+(22:43:39) st:  with vars - {'shiz': 'asdf', 'thing': '2'}
+(22:43:39) st:  load profile - box1
+(22:43:39) st:  with vars - {'shiz': '1', 'profile': 'box1', 'state': 'default'}
+(22:43:39) en:  initializing
+(22:43:39) in:  initializing
+(22:44:01) EP:  START - 10/16/08
+(22:44:01) st:  load state - default
+(22:44:01) st:  with vars - {'viewport_width': '500', 'viewport_height': '500'}
+(22:44:01) st:  load profile - box1
+(22:44:01) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(22:44:01) en:  initializing
+(22:44:01) in:  initializing
+(22:44:09) EP:  START - 10/16/08
+(22:44:09) st:  load state - default
+(22:44:09) st:  with vars - {}
+(22:44:09) st:  load profile - box1
+(22:44:09) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:44:09) en:  initializing
+(22:44:09) in:  initializing
+(22:44:42) EP:  START - 10/16/08
+(22:44:42) st:  load state - default
+(22:44:42) st:  with vars - {}
+(22:44:42) st:  load profile - box1
+(22:44:42) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:44:42) en:  initializing
+(22:44:42) in:  initializing
+(22:45:08) EP:  START - 10/16/08
+(22:45:08) st:  load state - default
+(22:45:08) st:  with vars - {}
+(22:45:08) st:  load profile - box1
+(22:45:08) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:45:08) en:  initializing
+(22:45:08) in:  initializing
+(22:45:14) EP:  START - 10/16/08
+(22:45:14) st:  load state - default
+(22:45:14) st:  with vars - {}
+(22:45:14) st:  load profile - box1
+(22:45:14) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:45:14) en:  initializing
+(22:45:14) in:  initializing
+(22:45:57) EP:  START - 10/16/08
+(22:45:57) st:  load state - default
+(22:45:57) st:  with vars - {}
+(22:45:57) st:  load profile - box1
+(22:45:57) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:45:57) en:  initializing
+(22:45:57) in:  initializing
+(22:46:06) EP:  START - 10/16/08
+(22:46:06) st:  load state - default
+(22:46:06) st:  with vars - {}
+(22:46:06) st:  load profile - box1
+(22:46:06) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:46:06) en:  initializing
+(22:46:06) in:  initializing
+(22:46:06) en:  starting
+(22:46:06) in:  starting
+(22:46:32) EP:  START - 10/16/08
+(22:46:32) st:  load state - default
+(22:46:32) st:  with vars - {}
+(22:46:32) st:  load profile - box1
+(22:46:32) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:46:32) en:  initializing
+(22:46:32) in:  initializing
+(22:46:32) en:  starting
+(22:46:32) in:  starting
+(22:50:18) EP:  START - 10/16/08
+(22:50:18) st:  load state - default
+(22:50:18) st:  with vars - {}
+(22:50:18) st:  load profile - box1
+(22:50:18) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:50:18) en:  initializing
+(22:50:18) in:  initializing
+(22:50:18) en:  starting
+(22:50:18) in:  starting
+(22:50:41) EP:  START - 10/16/08
+(22:50:41) st:  load state - default
+(22:50:41) st:  with vars - {}
+(22:50:41) st:  load profile - box1
+(22:50:41) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:50:41) en:  initializing
+(22:50:41) in:  initializing
+(22:50:41) en:  starting
+(22:50:41) in:  starting
+(22:51:03) EP:  START - 10/16/08
+(22:51:03) st:  load state - default
+(22:51:03) st:  with vars - {}
+(22:51:03) st:  load profile - box1
+(22:51:03) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:51:03) en:  initializing
+(22:51:03) in:  initializing
+(22:51:03) en:  starting
+(22:51:03) in:  starting
+(22:51:28) EP:  START - 10/16/08
+(22:51:28) st:  load state - default
+(22:51:28) st:  with vars - {}
+(22:51:28) st:  load profile - box1
+(22:51:28) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:51:28) en:  initializing
+(22:51:28) in:  initializing
+(22:51:28) en:  starting
+(22:51:28) in:  starting
+(22:51:53) EP:  START - 10/16/08
+(22:51:53) st:  load state - default
+(22:51:53) st:  with vars - {}
+(22:51:53) st:  load profile - box1
+(22:51:53) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:51:53) en:  initializing
+(22:51:53) in:  initializing
+(22:51:53) en:  starting
+(22:51:53) in:  starting
+(22:51:53) in:  reshape -500 500
+(22:52:05) EP:  START - 10/16/08
+(22:52:05) st:  load state - default
+(22:52:05) st:  with vars - {}
+(22:52:05) st:  load profile - box1
+(22:52:05) st:  with vars - {'profile': 'box1', 'state': 'default', 'viewport_width': '500', 'viewport_height': '500'}
+(22:52:05) en:  initializing
+(22:52:05) in:  initializing
+(22:52:05) en:  starting
+(22:52:05) in:  starting
+(22:52:05) in:  reshape -500 500
