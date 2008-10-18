@@ -19,13 +19,13 @@ state_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] ==
 #initialize states
 manager = StateManager();
 state_name = app_vars.setdefault('state', 'default')
-state = manager.load_state(state_name, state_vars)
+state = manager.load_state(state_name, **state_vars)
 profile_name = app_vars.setdefault('profile', 'box1')
-profile = manager.load_profile(profile_name, app_vars)
+profile = manager.load_profile(profile_name, **app_vars)
 
-#initialize 
+#initialize
 engine = Engine(profile, state)
-interface = Interface(engine, app_vars)
+interface = Interface(engine, profile)
 
 #start state
 engine.start()

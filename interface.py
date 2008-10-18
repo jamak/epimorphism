@@ -7,59 +7,75 @@ logger = Logger('log.txt', 'in:  ')
 log = logger.log
 
 class Interface:
-    def __init__(self, engine, vars):
-        self.engine, self.vars = engine, vars;
+    def __init__(self, engine, profile):
+        self.engine, self.profile = engine, profile;
         log("initializing")
         glutInit(1, [])
-        glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE)
-        glutInitWindowSize(int(vars['viewport_width']), int(vars['viewport_height']))
-        glutCreateWindow("Epimorphism")
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_ALPHA | GLUT_RGBA);
 
-        self.initGL()
+        if(profile.full_screen):
+            log("fullscreen")
+            glutGameModeString(str(profile.viewport_width) + "x" + str(profile.viewport_height) + ":24@" + str(profile.viewport_refresh))
+            glutEnterGameMode()
+        else:
+            log("windowed")
+            glutInitWindowSize(profile.viewport_width, profile.viewport_height)
+            glutInitWindowPosition(10, 10);
+            glutCreateWindow("Epimorphism")
 
         glutDisplayFunc(self.display)
+        glutIdleFunc(self.display)
         glutKeyboardFunc(self.keyboard)
         glutMouseFunc(self.mouse)
         glutMotionFunc(self.motion)
         glutReshapeFunc(self.reshape)
-        
-    def initGL(self):
 
-        glClearColor(0.0,0.0,0.0,1.0)
-        glDisable(GL_DEPTH_TEST)
+        glEnable(GL_TEXTURE_2D)
+        glClearColor(1.0, 1.0, 1.0, 1.0)
 
-        #glViewport(0,0,window_width,window_height)
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        #ratio = float(window_width)/float(window_height)
-        #glFrustum(-1.,1.,-1.,1.,2.,10.)
-        return True
+        self.reshape(self.profile.viewport_width, self.profile.viewport_height)
+
 
     def start(self):
         log("starting")
         glutMainLoop()
 
+
     def display(self):
-        pass
+        x0, x1, y0, y1 = .5 - self.profile.vp_scale / 2 - self.profile.vp_center_x * self.aspect, .5 + self.profile.vp_scale / 2 - self.profile.vp_center_x * self.aspect, .5 - self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y, .5 + self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y
+        glBegin(GL_QUADS)
+        glVertex3f(-1.0, -1.0, 0)
+        glVertex3f(1.0, -1.0, 0)
+        glVertex3f(1.0, 1.0, 0)
+        glVertex3f(-1.0, 1.0, 0)
+        glEnd()
+        glutSwapBuffers();
+
 
     def keyboard(self, key, x, y):
-        
-        pass
+        if(key == '\033'):
+            sys.exit(0)
+
 
     def mouse(self, button, state, x, y):
         pass
 
+
     def motion(self, x, y):
         pass
 
+
     def reshape(self, w, h):
         log("reshape -" + str(w) + ' ' + str(h))
-        self.state["viewport_width"] = w
-        self.state["viewport_height"] = h
+        self.profile.viewport_width = w
+        self.profile.viewport_height = h
         self.aspect = float(w) / float(h)
-  
+
         glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()	
+        glLoadIdentity()
         glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
+        glViewport(0, 0, self.profile.viewport_width, self.profile.viewport_height)
+
+
