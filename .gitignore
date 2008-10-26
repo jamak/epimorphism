@@ -2,3 +2,7 @@
 *~
 *.cache
 *#*
+*.so
+*.bmp
+*.jpg
+*.png

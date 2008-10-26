@@ -1,6 +1,8 @@
+from numpy import *
 from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+from Image import *
 
 from logger import *
 
@@ -17,7 +19,7 @@ class Interface:
 
         glutInit(1, [])
 
-        # create window
+        # create window    
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_ALPHA | GLUT_RGBA)
       
         if(self.profile.full_screen):
@@ -42,38 +44,45 @@ class Interface:
         glutMouseFunc(self.mouse)
         glutMotionFunc(self.motion)
 
-        # misc flags
-        glEnable(GL_TEXTURE_2D)
-        glClearColor(1.0, 1.0, 1.0, 1.0)
-
         # generate buffer objects - code needs to be compressed 
-        self.engine.pbo0 = GLuint() 
-        self.engine.pbo1 = GLuint()
 
-        size = self.profile.kernel_dim * self.profile.kernel_dim * 4 * sizeof(c_float)
+        image = open("image189.png").tostring("raw", "RGBA", 0, -1)  
+
+        size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
+
+        self.engine.pbo0 = GLuint() 
 
         glGenBuffers(1, byref(self.engine.pbo0))
-        glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)
-        glBufferData(GL_ARRAY_BUFFER, size, 0, GL_DYNAMIC_DRAW)
-
-        glGenBuffers(1, byref(self.engine.pbo1))
-        glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)
-        glBufferData(GL_ARRAY_BUFFER, size, 0, GL_DYNAMIC_DRAW)
-
-        self.engine.pbo_current = self.engine.pbo0
-
-        self.engine.register_buffers()
-
+        glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)     
+        glBufferData(GL_ARRAY_BUFFER, size, image, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+        self.engine.register_buffer()
 
         # generate texture 
         self.display_tex = GLuint()
 
         glGenTextures(1, byref(self.display_tex))
-        glBindTexture(GL_TEXTURE_2D, self.display_tex)        
-        
-        #status = cudaGLRegisterBufferObject(vbo)
-        #return vbo
+        glBindTexture(GL_TEXTURE_2D, self.display_tex)  
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, 1000, 1000, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+
+        glEnable(GL_TEXTURE_2D)
+        glClearColor(0.0, 0.0, 0.0, 0.0)	
+
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()    
+        glMatrixMode(GL_MODELVIEW)
+
+        #fps data
+        self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
+        print 2
 
 
     def start(self):
@@ -82,11 +91,25 @@ class Interface:
         glutMainLoop()
 
 
-    def display(self):
+    def display(self):      
+        #self.engine.render_to_buffer()
+        self.engine.do()
+
+        self.engine.d += 1
+        self.d_time = glutGet(GLUT_ELAPSED_TIME)
+        if(self.d_time - self.d_timebase > 500.0):
+            self.fps = self.engine.d * 1000.0 / (self.d_time - self.d_timebase)        
+            print str(self.fps)
+            self.d_timebase = self.d_time;		
+            self.engine.d = 0        
+
+        # print "disp = ", self.engine.d
+        # print "cuda = ", self.engine.c
+
         # first, bind texture
-        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo_current)
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo0)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, GL_BGRA, GL_UNSIGNED_BYTE, None)
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0)
 
@@ -95,6 +118,8 @@ class Interface:
         x1 = .5 + self.profile.vp_scale / 2 - self.profile.vp_center_x * self.aspect 
         y0 = .5 - self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y 
         y1 = .5 + self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y
+
+        glColor(1.0,0.0,0.0)
 
         # render texture
         glBegin(GL_QUADS)
@@ -132,16 +157,10 @@ class Interface:
     def keyboard(self, key, x, y):
         if(key == '\033'):
             self.engine.exit = True
-
-            #glBindBuffer(1, self.engine.pbo0)
-            #glDeleteBuffers(1, self.engine.pbo0)
-            #status = cudaGLUnregisterBufferObject(self.engine.pbo0)
-
-            #glBindBuffer(1, self.engine.pbo1)
-            #glDeleteBuffers(1, self.engine.pbo1)
-            #status = cudaGLUnregisterBufferObject(self.engine.pbo1)
-
-            sys.exit(0)
+            self.engine.cleanup()
+            glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)
+            glDeleteBuffers(1, self.engine.pbo0)
+            exit()
 
 
     def mouse(self, button, state, x, y):
