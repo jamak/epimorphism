@@ -15,10 +15,9 @@ extern "C" {
     unsigned int x = blockIdx.x*blockDim.x + threadIdx.x;
     unsigned int y = blockIdx.y*blockDim.y + threadIdx.y;
 
-    // write output pixel
-    
+    // write output pixel    
     float4 f = make_float4(x / 1000.0, y / 1000.0, offset, 0);
-    pos[y * (pitch / sizeof(float4)) + x] = f;
+    pos[y * pitch + x] = f;
     out[y * (blockDim.x * gridDim.x) + x] = make_uchar4(255.0 * f.x, 255.0 * f.y, 255.0 * f.z, 255.0 * f.w);
 }
 

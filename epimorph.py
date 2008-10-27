@@ -32,5 +32,4 @@ engine = Engine(profile, state)
 interface = Interface(engine)
 
 #start state
-#engine.start()
 interface.start()

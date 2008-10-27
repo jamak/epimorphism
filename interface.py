@@ -44,20 +44,18 @@ class Interface:
         glutMouseFunc(self.mouse)
         glutMotionFunc(self.motion)
 
-        # generate buffer objects - code needs to be compressed 
-
-        image = open("image189.png").tostring("raw", "RGBA", 0, -1)  
-
+        # generate buffer object
         size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
 
         self.engine.pbo0 = GLuint() 
 
         glGenBuffers(1, byref(self.engine.pbo0))
         glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)     
-        glBufferData(GL_ARRAY_BUFFER, size, image, GL_DYNAMIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, size, 0, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-        self.engine.register_buffer()
+        # register engine data
+        self.engine.register()
 
         # generate texture 
         self.display_tex = GLuint()
@@ -66,13 +64,14 @@ class Interface:
         glBindTexture(GL_TEXTURE_2D, self.display_tex)  
 
         glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, 1000, 1000, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
+        # init gl
         glEnable(GL_TEXTURE_2D)
         glClearColor(0.0, 0.0, 0.0, 0.0)	
 
@@ -80,10 +79,9 @@ class Interface:
         glLoadIdentity()    
         glMatrixMode(GL_MODELVIEW)
 
-        #fps data
-        self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
-        print 2
-
+        # fps data
+        self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME) 
+        self.frame_count = 0.0               
 
     def start(self):
         log("starting")
@@ -92,19 +90,17 @@ class Interface:
 
 
     def display(self):      
-        #self.engine.render_to_buffer()
+        self.frame_count += 1
+
         self.engine.do()
 
-        self.engine.d += 1
         self.d_time = glutGet(GLUT_ELAPSED_TIME)
-        if(self.d_time - self.d_timebase > 500.0):
-            self.fps = self.engine.d * 1000.0 / (self.d_time - self.d_timebase)        
-            print str(self.fps)
-            self.d_timebase = self.d_time;		
-            self.engine.d = 0        
-
-        # print "disp = ", self.engine.d
-        # print "cuda = ", self.engine.c
+        if(self.frame_count % 1000 == 0):
+            time = (1.0 * self.d_time - self.d_timebase) / 1000.0
+            avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
+            print "gl time = " + str(time) + "ms"
+            print "gl_avg  = " + str(avg) + "ms"
+            self.d_timebase = self.d_time
 
         # first, bind texture
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo0)
@@ -136,6 +132,7 @@ class Interface:
         glEnd()
 
         glutSwapBuffers()
+
         glutPostRedisplay()
 
 
@@ -154,6 +151,14 @@ class Interface:
         glViewport(0, 0, self.profile.viewport_width, self.profile.viewport_height)
 
 
+    def mouse(self, button, state, x, y):
+        pass
+
+
+    def motion(self, x, y):
+        pass
+
+
     def keyboard(self, key, x, y):
         if(key == '\033'):
             self.engine.exit = True
@@ -162,13 +167,6 @@ class Interface:
             glDeleteBuffers(1, self.engine.pbo0)
             exit()
 
-
-    def mouse(self, button, state, x, y):
-        pass
-
-
-    def motion(self, x, y):
-        pass
 
 
 
