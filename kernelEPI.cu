@@ -1,14 +1,15 @@
 texture<float4, 2, cudaReadModeElementType> input_texture;
-
+ 
 extern "C" {
 
-  __global__ void kernel2(float4* pos, uchar4* out, ulong pitch, float offset, int kernel_dim)
+  __global__ void kernel2(float4* pos, uchar4* out, ulong pitch, float offset, int kernel_dim2)
 {
     unsigned int x = blockIdx.x*blockDim.x + threadIdx.x;
     unsigned int y = blockIdx.y*blockDim.y + threadIdx.y;
+    unsigned int kernel_dim = gridDim.x*blockDim.y;
 
     // write output pixel    
-    float4 f = make_float4(x / (float)kernel_dim, y / (float)kernel_dim, offset, 0);
+    float4 f = make_float4((float)x / kernel_dim, (float) y / kernel_dim, offset, 0);
     pos[y * pitch + x] = f;
     out[y * (blockDim.x * gridDim.x) + x] = make_uchar4(255.0 * f.x, 255.0 * f.y, 255.0 * f.z, 255.0 * f.w);
 }

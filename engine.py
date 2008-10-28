@@ -42,14 +42,14 @@ class Engine:
         print str(self.cuda_properties)
 
         # create input_array & bind texture
-        channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
+        #channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
 
-        self.input_array = cudaArray_p()
-        cudaMallocArray(byref(self.input_array), channel_desc, self.profile.kernel_dim, self.profile.kernel_dim)
+        #self.input_array = cudaArray_p()
+        #cudaMallocArray(byref(self.input_array), channel_desc, self.profile.kernel_dim, self.profile.kernel_dim)
 
-        self.tex_ref = textureReference()
-        cudaGetTextureReference(byref(self.tex_ref), "input_texture")
-        cudaBindTextureToArray(byref(self.tex_ref), self.input_array, channel_desc)
+        #self.tex_ref = textureReference()
+        #cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+        #cudaBindTextureToArray(byref(self.tex_ref), self.input_array, channel_desc)
 
         # create output_2D
         self.output_2D = c_void_p()
@@ -75,7 +75,7 @@ class Engine:
 
 
     def cleanup(self):
-        cudaFreeArray(self.input_array)
+        #cudaFreeArray(self.input_array)
         cudaFree(self.output_2D)
         [cudaEventDestroy(event) for event in self.events]    
         status = cudaGLUnregisterBufferObject(self.pbo)
