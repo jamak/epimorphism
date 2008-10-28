@@ -47,10 +47,10 @@ class Interface:
         # generate buffer object
         size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
 
-        self.engine.pbo0 = GLuint() 
+        self.engine.pbo = GLuint() 
 
-        glGenBuffers(1, byref(self.engine.pbo0))
-        glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)     
+        glGenBuffers(1, byref(self.engine.pbo))
+        glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo)     
         glBufferData(GL_ARRAY_BUFFER, size, 0, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
@@ -95,15 +95,15 @@ class Interface:
         self.engine.do()
 
         self.d_time = glutGet(GLUT_ELAPSED_TIME)
-        if(self.frame_count % 1000 == 0):
-            time = (1.0 * self.d_time - self.d_timebase) / 1000.0
+        if(self.frame_count % self.profile.debug_freq == 0):
+            time = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
             avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
             print "gl time = " + str(time) + "ms"
-            print "gl_avg  = " + str(avg) + "ms"
+            print "gl avg  = " + str(avg) + "ms"
             self.d_timebase = self.d_time
 
         # first, bind texture
-        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo0)
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
@@ -163,8 +163,8 @@ class Interface:
         if(key == '\033'):
             self.engine.exit = True
             self.engine.cleanup()
-            glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo0)
-            glDeleteBuffers(1, self.engine.pbo0)
+            glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo)
+            glDeleteBuffers(1, self.engine.pbo)
             exit()
 
 
