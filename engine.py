@@ -44,17 +44,22 @@ class Engine:
         print str(self.cuda_properties)
 
         # create input_array & bind texture
-        channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
+        channel_desc = cudaCreateChannelDesc(8, 8, 8, 8, cudaChannelFormatKindUnsigned)
 
         self.input_array = cudaArray_p()
         cudaMallocArray(byref(self.input_array), channel_desc, self.profile.kernel_dim, self.profile.kernel_dim)
 
-        image = Image.open("image189.png")
-        image.show()
-        
+        image_str = open("image189.png").tostring("raw", "RGBA", 0, -1)          
+
+        Image.fromstring("RGBA", 1000*1000*sizeof(uchar4), image_str).show()
+
+        cudaMemcpyToArray(self.input_array, self.profile.kernel_dim, self.profile.kernel_dim, image_str, 1000 * 1000 * sizeof(uchar4), cudaMemcpyHostToDevice)
 
         self.tex_ref = textureReference()
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+
+        self.tex_ref
+
         cudaBindTextureToArray(byref(self.tex_ref), self.input_array, channel_desc)
 
         # create output_2D
@@ -100,16 +105,16 @@ class Engine:
         self.offset += 1.0 / 1000.0
         self.offset = self.offset % 1                
 
-        block = dim3(16, 16, 1)
-        grid = dim3(256, 256, 1)
+        block = dim3(10, 10, 1)
+        grid = dim3(100, 100, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
 
         # kernel2(self.output_2D, self.pbo_ptr, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.offset, self.profile.kernel_dim)            
         kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            
         self.record(1)
 
-        cudaMemcpy2DToArray(self.input_array, self.profile.kernel_dim, self.profile.kernel_dim, self.output_2D, self.output_2D_pitch, 
-                            self.profile.kernel_dim, self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
+        #cudaMemcpy2DToArray(self.input_array, self.profile.kernel_dim, self.profile.kernel_dim, self.output_2D, self.output_2D_pitch, 
+        #                    self.profile.kernel_dim, self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record(2)
     
         cudaGLUnmapBufferObject(self.pbo)
