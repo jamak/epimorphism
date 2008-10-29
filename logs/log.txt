@@ -46859,3 +46859,269 @@
 (16:02:22) in:  reshape - 500 500
 (16:02:22) in:  starting
 (16:02:22) in:  reshape - 500 500
+(16:14:41) EP:  START - 10/28/08
+(16:14:41) st:  load state - default
+(16:14:41) st:  with vars - {}
+(16:14:41) st:  load profile - box1
+(16:14:41) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:14:41) en:  initializing
+(16:14:41) in:  initializing
+(16:14:41) in:  windowed
+(16:14:41) in:  reshape - 500 500
+(16:14:41) in:  starting
+(16:14:41) in:  reshape - 500 500
+(16:15:25) EP:  START - 10/28/08
+(16:15:25) st:  load state - default
+(16:15:25) st:  with vars - {}
+(16:15:25) st:  load profile - box1
+(16:15:25) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:15:25) en:  initializing
+(16:15:25) in:  initializing
+(16:15:25) in:  windowed
+(16:15:25) in:  reshape - 500 500
+(16:15:25) in:  starting
+(16:15:25) in:  reshape - 500 500
+(16:16:20) EP:  START - 10/28/08
+(16:16:20) st:  load state - default
+(16:16:20) st:  with vars - {}
+(16:16:20) st:  load profile - box1
+(16:16:20) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:16:20) en:  initializing
+(16:16:21) in:  initializing
+(16:16:21) in:  windowed
+(16:16:21) in:  reshape - 500 500
+(16:16:21) in:  starting
+(16:16:21) in:  reshape - 500 500
+(16:17:30) EP:  START - 10/28/08
+(16:17:30) st:  load state - default
+(16:17:30) st:  with vars - {}
+(16:17:30) st:  load profile - box1
+(16:17:30) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:17:30) en:  initializing
+(16:17:30) in:  initializing
+(16:17:30) in:  windowed
+(16:17:30) in:  reshape - 500 500
+(16:17:30) in:  starting
+(16:17:30) in:  reshape - 500 500
+(16:17:59) EP:  START - 10/28/08
+(16:17:59) st:  load state - default
+(16:17:59) st:  with vars - {}
+(16:17:59) st:  load profile - box1
+(16:17:59) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:17:59) en:  initializing
+(16:17:59) in:  initializing
+(16:17:59) in:  windowed
+(16:17:59) in:  reshape - 500 500
+(16:17:59) in:  starting
+(16:17:59) in:  reshape - 500 500
+(16:18:36) EP:  START - 10/28/08
+(16:18:36) st:  load state - default
+(16:18:36) st:  with vars - {}
+(16:18:36) st:  load profile - box1
+(16:18:36) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:18:36) en:  initializing
+(16:18:36) in:  initializing
+(16:18:36) in:  windowed
+(16:18:36) in:  reshape - 500 500
+(16:18:36) in:  starting
+(16:18:36) in:  reshape - 500 500
+(16:19:03) EP:  START - 10/28/08
+(16:19:03) st:  load state - default
+(16:19:03) st:  with vars - {}
+(16:19:03) st:  load profile - box1
+(16:19:03) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:19:03) en:  initializing
+(16:19:03) in:  initializing
+(16:19:03) in:  windowed
+(16:19:03) in:  reshape - 500 500
+(16:19:03) in:  starting
+(16:19:03) in:  reshape - 500 500
+(16:19:08) EP:  START - 10/28/08
+(16:19:08) st:  load state - default
+(16:19:08) st:  with vars - {}
+(16:19:08) st:  load profile - box1
+(16:19:08) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:19:08) en:  initializing
+(16:19:08) in:  initializing
+(16:19:08) in:  windowed
+(16:19:08) in:  reshape - 500 500
+(16:19:08) in:  starting
+(16:19:08) in:  reshape - 500 500
+(16:19:46) EP:  START - 10/28/08
+(16:19:46) st:  load state - default
+(16:19:46) st:  with vars - {}
+(16:19:46) st:  load profile - box1
+(16:19:46) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:19:46) en:  initializing
+(16:19:46) in:  initializing
+(16:19:46) in:  windowed
+(16:19:46) in:  reshape - 500 500
+(16:19:46) in:  starting
+(16:19:46) in:  reshape - 500 500
+(16:20:09) EP:  START - 10/28/08
+(16:20:09) st:  load state - default
+(16:20:09) st:  with vars - {}
+(16:20:09) st:  load profile - box1
+(16:20:09) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:20:09) en:  initializing
+(16:20:09) in:  initializing
+(16:20:09) in:  windowed
+(16:20:09) in:  reshape - 500 500
+(16:20:09) in:  starting
+(16:20:09) in:  reshape - 500 500
+(16:20:42) EP:  START - 10/28/08
+(16:20:42) st:  load state - default
+(16:20:42) st:  with vars - {}
+(16:20:42) st:  load profile - box1
+(16:20:42) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:20:42) en:  initializing
+(16:20:42) in:  initializing
+(16:20:42) in:  windowed
+(16:20:42) in:  reshape - 500 500
+(16:20:42) in:  starting
+(16:20:42) in:  reshape - 500 500
+(16:21:16) EP:  START - 10/28/08
+(16:21:16) st:  load state - default
+(16:21:16) st:  with vars - {}
+(16:21:16) st:  load profile - box1
+(16:21:16) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:21:16) en:  initializing
+(16:21:16) in:  initializing
+(16:21:16) in:  windowed
+(16:21:16) in:  reshape - 500 500
+(16:21:16) in:  starting
+(16:21:16) in:  reshape - 500 500
+(16:21:43) EP:  START - 10/28/08
+(16:21:43) st:  load state - default
+(16:21:43) st:  with vars - {}
+(16:21:43) st:  load profile - box1
+(16:21:43) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:21:43) en:  initializing
+(16:21:43) in:  initializing
+(16:21:43) in:  windowed
+(16:21:43) in:  reshape - 500 500
+(16:21:43) in:  starting
+(16:21:43) in:  reshape - 500 500
+(16:21:55) EP:  START - 10/28/08
+(16:21:55) st:  load state - default
+(16:21:55) st:  with vars - {}
+(16:21:55) st:  load profile - box1
+(16:21:55) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:21:55) en:  initializing
+(16:21:56) in:  initializing
+(16:21:56) in:  windowed
+(16:21:56) in:  reshape - 500 500
+(16:21:56) in:  starting
+(16:21:56) in:  reshape - 500 500
+(16:22:10) EP:  START - 10/28/08
+(16:22:10) st:  load state - default
+(16:22:10) st:  with vars - {}
+(16:22:10) st:  load profile - box1
+(16:22:10) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:22:10) en:  initializing
+(16:22:11) in:  initializing
+(16:22:11) in:  windowed
+(16:22:11) in:  reshape - 500 500
+(16:22:11) in:  starting
+(16:22:11) in:  reshape - 500 500
+(16:22:28) EP:  START - 10/28/08
+(16:22:28) st:  load state - default
+(16:22:28) st:  with vars - {}
+(16:22:28) st:  load profile - box1
+(16:22:28) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:22:28) en:  initializing
+(16:22:28) in:  initializing
+(16:22:28) in:  windowed
+(16:22:28) in:  reshape - 500 500
+(16:22:28) in:  starting
+(16:22:28) in:  reshape - 500 500
+(16:25:43) EP:  START - 10/28/08
+(16:25:43) st:  load state - default
+(16:25:43) st:  with vars - {}
+(16:25:43) st:  load profile - box1
+(16:25:43) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:25:43) en:  initializing
+(16:25:44) in:  initializing
+(16:25:44) in:  windowed
+(16:25:44) in:  reshape - 500 500
+(16:25:44) in:  starting
+(16:25:44) in:  reshape - 500 500
+(16:26:10) EP:  START - 10/28/08
+(16:26:10) st:  load state - default
+(16:26:10) st:  with vars - {}
+(16:26:10) st:  load profile - box1
+(16:26:10) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:26:10) en:  initializing
+(16:26:10) in:  initializing
+(16:26:10) in:  windowed
+(16:26:10) in:  reshape - 500 500
+(16:26:10) in:  starting
+(16:26:10) in:  reshape - 500 500
+(16:26:37) EP:  START - 10/28/08
+(16:26:37) st:  load state - default
+(16:26:37) st:  with vars - {}
+(16:26:37) st:  load profile - box1
+(16:26:37) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:26:37) en:  initializing
+(16:26:37) in:  initializing
+(16:26:37) in:  windowed
+(16:26:37) in:  reshape - 500 500
+(16:26:37) in:  starting
+(16:26:37) in:  reshape - 500 500
+(16:27:00) EP:  START - 10/28/08
+(16:27:00) st:  load state - default
+(16:27:00) st:  with vars - {}
+(16:27:00) st:  load profile - box1
+(16:27:00) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:27:00) en:  initializing
+(16:27:00) in:  initializing
+(16:27:00) in:  windowed
+(16:27:00) in:  reshape - 500 500
+(16:27:00) in:  starting
+(16:27:00) in:  reshape - 500 500
+(16:27:46) EP:  START - 10/28/08
+(16:27:46) st:  load state - default
+(16:27:46) st:  with vars - {}
+(16:27:46) st:  load profile - box1
+(16:27:46) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:27:46) en:  initializing
+(16:27:46) in:  initializing
+(16:27:46) in:  windowed
+(16:27:46) in:  reshape - 500 500
+(16:27:46) in:  starting
+(16:27:46) in:  reshape - 500 500
+(16:28:58) EP:  START - 10/28/08
+(16:28:58) st:  load state - default
+(16:28:58) st:  with vars - {}
+(16:28:58) st:  load profile - box1
+(16:28:58) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(16:28:58) en:  initializing
+(16:28:58) in:  initializing
+(16:28:58) in:  windowed
+(16:28:58) in:  reshape - 500 500
+(16:28:58) in:  starting
+(16:28:58) in:  reshape - 500 500
+(05:07:33) EP:  START - 10/29/08
+(05:07:33) st:  load state - default
+(05:07:33) st:  with vars - {}
+(05:07:33) st:  load profile - box1
+(05:07:33) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(05:07:33) en:  initializing
+(05:07:48) EP:  START - 10/29/08
+(05:07:48) st:  load state - default
+(05:07:48) st:  with vars - {}
+(05:07:48) st:  load profile - box1
+(05:07:48) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(05:07:48) en:  initializing
+(05:07:57) EP:  START - 10/29/08
+(05:07:57) st:  load state - default
+(05:07:57) st:  with vars - {}
+(05:07:57) st:  load profile - box1
+(05:07:57) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(05:07:57) en:  initializing
+(05:08:13) EP:  START - 10/29/08
+(05:08:13) st:  load state - default
+(05:08:13) st:  with vars - {}
+(05:08:13) st:  load profile - box1
+(05:08:13) st:  with vars - {'profile': 'box1', 'state': 'default'}
+(05:08:13) en:  initializing

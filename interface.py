@@ -2,7 +2,6 @@ from numpy import *
 from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from Image import *
 
 from logger import *
 
