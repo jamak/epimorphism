@@ -30,7 +30,7 @@ class StateManager:
         #return pickle.load(file)
 
         profile = Profile(name=profile_name, viewport_width=500, viewport_height=500, full_screen=False, viewport_refresh=60, vp_scale=1.0, vp_center_x=0.0, 
-                          vp_center_y=0.0, kernel_dim=1000, debug_freq=250.0)
+                          vp_center_y=0.0, kernel_dim=1024, debug_freq=250.0)
         return profile
 
 

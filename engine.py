@@ -95,8 +95,8 @@ class Engine:
 
         self.frame_count += 1            
 
-        block = dim3(10, 10, 1)
-        grid = dim3(100, 100, 1)
+        block = dim3(16, 16, 1)
+        grid = dim3(self.profile.kernel_dim / 16, self.profile.kernel_dim / 16, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
 
         kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            
