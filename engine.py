@@ -14,10 +14,6 @@ log = logger.log
 # load kernels
 lib = CDLL("./kernel.so")
 
-kernel2 = lib.__device_stub_kernel2
-kernel2.restype = None
-kernel2.argtypes = [ c_void_p, c_void_p, c_ulong, c_float, c_int] 
-
 kernel_fb = lib.__device_stub_kernel_fb
 kernel_fb.restype = None
 kernel_fb.argtypes = [ c_void_p, c_ulong, c_void_p, c_float, c_int ]
@@ -43,24 +39,21 @@ class Engine:
         cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
         print str(self.cuda_properties)
 
-        # create input_array & bind texture
-        channel_desc = cudaCreateChannelDesc(8, 8, 8, 8, cudaChannelFormatKindUnsigned)
+        # create input_array 
+        channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
 
         self.input_array = cudaArray_p()
-        cudaMallocArray(byref(self.input_array), channel_desc, self.profile.kernel_dim, self.profile.kernel_dim)
+        cudaMallocArray(byref(self.input_array), byref(channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
-        image_str = open("image189.png").tostring("raw", "RGBA", 0, -1)          
+        # initialize array
+        empty = (c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
+        ## image_str = open("image189.png").tostring("raw", "RGBA", 0, -1)          
+        cudaMemcpyToArray(self.input_array, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
-        Image.fromstring("RGBA", 1000*1000*sizeof(uchar4), image_str).show()
-
-        cudaMemcpyToArray(self.input_array, self.profile.kernel_dim, self.profile.kernel_dim, image_str, 1000 * 1000 * sizeof(uchar4), cudaMemcpyHostToDevice)
-
-        self.tex_ref = textureReference()
+        # bind texture
+        self.tex_ref = textureReference_p()
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
-
-        self.tex_ref
-
-        cudaBindTextureToArray(byref(self.tex_ref), self.input_array, channel_desc)
+        cudaBindTextureToArray(self.tex_ref, self.input_array, byref(channel_desc))
 
         # create output_2D
         self.output_2D = c_void_p()
@@ -86,7 +79,7 @@ class Engine:
 
 
     def cleanup(self):
-        #cudaFreeArray(self.input_array)
+        cudaFreeArray(self.input_array)
         cudaFree(self.output_2D)
         [cudaEventDestroy(event) for event in self.events]    
         status = cudaGLUnregisterBufferObject(self.pbo)
@@ -102,19 +95,14 @@ class Engine:
 
         self.frame_count += 1            
 
-        self.offset += 1.0 / 1000.0
-        self.offset = self.offset % 1                
-
         block = dim3(10, 10, 1)
         grid = dim3(100, 100, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
 
-        # kernel2(self.output_2D, self.pbo_ptr, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.offset, self.profile.kernel_dim)            
         kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            
         self.record(1)
 
-        #cudaMemcpy2DToArray(self.input_array, self.profile.kernel_dim, self.profile.kernel_dim, self.output_2D, self.output_2D_pitch, 
-        #                    self.profile.kernel_dim, self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
+        cudaMemcpy2DToArray(self.input_array, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record(2)
     
         cudaGLUnmapBufferObject(self.pbo)
