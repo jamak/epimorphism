@@ -16,11 +16,9 @@ lib = CDLL("./kernel.so")
 
 kernel_fb = lib.__device_stub_kernel_fb
 kernel_fb.restype = None
-kernel_fb.argtypes = [ c_void_p, c_ulong, c_void_p, c_float, c_int ]
+kernel_fb.argtypes = [ c_void_p, c_ulong, c_void_p, c_int ]
 
 class Engine:
-
-    offset = 0
 
     def __init__(self, profile, state):
         log("initializing")    
@@ -48,9 +46,9 @@ class Engine:
         self.tex_ref = textureReference_p()
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
         self.tex_ref.contents.normalized = True
+        self.tex_ref.contents.filterMode = cudaFilterModeLinear
         self.tex_ref.contents.addressMode[0] = cudaAddressModeWrap
         self.tex_ref.contents.addressMode[1] = cudaAddressModeWrap
-        self.tex_ref.contents.filterMode = cudaFilterModeLinear        
         cudaBindTextureToArray(self.tex_ref, self.input_array, byref(channel_desc))
 
         # create output_2D
@@ -96,7 +94,7 @@ class Engine:
         block = dim3(8, 8, 1)
         grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
-        kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            
+        kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.profile.kernel_dim)            
         self.record(1)
 
         # copy data to input_array

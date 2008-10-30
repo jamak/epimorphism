@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 # Epimorphism - v3.0
 
 import sys
