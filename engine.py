@@ -37,13 +37,11 @@ class Engine:
 
         # create input_array 
         channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
-
         self.input_array = cudaArray_p()
         cudaMallocArray(byref(self.input_array), byref(channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
         # initialize array
         empty = (c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
-        ## image_str = open("image189.png").tostring("raw", "RGBA", 0, -1)          
         cudaMemcpyToArray(self.input_array, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # bind texture
@@ -52,15 +50,12 @@ class Engine:
         self.tex_ref.contents.normalized = True
         self.tex_ref.contents.addressMode[0] = cudaAddressModeWrap
         self.tex_ref.contents.addressMode[1] = cudaAddressModeWrap
-        self.tex_ref.contents.filterMode = cudaFilterModeLinear
-
-        
+        self.tex_ref.contents.filterMode = cudaFilterModeLinear        
         cudaBindTextureToArray(self.tex_ref, self.input_array, byref(channel_desc))
 
         # create output_2D
         self.output_2D = c_void_p()
         self.output_2D_pitch = c_ulong()
-
         cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch), self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
         cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
 
@@ -97,16 +92,18 @@ class Engine:
 
         self.frame_count += 1            
 
+        # set block dimensions & call kernel
         block = dim3(8, 8, 1)
         grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
-
         kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            
         self.record(1)
 
+        # copy data to input_array
         cudaMemcpy2DToArray(self.input_array, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record(2)
     
+        # unmap buffer
         cudaGLUnmapBufferObject(self.pbo)
         self.record(3)
 

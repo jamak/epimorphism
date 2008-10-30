@@ -62,10 +62,10 @@ class Interface:
 
         glPixelStorei(GL_UNPACK_ALIGNMENT,1)
         glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
         # init gl
@@ -84,24 +84,20 @@ class Interface:
         self.frame_count = 0.0               
 
         # interface variables
-        self.manual_iter = False
+        self.manual_iter = True
         self.next_frame = False
-
+        self.vp_start_x = self.profile.vp_center_x
+        self.vp_start_y = self.profile.vp_center_y
+        self.mouse_start_x = 0
+        self.mouse_start_y = 0
 
     def start(self):
         log("starting")
+        self.engine.do()
         glutMainLoop()
 
 
     def display(self):      
-
-        # manual iter
-        if(self.manual_iter):
-            if(not self.next_frame):
-                glutPostRedisplay()
-                return
-            self.next_frame = False
-
 
         # compute frame rate
         self.frame_count += 1
@@ -114,7 +110,9 @@ class Interface:
             self.d_timebase = self.d_time
 
         # render engine
-        self.engine.do()
+        if(not self.manual_iter or self.next_frame):
+            self.next_frame = False
+            self.engine.do()
 
         # bind texture
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo)
@@ -161,13 +159,26 @@ class Interface:
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()        
 
-
     def mouse(self, button, state, x, y):
-        pass
-
+        if(state == GLUT_DOWN):
+            if(button == 0):
+                self.vp_start_x = self.profile.vp_center_x
+                self.vp_start_y = self.profile.vp_center_y
+                self.mouse_start_x = x
+                self.mouse_start_y = y
+        elif(state == GLUT_UP):
+            if(button == 2):
+                self.profile.vp_scale = 1.0
+                self.profile.vp_center_x = 0.0
+                self.profile.vp_center_y = 0.0
+            elif(button == 4):
+                self.profile.vp_scale *= 1.1
+            elif(button == 3):
+                self.profile.vp_scale /= 1.1    
 
     def motion(self, x, y):
-        pass
+        self.profile.vp_center_x = self.vp_start_x + self.profile.vp_scale * (x - self.mouse_start_x) / self.profile.viewport_width;
+        self.profile.vp_center_y = self.vp_start_y + self.profile.vp_scale * (y - self.mouse_start_y) / self.profile.viewport_height;
 
 
     def keyboard(self, key, x, y):
