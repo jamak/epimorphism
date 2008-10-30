@@ -123,4 +123,4 @@ class Engine:
                 print "total~ " + str(sum(self.event_accum) / self.frame_count) + "ms"
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
-        cudaThreadSynchronize()
+        # cudaThreadSynchronize()

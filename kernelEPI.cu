@@ -32,11 +32,11 @@ extern "C" {
     unsigned int y = blockIdx.y*blockDim.y + threadIdx.y;
 
     float nn = 4;
-    float2 _c = vec2(0.0, 0.0);
     float4 result = vec4(0.0, 0.0, 0.0, 0.0);
 
     float2 z = vec2(2.0 * (x + 0.5 ) / kernel_dim - 1.0, 2.0 * (y + 0.5 ) / kernel_dim - 1.0);    	
 
+    float2 _c = vec2(0.0, 0.0);
     for(_c.x = -1.0 / kernel_dim; _c.x <= 1.0 / kernel_dim; _c.x += 2.0 / (kernel_dim * (nn - 1.0)))
       for(_c.y = -1.0 / kernel_dim; _c.y <= 1.0 / kernel_dim; _c.y += 2.0 / (kernel_dim * (nn - 1.0))){
 
