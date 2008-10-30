@@ -23,12 +23,8 @@ class Engine:
     offset = 0
 
     def __init__(self, profile, state):
-
+        log("initializing")    
         self.profile, self.state = profile, state
-
-        log("initializing")
-        
-        self.exit = False        
 
         # get device
         self.cuda_device = c_int()
@@ -72,8 +68,8 @@ class Engine:
         self.time_accum = 0
 
 
-    def register(self):
-        self.pbo_ptr = c_void_p()
+    def register(self, pbo):
+        self.pbo, self.pbo_ptr = pbo, c_void_p()
         status = cudaGLRegisterBufferObject(self.pbo)        
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)        
 
