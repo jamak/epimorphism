@@ -49,6 +49,12 @@ class Engine:
         # bind texture
         self.tex_ref = textureReference_p()
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+        self.tex_ref.contents.normalized = True
+        self.tex_ref.contents.addressMode[0] = cudaAddressModeWrap
+        self.tex_ref.contents.addressMode[1] = cudaAddressModeWrap
+        self.tex_ref.contents.filterMode = cudaFilterModeLinear
+
+        
         cudaBindTextureToArray(self.tex_ref, self.input_array, byref(channel_desc))
 
         # create output_2D
@@ -91,8 +97,8 @@ class Engine:
 
         self.frame_count += 1            
 
-        block = dim3(16, 16, 1)
-        grid = dim3(self.profile.kernel_dim / 16, self.profile.kernel_dim / 16, 1)
+        block = dim3(8, 8, 1)
+        grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
         status = cudaConfigureCall(grid, block, 0, 0)
 
         kernel_fb(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.offset, self.profile.kernel_dim)            

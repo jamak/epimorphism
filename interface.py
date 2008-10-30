@@ -64,8 +64,8 @@ class Interface:
         glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
         # init gl
@@ -83,12 +83,25 @@ class Interface:
         self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME) 
         self.frame_count = 0.0               
 
+        # interface variables
+        self.manual_iter = False
+        self.next_frame = False
+
+
     def start(self):
         log("starting")
         glutMainLoop()
 
 
     def display(self):      
+
+        # manual iter
+        if(self.manual_iter):
+            if(not self.next_frame):
+                glutPostRedisplay()
+                return
+            self.next_frame = False
+
 
         # compute frame rate
         self.frame_count += 1
@@ -164,7 +177,13 @@ class Interface:
             glBindBuffer(GL_ARRAY_BUFFER, self.engine.pbo)
             glDeleteBuffers(1, self.engine.pbo)
             exit()
-
+        elif(key == '`'):
+            if(self.manual_iter):
+                self.next_frame = True
+            self.manual_iter = not self.manual_iter
+        elif(key == '\040'):
+            self.next_frame = True
+            
 
 
 

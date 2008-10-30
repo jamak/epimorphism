@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/local/cuda/bin/nvcc -o kernel.so --shared kernelEPI.cu
+/usr/local/cuda/bin/nvcc -o kernel.so --shared --ptxas-options=-v kernelEPI.cu
