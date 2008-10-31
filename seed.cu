@@ -10,7 +10,7 @@ extern "C" {
       else
 	v = min(z.x, z.y);
     
-      return vec4((abs(v) - (1.0 - d)) / d, 0.0, 0.0, 1.0);
+      return vec4((abs(v) - (1.0 - d)) / d, 0.0, 0.0, (abs(v) - (1.0 - d)) / d);
     }else{
       return vec4(0.0, 0.0, 0.0, 0.0);
     }

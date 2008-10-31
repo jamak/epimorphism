@@ -52,8 +52,7 @@ class Engine:
         cudaBindTextureToArray(self.tex_ref, self.input_array, byref(channel_desc))
 
         # create output_2D
-        self.output_2D = c_void_p()
-        self.output_2D_pitch = c_ulong()
+        self.output_2D, self.output_2D_pitch = c_void_p(), c_ulong()
         cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch), self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
         cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
 
