@@ -52,8 +52,8 @@ class Engine:
         # misc variables
         self.next_frame = False
 
-    def cleanup(self):
-
+    def __del__(self):
+        print "del!!!"
         cudaFreeArray(self.fb)
         cudaFree(self.output_2D)
         cudaGLUnregisterBufferObject(self.pbo)

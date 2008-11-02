@@ -9,7 +9,6 @@ class KeyboardHandler:
     def keyboard(self, key, x, y):
 
         if(key == "\033"):
-            self.engine.cleanup()
             self.cleanup()
             exit()
 
