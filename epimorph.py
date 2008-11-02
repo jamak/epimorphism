@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-# Epimorphism - v3.0
+# Epimorphism - v3.0b
 
 import sys
 import datetime
@@ -8,17 +8,19 @@ import datetime
 from noumena.state import *
 from noumena.engine import *
 from noumena.renderer import *
-
 from noumena.logger import *
 
-log("EP: START - " + datetime.date.today().strftime("%m/%d/%y"))
+from phenom.animator import *
 
-#get variables
+
+# log("EP: START - " + datetime.date.today().strftime("%m/%d/%y"))
+
+# get variables
 profile_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '@')
 state_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '$')
 other_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '!')
 
-#initialize states
+# initialize states
 manager = StateManager()
 
 state_name = other_vars.setdefault('state', 'default')
@@ -27,9 +29,18 @@ state = manager.load_state(state_name, **state_vars)
 profile_name = other_vars.setdefault('profile', 'box1')
 profile = manager.load_profile(profile_name, **profile_vars)
 
-#initialize
+# initialize
+animator = Animator(state)
 engine = Engine(profile, state)
-renderer = Renderer(engine)
+renderer = Renderer(animator, engine)
 
-#start state
+# create & set execution
+def execution():
+    animator.do()
+    engine.do()
+    renderer.do()
+
+renderer.set_execution(execution)
+
+# start state
 renderer.start()

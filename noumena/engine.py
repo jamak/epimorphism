@@ -7,8 +7,6 @@ from noumena.logger import *
 
 from noumena.kernel import *
 
-
-
 class Engine:    
 
     def __init__(self, profile, state):
@@ -51,26 +49,33 @@ class Engine:
         # compile the kernel
         self.compile_kernel()
 
+        # misc variables
+        self.next_frame = False
 
     def cleanup(self):
+
         cudaFreeArray(self.fb)
         cudaFree(self.output_2D)
+        cudaGLUnregisterBufferObject(self.pbo)
+
         [cudaEventDestroy(event) for event in self.events]    
-        status = cudaGLUnregisterBufferObject(self.pbo)
 
 
     def register_pbo(self, pbo):
+
         self.pbo, self.pbo_ptr = pbo, c_void_p()
         status = cudaGLRegisterBufferObject(self.pbo)        
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)        
 
 
     def record_event(self, idx):
+
         if(self.time_events):
             cudaEventRecord(self.events[idx], 0)
 
 
     def print_timings(self):
+
         if(self.time_events):
             cudaEventSynchronize(self.events[-1])        
             
@@ -90,26 +95,42 @@ class Engine:
 
 
     def compile_kernel(self):
+
         self.kernel = loadKernel(self.state)
 
         # bind texture
         self.tex_ref = textureReference_p()
+
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+
         self.tex_ref.contents.normalized = True
         self.tex_ref.contents.filterMode = cudaFilterModeLinear
         self.tex_ref.contents.addressMode[0] = cudaAddressModeWrap
         self.tex_ref.contents.addressMode[1] = cudaAddressModeWrap
+
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
 
-    def do(self):
-        self.record_event(0)
+    def get_fb(self):
 
+        pass
+
+
+    def do(self):
+
+        # check manual_iter
+        if(self.state.manual_iter and not self.next_frame):
+            return
+        self.next_frame = False
+
+        # begin
+        self.record_event(0)
         self.frame_count += 1            
 
         # upload par & zn     
         cudaMemcpyToSymbol("par", byref(self.state.par), len(self.state.par) * sizeof(c_float), 0, cudaMemcpyHostToDevice)
-        cudaMemcpyToSymbol("zn", byref(self.state.zn), len(self.state.zn) * sizeof(c_float), 0, cudaMemcpyHostToDevice)
+        zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
+        cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 
         # set block dimensions & call kernel
         block = dim3(8, 8, 1)

@@ -11,9 +11,12 @@ from noumena.logger import *
 
 class Renderer(KeyboardHandler, MouseHandler):
 
-    def __init__(self, engine):
+    def __init__(self, animator, engine):
 
-        self.engine, self.profile = engine, engine.profile
+        self.animator = animator
+        self.engine = engine
+        self.profile = engine.profile
+        self.state = engine.state
 
         log("re: initializing")
 
@@ -36,7 +39,6 @@ class Renderer(KeyboardHandler, MouseHandler):
         self.reshape(self.profile.viewport_width, self.profile.viewport_height)
 
         # register callbacks
-        glutDisplayFunc(self.do)
         glutReshapeFunc(self.reshape)
         glutKeyboardFunc(self.keyboard)
         glutMouseFunc(self.mouse)
@@ -44,17 +46,16 @@ class Renderer(KeyboardHandler, MouseHandler):
 
         # generate buffer object
         size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
+        self.pbo = GLuint() 
 
-        pbo = GLuint() 
-
-        glGenBuffers(1, byref(pbo))
-        glBindBuffer(GL_ARRAY_BUFFER, pbo)     
+        glGenBuffers(1, byref(self.pbo))
+        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)     
         empty_buffer = (c_ubyte * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
         glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-        # register engine data
-        self.engine.register_pbo(pbo)
+        # register pbo with engine
+        engine.register_pbo(self.pbo)
 
         # generate texture 
         self.display_tex = GLuint()
@@ -85,7 +86,19 @@ class Renderer(KeyboardHandler, MouseHandler):
         self.next_frame = False
 
 
+    def set_execution(self, execution):
+
+        glutDisplayFunc(execution)
+
+
+    def cleanup(self):
+
+        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
+        glDeleteBuffers(1, self.pbo)
+    
+
     def reshape(self, w, h):
+
         log("re: reshape - " + str(w) + ' ' + str(h))
 
         # set viewport
@@ -101,7 +114,7 @@ class Renderer(KeyboardHandler, MouseHandler):
         glMatrixMode(GL_MODELVIEW)
 
 
-    def display(self):      
+    def do(self):      
 
         # compute frame rate
         self.frame_count += 1
@@ -114,7 +127,7 @@ class Renderer(KeyboardHandler, MouseHandler):
             self.d_timebase = self.d_time
 
         # copy texture from pbo
-        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.engine.pbo)
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.pbo)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
@@ -139,24 +152,13 @@ class Renderer(KeyboardHandler, MouseHandler):
         glVertex3f(-1.0, 1.0, 0)
 
         glEnd()
-    
-
-    def start(self):
-
-        log("starting")
-        glutMainLoop()
-
-
-    def do(self):
-
-        # render engine
-        if(not self.profile.manual_iter or self.next_frame):
-            self.next_frame = False
-            self.engine.do()
-
-        # display
-        self.display()
 
         # repost
         glutSwapBuffers()
         glutPostRedisplay()
+
+
+    def start(self):
+
+        log("re: starting")
+        glutMainLoop()

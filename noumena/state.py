@@ -21,7 +21,8 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(FRACT=4, T="i(S(z))", SEED="fade_frame", COLORIFY="rg_swizzle", par=(c_float * 40)(), zn=(c_float * 10)(), short_damping = 10)
+        state = State(manual_iter=False, FRACT=4, T="zn[0] * i(S(z))", SEED="fade_frame", COLORIFY="rg_swizzle", par=(c_float * 40)(), zn=[complex(0,0) for i in range(5)], short_damping = 10)
+        state.zn[0] = complex(2.0, 0)
         #self.save_state(state, "default")
         return state
 
@@ -38,7 +39,7 @@ class StateManager:
 
         # temporary
         profile = Profile(name=profile_name, viewport_width=900, viewport_height=900, full_screen=False, viewport_refresh=60, vp_scale=1.0, vp_center_x=0.0, 
-                          vp_center_y=0.0, kernel_dim=1024, debug_freq=125.0, manual_iter=False)
+                          vp_center_y=0.0, kernel_dim=1024, debug_freq=125.0)
         self.save_profile(profile, "box1")
         return profile
 
