@@ -39,13 +39,13 @@ class KeyboardHandler:
             i = ["A", "S", "D", "F", "G"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = list(z0)
-            z1[1] += 2 * pi / 16
+            z1[1] += 2 * pi / 32
             self.animator.animate_var("self.state.zn[" + str(i) + "]", "radial_2d", 200, {"s":z0, "e":z1})
 
         elif(key in ["Z", "X", "C", "V", "B"]):
             i = ["Z", "X", "C", "V", "B"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = list(z0)
-            z1[1] -= 2 * pi / 16
+            z1[1] -= 2 * pi / 32
             self.animator.animate_var("self.state.zn[" + str(i) + "]", "radial_2d", 200, {"s":z0, "e":z1})
 

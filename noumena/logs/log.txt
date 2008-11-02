@@ -54263,3 +54263,75 @@
 (13:47:17) re: reshape - 900 900
 (13:47:17) re: starting
 (13:47:17) re: reshape - 900 900
+(13:52:52) st: load state - default
+(13:52:52) st: with vars - {}
+(13:52:52) st: load profile - box1
+(13:52:52) st: with vars - {}
+(13:52:52) st: save profile
+(13:52:52) st:   as box1
+(13:52:52) en: initializing
+(13:52:53) re: initializing
+(13:52:53) re: windowed
+(13:52:53) re: reshape - 900 900
+(13:52:54) re: starting
+(13:52:54) re: reshape - 900 900
+(13:53:03) st: load state - default
+(13:53:03) st: with vars - {}
+(13:53:03) st: load profile - box1
+(13:53:03) st: with vars - {}
+(13:53:03) st: save profile
+(13:53:03) st:   as box1
+(13:53:03) en: initializing
+(13:53:05) re: initializing
+(13:53:05) re: windowed
+(13:53:05) re: reshape - 900 900
+(13:53:05) re: starting
+(13:53:05) re: reshape - 900 900
+(13:53:46) st: load state - default
+(13:53:46) st: with vars - {}
+(13:53:46) st: load profile - box1
+(13:53:46) st: with vars - {}
+(13:53:46) st: save profile
+(13:53:46) st:   as box1
+(13:53:46) en: initializing
+(13:53:47) re: initializing
+(13:53:47) re: windowed
+(13:53:47) re: reshape - 900 900
+(13:53:47) re: starting
+(13:53:47) re: reshape - 900 900
+(13:56:55) st: load state - default
+(13:56:55) st: with vars - {}
+(13:56:55) st: load profile - box1
+(13:56:55) st: with vars - {}
+(13:56:55) st: save profile
+(13:56:55) st:   as box1
+(13:56:55) en: initializing
+(13:56:56) re: initializing
+(13:56:56) re: windowed
+(13:56:56) re: reshape - 900 900
+(13:56:56) re: starting
+(13:56:56) re: reshape - 900 900
+(13:57:22) st: load state - default
+(13:57:22) st: with vars - {}
+(13:57:22) st: load profile - box1
+(13:57:22) st: with vars - {}
+(13:57:22) st: save profile
+(13:57:22) st:   as box1
+(13:57:22) en: initializing
+(13:57:23) re: initializing
+(13:57:23) re: windowed
+(13:57:23) re: reshape - 900 900
+(13:57:23) re: starting
+(13:57:23) re: reshape - 900 900
+(14:54:08) st: load state - default
+(14:54:08) st: with vars - {}
+(14:54:08) st: load profile - box1
+(14:54:08) st: with vars - {}
+(14:54:08) st: save profile
+(14:54:08) st:   as box1
+(14:54:08) en: initializing
+(14:54:09) re: initializing
+(14:54:09) re: windowed
+(14:54:09) re: reshape - 900 900
+(14:54:09) re: starting
+(14:54:09) re: reshape - 900 900
