@@ -1,3 +1,4 @@
+from ctypes import *
 import pickle
 import os.path
 
@@ -20,8 +21,8 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(DEPTH=4)
-        self.save_state(state, "default")
+        state = State(FRACT=4, T="i(S(z))", SEED="fade_frame", COLORIFY="rg_swizzle", par=(c_float * 40)(), zn=(c_float * 10)(), short_damping = 10)
+        #self.save_state(state, "default")
         return state
 
         #file = open("phenom/state/" + state_name + ".epi", "r")

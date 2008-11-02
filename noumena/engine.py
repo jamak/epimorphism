@@ -7,6 +7,8 @@ from noumena.logger import *
 
 from noumena.kernel import *
 
+
+
 class Engine:    
 
     def __init__(self, profile, state):
@@ -86,6 +88,7 @@ class Engine:
                 print "total~ " + str(sum(self.event_accum) / self.frame_count) + "ms"
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
+
     def compile_kernel(self):
         self.kernel = loadKernel(self.state)
 
@@ -103,6 +106,10 @@ class Engine:
         self.record_event(0)
 
         self.frame_count += 1            
+
+        # upload par & zn     
+        cudaMemcpyToSymbol("par", byref(self.state.par), len(self.state.par) * sizeof(c_float), 0, cudaMemcpyHostToDevice)
+        cudaMemcpyToSymbol("zn", byref(self.state.zn), len(self.state.zn) * sizeof(c_float), 0, cudaMemcpyHostToDevice)
 
         # set block dimensions & call kernel
         block = dim3(8, 8, 1)

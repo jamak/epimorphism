@@ -2,7 +2,8 @@
 State
 p0
 (dp1
-S'DEPTH'
+S'FRACT'
 p2
 I4
-sb.
+sS'par'
+p3
