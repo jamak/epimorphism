@@ -36,8 +36,8 @@ renderer = Renderer(animator, engine)
 
 # create & set execution
 def execution():
-    animator.do()
-    engine.do()
+    messages = animator.do()
+    engine.do(messages)
     renderer.do()
 
 renderer.set_execution(execution)

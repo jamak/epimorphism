@@ -19,6 +19,7 @@ def loadKernel(state):
     file.close()
 
     # compile
+    os.system("rm aer/kernel.so")
     os.system("aer/make_kernel")
 
     # interface

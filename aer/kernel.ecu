@@ -26,20 +26,21 @@ extern "C" {
     float2 z_z = vec2(2.0 * (x + 0.5 ) / kernel_dim - 1.0, 2.0 * (y + 0.5 ) / kernel_dim - 1.0);    	
     float2 z = vec2(0.0, 0.0);    
 
-    for(z.x = z_z.x - 1.0 / kernel_dim; z.x <= z_z.x + 1.0 / kernel_dim + 0.000001; z.x += 2.0 / (kernel_dim * (nn - 1.0)))
-      for(z.y = z_z.y - 1.0 / kernel_dim; z.y <= z_z.y + 1.0 / kernel_dim + 0.000001; z.y += 2.0 / (kernel_dim * (nn - 1.0))){
+    for(z.x = z_z.x - 1.0 / kernel_dim; z.x <= z_z.x + 1.0001 / kernel_dim; z.x += 2.0 / (kernel_dim * (nn - 1.0)))
+      for(z.y = z_z.y - 1.0 / kernel_dim; z.y <= z_z.y + 1.0001 / kernel_dim; z.y += 2.0 / (kernel_dim * (nn - 1.0))){
 
 	float2 z_c = reduce(%T%);   
 
 	float4 frame = tex2D(input_texture, (z_c.x + 1.0) / 2.0, (z_c.y + 1.0) / 2.0);    
 
-	float4 seed = %SEED%(z_c);    
+	float4 seed = %SEED%;    
 
 	result = result ^ (seed.w % seed) ^ ((1.0 - seed.w) % frame); 
 
       }
     
-    result = %COLORIFY%((1.0 / (nn * nn)) % result);
+    float4 v = (1.0 / (nn * nn)) % result;
+    result = %COLORIFY%;
 
     // set output variable
     out[y * out_pitch + x] = result;

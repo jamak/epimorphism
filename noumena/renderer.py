@@ -85,16 +85,14 @@ class Renderer(KeyboardHandler, MouseHandler):
         # misc variables
         self.next_frame = False
 
+    def __del__(self):
+
+        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
+        glDeleteBuffers(1, self.pbo)
 
     def set_execution(self, execution):
 
         glutDisplayFunc(execution)
-
-
-    def cleanup(self):
-
-        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
-        glDeleteBuffers(1, self.pbo)
     
 
     def reshape(self, w, h):

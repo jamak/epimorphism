@@ -21,8 +21,9 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(manual_iter=False, FRACT=4, T="zn[0] * i(S(z))", SEED="fade_frame", COLORIFY="rg_swizzle", par=(c_float * 40)(), zn=[complex(0,0) for i in range(5)], short_damping = 10)
-        state.zn[0] = complex(2.0, 0)
+        state = State(manual_iter=False, FRACT=4, T="zn[0] * i(z) + vec2(par[0] * sin(30*z.y), 0.0)", SEED="fade_frame(z_c)", COLORIFY="gb_swizzle(v)", par=(c_float * 40)(), zn=[complex(0,0) for i in range(5)], short_damping = 10)
+        state.zn[0] = complex(1.0, 0)
+
         #self.save_state(state, "default")
         return state
 

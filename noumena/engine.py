@@ -46,11 +46,18 @@ class Engine:
         self.event_accum = [0 for i in range(len(self.events) - 1)]
         self.time_accum = 0
 
+
+        # set block & grid size
+        self.block = dim3(8, 8, 1)
+        self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
+
         # compile the kernel
         self.compile_kernel()
 
         # misc variables
+
         self.next_frame = False
+
 
     def __del__(self):
         print "del!!!"
@@ -93,10 +100,23 @@ class Engine:
                 print "total~ " + str(sum(self.event_accum) / self.frame_count) + "ms"
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
+    iii = 0
+
 
     def compile_kernel(self):
 
-        self.kernel = loadKernel(self.state)
+        print self.iii
+
+        if(self.iii == 0):
+            self.kernel = loadKernel(self.state)
+        else:
+            old_kernel = self.kernel
+
+            self.kernel = loadKernel(self.state)
+
+            print self.kernel == old_kernel
+
+        print self.state.T
 
         # bind texture
         self.tex_ref = textureReference_p()
@@ -110,18 +130,23 @@ class Engine:
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
+        self.iii += 1
+
 
     def get_fb(self):
 
         pass
 
 
-    def do(self):
+    def do(self, messages):
 
         # check manual_iter
         if(self.state.manual_iter and not self.next_frame):
             return
         self.next_frame = False
+
+        if("recompile" in messages):
+            self.compile_kernel()
 
         # begin
         self.record_event(0)
@@ -132,10 +157,8 @@ class Engine:
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 
-        # set block dimensions & call kernel
-        block = dim3(8, 8, 1)
-        grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
-        status = cudaConfigureCall(grid, block, 0, 0)
+        # call kernel
+        cudaConfigureCall(self.grid, self.block, 0, 0)
         self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.profile.kernel_dim)            
         self.record_event(1)
 

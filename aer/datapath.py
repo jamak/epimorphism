@@ -4,7 +4,6 @@ from noumena.complex import *
 def linear_1d(t, data):
     if(t > 1):
         t = 1
-        raise "done"
     return (data['s'] * (1 - t) + data['e'] * t, t != 1)
 
 
@@ -21,3 +20,6 @@ def radial_2d(t, data):
     z = [data['s'][0] * (1 - t) + data['e'][0] * t, data['s'][1] * (1 - t) + data['e'][1] * t]
     return (p_to_r(z), t != 1)
                        
+
+def wave_1d(t, data):
+    return (data['a'] * sin(2.0 * pi * t + data['th']) + data['b'], True)
