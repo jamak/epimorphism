@@ -7,4 +7,4 @@
 *.jpg
 *.png
 __*
-log.txt
+*log.txt

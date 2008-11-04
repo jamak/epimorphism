@@ -57801,3 +57801,13 @@
 (01:28:12) re: reshape - 1680 1050
 (01:28:12) re: starting
 (01:28:12) re: reshape - 1680 1050
+(12:48:46) st: load state - default
+(12:48:46) st: with vars - {}
+(12:48:46) st: load profile - lcd1
+(12:48:46) st: with vars - {}
+(12:48:46) en: initializing
+(12:48:47) re: initializing
+(12:48:47) re: fullscreen
+(12:48:47) re: reshape - 1680 1050
+(12:48:47) re: starting
+(12:48:47) re: reshape - 1680 1050
