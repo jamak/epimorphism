@@ -18,7 +18,7 @@ from phenom.animator import *
 # get variables
 profile_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '@')
 state_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '$')
-other_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '!')
+other_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '~')
 
 # initialize states
 manager = StateManager()

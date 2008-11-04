@@ -26,7 +26,7 @@ def loadKernel(state):
     lib = CDLL("aer/kernel.so")
     kernel = lib.__device_stub_kernel_fb
     kernel.restype = None
-    kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int ]
+    kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
     return kernel
 
 

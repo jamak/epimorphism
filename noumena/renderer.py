@@ -27,7 +27,9 @@ class Renderer(KeyboardHandler, MouseHandler):
       
         if(self.profile.full_screen):
             log("re: fullscreen")
-            glutGameModeString(str(self.profile.viewport_width) + "x" + str(self.profile.viewport_height) + ":24@" + str(self.profile.viewport_refresh))
+            glutGameModeString(str(self.profile.viewport_width) + "x" + 
+                               str(self.profile.viewport_height) + ":24@" + 
+                               str(self.profile.viewport_refresh))
             glutEnterGameMode()
 
         else:
@@ -64,7 +66,8 @@ class Renderer(KeyboardHandler, MouseHandler):
         glBindTexture(GL_TEXTURE_2D, self.display_tex)  
 
         glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, None)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
@@ -127,7 +130,8 @@ class Renderer(KeyboardHandler, MouseHandler):
         # copy texture from pbo
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.pbo)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, GL_RGBA, GL_UNSIGNED_BYTE, None)
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, 
+                        GL_RGBA, GL_UNSIGNED_BYTE, None)
         glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0)
 

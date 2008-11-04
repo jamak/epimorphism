@@ -55306,3 +55306,2498 @@
 (00:38:31) re: reshape - 900 900
 (00:38:31) re: starting
 (00:38:31) re: reshape - 900 900
+(00:42:44) st: load state - default
+(00:42:44) st: with vars - {}
+(00:42:44) st: load profile - box1
+(00:42:44) st: with vars - {}
+(00:42:44) st: save profile
+(00:42:44) st:   as box1
+(00:42:44) en: initializing
+(00:43:05) st: load state - default
+(00:43:05) st: with vars - {}
+(00:43:05) st: load profile - box1
+(00:43:05) st: with vars - {}
+(00:43:05) st: save profile
+(00:43:05) st:   as box1
+(00:43:05) en: initializing
+(00:43:21) st: load state - default
+(00:43:21) st: with vars - {}
+(00:43:21) st: load profile - box1
+(00:43:21) st: with vars - {}
+(00:43:21) st: save profile
+(00:43:21) st:   as box1
+(00:43:21) en: initializing
+(00:43:22) re: initializing
+(00:43:22) re: windowed
+(00:43:22) re: reshape - 900 900
+(00:43:22) re: starting
+(00:43:22) re: reshape - 900 900
+(00:45:46) st: load state - default
+(00:45:46) st: with vars - {}
+(00:45:46) st: load profile - box1
+(00:45:46) st: with vars - {}
+(00:45:46) st: save profile
+(00:45:46) st:   as box1
+(00:45:46) en: initializing
+(00:45:47) re: initializing
+(00:45:47) re: windowed
+(00:45:47) re: reshape - 900 900
+(00:45:47) re: starting
+(00:45:47) re: reshape - 900 900
+(00:49:37) st: load state - default
+(00:49:37) st: with vars - {}
+(00:49:37) st: load profile - box1
+(00:49:37) st: with vars - {}
+(00:49:37) st: save profile
+(00:49:37) st:   as box1
+(00:49:37) en: initializing
+(00:49:55) st: load state - default
+(00:49:55) st: with vars - {}
+(00:49:55) st: load profile - box1
+(00:49:55) st: with vars - {}
+(00:49:55) st: save profile
+(00:49:55) st:   as box1
+(00:49:55) en: initializing
+(00:49:56) re: initializing
+(00:49:56) re: windowed
+(00:49:56) re: reshape - 900 900
+(00:49:56) re: starting
+(00:49:56) re: reshape - 900 900
+(00:50:30) st: load state - default
+(00:50:30) st: with vars - {}
+(00:50:30) st: load profile - box1
+(00:50:30) st: with vars - {}
+(00:50:30) st: save profile
+(00:50:30) st:   as box1
+(00:50:30) en: initializing
+(00:50:31) re: initializing
+(00:50:31) re: windowed
+(00:50:31) re: reshape - 900 900
+(00:50:31) re: starting
+(00:50:31) re: reshape - 900 900
+(00:51:27) st: load state - default
+(00:51:27) st: with vars - {}
+(00:51:27) st: load profile - box1
+(00:51:27) st: with vars - {}
+(00:51:27) st: save profile
+(00:51:27) st:   as box1
+(00:51:27) en: initializing
+(00:51:28) re: initializing
+(00:51:28) re: windowed
+(00:51:29) re: reshape - 900 900
+(00:51:29) re: starting
+(00:51:29) re: reshape - 900 900
+(00:59:42) st: load state - default
+(00:59:42) st: with vars - {}
+(00:59:42) st: load profile - box1
+(00:59:42) st: with vars - {}
+(00:59:42) st: save profile
+(00:59:42) st:   as box1
+(00:59:42) en: initializing
+(00:59:43) re: initializing
+(00:59:43) re: windowed
+(00:59:43) re: reshape - 900 900
+(00:59:43) re: starting
+(00:59:43) re: reshape - 900 900
+(00:59:52) st: load state - default
+(00:59:52) st: with vars - {}
+(00:59:52) st: load profile - box1
+(00:59:52) st: with vars - {}
+(00:59:52) st: save profile
+(00:59:52) st:   as box1
+(00:59:52) en: initializing
+(00:59:53) re: initializing
+(00:59:53) re: windowed
+(00:59:53) re: reshape - 900 900
+(00:59:53) re: starting
+(00:59:53) re: reshape - 900 900
+(01:00:38) st: load state - default
+(01:00:38) st: with vars - {}
+(01:00:38) st: load profile - box1
+(01:00:38) st: with vars - {}
+(01:00:38) st: save profile
+(01:00:38) st:   as box1
+(01:00:38) en: initializing
+(01:00:39) re: initializing
+(01:00:39) re: windowed
+(01:00:39) re: reshape - 900 900
+(01:00:39) re: starting
+(01:00:39) re: reshape - 900 900
+(01:00:45) st: load state - default
+(01:00:45) st: with vars - {}
+(01:00:45) st: load profile - box1
+(01:00:45) st: with vars - {}
+(01:00:45) st: save profile
+(01:00:45) st:   as box1
+(01:00:45) en: initializing
+(01:00:46) re: initializing
+(01:00:46) re: windowed
+(01:00:46) re: reshape - 900 900
+(01:00:46) re: starting
+(01:00:46) re: reshape - 900 900
+(01:00:57) st: load state - default
+(01:00:57) st: with vars - {}
+(01:00:57) st: load profile - box1
+(01:00:57) st: with vars - {}
+(01:00:57) st: save profile
+(01:00:57) st:   as box1
+(01:00:57) en: initializing
+(01:00:58) re: initializing
+(01:00:58) re: windowed
+(01:00:58) re: reshape - 900 900
+(01:00:58) re: starting
+(01:00:58) re: reshape - 900 900
+(01:01:04) st: load state - default
+(01:01:04) st: with vars - {}
+(01:01:04) st: load profile - box1
+(01:01:04) st: with vars - {}
+(01:01:04) st: save profile
+(01:01:04) st:   as box1
+(01:01:04) en: initializing
+(01:01:05) re: initializing
+(01:01:05) re: windowed
+(01:01:05) re: reshape - 900 900
+(01:01:06) re: starting
+(01:01:06) re: reshape - 900 900
+(01:01:11) st: load state - default
+(01:01:11) st: with vars - {}
+(01:01:11) st: load profile - box1
+(01:01:11) st: with vars - {}
+(01:01:11) st: save profile
+(01:01:11) st:   as box1
+(01:01:11) en: initializing
+(01:01:12) re: initializing
+(01:01:12) re: windowed
+(01:01:12) re: reshape - 900 900
+(01:01:13) re: starting
+(01:01:13) re: reshape - 900 900
+(01:01:24) st: load state - default
+(01:01:24) st: with vars - {}
+(01:01:24) st: load profile - box1
+(01:01:24) st: with vars - {}
+(01:01:24) st: save profile
+(01:01:24) st:   as box1
+(01:01:24) en: initializing
+(01:01:25) re: initializing
+(01:01:25) re: windowed
+(01:01:25) re: reshape - 900 900
+(01:01:25) re: starting
+(01:01:25) re: reshape - 900 900
+(01:01:31) st: load state - default
+(01:01:31) st: with vars - {}
+(01:01:31) st: load profile - box1
+(01:01:31) st: with vars - {}
+(01:01:31) st: save profile
+(01:01:31) st:   as box1
+(01:01:31) en: initializing
+(01:01:32) re: initializing
+(01:01:32) re: windowed
+(01:01:32) re: reshape - 900 900
+(01:01:32) re: starting
+(01:01:32) re: reshape - 900 900
+(01:01:37) st: load state - default
+(01:01:37) st: with vars - {}
+(01:01:37) st: load profile - box1
+(01:01:37) st: with vars - {}
+(01:01:37) st: save profile
+(01:01:37) st:   as box1
+(01:01:37) en: initializing
+(01:01:38) re: initializing
+(01:01:38) re: windowed
+(01:01:38) re: reshape - 900 900
+(01:01:38) re: starting
+(01:01:38) re: reshape - 900 900
+(01:01:58) st: load state - default
+(01:01:58) st: with vars - {}
+(01:01:58) st: load profile - box1
+(01:01:58) st: with vars - {}
+(01:01:58) st: save profile
+(01:01:58) st:   as box1
+(01:01:58) en: initializing
+(01:01:59) re: initializing
+(01:01:59) re: windowed
+(01:01:59) re: reshape - 900 900
+(01:01:59) re: starting
+(01:01:59) re: reshape - 900 900
+(01:02:07) st: load state - default
+(01:02:07) st: with vars - {}
+(01:02:07) st: load profile - box1
+(01:02:07) st: with vars - {}
+(01:02:07) st: save profile
+(01:02:07) st:   as box1
+(01:02:07) en: initializing
+(01:02:08) re: initializing
+(01:02:08) re: windowed
+(01:02:08) re: reshape - 900 900
+(01:02:08) re: starting
+(01:02:08) re: reshape - 900 900
+(01:02:16) st: load state - default
+(01:02:16) st: with vars - {}
+(01:02:16) st: load profile - box1
+(01:02:16) st: with vars - {}
+(01:02:16) st: save profile
+(01:02:16) st:   as box1
+(01:02:16) en: initializing
+(01:02:17) re: initializing
+(01:02:17) re: windowed
+(01:02:17) re: reshape - 900 900
+(01:02:17) re: starting
+(01:02:17) re: reshape - 900 900
+(01:02:53) st: load state - default
+(01:02:53) st: with vars - {}
+(01:02:53) st: load profile - box1
+(01:02:53) st: with vars - {}
+(01:02:53) st: save profile
+(01:02:53) st:   as box1
+(01:02:53) en: initializing
+(01:02:54) re: initializing
+(01:02:54) re: windowed
+(01:02:54) re: reshape - 900 900
+(01:02:54) re: starting
+(01:02:54) re: reshape - 900 900
+(01:04:44) st: load state - default
+(01:04:44) st: with vars - {}
+(01:04:44) st: load profile - box1
+(01:04:44) st: with vars - {}
+(01:04:44) st: save profile
+(01:04:44) st:   as box1
+(01:04:44) en: initializing
+(01:04:45) re: initializing
+(01:04:45) re: windowed
+(01:04:45) re: reshape - 900 900
+(01:04:45) re: starting
+(01:04:45) re: reshape - 900 900
+(01:12:56) st: load state - default
+(01:12:56) st: with vars - {}
+(01:12:56) st: load profile - box1
+(01:12:56) st: with vars - {}
+(01:12:56) st: save profile
+(01:12:56) st:   as box1
+(01:12:56) en: initializing
+(01:12:57) re: initializing
+(01:12:57) re: windowed
+(01:12:57) re: reshape - 900 900
+(01:12:57) re: starting
+(01:12:57) re: reshape - 900 900
+(01:13:33) st: load state - default
+(01:13:33) st: with vars - {}
+(01:13:33) st: load profile - box1
+(01:13:33) st: with vars - {}
+(01:13:33) st: save profile
+(01:13:33) st:   as box1
+(01:13:33) en: initializing
+(01:13:35) re: initializing
+(01:13:35) re: windowed
+(01:13:35) re: reshape - 900 900
+(01:13:35) re: starting
+(01:13:35) re: reshape - 900 900
+(01:13:47) st: load state - default
+(01:13:47) st: with vars - {}
+(01:13:47) st: load profile - box1
+(01:13:47) st: with vars - {}
+(01:13:47) st: save profile
+(01:13:47) st:   as box1
+(01:13:47) en: initializing
+(01:13:48) re: initializing
+(01:13:48) re: windowed
+(01:13:48) re: reshape - 900 900
+(01:13:48) re: starting
+(01:13:48) re: reshape - 900 900
+(01:14:23) st: load state - default
+(01:14:23) st: with vars - {}
+(01:14:23) st: load profile - box1
+(01:14:23) st: with vars - {}
+(01:14:23) st: save profile
+(01:14:23) st:   as box1
+(01:14:23) en: initializing
+(01:14:24) re: initializing
+(01:14:24) re: windowed
+(01:14:24) re: reshape - 900 900
+(01:14:24) re: starting
+(01:14:24) re: reshape - 900 900
+(01:14:47) st: load state - default
+(01:14:47) st: with vars - {}
+(01:14:47) st: load profile - box1
+(01:14:47) st: with vars - {}
+(01:14:47) st: save profile
+(01:14:47) st:   as box1
+(01:14:47) en: initializing
+(01:14:48) re: initializing
+(01:14:48) re: windowed
+(01:14:48) re: reshape - 900 900
+(01:14:48) re: starting
+(01:14:48) re: reshape - 900 900
+(01:15:08) st: load state - default
+(01:15:08) st: with vars - {}
+(01:15:08) st: load profile - box1
+(01:15:08) st: with vars - {}
+(01:15:08) st: save profile
+(01:15:08) st:   as box1
+(01:15:08) en: initializing
+(01:15:09) re: initializing
+(01:15:09) re: windowed
+(01:15:09) re: reshape - 900 900
+(01:15:09) re: starting
+(01:15:09) re: reshape - 900 900
+(01:15:22) st: load state - default
+(01:15:22) st: with vars - {}
+(01:15:22) st: load profile - box1
+(01:15:22) st: with vars - {}
+(01:15:22) st: save profile
+(01:15:22) st:   as box1
+(01:15:22) en: initializing
+(01:15:23) re: initializing
+(01:15:23) re: windowed
+(01:15:23) re: reshape - 900 900
+(01:15:23) re: starting
+(01:15:23) re: reshape - 900 900
+(01:15:36) st: load state - default
+(01:15:36) st: with vars - {}
+(01:15:36) st: load profile - box1
+(01:15:36) st: with vars - {}
+(01:15:36) st: save profile
+(01:15:36) st:   as box1
+(01:15:36) en: initializing
+(01:15:37) re: initializing
+(01:15:37) re: windowed
+(01:15:37) re: reshape - 900 900
+(01:15:38) re: starting
+(01:15:38) re: reshape - 900 900
+(01:15:49) st: load state - default
+(01:15:49) st: with vars - {}
+(01:15:49) st: load profile - box1
+(01:15:49) st: with vars - {}
+(01:15:49) st: save profile
+(01:15:49) st:   as box1
+(01:15:49) en: initializing
+(01:15:50) re: initializing
+(01:15:50) re: windowed
+(01:15:50) re: reshape - 900 900
+(01:15:50) re: starting
+(01:15:50) re: reshape - 900 900
+(01:16:06) st: load state - default
+(01:16:06) st: with vars - {}
+(01:16:06) st: load profile - box1
+(01:16:06) st: with vars - {}
+(01:16:06) st: save profile
+(01:16:06) st:   as box1
+(01:16:06) en: initializing
+(01:16:07) re: initializing
+(01:16:07) re: windowed
+(01:16:07) re: reshape - 900 900
+(01:16:07) re: starting
+(01:16:07) re: reshape - 900 900
+(01:16:37) st: load state - default
+(01:16:37) st: with vars - {}
+(01:16:37) st: load profile - box1
+(01:16:37) st: with vars - {}
+(01:16:37) st: save profile
+(01:16:37) st:   as box1
+(01:16:37) en: initializing
+(01:16:38) re: initializing
+(01:16:38) re: windowed
+(01:16:38) re: reshape - 900 900
+(01:16:38) re: starting
+(01:16:38) re: reshape - 900 900
+(04:16:51) st: load state - default
+(04:16:51) st: with vars - {}
+(04:16:51) st: load profile - box1
+(04:16:51) st: with vars - {}
+(04:16:51) st: save profile
+(04:16:51) st:   as box1
+(04:16:51) en: initializing
+(04:16:53) re: initializing
+(04:16:53) re: windowed
+(04:16:53) re: reshape - 900 900
+(04:16:53) re: starting
+(04:16:53) re: reshape - 900 900
+(04:17:12) st: load state - default
+(04:17:12) st: with vars - {}
+(04:17:12) st: load profile - box1
+(04:17:12) st: with vars - {}
+(04:17:12) st: save profile
+(04:17:12) st:   as box1
+(04:17:12) en: initializing
+(04:17:33) st: load state - default
+(04:17:33) st: with vars - {}
+(04:17:33) st: load profile - box1
+(04:17:33) st: with vars - {}
+(04:17:33) st: save profile
+(04:17:33) st:   as box1
+(04:17:33) en: initializing
+(04:17:34) re: initializing
+(04:17:34) re: windowed
+(04:17:34) re: reshape - 900 900
+(04:17:34) re: starting
+(04:17:34) re: reshape - 900 900
+(04:19:19) st: load state - default
+(04:19:19) st: with vars - {}
+(04:19:19) st: load profile - box1
+(04:19:19) st: with vars - {}
+(04:19:19) st: save profile
+(04:19:19) st:   as box1
+(04:19:19) en: initializing
+(04:19:20) re: initializing
+(04:19:20) re: windowed
+(04:19:20) re: reshape - 900 900
+(04:19:20) re: starting
+(04:19:20) re: reshape - 900 900
+(04:22:18) st: load state - default
+(04:22:18) st: with vars - {}
+(04:22:18) st: load profile - box1
+(04:22:18) st: with vars - {}
+(04:22:18) st: save profile
+(04:22:18) st:   as box1
+(04:22:18) en: initializing
+(04:22:19) re: initializing
+(04:22:19) re: windowed
+(04:22:19) re: reshape - 900 900
+(04:22:19) re: starting
+(04:22:19) re: reshape - 900 900
+(12:36:46) st: load state - default
+(12:36:46) st: with vars - {}
+(12:36:46) st: load profile - box1
+(12:36:46) st: with vars - {}
+(12:36:46) st: save profile
+(12:36:46) st:   as box1
+(12:36:46) en: initializing
+(12:36:58) st: load state - default
+(12:36:58) st: with vars - {}
+(12:36:58) st: load profile - box1
+(12:36:58) st: with vars - {}
+(12:36:58) st: save profile
+(12:36:58) st:   as box1
+(12:36:58) en: initializing
+(12:36:59) re: initializing
+(12:36:59) re: windowed
+(12:36:59) re: reshape - 900 900
+(12:36:59) re: starting
+(12:36:59) re: reshape - 900 900
+(12:42:45) st: load state - default
+(12:42:45) st: with vars - {}
+(12:42:45) st: load profile - box1
+(12:42:45) st: with vars - {}
+(12:42:45) st: save profile
+(12:42:45) st:   as box1
+(12:42:45) en: initializing
+(12:42:46) re: initializing
+(12:42:46) re: windowed
+(12:42:46) re: reshape - 900 900
+(12:42:46) re: starting
+(12:42:46) re: reshape - 900 900
+(12:43:08) st: load state - default
+(12:43:08) st: with vars - {}
+(12:43:08) st: load profile - box1
+(12:43:08) st: with vars - {}
+(12:43:08) st: save profile
+(12:43:08) st:   as box1
+(12:43:08) en: initializing
+(12:43:09) re: initializing
+(12:43:09) re: windowed
+(12:43:09) re: reshape - 900 900
+(12:43:09) re: starting
+(12:43:09) re: reshape - 900 900
+(12:44:31) st: load state - default
+(12:44:31) st: with vars - {}
+(12:44:31) st: load profile - box1
+(12:44:31) st: with vars - {}
+(12:44:31) st: save profile
+(12:44:31) st:   as box1
+(12:44:31) en: initializing
+(12:44:32) re: initializing
+(12:44:32) re: windowed
+(12:44:32) re: reshape - 900 900
+(12:44:32) re: starting
+(12:44:32) re: reshape - 900 900
+(12:45:15) st: load state - default
+(12:45:15) st: with vars - {}
+(12:45:15) st: load profile - box1
+(12:45:15) st: with vars - {}
+(12:45:15) st: save profile
+(12:45:15) st:   as box1
+(12:45:15) en: initializing
+(12:45:16) re: initializing
+(12:45:16) re: windowed
+(12:45:16) re: reshape - 900 900
+(12:45:16) re: starting
+(12:45:16) re: reshape - 900 900
+(12:56:58) st: load state - default
+(12:56:58) st: with vars - {}
+(12:56:58) st: load profile - box1
+(12:56:58) st: with vars - {}
+(12:56:58) st: save profile
+(12:56:58) st:   as box1
+(12:56:58) en: initializing
+(12:56:59) re: initializing
+(12:56:59) re: windowed
+(12:56:59) re: reshape - 900 900
+(12:56:59) re: starting
+(12:56:59) re: reshape - 900 900
+(12:58:22) st: load state - default
+(12:58:22) st: with vars - {}
+(12:58:22) st: load profile - box1
+(12:58:22) st: with vars - {}
+(12:58:22) st: save profile
+(12:58:22) st:   as box1
+(12:58:22) en: initializing
+(12:58:32) st: load state - default
+(12:58:32) st: with vars - {}
+(12:58:32) st: load profile - box1
+(12:58:32) st: with vars - {}
+(12:58:32) st: save profile
+(12:58:32) st:   as box1
+(12:58:32) en: initializing
+(12:58:47) st: load state - default
+(12:58:47) st: with vars - {}
+(12:58:47) st: load profile - box1
+(12:58:47) st: with vars - {}
+(12:58:47) st: save profile
+(12:58:47) st:   as box1
+(12:58:47) en: initializing
+(12:58:48) re: initializing
+(12:58:48) re: windowed
+(12:58:48) re: reshape - 900 900
+(12:58:48) re: starting
+(12:58:48) re: reshape - 900 900
+(12:59:14) st: load state - default
+(12:59:14) st: with vars - {}
+(12:59:14) st: load profile - box1
+(12:59:14) st: with vars - {}
+(12:59:14) st: save profile
+(12:59:14) st:   as box1
+(12:59:14) en: initializing
+(12:59:27) st: load state - default
+(12:59:27) st: with vars - {}
+(12:59:27) st: load profile - box1
+(12:59:27) st: with vars - {}
+(12:59:27) st: save profile
+(12:59:27) st:   as box1
+(12:59:27) en: initializing
+(12:59:59) st: load state - default
+(12:59:59) st: with vars - {}
+(12:59:59) st: load profile - box1
+(12:59:59) st: with vars - {}
+(12:59:59) st: save profile
+(12:59:59) st:   as box1
+(12:59:59) en: initializing
+(13:00:12) st: load state - default
+(13:00:12) st: with vars - {}
+(13:00:12) st: load profile - box1
+(13:00:12) st: with vars - {}
+(13:00:12) st: save profile
+(13:00:12) st:   as box1
+(13:00:12) en: initializing
+(13:00:13) re: initializing
+(13:00:13) re: windowed
+(13:00:13) re: reshape - 900 900
+(13:00:14) re: starting
+(13:00:14) re: reshape - 900 900
+(13:02:30) st: load state - default
+(13:02:30) st: with vars - {}
+(13:02:30) st: load profile - box1
+(13:02:30) st: with vars - {}
+(13:02:30) st: save profile
+(13:02:30) st:   as box1
+(13:02:30) en: initializing
+(13:02:31) re: initializing
+(13:02:31) re: windowed
+(13:02:31) re: reshape - 900 900
+(13:02:31) re: starting
+(13:02:31) re: reshape - 900 900
+(17:23:01) st: load state - default
+(17:23:01) st: with vars - {}
+(17:23:01) st: load profile - box1
+(17:23:01) st: with vars - {}
+(17:23:01) st: save profile
+(17:23:01) st:   as box1
+(17:23:01) en: initializing
+(17:23:22) st: load state - default
+(17:23:22) st: with vars - {}
+(17:23:22) st: load profile - box1
+(17:23:22) st: with vars - {}
+(17:23:22) st: save profile
+(17:23:22) st:   as box1
+(17:23:22) en: initializing
+(17:23:23) re: initializing
+(17:23:23) re: windowed
+(17:23:23) re: reshape - 900 900
+(17:23:23) re: starting
+(17:23:23) re: reshape - 900 900
+(17:23:56) st: load state - default
+(17:23:56) st: with vars - {}
+(17:23:56) st: load profile - box1
+(17:23:56) st: with vars - {}
+(17:23:56) st: save profile
+(17:23:56) st:   as box1
+(17:23:56) en: initializing
+(17:23:57) re: initializing
+(17:23:57) re: windowed
+(17:23:57) re: reshape - 900 900
+(17:23:57) re: starting
+(17:23:57) re: reshape - 900 900
+(17:24:23) st: load state - default
+(17:24:23) st: with vars - {}
+(17:24:23) st: load profile - box1
+(17:24:23) st: with vars - {}
+(17:24:23) st: save profile
+(17:24:23) st:   as box1
+(17:24:23) en: initializing
+(17:24:24) re: initializing
+(17:24:24) re: windowed
+(17:24:24) re: reshape - 900 900
+(17:24:24) re: starting
+(17:24:24) re: reshape - 900 900
+(17:30:32) st: load state - default
+(17:30:32) st: with vars - {}
+(17:30:32) st: load profile - box1
+(17:30:32) st: with vars - {}
+(17:30:32) st: save profile
+(17:30:32) st:   as box1
+(17:30:32) en: initializing
+(17:30:33) re: initializing
+(17:30:33) re: windowed
+(17:30:33) re: reshape - 900 900
+(17:30:33) re: starting
+(17:30:33) re: reshape - 900 900
+(17:31:18) st: load state - default
+(17:31:18) st: with vars - {}
+(17:31:18) st: load profile - box1
+(17:31:18) st: with vars - {}
+(17:31:18) st: save profile
+(17:31:18) st:   as box1
+(17:31:18) en: initializing
+(17:31:19) re: initializing
+(17:31:19) re: windowed
+(17:31:19) re: reshape - 900 900
+(17:31:19) re: starting
+(17:31:19) re: reshape - 900 900
+(17:32:09) st: load state - default
+(17:32:09) st: with vars - {}
+(17:32:09) st: load profile - box1
+(17:32:09) st: with vars - {}
+(17:32:09) st: save profile
+(17:32:09) st:   as box1
+(17:32:09) en: initializing
+(17:32:10) re: initializing
+(17:32:10) re: windowed
+(17:32:10) re: reshape - 900 900
+(17:32:10) re: starting
+(17:32:10) re: reshape - 900 900
+(17:32:45) st: load state - default
+(17:32:45) st: with vars - {}
+(17:32:45) st: load profile - box1
+(17:32:45) st: with vars - {}
+(17:32:45) st: save profile
+(17:32:45) st:   as box1
+(17:32:45) en: initializing
+(17:32:46) re: initializing
+(17:32:46) re: windowed
+(17:32:46) re: reshape - 900 900
+(17:32:46) re: starting
+(17:32:46) re: reshape - 900 900
+(17:33:21) st: load state - default
+(17:33:21) st: with vars - {}
+(17:33:21) st: load profile - box1
+(17:33:21) st: with vars - {}
+(17:33:21) st: save profile
+(17:33:21) st:   as box1
+(17:33:21) en: initializing
+(17:33:22) re: initializing
+(17:33:22) re: windowed
+(17:33:22) re: reshape - 900 900
+(17:33:22) re: starting
+(17:33:22) re: reshape - 900 900
+(17:34:00) st: load state - default
+(17:34:00) st: with vars - {}
+(17:34:00) st: load profile - box1
+(17:34:00) st: with vars - {}
+(17:34:00) st: save profile
+(17:34:00) st:   as box1
+(17:34:00) en: initializing
+(17:34:01) re: initializing
+(17:34:01) re: windowed
+(17:34:01) re: reshape - 900 900
+(17:34:01) re: starting
+(17:34:01) re: reshape - 900 900
+(17:34:58) st: load state - default
+(17:34:58) st: with vars - {}
+(17:34:58) st: load profile - box1
+(17:34:58) st: with vars - {}
+(17:34:58) st: save profile
+(17:34:58) st:   as box1
+(17:34:58) en: initializing
+(17:34:59) re: initializing
+(17:34:59) re: windowed
+(17:34:59) re: reshape - 900 900
+(17:34:59) re: starting
+(17:34:59) re: reshape - 900 900
+(17:44:58) st: load state - default
+(17:44:58) st: with vars - {}
+(17:44:58) st: load profile - box1
+(17:44:58) st: with vars - {}
+(17:44:58) st: save profile
+(17:44:58) st:   as box1
+(17:44:58) en: initializing
+(17:44:59) re: initializing
+(17:44:59) re: windowed
+(17:44:59) re: reshape - 900 900
+(17:45:00) re: starting
+(17:45:00) re: reshape - 900 900
+(17:45:48) st: load state - default
+(17:45:48) st: with vars - {}
+(17:45:48) st: load profile - box1
+(17:45:48) st: with vars - {}
+(17:45:48) st: save profile
+(17:45:48) st:   as box1
+(17:45:48) en: initializing
+(17:45:49) re: initializing
+(17:45:49) re: windowed
+(17:45:50) re: reshape - 900 900
+(17:45:50) re: starting
+(17:45:50) re: reshape - 900 900
+(17:45:57) st: load state - default
+(17:45:57) st: with vars - {}
+(17:45:57) st: load profile - box1
+(17:45:57) st: with vars - {}
+(17:45:57) st: save profile
+(17:45:57) st:   as box1
+(17:45:57) en: initializing
+(17:45:58) re: initializing
+(17:45:58) re: windowed
+(17:45:58) re: reshape - 900 900
+(17:45:58) re: starting
+(17:45:58) re: reshape - 900 900
+(17:46:19) st: load state - default
+(17:46:19) st: with vars - {}
+(17:46:19) st: load profile - box1
+(17:46:19) st: with vars - {}
+(17:46:19) st: save profile
+(17:46:19) st:   as box1
+(17:46:19) en: initializing
+(17:46:20) re: initializing
+(17:46:20) re: windowed
+(17:46:21) re: reshape - 900 900
+(17:46:21) re: starting
+(17:46:21) re: reshape - 900 900
+(17:47:32) st: load state - default
+(17:47:32) st: with vars - {}
+(17:47:32) st: load profile - box1
+(17:47:32) st: with vars - {}
+(17:47:32) st: save profile
+(17:47:32) st:   as box1
+(17:47:32) en: initializing
+(17:47:33) re: initializing
+(17:47:33) re: windowed
+(17:47:33) re: reshape - 900 900
+(17:47:33) re: starting
+(17:47:33) re: reshape - 900 900
+(17:47:43) st: load state - default
+(17:47:43) st: with vars - {}
+(17:47:43) st: load profile - box1
+(17:47:43) st: with vars - {}
+(17:47:43) st: save profile
+(17:47:43) st:   as box1
+(17:47:43) en: initializing
+(17:47:44) re: initializing
+(17:47:44) re: windowed
+(17:47:44) re: reshape - 900 900
+(17:47:44) re: starting
+(17:47:44) re: reshape - 900 900
+(17:48:06) st: load state - default
+(17:48:06) st: with vars - {}
+(17:48:06) st: load profile - box1
+(17:48:06) st: with vars - {}
+(17:48:06) st: save profile
+(17:48:06) st:   as box1
+(17:48:06) en: initializing
+(17:48:07) re: initializing
+(17:48:07) re: windowed
+(17:48:07) re: reshape - 900 900
+(17:48:08) re: starting
+(17:48:08) re: reshape - 900 900
+(17:48:50) st: load state - default
+(17:48:50) st: with vars - {}
+(17:48:50) st: load profile - box1
+(17:48:50) st: with vars - {}
+(17:48:50) st: save profile
+(17:48:50) st:   as box1
+(17:48:50) en: initializing
+(17:48:52) re: initializing
+(17:48:52) re: windowed
+(17:48:52) re: reshape - 900 900
+(17:48:52) re: starting
+(17:48:52) re: reshape - 900 900
+(17:49:19) st: load state - default
+(17:49:19) st: with vars - {}
+(17:49:19) st: load profile - box1
+(17:49:19) st: with vars - {}
+(17:49:19) st: save profile
+(17:49:19) st:   as box1
+(17:49:19) en: initializing
+(17:49:20) re: initializing
+(17:49:20) re: windowed
+(17:49:20) re: reshape - 900 900
+(17:49:20) re: starting
+(17:49:20) re: reshape - 900 900
+(17:49:53) st: load state - default
+(17:49:53) st: with vars - {}
+(17:49:53) st: load profile - box1
+(17:49:53) st: with vars - {}
+(17:49:53) st: save profile
+(17:49:53) st:   as box1
+(17:49:53) en: initializing
+(17:49:54) re: initializing
+(17:49:54) re: windowed
+(17:49:54) re: reshape - 900 900
+(17:49:54) re: starting
+(17:49:54) re: reshape - 900 900
+(17:50:02) st: load state - default
+(17:50:02) st: with vars - {}
+(17:50:02) st: load profile - box1
+(17:50:02) st: with vars - {}
+(17:50:02) st: save profile
+(17:50:02) st:   as box1
+(17:50:02) en: initializing
+(17:50:03) re: initializing
+(17:50:03) re: windowed
+(17:50:03) re: reshape - 900 900
+(17:50:03) re: starting
+(17:50:03) re: reshape - 900 900
+(17:50:53) st: load state - default
+(17:50:53) st: with vars - {}
+(17:50:53) st: load profile - box1
+(17:50:53) st: with vars - {}
+(17:50:53) st: save profile
+(17:50:53) st:   as box1
+(17:50:53) en: initializing
+(17:50:59) st: load state - default
+(17:50:59) st: with vars - {}
+(17:50:59) st: load profile - box1
+(17:50:59) st: with vars - {}
+(17:50:59) st: save profile
+(17:50:59) st:   as box1
+(17:50:59) en: initializing
+(17:51:00) re: initializing
+(17:51:00) re: windowed
+(17:51:00) re: reshape - 900 900
+(17:51:00) re: starting
+(17:51:00) re: reshape - 900 900
+(17:51:25) st: load state - default
+(17:51:25) st: with vars - {}
+(17:51:25) st: load profile - box1
+(17:51:25) st: with vars - {}
+(17:51:25) st: save profile
+(17:51:25) st:   as box1
+(17:51:25) en: initializing
+(17:51:26) re: initializing
+(17:51:26) re: windowed
+(17:51:26) re: reshape - 900 900
+(17:51:26) re: starting
+(17:51:26) re: reshape - 900 900
+(17:51:53) st: load state - default
+(17:51:53) st: with vars - {}
+(17:51:53) st: load profile - box1
+(17:51:53) st: with vars - {}
+(17:51:53) st: save profile
+(17:51:53) st:   as box1
+(17:51:53) en: initializing
+(17:51:54) re: initializing
+(17:51:54) re: windowed
+(17:51:54) re: reshape - 900 900
+(17:51:54) re: starting
+(17:51:54) re: reshape - 900 900
+(17:52:40) st: load state - default
+(17:52:40) st: with vars - {}
+(17:52:40) st: load profile - box1
+(17:52:40) st: with vars - {}
+(17:52:40) st: save profile
+(17:52:40) st:   as box1
+(17:52:40) en: initializing
+(17:52:41) re: initializing
+(17:52:41) re: windowed
+(17:52:41) re: reshape - 900 900
+(17:52:41) re: starting
+(17:52:41) re: reshape - 900 900
+(17:56:15) st: load state - default
+(17:56:15) st: with vars - {}
+(17:56:15) st: load profile - box1
+(17:56:15) st: with vars - {}
+(17:56:15) st: save profile
+(17:56:15) st:   as box1
+(17:56:15) en: initializing
+(17:56:16) re: initializing
+(17:56:16) re: windowed
+(17:56:17) re: reshape - 900 900
+(17:56:17) re: starting
+(17:56:17) re: reshape - 900 900
+(18:04:43) st: load state - default
+(18:04:43) st: with vars - {}
+(18:04:43) st: load profile - box1
+(18:04:43) st: with vars - {}
+(18:04:43) st: save profile
+(18:04:43) st:   as box1
+(18:04:43) en: initializing
+(18:04:44) re: initializing
+(18:04:44) re: windowed
+(18:04:44) re: reshape - 900 900
+(18:04:44) re: starting
+(18:04:44) re: reshape - 900 900
+(19:23:29) st: load state - default
+(19:23:29) st: with vars - {}
+(19:23:29) st: load profile - box1
+(19:23:29) st: with vars - {}
+(19:23:29) st: save profile
+(19:23:29) st:   as box1
+(19:23:29) en: initializing
+(19:23:30) re: initializing
+(19:23:30) re: windowed
+(19:23:30) re: reshape - 900 900
+(19:23:30) re: starting
+(19:23:30) re: reshape - 900 900
+(19:23:55) st: load state - default
+(19:23:55) st: with vars - {}
+(19:23:55) st: load profile - box1
+(19:23:55) st: with vars - {}
+(19:23:55) st: save profile
+(19:23:55) st:   as box1
+(19:23:55) en: initializing
+(19:23:56) re: initializing
+(19:23:56) re: windowed
+(19:23:56) re: reshape - 900 900
+(19:23:57) re: starting
+(19:23:57) re: reshape - 900 900
+(19:24:42) st: load state - default
+(19:24:42) st: with vars - {}
+(19:24:42) st: load profile - box1
+(19:24:42) st: with vars - {}
+(19:24:42) st: save profile
+(19:24:42) st:   as box1
+(19:24:42) en: initializing
+(19:24:43) re: initializing
+(19:24:43) re: windowed
+(19:24:44) re: reshape - 900 900
+(19:24:44) re: starting
+(19:24:44) re: reshape - 900 900
+(19:26:46) st: load state - default
+(19:26:46) st: with vars - {}
+(19:26:46) st: load profile - box1
+(19:26:46) st: with vars - {}
+(19:26:46) st: save profile
+(19:26:46) st:   as box1
+(19:26:46) en: initializing
+(19:26:47) re: initializing
+(19:26:47) re: windowed
+(19:26:47) re: reshape - 900 900
+(19:26:47) re: starting
+(19:26:47) re: reshape - 900 900
+(19:28:17) st: load state - default
+(19:28:17) st: with vars - {}
+(19:28:17) st: load profile - box1
+(19:28:17) st: with vars - {}
+(19:28:17) st: save profile
+(19:28:17) st:   as box1
+(19:28:17) en: initializing
+(19:28:18) re: initializing
+(19:28:18) re: windowed
+(19:28:18) re: reshape - 900 900
+(19:28:18) re: starting
+(19:28:18) re: reshape - 900 900
+(20:01:50) st: load state - default
+(20:01:50) st: with vars - {}
+(20:01:50) st: load profile - box1
+(20:01:50) st: with vars - {}
+(20:01:50) st: save profile
+(20:01:50) st:   as box1
+(20:01:50) en: initializing
+(20:01:51) re: initializing
+(20:01:51) re: windowed
+(20:01:51) re: reshape - 900 900
+(20:01:51) re: starting
+(20:01:51) re: reshape - 900 900
+(20:03:14) st: load state - default
+(20:03:14) st: with vars - {}
+(20:03:14) st: load profile - box1
+(20:03:14) st: with vars - {}
+(20:03:14) st: save profile
+(20:03:14) st:   as box1
+(20:03:14) en: initializing
+(20:03:27) st: load state - default
+(20:03:27) st: with vars - {}
+(20:03:27) st: load profile - box1
+(20:03:27) st: with vars - {}
+(20:03:27) st: save profile
+(20:03:27) st:   as box1
+(20:03:27) en: initializing
+(20:03:46) st: load state - default
+(20:03:46) st: with vars - {}
+(20:03:46) st: load profile - box1
+(20:03:46) st: with vars - {}
+(20:03:46) st: save profile
+(20:03:46) st:   as box1
+(20:03:46) en: initializing
+(20:03:57) st: load state - default
+(20:03:57) st: with vars - {}
+(20:03:57) st: load profile - box1
+(20:03:57) st: with vars - {}
+(20:03:57) st: save profile
+(20:03:57) st:   as box1
+(20:03:57) en: initializing
+(20:04:06) st: load state - default
+(20:04:06) st: with vars - {}
+(20:04:06) st: load profile - box1
+(20:04:06) st: with vars - {}
+(20:04:06) st: save profile
+(20:04:06) st:   as box1
+(20:04:06) en: initializing
+(20:08:43) st: load state - default
+(20:08:43) st: with vars - {}
+(20:08:43) st: load profile - box1
+(20:08:43) st: with vars - {}
+(20:08:43) st: save profile
+(20:08:43) st:   as box1
+(20:08:43) en: initializing
+(20:08:44) re: initializing
+(20:08:44) re: windowed
+(20:08:44) re: reshape - 900 900
+(20:08:44) re: starting
+(20:08:44) re: reshape - 900 900
+(20:10:44) st: load state - default
+(20:10:44) st: with vars - {}
+(20:10:44) st: load profile - box1
+(20:10:44) st: with vars - {}
+(20:10:44) st: save profile
+(20:10:44) st:   as box1
+(20:10:44) en: initializing
+(20:11:00) st: load state - default
+(20:11:00) st: with vars - {}
+(20:11:00) st: load profile - box1
+(20:11:00) st: with vars - {}
+(20:11:00) st: save profile
+(20:11:00) st:   as box1
+(20:11:00) en: initializing
+(20:11:01) re: initializing
+(20:11:01) re: windowed
+(20:11:01) re: reshape - 900 900
+(20:11:01) re: starting
+(20:11:01) re: reshape - 900 900
+(20:11:54) st: load state - default
+(20:11:54) st: with vars - {}
+(20:11:54) st: load profile - box1
+(20:11:54) st: with vars - {}
+(20:11:54) st: save profile
+(20:11:54) st:   as box1
+(20:11:54) en: initializing
+(20:11:55) re: initializing
+(20:11:55) re: windowed
+(20:11:55) re: reshape - 900 900
+(20:11:55) re: starting
+(20:11:55) re: reshape - 900 900
+(20:12:51) st: load state - default
+(20:12:51) st: with vars - {}
+(20:12:51) st: load profile - box1
+(20:12:51) st: with vars - {}
+(20:12:51) st: save profile
+(20:12:51) st:   as box1
+(20:12:51) en: initializing
+(20:12:52) re: initializing
+(20:12:52) re: windowed
+(20:12:52) re: reshape - 900 900
+(20:12:53) re: starting
+(20:12:53) re: reshape - 900 900
+(20:13:18) st: load state - default
+(20:13:18) st: with vars - {}
+(20:13:18) st: load profile - box1
+(20:13:18) st: with vars - {}
+(20:13:18) st: save profile
+(20:13:18) st:   as box1
+(20:13:18) en: initializing
+(20:13:19) re: initializing
+(20:13:19) re: windowed
+(20:13:19) re: reshape - 900 900
+(20:13:19) re: starting
+(20:13:19) re: reshape - 900 900
+(20:13:28) st: load state - default
+(20:13:28) st: with vars - {}
+(20:13:28) st: load profile - box1
+(20:13:28) st: with vars - {}
+(20:13:28) st: save profile
+(20:13:28) st:   as box1
+(20:13:28) en: initializing
+(20:13:29) re: initializing
+(20:13:29) re: windowed
+(20:13:29) re: reshape - 900 900
+(20:13:29) re: starting
+(20:13:29) re: reshape - 900 900
+(20:15:31) st: load state - default
+(20:15:31) st: with vars - {}
+(20:15:31) st: load profile - box1
+(20:15:31) st: with vars - {}
+(20:15:31) st: save profile
+(20:15:31) st:   as box1
+(20:15:31) en: initializing
+(20:15:32) re: initializing
+(20:15:32) re: windowed
+(20:15:32) re: reshape - 900 900
+(20:15:32) re: starting
+(20:15:32) re: reshape - 900 900
+(20:23:53) st: load state - default
+(20:23:53) st: with vars - {}
+(20:23:53) st: load profile - box1
+(20:23:53) st: with vars - {}
+(20:23:53) st: save profile
+(20:23:53) st:   as box1
+(20:23:53) en: initializing
+(20:24:14) st: load state - default
+(20:24:14) st: with vars - {}
+(20:24:14) st: load profile - box1
+(20:24:14) st: with vars - {}
+(20:24:14) st: save profile
+(20:24:14) st:   as box1
+(20:24:14) en: initializing
+(20:24:37) st: load state - default
+(20:24:37) st: with vars - {}
+(20:24:37) st: load profile - box1
+(20:24:37) st: with vars - {}
+(20:24:37) st: save profile
+(20:24:37) st:   as box1
+(20:24:37) en: initializing
+(20:24:53) st: load state - default
+(20:24:53) st: with vars - {}
+(20:24:53) st: load profile - box1
+(20:24:53) st: with vars - {}
+(20:24:53) st: save profile
+(20:24:53) st:   as box1
+(20:24:53) en: initializing
+(20:25:09) st: load state - default
+(20:25:09) st: with vars - {}
+(20:25:09) st: load profile - box1
+(20:25:09) st: with vars - {}
+(20:25:09) st: save profile
+(20:25:09) st:   as box1
+(20:25:09) en: initializing
+(20:25:10) re: initializing
+(20:25:10) re: windowed
+(20:25:10) re: reshape - 900 900
+(20:25:10) re: starting
+(20:25:10) re: reshape - 900 900
+(20:30:08) st: load state - default
+(20:30:08) st: with vars - {}
+(20:30:08) st: load profile - box1
+(20:30:08) st: with vars - {}
+(20:30:08) st: save profile
+(20:30:08) st:   as box1
+(20:30:08) en: initializing
+(20:30:15) st: load state - default
+(20:30:15) st: with vars - {}
+(20:30:15) st: load profile - box1
+(20:30:15) st: with vars - {}
+(20:30:15) st: save profile
+(20:30:15) st:   as box1
+(20:30:15) en: initializing
+(20:30:16) re: initializing
+(20:30:16) re: windowed
+(20:30:16) re: reshape - 900 900
+(20:30:16) re: starting
+(20:30:16) re: reshape - 900 900
+(20:30:25) st: load state - default
+(20:30:25) st: with vars - {}
+(20:30:25) st: load profile - box1
+(20:30:25) st: with vars - {}
+(20:30:25) st: save profile
+(20:30:25) st:   as box1
+(20:30:25) en: initializing
+(20:30:27) re: initializing
+(20:30:27) re: windowed
+(20:30:27) re: reshape - 900 900
+(20:30:27) re: starting
+(20:30:27) re: reshape - 900 900
+(20:30:52) st: load state - default
+(20:30:52) st: with vars - {}
+(20:30:52) st: load profile - box1
+(20:30:52) st: with vars - {}
+(20:30:52) st: save profile
+(20:30:52) st:   as box1
+(20:30:52) en: initializing
+(20:30:53) re: initializing
+(20:30:53) re: windowed
+(20:30:53) re: reshape - 900 900
+(20:30:53) re: starting
+(20:30:53) re: reshape - 900 900
+(20:31:28) st: load state - default
+(20:31:28) st: with vars - {}
+(20:31:28) st: load profile - box1
+(20:31:28) st: with vars - {}
+(20:31:28) st: save profile
+(20:31:28) st:   as box1
+(20:31:28) en: initializing
+(20:31:29) re: initializing
+(20:31:29) re: windowed
+(20:31:29) re: reshape - 900 900
+(20:31:30) re: starting
+(20:31:30) re: reshape - 900 900
+(20:33:44) st: load state - default
+(20:33:44) st: with vars - {}
+(20:33:44) st: load profile - box1
+(20:33:44) st: with vars - {}
+(20:33:44) st: save profile
+(20:33:44) st:   as box1
+(20:33:44) en: initializing
+(20:33:45) re: initializing
+(20:33:45) re: windowed
+(20:33:45) re: reshape - 900 900
+(20:33:46) re: starting
+(20:33:46) re: reshape - 900 900
+(20:34:29) st: load state - default
+(20:34:29) st: with vars - {}
+(20:34:29) st: load profile - box1
+(20:34:29) st: with vars - {}
+(20:34:29) st: save profile
+(20:34:29) st:   as box1
+(20:34:29) en: initializing
+(20:34:30) re: initializing
+(20:34:30) re: windowed
+(20:34:30) re: reshape - 900 900
+(20:34:31) re: starting
+(20:34:31) re: reshape - 900 900
+(20:34:50) st: load state - default
+(20:34:50) st: with vars - {}
+(20:34:50) st: load profile - box1
+(20:34:50) st: with vars - {}
+(20:34:50) st: save profile
+(20:34:50) st:   as box1
+(20:34:50) en: initializing
+(20:34:51) re: initializing
+(20:34:51) re: windowed
+(20:34:51) re: reshape - 900 900
+(20:34:51) re: starting
+(20:34:51) re: reshape - 900 900
+(20:35:06) st: load state - default
+(20:35:06) st: with vars - {}
+(20:35:06) st: load profile - box1
+(20:35:06) st: with vars - {}
+(20:35:06) st: save profile
+(20:35:06) st:   as box1
+(20:35:06) en: initializing
+(20:35:08) re: initializing
+(20:35:08) re: windowed
+(20:35:08) re: reshape - 900 900
+(20:35:08) re: starting
+(20:35:08) re: reshape - 900 900
+(20:38:02) st: load state - default
+(20:38:02) st: with vars - {}
+(20:38:02) st: load profile - box1
+(20:38:02) st: with vars - {}
+(20:38:02) st: save profile
+(20:38:02) st:   as box1
+(20:38:02) en: initializing
+(20:38:04) re: initializing
+(20:38:04) re: windowed
+(20:38:04) re: reshape - 900 900
+(20:38:04) re: starting
+(20:38:04) re: reshape - 900 900
+(20:38:27) st: load state - default
+(20:38:27) st: with vars - {}
+(20:38:27) st: load profile - box1
+(20:38:27) st: with vars - {}
+(20:38:27) st: save profile
+(20:38:27) st:   as box1
+(20:38:27) en: initializing
+(20:38:29) re: initializing
+(20:38:29) re: windowed
+(20:38:29) re: reshape - 900 900
+(20:38:29) re: starting
+(20:38:29) re: reshape - 900 900
+(20:38:54) st: load state - default
+(20:38:54) st: with vars - {}
+(20:38:54) st: load profile - box1
+(20:38:54) st: with vars - {}
+(20:38:54) st: save profile
+(20:38:54) st:   as box1
+(20:38:54) en: initializing
+(20:38:55) re: initializing
+(20:38:55) re: windowed
+(20:38:56) re: reshape - 900 900
+(20:38:56) re: starting
+(20:38:56) re: reshape - 900 900
+(20:39:31) st: load state - default
+(20:39:31) st: with vars - {}
+(20:39:31) st: load profile - box1
+(20:39:31) st: with vars - {}
+(20:39:31) st: save profile
+(20:39:31) st:   as box1
+(20:39:31) en: initializing
+(20:39:32) re: initializing
+(20:39:32) re: windowed
+(20:39:32) re: reshape - 900 900
+(20:39:32) re: starting
+(20:39:32) re: reshape - 900 900
+(20:40:05) st: load state - default
+(20:40:05) st: with vars - {}
+(20:40:05) st: load profile - box1
+(20:40:05) st: with vars - {}
+(20:40:05) st: save profile
+(20:40:05) st:   as box1
+(20:40:05) en: initializing
+(20:40:06) re: initializing
+(20:40:06) re: windowed
+(20:40:06) re: reshape - 900 900
+(20:40:06) re: starting
+(20:40:06) re: reshape - 900 900
+(20:42:56) st: load state - default
+(20:42:56) st: with vars - {}
+(20:42:56) st: load profile - box1
+(20:42:56) st: with vars - {}
+(20:42:56) st: save profile
+(20:42:56) st:   as box1
+(20:42:56) en: initializing
+(20:42:57) re: initializing
+(20:42:57) re: windowed
+(20:42:57) re: reshape - 1680 1050
+(20:42:58) re: starting
+(20:42:58) re: reshape - 1666 1016
+(20:43:11) st: load state - default
+(20:43:11) st: with vars - {}
+(20:43:11) st: load profile - box1
+(20:43:11) st: with vars - {}
+(20:43:11) st: save profile
+(20:43:11) st:   as box1
+(20:43:11) en: initializing
+(20:43:12) re: initializing
+(20:43:12) re: windowed
+(20:43:12) re: reshape - 1680 1050
+(20:43:12) re: starting
+(20:43:12) re: reshape - 1666 1016
+(20:43:27) st: load state - default
+(20:43:27) st: with vars - {}
+(20:43:27) st: load profile - box1
+(20:43:27) st: with vars - {}
+(20:43:27) st: save profile
+(20:43:27) st:   as box1
+(20:43:27) en: initializing
+(20:43:28) re: initializing
+(20:43:28) re: windowed
+(20:43:28) re: reshape - 1680 1050
+(20:43:28) re: starting
+(20:43:28) re: reshape - 1666 1016
+(20:45:14) st: load state - default
+(20:45:14) st: with vars - {}
+(20:45:14) st: load profile - box1
+(20:45:14) st: with vars - {}
+(20:45:14) st: save profile
+(20:45:14) st:   as box1
+(20:45:14) en: initializing
+(20:45:16) re: initializing
+(20:45:16) re: windowed
+(20:45:16) re: reshape - 1680 1050
+(20:45:16) re: starting
+(20:45:16) re: reshape - 1666 1016
+(20:46:14) st: load state - default
+(20:46:14) st: with vars - {}
+(20:46:14) st: load profile - box1
+(20:46:14) st: with vars - {}
+(20:46:14) st: save profile
+(20:46:14) st:   as box1
+(20:46:14) en: initializing
+(20:46:15) re: initializing
+(20:46:15) re: windowed
+(20:46:15) re: reshape - 1680 1050
+(20:46:15) re: starting
+(20:46:15) re: reshape - 1666 1016
+(20:46:22) st: load state - default
+(20:46:22) st: with vars - {}
+(20:46:22) st: load profile - box1
+(20:46:22) st: with vars - {}
+(20:46:22) st: save profile
+(20:46:22) st:   as box1
+(20:46:22) en: initializing
+(20:46:24) re: initializing
+(20:46:24) re: windowed
+(20:46:24) re: reshape - 1680 1050
+(20:46:24) re: starting
+(20:46:24) re: reshape - 1666 1016
+(20:46:39) st: load state - default
+(20:46:39) st: with vars - {}
+(20:46:39) st: load profile - box1
+(20:46:39) st: with vars - {}
+(20:46:39) st: save profile
+(20:46:39) st:   as box1
+(20:46:39) en: initializing
+(20:46:41) re: initializing
+(20:46:41) re: windowed
+(20:46:41) re: reshape - 1680 1050
+(20:46:41) re: starting
+(20:46:41) re: reshape - 1666 1016
+(20:47:09) st: load state - default
+(20:47:09) st: with vars - {}
+(20:47:09) st: load profile - box1
+(20:47:09) st: with vars - {}
+(20:47:09) st: save profile
+(20:47:09) st:   as box1
+(20:47:09) en: initializing
+(20:47:10) re: initializing
+(20:47:10) re: windowed
+(20:47:10) re: reshape - 1680 1050
+(20:47:11) re: starting
+(20:47:11) re: reshape - 1666 1016
+(20:48:44) st: load state - default
+(20:48:44) st: with vars - {}
+(20:48:44) st: load profile - box1
+(20:48:44) st: with vars - {}
+(20:48:44) st: save profile
+(20:48:44) st:   as box1
+(20:48:44) en: initializing
+(20:48:46) re: initializing
+(20:48:46) re: windowed
+(20:48:46) re: reshape - 1680 1050
+(20:48:46) re: starting
+(20:48:46) re: reshape - 1666 1016
+(20:52:07) st: load state - default
+(20:52:07) st: with vars - {}
+(20:52:07) st: load profile - box1
+(20:52:07) st: with vars - {}
+(20:52:07) st: save profile
+(20:52:07) st:   as box1
+(20:52:07) en: initializing
+(20:52:09) re: initializing
+(20:52:09) re: windowed
+(20:52:09) re: reshape - 1680 1050
+(20:52:09) re: starting
+(20:52:09) re: reshape - 1666 1016
+(20:53:00) st: load state - default
+(20:53:00) st: with vars - {}
+(20:53:00) st: load profile - box1
+(20:53:00) st: with vars - {}
+(20:53:00) st: save profile
+(20:53:00) st:   as box1
+(20:53:00) en: initializing
+(20:53:01) re: initializing
+(20:53:01) re: windowed
+(20:53:01) re: reshape - 1680 1050
+(20:53:02) re: starting
+(20:53:02) re: reshape - 1666 1016
+(20:56:07) st: load state - default
+(20:56:07) st: with vars - {}
+(20:56:07) st: load profile - box1
+(20:56:07) st: with vars - {}
+(20:56:07) st: save profile
+(20:56:07) st:   as box1
+(20:56:07) en: initializing
+(21:05:19) st: load state - default
+(21:05:19) st: with vars - {}
+(21:05:19) st: load profile - box1
+(21:05:19) st: with vars - {}
+(21:05:19) st: save profile
+(21:05:19) st:   as box1
+(21:05:19) en: initializing
+(21:05:20) re: initializing
+(21:05:20) re: windowed
+(21:05:20) re: reshape - 1680 1050
+(21:05:21) re: starting
+(21:05:21) re: reshape - 1666 1016
+(21:05:47) st: load state - default
+(21:05:47) st: with vars - {}
+(21:05:47) st: load profile - box1
+(21:05:47) st: with vars - {}
+(21:05:47) st: save profile
+(21:05:47) st:   as box1
+(21:05:47) en: initializing
+(21:05:48) re: initializing
+(21:05:48) re: windowed
+(21:05:48) re: reshape - 1680 1050
+(21:05:48) re: starting
+(21:05:48) re: reshape - 1666 1016
+(21:06:03) st: load state - default
+(21:06:03) st: with vars - {}
+(21:06:03) st: load profile - box1
+(21:06:03) st: with vars - {}
+(21:06:03) st: save profile
+(21:06:03) st:   as box1
+(21:06:03) en: initializing
+(21:06:04) re: initializing
+(21:06:04) re: windowed
+(21:06:04) re: reshape - 1680 1050
+(21:06:04) re: starting
+(21:06:04) re: reshape - 1666 1016
+(21:25:07) st: load state - default
+(21:25:07) st: with vars - {}
+(21:25:07) st: load profile - box1
+(21:25:07) st: with vars - {}
+(21:25:07) st: save profile
+(21:25:07) st:   as box1
+(21:25:07) en: initializing
+(21:25:08) re: initializing
+(21:25:08) re: windowed
+(21:25:08) re: reshape - 1680 1050
+(21:25:08) re: starting
+(21:25:08) re: reshape - 1666 1016
+(21:26:05) st: load state - default
+(21:26:05) st: with vars - {}
+(21:26:05) st: load profile - box1
+(21:26:05) st: with vars - {}
+(21:26:05) st: save profile
+(21:26:05) st:   as box1
+(21:26:05) en: initializing
+(21:26:06) re: initializing
+(21:26:06) re: windowed
+(21:26:06) re: reshape - 1680 1050
+(21:26:06) re: starting
+(21:26:06) re: reshape - 1666 1016
+(21:27:19) st: load state - default
+(21:27:19) st: with vars - {}
+(21:27:19) st: load profile - box1
+(21:27:19) st: with vars - {}
+(21:27:19) st: save profile
+(21:27:19) st:   as box1
+(21:27:19) en: initializing
+(21:27:20) re: initializing
+(21:27:20) re: windowed
+(21:27:20) re: reshape - 1680 1050
+(21:27:20) re: starting
+(21:27:20) re: reshape - 1666 1016
+(21:27:40) st: load state - default
+(21:27:40) st: with vars - {}
+(21:27:40) st: load profile - box1
+(21:27:40) st: with vars - {}
+(21:27:40) st: save profile
+(21:27:40) st:   as box1
+(21:27:40) en: initializing
+(21:27:41) re: initializing
+(21:27:41) re: windowed
+(21:27:41) re: reshape - 1680 1050
+(21:27:41) re: starting
+(21:27:41) re: reshape - 1666 1016
+(21:28:03) st: load state - default
+(21:28:03) st: with vars - {}
+(21:28:03) st: load profile - box1
+(21:28:03) st: with vars - {}
+(21:28:03) st: save profile
+(21:28:03) st:   as box1
+(21:28:03) en: initializing
+(21:28:04) re: initializing
+(21:28:04) re: windowed
+(21:28:04) re: reshape - 1680 1050
+(21:28:04) re: starting
+(21:28:04) re: reshape - 1666 1016
+(21:29:11) st: load state - default
+(21:29:11) st: with vars - {}
+(21:29:11) st: load profile - box1
+(21:29:11) st: with vars - {}
+(21:29:11) st: save profile
+(21:29:11) st:   as box1
+(21:29:11) en: initializing
+(21:29:22) st: load state - default
+(21:29:22) st: with vars - {}
+(21:29:22) st: load profile - box1
+(21:29:22) st: with vars - {}
+(21:29:22) st: save profile
+(21:29:22) st:   as box1
+(21:29:22) en: initializing
+(21:29:35) st: load state - default
+(21:29:35) st: with vars - {}
+(21:29:35) st: load profile - box1
+(21:29:35) st: with vars - {}
+(21:29:35) st: save profile
+(21:29:35) st:   as box1
+(21:29:35) en: initializing
+(21:29:36) re: initializing
+(21:29:36) re: windowed
+(21:29:36) re: reshape - 1680 1050
+(21:29:36) re: starting
+(21:29:36) re: reshape - 1666 1016
+(21:29:50) st: load state - default
+(21:29:50) st: with vars - {}
+(21:29:50) st: load profile - box1
+(21:29:50) st: with vars - {}
+(21:29:50) st: save profile
+(21:29:50) st:   as box1
+(21:29:50) en: initializing
+(21:29:52) re: initializing
+(21:29:52) re: windowed
+(21:29:52) re: reshape - 1680 1050
+(21:29:52) re: starting
+(21:29:52) re: reshape - 1666 1016
+(21:30:06) st: load state - default
+(21:30:06) st: with vars - {}
+(21:30:06) st: load profile - box1
+(21:30:06) st: with vars - {}
+(21:30:06) st: save profile
+(21:30:06) st:   as box1
+(21:30:06) en: initializing
+(21:30:07) re: initializing
+(21:30:07) re: windowed
+(21:30:07) re: reshape - 1680 1050
+(21:30:08) re: starting
+(21:30:08) re: reshape - 1666 1016
+(21:30:20) st: load state - default
+(21:30:20) st: with vars - {}
+(21:30:20) st: load profile - box1
+(21:30:20) st: with vars - {}
+(21:30:20) st: save profile
+(21:30:20) st:   as box1
+(21:30:20) en: initializing
+(21:30:21) re: initializing
+(21:30:21) re: windowed
+(21:30:21) re: reshape - 1680 1050
+(21:30:21) re: starting
+(21:30:21) re: reshape - 1666 1016
+(21:31:11) st: load state - default
+(21:31:11) st: with vars - {}
+(21:31:11) st: load profile - box1
+(21:31:11) st: with vars - {}
+(21:31:11) st: save profile
+(21:31:11) st:   as box1
+(21:31:11) en: initializing
+(21:31:13) re: initializing
+(21:31:13) re: windowed
+(21:31:13) re: reshape - 1680 1050
+(21:31:13) re: starting
+(21:31:13) re: reshape - 1666 1016
+(21:31:24) st: load state - default
+(21:31:24) st: with vars - {}
+(21:31:24) st: load profile - box1
+(21:31:24) st: with vars - {}
+(21:31:24) st: save profile
+(21:31:24) st:   as box1
+(21:31:24) en: initializing
+(21:31:26) re: initializing
+(21:31:26) re: windowed
+(21:31:26) re: reshape - 1680 1050
+(21:31:26) re: starting
+(21:31:26) re: reshape - 1666 1016
+(21:31:37) st: load state - default
+(21:31:37) st: with vars - {}
+(21:31:37) st: load profile - box1
+(21:31:37) st: with vars - {}
+(21:31:37) st: save profile
+(21:31:37) st:   as box1
+(21:31:37) en: initializing
+(21:31:38) re: initializing
+(21:31:38) re: windowed
+(21:31:38) re: reshape - 1680 1050
+(21:31:38) re: starting
+(21:31:38) re: reshape - 1666 1016
+(21:32:13) st: load state - default
+(21:32:13) st: with vars - {}
+(21:32:13) st: load profile - box1
+(21:32:13) st: with vars - {}
+(21:32:13) st: save profile
+(21:32:13) st:   as box1
+(21:32:13) en: initializing
+(21:32:23) st: load state - default
+(21:32:23) st: with vars - {}
+(21:32:23) st: load profile - box1
+(21:32:23) st: with vars - {}
+(21:32:23) st: save profile
+(21:32:23) st:   as box1
+(21:32:23) en: initializing
+(21:32:24) re: initializing
+(21:32:24) re: windowed
+(21:32:24) re: reshape - 1680 1050
+(21:32:24) re: starting
+(21:32:24) re: reshape - 1666 1016
+(21:32:44) st: load state - default
+(21:32:44) st: with vars - {}
+(21:32:44) st: load profile - box1
+(21:32:44) st: with vars - {}
+(21:32:44) st: save profile
+(21:32:44) st:   as box1
+(21:32:44) en: initializing
+(21:32:45) re: initializing
+(21:32:45) re: windowed
+(21:32:45) re: reshape - 1680 1050
+(21:32:46) re: starting
+(21:32:46) re: reshape - 1666 1016
+(21:33:22) st: load state - default
+(21:33:22) st: with vars - {}
+(21:33:22) st: load profile - box1
+(21:33:22) st: with vars - {}
+(21:33:22) st: save profile
+(21:33:22) st:   as box1
+(21:33:22) en: initializing
+(21:33:23) re: initializing
+(21:33:23) re: windowed
+(21:33:23) re: reshape - 1680 1050
+(21:33:23) re: starting
+(21:33:23) re: reshape - 1666 1016
+(21:33:30) st: load state - default
+(21:33:30) st: with vars - {}
+(21:33:30) st: load profile - box1
+(21:33:30) st: with vars - {}
+(21:33:30) st: save profile
+(21:33:30) st:   as box1
+(21:33:30) en: initializing
+(21:33:32) re: initializing
+(21:33:32) re: windowed
+(21:33:32) re: reshape - 1680 1050
+(21:33:32) re: starting
+(21:33:32) re: reshape - 1666 1016
+(21:34:18) st: load state - default
+(21:34:18) st: with vars - {}
+(21:34:18) st: load profile - box1
+(21:34:18) st: with vars - {}
+(21:34:18) st: save profile
+(21:34:18) st:   as box1
+(21:34:18) en: initializing
+(21:34:20) re: initializing
+(21:34:20) re: windowed
+(21:34:20) re: reshape - 1680 1050
+(21:34:20) re: starting
+(21:34:20) re: reshape - 1666 1016
+(21:36:05) st: load state - default
+(21:36:05) st: with vars - {}
+(21:36:05) st: load profile - box1
+(21:36:05) st: with vars - {}
+(21:36:05) st: save profile
+(21:36:05) st:   as box1
+(21:36:05) en: initializing
+(21:36:06) re: initializing
+(21:36:06) re: windowed
+(21:36:06) re: reshape - 1680 1050
+(21:36:06) re: starting
+(21:36:06) re: reshape - 1666 1016
+(21:36:35) st: load state - default
+(21:36:35) st: with vars - {}
+(21:36:35) st: load profile - box1
+(21:36:35) st: with vars - {}
+(21:36:35) st: save profile
+(21:36:35) st:   as box1
+(21:36:35) en: initializing
+(21:36:37) re: initializing
+(21:36:37) re: windowed
+(21:36:37) re: reshape - 1680 1050
+(21:36:37) re: starting
+(21:36:37) re: reshape - 1666 1016
+(21:37:00) st: load state - default
+(21:37:00) st: with vars - {}
+(21:37:00) st: load profile - box1
+(21:37:00) st: with vars - {}
+(21:37:00) st: save profile
+(21:37:00) st:   as box1
+(21:37:00) en: initializing
+(21:37:01) re: initializing
+(21:37:01) re: windowed
+(21:37:01) re: reshape - 1680 1050
+(21:37:01) re: starting
+(21:37:01) re: reshape - 1666 1016
+(21:37:12) st: load state - default
+(21:37:12) st: with vars - {}
+(21:37:12) st: load profile - box1
+(21:37:12) st: with vars - {}
+(21:37:12) st: save profile
+(21:37:12) st:   as box1
+(21:37:12) en: initializing
+(21:37:13) re: initializing
+(21:37:13) re: windowed
+(21:37:13) re: reshape - 1680 1050
+(21:37:13) re: starting
+(21:37:13) re: reshape - 1666 1016
+(21:37:36) st: load state - default
+(21:37:36) st: with vars - {}
+(21:37:36) st: load profile - box1
+(21:37:36) st: with vars - {}
+(21:37:36) st: save profile
+(21:37:36) st:   as box1
+(21:37:36) en: initializing
+(21:37:37) re: initializing
+(21:37:37) re: windowed
+(21:37:37) re: reshape - 1680 1050
+(21:37:37) re: starting
+(21:37:37) re: reshape - 1666 1016
+(21:37:59) st: load state - default
+(21:37:59) st: with vars - {}
+(21:37:59) st: load profile - box1
+(21:37:59) st: with vars - {}
+(21:37:59) st: save profile
+(21:37:59) st:   as box1
+(21:37:59) en: initializing
+(21:38:00) re: initializing
+(21:38:00) re: windowed
+(21:38:00) re: reshape - 1680 1050
+(21:38:00) re: starting
+(21:38:00) re: reshape - 1666 1016
+(21:38:48) st: load state - default
+(21:38:48) st: with vars - {}
+(21:38:48) st: load profile - box1
+(21:38:48) st: with vars - {}
+(21:38:48) st: save profile
+(21:38:48) st:   as box1
+(21:38:48) en: initializing
+(21:38:49) re: initializing
+(21:38:49) re: windowed
+(21:38:49) re: reshape - 1680 1050
+(21:38:49) re: starting
+(21:38:49) re: reshape - 1666 1016
+(21:39:10) st: load state - default
+(21:39:10) st: with vars - {}
+(21:39:10) st: load profile - box1
+(21:39:10) st: with vars - {}
+(21:39:10) st: save profile
+(21:39:10) st:   as box1
+(21:39:10) en: initializing
+(21:39:11) re: initializing
+(21:39:11) re: windowed
+(21:39:11) re: reshape - 1680 1050
+(21:39:11) re: starting
+(21:39:11) re: reshape - 1666 1016
+(21:39:28) st: load state - default
+(21:39:28) st: with vars - {}
+(21:39:28) st: load profile - box1
+(21:39:28) st: with vars - {}
+(21:39:28) st: save profile
+(21:39:28) st:   as box1
+(21:39:28) en: initializing
+(21:39:30) re: initializing
+(21:39:30) re: windowed
+(21:39:30) re: reshape - 1680 1050
+(21:39:30) re: starting
+(21:39:30) re: reshape - 1666 1016
+(21:39:44) st: load state - default
+(21:39:44) st: with vars - {}
+(21:39:44) st: load profile - box1
+(21:39:44) st: with vars - {}
+(21:39:44) st: save profile
+(21:39:44) st:   as box1
+(21:39:44) en: initializing
+(21:39:45) re: initializing
+(21:39:45) re: windowed
+(21:39:45) re: reshape - 1680 1050
+(21:39:45) re: starting
+(21:39:45) re: reshape - 1666 1016
+(21:41:18) st: load state - default
+(21:41:18) st: with vars - {}
+(21:41:18) st: load profile - box1
+(21:41:18) st: with vars - {}
+(21:41:18) st: save profile
+(21:41:18) st:   as box1
+(21:41:18) en: initializing
+(21:41:19) re: initializing
+(21:41:19) re: windowed
+(21:41:19) re: reshape - 1680 1050
+(21:41:19) re: starting
+(21:41:19) re: reshape - 1666 1016
+(21:41:46) st: load state - default
+(21:41:46) st: with vars - {}
+(21:41:46) st: load profile - box1
+(21:41:46) st: with vars - {}
+(21:41:46) st: save profile
+(21:41:46) st:   as box1
+(21:41:46) en: initializing
+(21:41:48) re: initializing
+(21:41:48) re: windowed
+(21:41:48) re: reshape - 1680 1050
+(21:41:48) re: starting
+(21:41:48) re: reshape - 1666 1016
+(23:41:36) st: load state - default
+(23:41:36) st: with vars - {}
+(23:41:36) st: load profile - box1
+(23:41:36) st: with vars - {}
+(23:41:36) st: save profile
+(23:41:36) st:   as box1
+(23:41:36) en: initializing
+(23:41:37) re: initializing
+(23:41:37) re: windowed
+(23:41:37) re: reshape - 1680 1050
+(23:41:37) re: starting
+(23:41:37) re: reshape - 1666 1016
+(23:41:56) st: load state - default
+(23:41:56) st: with vars - {}
+(23:41:56) st: load profile - box1
+(23:41:56) st: with vars - {}
+(23:41:56) st: save profile
+(23:41:56) st:   as box1
+(23:41:56) en: initializing
+(23:41:58) re: initializing
+(23:41:58) re: windowed
+(23:41:58) re: reshape - 1680 1050
+(23:41:58) re: starting
+(23:41:58) re: reshape - 1666 1016
+(23:42:34) st: load state - default
+(23:42:34) st: with vars - {}
+(23:42:34) st: load profile - box1
+(23:42:34) st: with vars - {}
+(23:42:34) st: save profile
+(23:42:34) st:   as box1
+(23:42:34) en: initializing
+(23:42:35) re: initializing
+(23:42:35) re: windowed
+(23:42:35) re: reshape - 1680 1050
+(23:42:36) re: starting
+(23:42:36) re: reshape - 1666 1016
+(23:46:33) st: load state - default
+(23:46:33) st: with vars - {}
+(23:46:33) st: load profile - box1
+(23:46:33) st: with vars - {}
+(23:46:33) st: save profile
+(23:46:33) st:   as box1
+(23:46:33) en: initializing
+(23:46:34) re: initializing
+(23:46:34) re: windowed
+(23:46:34) re: reshape - 1680 1050
+(23:46:34) re: starting
+(23:46:34) re: reshape - 1666 1016
+(23:47:48) st: load state - default
+(23:47:48) st: with vars - {}
+(23:47:48) st: load profile - box1
+(23:47:48) st: with vars - {}
+(23:47:48) st: save profile
+(23:47:48) st:   as box1
+(23:47:48) en: initializing
+(23:47:49) re: initializing
+(23:47:49) re: windowed
+(23:47:50) re: reshape - 1680 1050
+(23:47:50) re: starting
+(23:47:50) re: reshape - 1666 1016
+(23:48:57) st: load state - default
+(23:48:57) st: with vars - {}
+(23:48:57) st: load profile - box1
+(23:48:57) st: with vars - {}
+(23:48:57) st: save profile
+(23:48:57) st:   as box1
+(23:48:57) en: initializing
+(23:48:59) re: initializing
+(23:48:59) re: windowed
+(23:48:59) re: reshape - 1680 1050
+(23:48:59) re: starting
+(23:48:59) re: reshape - 1666 1016
+(23:49:03) st: load state - default
+(23:49:03) st: with vars - {}
+(23:49:03) st: load profile - box1
+(23:49:03) st: with vars - {}
+(23:49:03) st: save profile
+(23:49:03) st:   as box1
+(23:49:03) en: initializing
+(23:49:04) re: initializing
+(23:49:04) re: windowed
+(23:49:04) re: reshape - 1680 1050
+(23:49:04) re: starting
+(23:49:04) re: reshape - 1666 1016
+(23:50:02) st: load state - default
+(23:50:02) st: with vars - {}
+(23:50:02) st: load profile - box1
+(23:50:02) st: with vars - {}
+(23:50:02) st: save profile
+(23:50:02) st:   as box1
+(23:50:02) en: initializing
+(23:50:04) re: initializing
+(23:50:04) re: windowed
+(23:50:04) re: reshape - 1680 1050
+(23:50:04) re: starting
+(23:50:04) re: reshape - 1666 1016
+(00:09:13) st: load state - default
+(00:09:13) st: with vars - {}
+(00:09:13) st: load profile - box1
+(00:09:13) st: with vars - {}
+(00:09:13) st: save profile
+(00:09:13) st:   as box1
+(00:09:13) en: initializing
+(00:09:14) re: initializing
+(00:09:14) re: windowed
+(00:09:14) re: reshape - 1680 1050
+(00:09:14) re: starting
+(00:09:14) re: reshape - 1666 1016
+(00:12:51) st: load state - default
+(00:12:51) st: with vars - {}
+(00:12:51) st: load profile - box1
+(00:12:51) st: with vars - {}
+(00:12:51) st: save profile
+(00:12:51) st:   as box1
+(00:12:51) en: initializing
+(00:12:52) re: initializing
+(00:12:52) re: windowed
+(00:12:52) re: reshape - 1680 1050
+(00:12:52) re: starting
+(00:12:52) re: reshape - 1666 1016
+(00:13:01) st: load state - default
+(00:13:01) st: with vars - {}
+(00:13:01) st: load profile - box1
+(00:13:01) st: with vars - {}
+(00:13:01) st: save profile
+(00:13:01) st:   as box1
+(00:13:01) en: initializing
+(00:13:02) re: initializing
+(00:13:02) re: windowed
+(00:13:02) re: reshape - 1680 1050
+(00:13:02) re: starting
+(00:13:02) re: reshape - 1666 1016
+(00:15:11) st: load state - default
+(00:15:11) st: with vars - {}
+(00:15:11) st: load profile - box1
+(00:15:11) st: with vars - {}
+(00:15:11) st: save profile
+(00:15:11) st:   as box1
+(00:15:11) en: initializing
+(00:15:12) re: initializing
+(00:15:12) re: windowed
+(00:15:12) re: reshape - 1680 1050
+(00:15:12) re: starting
+(00:15:12) re: reshape - 1666 1016
+(00:15:26) st: load state - default
+(00:15:26) st: with vars - {}
+(00:15:26) st: load profile - box1
+(00:15:26) st: with vars - {}
+(00:15:26) st: save profile
+(00:15:26) st:   as box1
+(00:15:26) en: initializing
+(00:15:27) re: initializing
+(00:15:27) re: windowed
+(00:15:27) re: reshape - 1680 1050
+(00:15:27) re: starting
+(00:15:27) re: reshape - 1666 1016
+(00:15:33) st: load state - default
+(00:15:33) st: with vars - {}
+(00:15:33) st: load profile - box1
+(00:15:33) st: with vars - {}
+(00:15:33) st: save profile
+(00:15:33) st:   as box1
+(00:15:33) en: initializing
+(00:15:34) re: initializing
+(00:15:34) re: windowed
+(00:15:34) re: reshape - 1680 1050
+(00:15:34) re: starting
+(00:15:34) re: reshape - 1666 1016
+(00:16:22) st: load state - default
+(00:16:22) st: with vars - {}
+(00:16:22) st: load profile - box1
+(00:16:22) st: with vars - {}
+(00:16:22) st: save profile
+(00:16:22) st:   as box1
+(00:16:22) en: initializing
+(00:16:24) re: initializing
+(00:16:24) re: windowed
+(00:16:24) re: reshape - 1680 1050
+(00:16:24) re: starting
+(00:16:24) re: reshape - 1666 1016
+(00:16:42) st: load state - default
+(00:16:42) st: with vars - {}
+(00:16:42) st: load profile - box1
+(00:16:42) st: with vars - {}
+(00:16:42) st: save profile
+(00:16:42) st:   as box1
+(00:16:42) en: initializing
+(00:16:44) re: initializing
+(00:16:44) re: windowed
+(00:16:44) re: reshape - 1680 1050
+(00:16:44) re: starting
+(00:16:44) re: reshape - 1666 1016
+(00:17:00) st: load state - default
+(00:17:00) st: with vars - {}
+(00:17:00) st: load profile - box1
+(00:17:00) st: with vars - {}
+(00:17:00) st: save profile
+(00:17:00) st:   as box1
+(00:17:00) en: initializing
+(00:17:01) re: initializing
+(00:17:01) re: windowed
+(00:17:01) re: reshape - 1680 1050
+(00:17:01) re: starting
+(00:17:01) re: reshape - 1666 1016
+(00:17:17) st: load state - default
+(00:17:17) st: with vars - {}
+(00:17:17) st: load profile - box1
+(00:17:17) st: with vars - {}
+(00:17:17) st: save profile
+(00:17:17) st:   as box1
+(00:17:17) en: initializing
+(00:17:19) re: initializing
+(00:17:19) re: windowed
+(00:17:19) re: reshape - 1680 1050
+(00:17:19) re: starting
+(00:17:19) re: reshape - 1666 1016
+(00:18:00) st: load state - default
+(00:18:00) st: with vars - {}
+(00:18:00) st: load profile - box1
+(00:18:00) st: with vars - {}
+(00:18:00) st: save profile
+(00:18:00) st:   as box1
+(00:18:00) en: initializing
+(00:18:01) re: initializing
+(00:18:01) re: windowed
+(00:18:01) re: reshape - 1680 1050
+(00:18:02) re: starting
+(00:18:02) re: reshape - 1666 1016
+(00:18:20) st: load state - default
+(00:18:20) st: with vars - {}
+(00:18:20) st: load profile - box1
+(00:18:20) st: with vars - {}
+(00:18:20) st: save profile
+(00:18:20) st:   as box1
+(00:18:20) en: initializing
+(00:18:22) re: initializing
+(00:18:22) re: fullscreen
+(00:18:22) re: reshape - 1680 1050
+(00:18:22) re: starting
+(00:18:22) re: reshape - 1680 1050
+(00:19:35) st: load state - default
+(00:19:35) st: with vars - {}
+(00:19:35) st: load profile - box1
+(00:19:35) st: with vars - {}
+(00:19:35) st: save profile
+(00:19:35) st:   as box1
+(00:19:35) en: initializing
+(00:19:36) re: initializing
+(00:19:36) re: windowed
+(00:19:36) re: reshape - 900 900
+(00:19:36) re: starting
+(00:19:36) re: reshape - 900 900
+(00:19:48) st: load state - default
+(00:19:48) st: with vars - {}
+(00:19:48) st: load profile - box1
+(00:19:48) st: with vars - {}
+(00:19:48) st: save profile
+(00:19:48) st:   as lcd1
+(00:19:48) en: initializing
+(00:19:49) re: initializing
+(00:19:49) re: fullscreen
+(00:19:49) re: reshape - 1680 1050
+(00:19:49) re: starting
+(00:19:49) re: reshape - 1680 1050
+(00:21:02) st: load state - default
+(00:21:02) st: with vars - {}
+(00:21:02) st: load profile - box1
+(00:21:02) st: with vars - {}
+(00:21:02) en: initializing
+(00:21:03) re: initializing
+(00:21:03) re: windowed
+(00:21:03) re: reshape - 900 900
+(00:21:03) re: starting
+(00:21:03) re: reshape - 900 900
+(00:21:11) st: load state - default
+(00:21:11) st: with vars - {}
+(00:21:11) st: load profile - box1
+(00:21:11) st: with vars - {'profile': 'lcd1'}
+(00:21:11) en: initializing
+(00:21:12) re: initializing
+(00:21:12) re: windowed
+(00:21:12) re: reshape - 900 900
+(00:21:12) re: starting
+(00:21:12) re: reshape - 900 900
+(00:21:25) st: load state - default
+(00:21:25) st: with vars - {}
+(00:21:25) st: load profile - lcd1
+(00:21:25) st: with vars - {}
+(00:21:25) en: initializing
+(00:21:26) re: initializing
+(00:21:26) re: fullscreen
+(00:21:26) re: reshape - 1680 1050
+(00:21:26) re: starting
+(00:21:26) re: reshape - 1680 1050
+(00:21:33) st: load state - default
+(00:21:33) st: with vars - {}
+(00:21:33) st: load profile - box1
+(00:21:33) st: with vars - {}
+(00:21:33) en: initializing
+(00:21:34) re: initializing
+(00:21:34) re: windowed
+(00:21:34) re: reshape - 900 900
+(00:21:34) re: starting
+(00:21:34) re: reshape - 900 900
+(00:21:38) st: load state - default
+(00:21:38) st: with vars - {}
+(00:21:38) st: load profile - box1
+(00:21:38) st: with vars - {}
+(00:21:38) en: initializing
+(00:21:39) re: initializing
+(00:21:39) re: windowed
+(00:21:39) re: reshape - 900 900
+(00:21:39) re: starting
+(00:21:39) re: reshape - 900 900
+(00:22:42) st: load state - default
+(00:22:42) st: with vars - {}
+(00:22:42) st: load profile - box1
+(00:22:42) st: with vars - {}
+(00:22:42) en: initializing
+(00:22:44) re: initializing
+(00:22:44) re: windowed
+(00:22:44) re: reshape - 900 900
+(00:22:44) re: starting
+(00:22:44) re: reshape - 900 900
+(00:24:44) st: load state - default
+(00:24:44) st: with vars - {}
+(00:24:44) st: load profile - box1
+(00:24:44) st: with vars - {}
+(00:24:44) en: initializing
+(00:24:46) re: initializing
+(00:24:46) re: windowed
+(00:24:46) re: reshape - 900 900
+(00:24:46) re: starting
+(00:24:46) re: reshape - 900 900
+(00:25:04) st: load state - default
+(00:25:04) st: with vars - {}
+(00:25:04) st: load profile - box1
+(00:25:04) st: with vars - {}
+(00:25:04) en: initializing
+(00:25:05) re: initializing
+(00:25:05) re: windowed
+(00:25:05) re: reshape - 900 900
+(00:25:05) re: starting
+(00:25:05) re: reshape - 900 900
+(00:36:05) st: load state - default
+(00:36:05) st: with vars - {}
+(00:36:05) st: load profile - box1
+(00:36:05) st: with vars - {}
+(00:36:05) en: initializing
+(00:36:07) re: initializing
+(00:36:07) re: windowed
+(00:36:07) re: reshape - 900 900
+(00:36:07) re: starting
+(00:36:07) re: reshape - 900 900
+(00:36:40) st: load state - default
+(00:36:40) st: with vars - {}
+(00:36:40) st: load profile - box1
+(00:36:40) st: with vars - {}
+(00:36:40) en: initializing
+(00:36:57) st: load state - default
+(00:36:57) st: with vars - {}
+(00:36:57) st: load profile - box1
+(00:36:57) st: with vars - {}
+(00:36:57) en: initializing
+(00:36:58) re: initializing
+(00:36:58) re: windowed
+(00:36:58) re: reshape - 900 900
+(00:36:58) re: starting
+(00:36:58) re: reshape - 900 900
+(00:37:05) st: load state - default
+(00:37:05) st: with vars - {}
+(00:37:05) st: load profile - box1
+(00:37:05) st: with vars - {}
+(00:37:05) en: initializing
+(00:37:07) re: initializing
+(00:37:07) re: windowed
+(00:37:07) re: reshape - 900 900
+(00:37:07) re: starting
+(00:37:07) re: reshape - 900 900
+(00:37:09) st: load state - default
+(00:37:09) st: with vars - {}
+(00:37:09) st: load profile - lcd1
+(00:37:09) st: with vars - {}
+(00:37:09) en: initializing
+(00:37:10) re: initializing
+(00:37:10) re: fullscreen
+(00:37:10) re: reshape - 1680 1050
+(00:37:10) re: starting
+(00:37:10) re: reshape - 1680 1050
+(00:37:18) st: load state - default
+(00:37:18) st: with vars - {}
+(00:37:18) st: load profile - lcd1
+(00:37:18) st: with vars - {}
+(00:37:18) en: initializing
+(00:37:20) re: initializing
+(00:37:20) re: fullscreen
+(00:37:20) re: reshape - 1680 1050
+(00:37:20) re: starting
+(00:37:20) re: reshape - 1680 1050
+(00:38:13) st: load state - default
+(00:38:13) st: with vars - {}
+(00:38:13) st: load profile - lcd1
+(00:38:13) st: with vars - {}
+(00:38:13) en: initializing
+(00:38:14) re: initializing
+(00:38:14) re: fullscreen
+(00:38:14) re: reshape - 1680 1050
+(00:38:15) re: starting
+(00:38:15) re: reshape - 1680 1050
+(00:38:23) st: load state - default
+(00:38:23) st: with vars - {}
+(00:38:23) st: load profile - lcd1
+(00:38:23) st: with vars - {}
+(00:38:23) en: initializing
+(00:38:24) re: initializing
+(00:38:24) re: fullscreen
+(00:38:24) re: reshape - 1680 1050
+(00:38:24) re: starting
+(00:38:24) re: reshape - 1680 1050
+(00:39:07) st: load state - default
+(00:39:07) st: with vars - {}
+(00:39:07) st: load profile - lcd1
+(00:39:07) st: with vars - {}
+(00:39:07) en: initializing
+(00:39:08) re: initializing
+(00:39:08) re: fullscreen
+(00:39:08) re: reshape - 1680 1050
+(00:39:08) re: starting
+(00:39:08) re: reshape - 1680 1050
+(00:39:24) st: load state - default
+(00:39:24) st: with vars - {}
+(00:39:24) st: load profile - lcd1
+(00:39:24) st: with vars - {}
+(00:39:24) en: initializing
+(00:39:25) re: initializing
+(00:39:25) re: fullscreen
+(00:39:25) re: reshape - 1680 1050
+(00:39:25) re: starting
+(00:39:25) re: reshape - 1680 1050
+(00:40:12) st: load state - default
+(00:40:12) st: with vars - {}
+(00:40:12) st: load profile - lcd1
+(00:40:12) st: with vars - {}
+(00:40:12) en: initializing
+(00:40:13) re: initializing
+(00:40:13) re: fullscreen
+(00:40:13) re: reshape - 1680 1050
+(00:40:13) re: starting
+(00:40:13) re: reshape - 1680 1050
+(00:41:52) st: load state - default
+(00:41:52) st: with vars - {}
+(00:41:52) st: load profile - lcd1
+(00:41:52) st: with vars - {}
+(00:41:52) en: initializing
+(00:41:53) re: initializing
+(00:41:53) re: fullscreen
+(00:41:53) re: reshape - 1680 1050
+(00:41:53) re: starting
+(00:41:53) re: reshape - 1680 1050
+(00:42:47) st: load state - default
+(00:42:47) st: with vars - {}
+(00:42:47) st: load profile - lcd1
+(00:42:47) st: with vars - {}
+(00:42:47) en: initializing
+(00:42:48) re: initializing
+(00:42:48) re: fullscreen
+(00:42:48) re: reshape - 1680 1050
+(00:42:48) re: starting
+(00:42:48) re: reshape - 1680 1050
+(00:43:42) st: load state - default
+(00:43:42) st: with vars - {}
+(00:43:42) st: load profile - lcd1
+(00:43:42) st: with vars - {}
+(00:43:42) en: initializing
+(00:43:43) re: initializing
+(00:43:43) re: fullscreen
+(00:43:43) re: reshape - 1680 1050
+(00:43:43) re: starting
+(00:43:43) re: reshape - 1680 1050
+(00:44:09) st: load state - default
+(00:44:09) st: with vars - {}
+(00:44:09) st: load profile - lcd1
+(00:44:09) st: with vars - {}
+(00:44:09) en: initializing
+(00:44:10) re: initializing
+(00:44:10) re: fullscreen
+(00:44:10) re: reshape - 1680 1050
+(00:44:10) re: starting
+(00:44:10) re: reshape - 1680 1050
+(00:49:43) st: load state - default
+(00:49:43) st: with vars - {}
+(00:49:43) st: load profile - lcd1
+(00:49:43) st: with vars - {}
+(00:49:43) en: initializing
+(00:49:45) re: initializing
+(00:49:45) re: fullscreen
+(00:49:45) re: reshape - 1680 1050
+(00:49:45) re: starting
+(00:49:45) re: reshape - 1680 1050
+(01:12:17) st: load state - default
+(01:12:17) st: with vars - {}
+(01:12:17) st: load profile - lcd1
+(01:12:17) st: with vars - {}
+(01:12:17) en: initializing
+(01:12:18) re: initializing
+(01:12:18) re: fullscreen
+(01:12:18) re: reshape - 1680 1050
+(01:12:18) re: starting
+(01:12:18) re: reshape - 1680 1050
+(01:20:11) st: load state - default
+(01:20:11) st: with vars - {}
+(01:20:11) st: load profile - lcd1
+(01:20:11) st: with vars - {}
+(01:20:11) en: initializing
+(01:20:20) st: load state - default
+(01:20:20) st: with vars - {}
+(01:20:20) st: load profile - lcd1
+(01:20:20) st: with vars - {}
+(01:20:20) en: initializing
+(01:20:22) re: initializing
+(01:20:22) re: fullscreen
+(01:20:22) re: reshape - 1680 1050
+(01:20:22) re: starting
+(01:20:22) re: reshape - 1680 1050
+(01:20:31) st: load state - default
+(01:20:31) st: with vars - {}
+(01:20:31) st: load profile - lcd1
+(01:20:31) st: with vars - {}
+(01:20:31) en: initializing
+(01:20:32) re: initializing
+(01:20:32) re: fullscreen
+(01:20:32) re: reshape - 1680 1050
+(01:20:32) re: starting
+(01:20:32) re: reshape - 1680 1050
+(01:21:07) st: load state - default
+(01:21:07) st: with vars - {}
+(01:21:07) st: load profile - lcd1
+(01:21:07) st: with vars - {}
+(01:21:07) en: initializing
+(01:21:08) re: initializing
+(01:21:08) re: fullscreen
+(01:21:08) re: reshape - 1680 1050
+(01:21:08) re: starting
+(01:21:08) re: reshape - 1680 1050
+(01:21:15) st: load state - default
+(01:21:15) st: with vars - {}
+(01:21:15) st: load profile - lcd1
+(01:21:15) st: with vars - {}
+(01:21:15) en: initializing
+(01:21:17) re: initializing
+(01:21:17) re: fullscreen
+(01:21:17) re: reshape - 1680 1050
+(01:21:17) re: starting
+(01:21:17) re: reshape - 1680 1050
+(01:22:25) st: load state - default
+(01:22:25) st: with vars - {}
+(01:22:25) st: load profile - lcd1
+(01:22:25) st: with vars - {}
+(01:22:25) en: initializing
+(01:22:27) re: initializing
+(01:22:27) re: fullscreen
+(01:22:27) re: reshape - 1680 1050
+(01:22:27) re: starting
+(01:22:27) re: reshape - 1680 1050
+(01:23:43) st: load state - default
+(01:23:43) st: with vars - {}
+(01:23:43) st: load profile - lcd1
+(01:23:43) st: with vars - {}
+(01:23:43) en: initializing
+(01:23:44) re: initializing
+(01:23:44) re: fullscreen
+(01:23:44) re: reshape - 1680 1050
+(01:23:44) re: starting
+(01:23:44) re: reshape - 1680 1050
+(01:23:52) st: load state - default
+(01:23:52) st: with vars - {}
+(01:23:52) st: load profile - lcd1
+(01:23:52) st: with vars - {}
+(01:23:52) en: initializing
+(01:23:53) re: initializing
+(01:23:53) re: fullscreen
+(01:23:53) re: reshape - 1680 1050
+(01:23:54) re: starting
+(01:23:54) re: reshape - 1680 1050
+(01:23:58) st: load state - default
+(01:23:58) st: with vars - {}
+(01:23:58) st: load profile - lcd1
+(01:23:58) st: with vars - {}
+(01:23:58) en: initializing
+(01:23:59) re: initializing
+(01:23:59) re: fullscreen
+(01:23:59) re: reshape - 1680 1050
+(01:23:59) re: starting
+(01:23:59) re: reshape - 1680 1050
+(01:27:17) st: load state - default
+(01:27:17) st: with vars - {}
+(01:27:17) st: load profile - lcd1
+(01:27:17) st: with vars - {}
+(01:27:17) en: initializing
+(01:27:55) st: load state - default
+(01:27:55) st: with vars - {}
+(01:27:55) st: load profile - lcd1
+(01:27:55) st: with vars - {}
+(01:27:55) en: initializing
+(01:28:11) st: load state - default
+(01:28:11) st: with vars - {}
+(01:28:11) st: load profile - lcd1
+(01:28:11) st: with vars - {}
+(01:28:11) en: initializing
+(01:28:12) re: initializing
+(01:28:12) re: fullscreen
+(01:28:12) re: reshape - 1680 1050
+(01:28:12) re: starting
+(01:28:12) re: reshape - 1680 1050

@@ -159,11 +159,14 @@ class Engine:
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
-        self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, self.profile.kernel_dim)            
+        self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, 
+                    self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim, 
+                    1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))            
         self.record_event(1)
 
         # copy data to input_array
-        cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
+        cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4), 
+                            self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record_event(2)
     
         # unmap pbo
