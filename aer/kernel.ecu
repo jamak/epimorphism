@@ -20,7 +20,8 @@ extern "C" {
     
     float4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
-    float2 z_z = (2.0f * i_kernel_dim) % vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);    	
+    // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
+    float2 z_z = (2.0f * i_kernel_dim) % vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f); 	
     float2 z = vec2(0.0f, 0.0f);    
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
