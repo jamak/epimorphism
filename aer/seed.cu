@@ -1,5 +1,6 @@
 extern "C" {
-  __device__ float4 fade_frame(float2 z, float* par)
+
+  __device__ float4 fade_frame(float2 z)
   {
     float d = par[0];
     
@@ -10,7 +11,7 @@ extern "C" {
       else
 	v = min(z.x, z.y);
     
-      return vec4(1.000001 - (abs(v) - (1.0f - d)) / d, (abs(v) - (1.0f - d)) / d, 0.0f, 1.0);
+      return vec4((abs(v) - (1.0f - d)) / d, (abs(v) - (1.0f - d)) / d, 0.0f, 1.0);
     }else{
       return vec4(0.0f, 0.0f, 0.0f, 0.0f);
     }

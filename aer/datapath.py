@@ -25,3 +25,14 @@ def wave_1d(t, data):
     return (data['a'] * sin(2.0 * pi * t + data['th']) + data['b'], True)
 
 
+
+
+def d_linear_1d(cur, t, speed, v):
+    return cur + t * speed * v
+
+
+def d_radial_2d(cur, t, speed):
+    if(t > 1):
+        t = data['loop'] and fmod(t, 1.0) or 1
+    z = [data['s'][0] * (1 - t) + data['e'][0] * t, data['s'][1] * (1 - t) + data['e'][1] * t]
+    return (p_to_r(z), t != 1 or data['loop'])

@@ -46,7 +46,6 @@ class Engine:
         self.event_accum = [0 for i in range(len(self.events) - 1)]
         self.time_accum = 0
 
-
         # set block & grid size
         self.block = dim3(8, 8, 1)
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
@@ -100,23 +99,11 @@ class Engine:
                 print "total~ " + str(sum(self.event_accum) / self.frame_count) + "ms"
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
-    iii = 0
-
 
     def compile_kernel(self):
 
-        print self.iii
-
-        if(self.iii == 0):
-            self.kernel = loadKernel(self.state)
-        else:
-            old_kernel = self.kernel
-
-            self.kernel = loadKernel(self.state)
-
-            print self.kernel == old_kernel
-
-        print self.state.T
+        # compute kernel
+        self.kernel = loadKernel(self.state)
 
         # bind texture
         self.tex_ref = textureReference_p()
@@ -130,11 +117,14 @@ class Engine:
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
-        self.iii += 1
-
 
     def get_fb(self):
 
+        pass
+
+
+    def set_fb(data):
+        
         pass
 
 
@@ -145,6 +135,7 @@ class Engine:
             return
         self.next_frame = False
 
+        # if necessary, recompileza
         if("recompile" in messages):
             self.compile_kernel()
 
@@ -153,7 +144,8 @@ class Engine:
         self.frame_count += 1            
 
         # upload par & zn     
-        cudaMemcpyToSymbol("par", byref(self.state.par), len(self.state.par) * sizeof(c_float), 0, cudaMemcpyHostToDevice)
+        par = (c_float * len(self.state.par))(*[p for p in self.state.par])
+        cudaMemcpyToSymbol("par", byref(par), len(par), 0, cudaMemcpyHostToDevice)
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 

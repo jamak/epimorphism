@@ -1,3 +1,6 @@
+__constant__ float par[40];
+__constant__ float2 zn[5];
+
 #include "util.cu"
 #include "math.cu"
 #include "seed.cu"
@@ -5,9 +8,6 @@
 #include "reduce.cu"
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
-
-__constant__ float par[40];
-__constant__ float2 zn[5];
 
 extern "C" {
 
@@ -56,6 +56,18 @@ extern "C" {
     out[y * out_pitch + x] = result;
     pbo[y * kernel_dim + x] = make_uchar4(255.0f * result.x, 255.0f * result.y, 
     					  255.0f * result.z, 255.0f * result.w); 
+  }
+
+
+  __global__ void kernel_test(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim, 
+			      float i_kernel_dim, float m_i_kernel_dim, float i_n_sq, float inc)
+  {
+    unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
+    unsigned int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    pbo[y * kernel_dim + x] = make_uchar4(255.0 * x * i_kernel_dim, 255.0 * y * i_kernel_dim, 
+    					  0.0, 1.0); 
+
   }
 
 }

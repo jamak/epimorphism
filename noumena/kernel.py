@@ -2,7 +2,11 @@ import os
 import re
 from ctypes import *
 
+libnum = 0
+
 def loadKernel(state):
+
+    global libnum
     
     # open file & read contents
     file = open("aer/kernel.ecu")
@@ -19,14 +23,23 @@ def loadKernel(state):
     file.close()
 
     # compile
-    os.system("rm aer/kernel.so")
-    os.system("aer/make_kernel")
+    os.system("rm aer/kernel" + str(libnum) + ".so")
+    os.system("rm aer/kernel" + str(libnum - 1) + ".so")
+    os.system("/usr/local/cuda/bin/nvcc -o aer/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
 
-    # interface
-    lib = CDLL("aer/kernel.so")
+    # interface    
+
+    lib = CDLL('aer/kernel' + str(libnum) + '.so', RTLD_LOCAL)
     kernel = lib.__device_stub_kernel_fb
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
+
+    kernel_test = lib.__device_stub_kernel_test
+    kernel_test.restype = None
+    kernel_test.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
+
+    libnum+=1
+
     return kernel
 
 
