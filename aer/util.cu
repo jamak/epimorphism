@@ -50,4 +50,12 @@ extern "C" {
     return b * (tmp - floorf(tmp));
   }
 
+  __device__ float2 recover(float2 z){
+    if(isnan(z.x))
+      z.x = 0;
+    if(isnan(z.y))
+      z.y = 0; 
+    return z;
+  }
+
 }

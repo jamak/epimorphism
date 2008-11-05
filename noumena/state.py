@@ -21,10 +21,13 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(manual_iter=False, FRACT=3, T="zn[0] * i(z) + zn[1]", T_SEED="zn[2] * S(i(z)) + zn[3]", SEED="fade_frame(z)", COLORIFY="gb_swizzle(v)",  REDUCE="torus_reduce",
+        state = State(manual_iter=False, FRACT=3, T="zn[0] * i(z) + zn[1]", T_SEED="zn[2] * i(T(z)) + zn[3]", SEED="fade_frame(z)", COLORIFY="rotate(v)",  REDUCE="torus_reduce",
                       par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(5)], short_damping = 10)
         state.zn[0] = complex(1.0, 0)
         state.zn[2] = complex(1.0, 0)
+
+        state.par[0] = 0.1
+        
 
         #self.save_state(state, "default")
         return state
@@ -54,9 +57,9 @@ class StateManager:
 
         if(name == ''):
             i = 0
-            while(os.path.exists("phenom/state/state_" + i + ".epi")):
+            while(os.path.exists("phenom/state/state_" + str(i) + ".epi")):
                 i += 1
-            name = "state_" + i
+            name = "state_" + str(i)
 
         log("st:   as " + name)
 

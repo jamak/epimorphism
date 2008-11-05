@@ -1,16 +1,35 @@
-save state
+fix seed border interpolation bug
 
-clear buffer
+fix 1.0 seed bug?
+
+cull mode
+
+lace?
 
 get buffer/screenshot
 
-implement hsv hsl
+set up transfer region as page-locked
+
+implement HSls conversions
+
+fix HSV interpolation
+
+implement server
+
+implement homemede interpreter loop
+
+switch to driver api
+
+optimization
+
+named kerenel parameters
+
+implement color func?
 
 implement texture lists?
 
 implement mod lists?
 
-implement server
+console overlay?
 
-switch to driver api
 finish delta paths

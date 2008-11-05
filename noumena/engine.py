@@ -120,12 +120,16 @@ class Engine:
 
     def get_fb(self):
 
-        pass
+        res = (float4 * (self.kernel_dim ** 2))()    
+        cudaMemcpy2DFromArray(self.res, self.profile.kernel_dim * sizeof(float4), self.fb, 0, 0, self.profile.kernel_dim * sizeof(float4), 
+                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        return res
 
 
-    def set_fb(data):
-        
-        pass
+    def set_fb(self, data):
+        print "set_fb"
+        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim * sizeof(float4), 
+                            self.profile.kernel_dim, cudaMemcpyHostToDevice)
 
 
     def do(self, messages):

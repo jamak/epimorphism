@@ -4,6 +4,10 @@ from phenom.animator import *
 
 from noumena.complex import *
 
+from ctypes import *
+from cuda.cuda_defs import *
+from noumena.state import *
+
 class KeyboardHandler:
 
     def keyboard(self, key, x, y):
@@ -14,10 +18,16 @@ class KeyboardHandler:
         elif(key == "`"):
             if(self.state.manual_iter):
                 self.engine.next_frame = True
-            self.state.manual_iter = not self.state.manual_iter
+            self.state.manual_iter = not self.state.manual_iter        
 
         elif(key == "\040"):
             self.engine.next_frame = True            
+
+        elif(key == "\015"):
+           StateManager().save_state(self.state)
+
+        elif(key == "\\"):
+            self.engine.set_fb((float4 * (self.profile.kernel_dim ** 2))())
 
         elif(key == "1"):
            # self.animator.animate_t("zn[0] * s(z) + zn[1]")

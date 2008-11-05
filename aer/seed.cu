@@ -17,6 +17,18 @@ extern "C" {
     }
   }
 
+  __device__ float4 fade_frame2(float2 z)
+  {
+    float d = par[0];
+    
+    if(z.x < (-1.0f + d) || z.x > (1.0f - d) || z.y < (-1.0f + d) || z.y > (1.0f - d)){
+
+      return vec4(0.0, 1.0, 0.0f, 1.0);
+    }else{
+      return vec4(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+  }
+
   __device__ float4 grad_2d(float2 z, float* par)
   {
     return vec4(0.5f + 0.5f * z.x, 0.5f + 0.5f * z.y, 0.0, 0.5f);

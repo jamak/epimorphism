@@ -10,4 +10,11 @@ extern "C" {
   __device__ float4 rgb_swizzle(float4 v){
     return vec4(v.y, v.z, v.x, v.w);
   }
+
+  __device__ float4 rotate(float4 v){
+    v = RGBtoHSV(v);
+    v.x += 0.05;
+    return HSVtoRGB(v);
+  }
+
 }
