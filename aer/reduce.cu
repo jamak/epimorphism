@@ -5,7 +5,7 @@ __device__ float2 grid_reduce(float2 z){
 
 __device__ float2 torus_reduce(float2 z){   
   z.x += 1.0f; z.y += 1.0f;
-  float2 tmp = vec2(rem(floor(z.x / 2.0f), 2.0f), rem(floor(z.y / 2.0f), 2.0f));
+  float2 tmp = vec2(rem(floorf(z.x / 2.0f), 2.0f), rem(floorf(z.y / 2.0f), 2.0f));
   float2 res = vec2(rem(z.x, 2.0f), rem(z.y, 2.0f));
   if(tmp.x >= 0.5)
     res.x = 2.0 - res.x;

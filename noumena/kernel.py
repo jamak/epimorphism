@@ -33,10 +33,6 @@ def loadKernel(state):
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
-    kernel_test = lib.__device_stub_kernel_test
-    kernel_test.restype = None
-    kernel_test.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
-
     libnum+=1
 
     return kernel

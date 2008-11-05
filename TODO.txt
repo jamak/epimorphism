@@ -12,8 +12,6 @@ set up transfer region as page-locked
 
 implement HSls conversions
 
-fix HSV interpolation
-
 implement server
 
 implement homemede interpreter loop
@@ -24,6 +22,8 @@ optimization
 
 named kerenel parameters
 
+fix HSV interpolation
+
 implement color func?
 
 implement texture lists?
@@ -33,3 +33,7 @@ implement mod lists?
 console overlay?
 
 finish delta paths
+
+state version control
+
+add comments

@@ -17,6 +17,23 @@ extern "C" {
     }
   }
 
+  __device__ float4 cross(float2 z)
+  {
+    float d = par[0];
+   
+    float w = -1;
+
+    if(abs(z.x) < d)
+      w = (1.0 - abs(z.x) / d);
+    if(abs(z.y) < d)
+      w = max(1.0 - abs(z.x) / d, 1.0 - abs(z.y) / d);
+    if(w == -1)
+      return vec4(0.0,0.0,0.0,0.0);
+    else
+      return vec4(w, 0.0, 0.0, 1.0);
+  }
+
+
   __device__ float4 fade_frame2(float2 z)
   {
     float d = par[0];
