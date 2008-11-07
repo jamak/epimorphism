@@ -1,3 +1,5 @@
+import Image
+
 from ctypes import *
 from cuda.cuda_utils import *
 from cuda.cuda_defs import *
@@ -112,22 +114,32 @@ class Engine:
 
         self.tex_ref.contents.normalized = True
         self.tex_ref.contents.filterMode = cudaFilterModeLinear
-        self.tex_ref.contents.addressMode[0] = cudaAddressModeWrap
-        self.tex_ref.contents.addressMode[1] = cudaAddressModeWrap
+        self.tex_ref.contents.addressMode[0] = cudaAddressModeClamp
+        self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
 
     def get_fb(self):
 
-        res = (float4 * (self.kernel_dim ** 2))()    
-        cudaMemcpy2DFromArray(self.res, self.profile.kernel_dim * sizeof(float4), self.fb, 0, 0, self.profile.kernel_dim * sizeof(float4), 
-                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))()    
+        #cudaMemcpy2DFromArray(res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo, 0, 0, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+         #                   self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+
+
+        cudaMemcpy2D(res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+                     self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+
+
+        #byte_res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))(*[cast(255 * f, c_ubyte) for f in res])
+
+        Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), res).show()
+
         return res
 
 
     def set_fb(self, data):
-        print "set_fb"
+        
         cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim * sizeof(float4), 
                             self.profile.kernel_dim, cudaMemcpyHostToDevice)
 
@@ -149,7 +161,7 @@ class Engine:
 
         # upload par & zn     
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
-        cudaMemcpyToSymbol("par", byref(par), len(par), 0, cudaMemcpyHostToDevice)
+        cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 

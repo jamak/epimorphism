@@ -35,15 +35,23 @@ extern "C" {
 
 	z = recover(%REDUCE%(%T_SEED%));  
 
-	float4 seed = _gamma(%SEED%, 2.2);    
+	float4 seed = _gamma3(%SEED%, 2.2);
+
+	//if((((int)roundf(frame.w))) % 2.0)
+	//  seed.w = 1.0 - seed.w;
 
 	result =  merge_blend(result, seed, frame, seed.w);
+
+	result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
+
+	if(result.w > 20.0f * par[10] && par[10] != 0.0f)	  
+	  result = vec4(0.0, 0.0, 0.0, 0.0);
 
 	z = z_c;
 
       }
     
-    float4 v = i_n_sq ^ result;
+    float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLORIFY%;
 
     // set output variable

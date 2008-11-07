@@ -11,7 +11,7 @@ extern "C" {
       else
 	v = min(z.x, z.y);
     
-      return vec4((abs(v) - (1.0f - d)) / d, (abs(v) - (1.0f - d)) / d, 0.0f, 1.0);
+      return vec4(1.0001 - (abs(v) - (1.0f - d)) / d, (abs(v) - (1.0f - d)) / d, 0.0f, 1.0);
     }else{
       return vec4(0.0f, 0.0f, 0.0f, 0.0f);
     }
@@ -46,9 +46,9 @@ extern "C" {
     }
   }
 
-  __device__ float4 grad_2d(float2 z, float* par)
+  __device__ float4 grad_2d(float2 z)
   {
-    return vec4(0.5f + 0.5f * z.x, 0.5f + 0.5f * z.y, 0.0, 0.5f);
+    return vec4(0.5f + 0.5f * z.x, 0.5f + 0.5f * z.y, 0.0, 0.5f + 0.5f * z.x);
   }
 
 }

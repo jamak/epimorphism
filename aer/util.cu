@@ -41,7 +41,7 @@ extern "C" {
     return z1.x * z2.x + z1.y * z2.y;
   }
 
-  __device__ float4 _gamma(float4 v, float gamma){
+  __device__ float4 _gamma3(float4 v, float gamma){
     return vec4(pow(v.x, gamma), pow(v.y, gamma), pow(v.z, gamma), v.w);
   }
 

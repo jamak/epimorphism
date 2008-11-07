@@ -13,7 +13,7 @@ extern "C" {
 
   __device__ float4 rotate(float4 v){
     v = RGBtoHSV(v);
-    v.x += 0.05;
+    v.x += par[5];
     return HSVtoRGB(v);
   }
 

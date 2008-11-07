@@ -57,6 +57,7 @@ class Animator:
         for path in self.d_paths:
             cur = eval(path[0])            
             res = path[1](eval(path[0]), t - path[6], path[4])
+            print eval(path[0])
             if((cur <= path[3] <= res) or (cur >= path[3] >= res)):
                 res = path[3]
                 self.d_paths.remove(path)

@@ -1,6 +1,6 @@
-fix seed border interpolation bug
-
 fix 1.0 seed bug?
+
+wtf is that weird bug? state_1 or 2?
 
 cull mode
 
@@ -8,9 +8,11 @@ lace?
 
 get buffer/screenshot
 
-set up transfer region as page-locked
+finish delta paths
 
-implement HSls conversions
+implement texture lists?
+
+set up transfer region as page-locked
 
 implement server
 
@@ -18,22 +20,32 @@ implement homemede interpreter loop
 
 switch to driver api
 
-optimization
+set up correct texture switching
+
+render movies
 
 named kerenel parameters
 
-fix HSV interpolation
+implement HSls conversions
 
 implement color func?
 
-implement texture lists?
-
 implement mod lists?
+
+optimization
 
 console overlay?
 
-finish delta paths
+fix HSV interpolation
 
 state version control
 
 add comments
+
+
+
+click point, get value, etc
+
+print kernel param
+
+cull mode glitches

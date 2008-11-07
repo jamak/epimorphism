@@ -20,11 +20,12 @@ class KeyboardHandler:
                 self.engine.next_frame = True
             self.state.manual_iter = not self.state.manual_iter        
 
-        elif(key == "\040"):
+        elif(key == "\040"): # space
             self.engine.next_frame = True            
 
-        elif(key == "\015"):
-           StateManager().save_state(self.state)
+        elif(key == "\015"): # enter
+           # StateManager().save_state(self.state)
+            self.engine.get_fb()
 
         elif(key == "\\"):
             self.engine.set_fb((float4 * (self.profile.kernel_dim ** 2))())
