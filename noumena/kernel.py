@@ -25,10 +25,10 @@ def loadKernel(state):
     # compile
     os.system("rm aer/kernel" + str(libnum) + ".so")
     os.system("rm aer/kernel" + str(libnum - 1) + ".so")
-    os.system("/usr/local/cuda/bin/nvcc -o aer/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
+    os.system("/usr/local/cuda/bin/nvcc -o lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
 
-    # interface    
-    lib = CDLL('aer/kernel' + str(libnum) + '.so', RTLD_LOCAL)
+    # via ctypes interface    
+    lib = CDLL('lib/kernel' + str(libnum) + '.so', RTLD_LOCAL)
     kernel = lib.__device_stub_kernel_fb
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]

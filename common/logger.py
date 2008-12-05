@@ -1,7 +1,7 @@
 import time
 import datetime
 
-__file = open('noumena/logs/log.txt', 'a')
+__file = open('common/logs/log.txt', 'a')
 
 __echo_threshold = 3
 __logging_on = True

@@ -5,22 +5,25 @@
 import sys
 import datetime
 
+from phenom.cmdcenter import *
+from phenom.animator import *
+from phenom.mouse import *
+from phenom.keyboard import *
+
 from noumena.state import *
 from noumena.engine import *
 from noumena.renderer import *
-from noumena.logger import *
 
-from phenom.animator import *
+from common.logger import * 
 
-
-# log("EP: START - " + datetime.date.today().strftime("%m/%d/%y"))
+log("EP: START - " + datetime.date.today().strftime("%m/%d/%y"))
 
 # get variables
 profile_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '@')
-state_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '$')
-other_vars = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '~')
+state_vars   = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '$')
+other_vars   = dict(tuple(cmd[1:].split(':')) for cmd in sys.argv[1:] if cmd[0] == '~')
 
-# initialize states
+# initialize information
 manager = StateManager()
 
 state_name = other_vars.setdefault('state', 'default')
@@ -30,17 +33,19 @@ profile_name = other_vars.setdefault('profile', 'box1')
 profile = manager.load_profile(profile_name, **profile_vars)
 
 # initialize
-animator = Animator(state)
-engine = Engine(profile, state)
-renderer = Renderer(animator, engine)
+renderer   = Renderer(profile, state)
+engine     = Engine(profile, state, renderer.pbo)
+cmdcenter  = CmdCenter(state, renderer, engine)
+sources    = [MouseHandler(cmdcenter, profile), 
+              KeyboardHandler(cmdcenter)]
 
-# create & set execution
-def execution():
-    messages = animator.do()
-    engine.do(messages)
+# create and set execution loop
+def inner_loop():
+    cmdcenter.do()
+    engine.do()
     renderer.do()
 
-renderer.set_execution(execution)
+renderer.set_inner_loop(inner_loop)
 
-# start state
+# start
 renderer.start()

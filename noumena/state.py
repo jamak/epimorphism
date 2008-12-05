@@ -2,8 +2,7 @@ from ctypes import *
 import pickle
 import os.path
 
-from noumena.logger import *
-
+from common.logger import *
 
 
 class State:
@@ -21,10 +20,11 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(manual_iter=False, FRACT=3, T="zn[0] * i(e(z)) + zn[1]", T_SEED="zn[2] * i(S(z)) + zn[3]", SEED="grad_2d(z)", COLORIFY="rotate(v)",  REDUCE="torus_reduce",
-                      par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(5)], short_damping = 10)
-        state.zn[0] = complex(1.0, 0)
+        state = State(manual_iter=False, FRACT=5, T="(zn[0] * c(z) + zn[1]) * i(zn[2] * S(z) + zn[3])", T_SEED="zn[4] * (z)", SEED="fade_frame(z)", COLORIFY="rotate(v)",  REDUCE="torus_reduce",
+                      par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(5)], short_damping = 10, vp_scale=1.0, vp_center_x=0.0, vp_center_y=0.0)
+        state.zn[1] = complex(1.0, 0)
         state.zn[2] = complex(1.0, 0)
+        state.zn[4] = complex(1.0, 0)
 
         state.par[0] = 0.1
         
@@ -44,23 +44,25 @@ class StateManager:
         return pickle.load(file)
 
         #profile = Profile(name=profile_name, viewport_width=1680, viewport_height=1050, full_screen=True, viewport_refresh=60, vp_scale=1.0, vp_center_x=0.0, 
-        #                  vp_center_y=0.0, kernel_dim=1536, debug_freq=125.0)
+        #                  vp_center_y=0.0, kernel_dim=2048, debug_freq=125.0)
         #self.save_profile(profile, "lcd1")
         #return profile
 
 
-    def save_state(self, state, name=''):
+    def save_state(self, state, image, name=''):
         log("st: save state")
 
         if(name == ''):
             i = 0
-            while(os.path.exists("phenom/state/state_" + str(i) + ".epi")):
+            while(os.path.exists("../state/state_" + str(i) + ".epi")):
                 i += 1
             name = "state_" + str(i)
 
         log("st:   as " + name)
 
-        file = open("phenom/state/" + name + ".epi", "w")
+        image.save("../state/image_" + str(i) + ".png")
+
+        file = open("../state/" + name + ".epi", "w")
         pickle.dump(state, file)
 
 

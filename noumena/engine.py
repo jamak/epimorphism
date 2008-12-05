@@ -1,20 +1,18 @@
-import Image
-
 from ctypes import *
 from cuda.cuda_utils import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from noumena.logger import *
+from common.logger import *
 
 from noumena.kernel import *
 
 class Engine:    
 
-    def __init__(self, profile, state):
+    def __init__(self, profile, state, pbo):
 
         log("en: initializing")    
-        self.profile, self.state = profile, state
+        self.profile, self.state = profile, state        
 
         # get device
         self.cuda_device = c_int()
@@ -52,12 +50,16 @@ class Engine:
         self.block = dim3(8, 8, 1)
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
-        # compile the kernel
+        # compile kernel
         self.compile_kernel()
 
         # misc variables
-
         self.next_frame = False
+
+        # register_pbo
+        self.pbo, self.pbo_ptr = pbo, c_void_p()
+        status = cudaGLRegisterBufferObject(self.pbo)        
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
 
 
     def __del__(self):
@@ -67,13 +69,6 @@ class Engine:
         cudaGLUnregisterBufferObject(self.pbo)
 
         [cudaEventDestroy(event) for event in self.events]    
-
-
-    def register_pbo(self, pbo):
-
-        self.pbo, self.pbo_ptr = pbo, c_void_p()
-        status = cudaGLRegisterBufferObject(self.pbo)        
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)        
 
 
     def record_event(self, idx):
@@ -122,20 +117,17 @@ class Engine:
 
     def get_fb(self):
 
-        res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))()    
-        #cudaMemcpy2DFromArray(res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo, 0, 0, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
-         #                   self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        res = (c_float * (4 * (self.profile.kernel_dim ** 2)))()    
+        cudaMemcpy2DFromArray(res, self.profile.kernel_dim * sizeof(float4), self.fb, 0, 0, self.profile.kernel_dim * sizeof(float4), 
+                              self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
+        # byte_res = (c_ubyte * (4 * (self.profile.kernel_dim ** 2)))()    
+        # cudaMemcpy2D(byte_res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+        #              self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
-        cudaMemcpy2D(res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
-                     self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        byte_res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))(*[int(255*f) for f in res])
 
-
-        #byte_res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))(*[cast(255 * f, c_ubyte) for f in res])
-
-        Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), res).show()
-
-        return res
+        return byte_res
 
 
     def set_fb(self, data):
@@ -144,16 +136,12 @@ class Engine:
                             self.profile.kernel_dim, cudaMemcpyHostToDevice)
 
 
-    def do(self, messages):
+    def do(self):
 
         # check manual_iter
         if(self.state.manual_iter and not self.next_frame):
             return
         self.next_frame = False
-
-        # if necessary, recompileza
-        if("recompile" in messages):
-            self.compile_kernel()
 
         # begin
         self.record_event(0)

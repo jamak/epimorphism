@@ -5,21 +5,21 @@ from OpenGL.GLUT import *
 
 from phenom.keyboard import *
 from phenom.mouse import *
-from noumena.logger import *
+
+from common.logger import *
 
 
 
-class Renderer(KeyboardHandler, MouseHandler):
+class Renderer():
 
-    def __init__(self, animator, engine):
+    def __init__(self, profile, state):
 
-        self.animator = animator
-        self.engine = engine
-        self.profile = engine.profile
-        self.state = engine.state
+        # set variables
+        self.profile, self.state = profile, state
 
         log("re: initializing")
 
+        # initialize glut
         glutInit(1, [])
 
         # create window    
@@ -42,22 +42,16 @@ class Renderer(KeyboardHandler, MouseHandler):
 
         # register callbacks
         glutReshapeFunc(self.reshape)
-        glutKeyboardFunc(self.keyboard)
-        glutMouseFunc(self.mouse)
-        glutMotionFunc(self.motion)
 
         # generate buffer object
         size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
-        self.pbo = GLuint() 
+        self.pbo = GLuint()
 
         glGenBuffers(1, byref(self.pbo))
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)     
         empty_buffer = (c_ubyte * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
         glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
-
-        # register pbo with engine
-        engine.register_pbo(self.pbo)
 
         # generate texture 
         self.display_tex = GLuint()
@@ -88,14 +82,27 @@ class Renderer(KeyboardHandler, MouseHandler):
         # misc variables
         self.next_frame = False
 
+
     def __del__(self):
 
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
 
-    def set_execution(self, execution):
 
-        glutDisplayFunc(execution)
+    def set_keyboard(self, keyboard):
+        glutKeyboardFunc(keyboard)
+
+
+    def set_mouse(self, mouse):
+        glutMouseFunc(mouse)
+
+
+    def set_motion(self, motion):
+        glutMotionFunc(motion)
+
+
+    def set_inner_loop(self, inner_loop):
+        glutDisplayFunc(inner_loop)
     
 
     def reshape(self, w, h):
@@ -136,10 +143,10 @@ class Renderer(KeyboardHandler, MouseHandler):
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0)
 
         # compute texture coordinates
-        x0 = .5 - self.profile.vp_scale / 2 - self.profile.vp_center_x * self.aspect 
-        x1 = .5 + self.profile.vp_scale / 2 - self.profile.vp_center_x * self.aspect 
-        y0 = .5 - self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y 
-        y1 = .5 + self.profile.vp_scale / (2 * self.aspect) + self.profile.vp_center_y
+        x0 = .5 - self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
+        x1 = .5 + self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
+        y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y 
+        y1 = .5 + self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
 
         # render texture
         glBegin(GL_QUADS)

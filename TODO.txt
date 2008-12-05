@@ -1,18 +1,9 @@
-fix 1.0 seed bug?
-
 wtf is that weird bug? state_1 or 2?
 
-cull mode
-
-lace?
-
-get buffer/screenshot
 
 finish delta paths
 
-implement texture lists?
-
-set up transfer region as page-locked
+implement texture lists/switching?
 
 implement server
 
@@ -43,6 +34,14 @@ state version control
 add comments
 
 
+
+optimize buffer/screenshot(float images or pbo transfer)
+
+set up transfer region as page-locked
+
+
+
+lace?
 
 click point, get value, etc
 

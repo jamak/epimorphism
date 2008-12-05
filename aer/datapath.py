@@ -1,5 +1,6 @@
 from math import *
-from noumena.complex import *
+
+from common.complex import *
 
 def linear_1d(t, data):
     if(t > 1):
@@ -23,8 +24,6 @@ def radial_2d(t, data):
 
 def wave_1d(t, data):
     return (data['a'] * sin(2.0 * pi * t + data['th']) + data['b'], True)
-
-
 
 
 def d_linear_1d(cur, t, speed, v):
