@@ -41,7 +41,7 @@ __device__ float4 HSVtoRGB(float4 val){
       res = vec4(vals.w, vals.y, vals.x, 0.0);
     else 
       res = vec4(vals.x, vals.y, vals.z, 0.0);
-    res = val.z ^ res;
+    res = val.z * res;
     res.w = val.w;
     return res;
   }

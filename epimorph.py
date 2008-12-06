@@ -6,9 +6,6 @@ import sys
 import datetime
 
 from phenom.cmdcenter import *
-from phenom.animator import *
-from phenom.mouse import *
-from phenom.keyboard import *
 
 from noumena.state import *
 from noumena.engine import *
@@ -36,8 +33,6 @@ profile = manager.load_profile(profile_name, **profile_vars)
 renderer   = Renderer(profile, state)
 engine     = Engine(profile, state, renderer.pbo)
 cmdcenter  = CmdCenter(state, renderer, engine)
-sources    = [MouseHandler(cmdcenter, profile), 
-              KeyboardHandler(cmdcenter)]
 
 # create and set execution loop
 def inner_loop():

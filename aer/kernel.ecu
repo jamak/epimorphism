@@ -1,5 +1,5 @@
 __constant__ float par[40];
-__constant__ float2 zn[5];
+__constant__ float2 zn[10];
 
 #include "util.cu"
 #include "colorspace.cu"
@@ -21,7 +21,7 @@ extern "C" {
     float4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
-    float2 z_z = (2.0f * i_kernel_dim) % vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f); 	
+    float2 z_z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f); 	
     float2 z = vec2(0.0f, 0.0f);    
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
@@ -31,16 +31,17 @@ extern "C" {
 
 	z = recover(%REDUCE%(%T%));   
 
-	float4 frame = texv2D(input_texture, 0.5f % z + vec2(0.5f, 0.5f));    
+	float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));    
 
 	z = recover(%REDUCE%(%T_SEED%));  
 
-	float4 seed = _gamma3(%SEED%, 2.2);
+	float4 seed = _gamma3(%SEED%(z), 2.2);
 
 	//if((((int)roundf(frame.w))) % 2.0)
 	//  seed.w = 1.0 - seed.w;
 
-	result =  merge_blend(result, seed, frame, seed.w);
+
+	result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
 	result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
 
@@ -52,7 +53,7 @@ extern "C" {
       }
     
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
-    result = %COLORIFY%;
+    result = %COLORIFY%(v);
 
     // set output variable
     out[y * out_pitch + x] = result;

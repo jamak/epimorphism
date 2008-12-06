@@ -23,8 +23,8 @@ def loadKernel(state):
     file.close()
 
     # compile
-    os.system("rm aer/kernel" + str(libnum) + ".so")
-    os.system("rm aer/kernel" + str(libnum - 1) + ".so")
+    os.system("rm lib/kernel" + str(libnum) + ".so")
+    os.system("rm lib/kernel" + str(libnum - 1) + ".so")
     os.system("/usr/local/cuda/bin/nvcc -o lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
 
     # via ctypes interface    

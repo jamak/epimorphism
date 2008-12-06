@@ -1,21 +1,7 @@
 wtf is that weird bug? state_1 or 2?
 
 
-finish delta paths
-
 implement texture lists/switching?
-
-implement server
-
-implement homemede interpreter loop
-
-switch to driver api
-
-set up correct texture switching
-
-render movies
-
-named kerenel parameters
 
 implement HSls conversions
 
@@ -23,21 +9,40 @@ implement color func?
 
 implement mod lists?
 
-optimization
 
+
+implement homemede interpreter loop/
 console overlay?
+
+implement server
+
+set up transfer region as page-locked
+
+MIDI
+
+render movies
+
+named kerenel parameters
+
+add comments
+
+comprehensive logging
+
+
+
+switch to driver api /
+set up correct code interpolation
+
+optimize buffer/screenshot(float images or pbo transfer)
+
+optimization
 
 fix HSV interpolation
 
 state version control
 
-add comments
 
 
-
-optimize buffer/screenshot(float images or pbo transfer)
-
-set up transfer region as page-locked
 
 
 
@@ -48,3 +53,5 @@ click point, get value, etc
 print kernel param
 
 cull mode glitches
+
+finish delta paths
