@@ -18,12 +18,6 @@ class Animator:
             return False
         self.paths.append((id, setter, lambda t: eval(type)(t, data), time.clock(), speed / 1000.0))
         return True        
-
-
-
-    def animate_t(self, new_t):
-
-        self.engine.compile_kernel()
         
 
     def do(self):

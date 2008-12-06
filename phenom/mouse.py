@@ -13,8 +13,7 @@ class MouseHandler:
     def __init__(self, cmdcenter, profile):
         self.cmdcenter, self.profile = cmdcenter, profile
         self.state = self.cmdcenter.state
-        self.cmdcenter.renderer.set_mouse(self.mouse)
-        self.cmdcenter.renderer.set_motion(self.motion)
+
 
     def mouse(self, button, state, x, y):
         if(state == GLUT_DOWN):

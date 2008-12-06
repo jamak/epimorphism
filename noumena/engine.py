@@ -129,6 +129,8 @@ class Engine:
 
         return byte_res
 
+    def reset_fb(self):
+        self.set_fb((float4 * (self.profile.kernel_dim ** 2))())
 
     def set_fb(self, data):
         

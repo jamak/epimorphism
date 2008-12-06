@@ -1,13 +1,11 @@
 wtf is that weird bug? state_1 or 2?
 
 
-implement texture lists/switching?
+implement mod lists?
 
 implement HSls conversions
 
 implement color func?
-
-implement mod lists?
 
 
 

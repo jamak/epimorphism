@@ -1,4 +1,3 @@
-from numpy import *
 from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
@@ -6,11 +5,12 @@ from OpenGL.GLUT import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
+from noumena.console import *
+
 from common.logger import *
 
 
-
-class Renderer():
+class Renderer(Console):
 
     def __init__(self, profile, state):
 
@@ -22,8 +22,13 @@ class Renderer():
         # initialize glut
         glutInit(1, [])
 
+        # initialize console
+        self.console_tex = glGenTextures(1)
+        Console.__init__(self)
+
+
         # create window    
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH)
       
         if(self.profile.full_screen):
             log("re: fullscreen")
@@ -49,14 +54,12 @@ class Renderer():
 
         glGenBuffers(1, byref(self.pbo))
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)     
-        empty_buffer = (c_ubyte * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
+        empty_buffer = (c_float * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
         glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
         # generate texture 
-        self.display_tex = GLuint()
-
-        glGenTextures(1, byref(self.display_tex))
+        self.display_tex = glGenTextures(1)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)  
 
         glPixelStorei(GL_UNPACK_ALIGNMENT,1)
@@ -73,15 +76,15 @@ class Renderer():
         glClearColor(0.0, 0.0, 0.0, 0.0)	
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST)
         glShadeModel(GL_FLAT)
-        glDisable(GL_DEPTH_TEST)
+        glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LEQUAL)
 
         # fps data
         self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME) 
         self.frame_count = 0.0               
 
         # misc variables
-        self.next_frame = False
-
+        self.console = False
 
     def __del__(self):
 
@@ -89,17 +92,11 @@ class Renderer():
         glDeleteBuffers(1, self.pbo)
 
 
-    def set_keyboard(self, keyboard):
+    def register_callbacks(self, keyboard, mouse, motion):
+        self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
-
-
-    def set_mouse(self, mouse):
         glutMouseFunc(mouse)
-
-
-    def set_motion(self, motion):
-        glutMotionFunc(motion)
-
+        glutMotionFunc(motion)        
 
     def set_inner_loop(self, inner_loop):
         glutDisplayFunc(inner_loop)
@@ -120,6 +117,14 @@ class Renderer():
         glLoadIdentity()
         glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
         glMatrixMode(GL_MODELVIEW)
+
+
+    def toggle_console(self):
+        self.console = not self.console
+        if(self.console):
+            glutKeyboardFunc(self.console_keyboard)
+        else:
+            glutKeyboardFunc(self.keyboard)
 
 
     def do(self):      
@@ -161,6 +166,9 @@ class Renderer():
         glVertex3f(-1.0, 1.0, 0)
 
         glEnd()
+
+        if(self.console):
+            self.renderConsole()        
 
         # repost
         glutSwapBuffers()
