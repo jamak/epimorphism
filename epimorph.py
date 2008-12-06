@@ -37,7 +37,7 @@ cmdcenter  = CmdCenter(state, renderer, engine)
 # create and set execution loop
 def inner_loop():
     cmdcenter.do()
-#    engine.do()
+    engine.do()
     renderer.do()
 
 renderer.set_inner_loop(inner_loop)
