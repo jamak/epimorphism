@@ -52,7 +52,7 @@ class Console:
 
         glColor3ub(0xff, 0, 0)
 
-        self.font.glPrint(450, 450, "hello!!!")
+        self.font.glPrint(450, 10, "hello!!!")
 
 
     def console_keyboard(self, key, x, y):

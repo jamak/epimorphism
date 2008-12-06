@@ -53,18 +53,7 @@ class Renderer(Console):
         glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-        # generate texture 
-        self.display_tex = glGenTextures(1)
-        glBindTexture(GL_TEXTURE_2D, self.display_tex)  
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, None)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
         # initialize console
         self.console_tex = glGenTextures(1)
@@ -86,6 +75,10 @@ class Renderer(Console):
 
         # misc variables
         self.console = False
+
+
+
+
 
     def __del__(self):
 
@@ -130,46 +123,31 @@ class Renderer(Console):
 
     def do(self):      
 
-        # compute frame rate
-        self.frame_count += 1
-        self.d_time = glutGet(GLUT_ELAPSED_TIME)
-        if(self.frame_count % self.profile.debug_freq == 0):
-            time = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
-            avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
-            print "gl time = " + str(time) + "ms"
-            print "gl avg  = " + str(avg) + "ms"
-            self.d_timebase = self.d_time
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+	glLoadIdentity()					# Reset The View 
+	# Step back (away from objects)
+	glTranslatef (0.0, 0.0, -1.0)
 
-        # copy texture from pbo
-        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.pbo)
-        glBindTexture(GL_TEXTURE_2D, self.display_tex)
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, 
-                        GL_RGBA, GL_UNSIGNED_BYTE, None)
-        glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
-        glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0)
+	# Currently - NYI - No WGL text
+	# Blue Text
+	# glColor3ub(0, 0, 0xff)
+	#
+	# // Position The WGL Text On The Screen
+	# glRasterPos2f(-0.40f, 0.35f);
+ 	# glPrint("Active WGL Bitmap Text With NeHe - %7.2f", cnt1);	
 
-        # compute texture coordinates
-        x0 = .5 - self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
-        x1 = .5 + self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
-        y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y 
-        y1 = .5 + self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
+	# Red Text
+	glColor3ub (0xff, 0, 0)
 
-        # render texture
-        glBegin(GL_QUADS)
+	glPushMatrix ()
+	glLoadIdentity ()
+	# Spin the text, rotation around z axe == will appears as a 2d rotation of the text on our screen
+	#glRotatef (cnt1, 0, 0, 1)
+	# glScalef (1, 0.8 + 0.3* cos (cnt1/5), 1)
+	glTranslatef (-180, 0, 0)
+	self.font.glPrint (320, 240, "Active FreeType Text - %7.2f" % (0))
+	glPopMatrix ()
 
-        glTexCoord2f(x0, y0)
-        glVertex3f(-1.0, -1.0, 0)
-        glTexCoord2f(x1, y0)
-        glVertex3f(1.0, -1.0, 0)
-        glTexCoord2f(x1, y1)
-        glVertex3f(1.0, 1.0, 0)
-        glTexCoord2f(x0, y1)
-        glVertex3f(-1.0, 1.0, 0)
-
-        glEnd()
-
-        if(self.console):
-            self.renderConsole()        
 
         # repost
         glutSwapBuffers()
