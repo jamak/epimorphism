@@ -1,4 +1,5 @@
 from phenom.animator import *
+from phenom.console import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
@@ -16,7 +17,8 @@ class CmdCenter:
         self.animator = Animator()
         mouse_handler = MouseHandler(self, renderer.profile)
         keyboard_handler = KeyboardHandler(self)
-        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion)
+        console = Console(self)
+        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion, console.render_console, console.console_keyboard)
         
         # load t
         file = open(self.TPATH)
@@ -83,7 +85,7 @@ class CmdCenter:
         try:
             exec code
         except:
-            res = traceback.format_exc()
+            res = traceback.format_exc().split("\n")[-2]
 
 
         sys.stdout = sys.__stdout__
@@ -92,7 +94,7 @@ class CmdCenter:
 
         out.close()
 
-        print res
+        return res
 
     def do(self):
         self.animator.do()

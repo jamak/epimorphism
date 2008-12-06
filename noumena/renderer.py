@@ -10,7 +10,7 @@ from noumena.console import *
 from common.logger import *
 
 
-class Renderer(Console):
+class Renderer():
 
     def __init__(self, profile, state):
 
@@ -23,7 +23,7 @@ class Renderer(Console):
         glutInit(1, [])
 
         # create window    
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA)
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
       
         if(self.profile.full_screen):
             log("re: fullscreen")
@@ -64,19 +64,12 @@ class Renderer(Console):
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
-
-        # initialize console
-        self.console_tex = glGenTextures(1)
-        Console.__init__(self)
 
         # init gl
         glEnable(GL_TEXTURE_2D)
         glClearColor(0.0, 0.0, 0.0, 0.0)	
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST)
         glShadeModel(GL_FLAT)
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LEQUAL)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
@@ -88,20 +81,20 @@ class Renderer(Console):
         self.console = False
 
 
-
-
-
     def __del__(self):
 
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
 
 
-    def register_callbacks(self, keyboard, mouse, motion):
+    def register_callbacks(self, keyboard, mouse, motion, render_console, console_keyboard):
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
         glutMouseFunc(mouse)
         glutMotionFunc(motion)        
+        self.render_console = render_console
+        self.console_keyboard = console_keyboard        
+
 
     def set_inner_loop(self, inner_loop):
         glutDisplayFunc(inner_loop)
@@ -128,7 +121,9 @@ class Renderer(Console):
         self.console = not self.console
         if(self.console):
             glutKeyboardFunc(self.console_keyboard)
+            glutSpecialFunc(self.console_keyboard)
         else:
+            glutSpecialFunc(self.keyboard)
             glutKeyboardFunc(self.keyboard)
 
 
@@ -158,6 +153,9 @@ class Renderer(Console):
         y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y 
         y1 = .5 + self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
 
+
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+
         # render texture
         glBegin(GL_QUADS)
 
@@ -172,8 +170,9 @@ class Renderer(Console):
 
         glEnd()
 
+        # render console
         if(self.console):
-            self.renderConsole()     
+            self.render_console()                     
 
         # repost
         glutSwapBuffers()

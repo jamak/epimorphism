@@ -1,4 +1,3 @@
-extern "C" {
 
   __device__ float4 fade_frame(float2 z)
   {
@@ -51,4 +50,3 @@ extern "C" {
     return vec4(0.5f + 0.5f * z.x, 0.5f + 0.5f * z.y, 0.0, 0.5f + 0.5f * z.x);
   }
 
-}

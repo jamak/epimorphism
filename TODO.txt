@@ -9,9 +9,6 @@ implement color func?
 
 
 
-implement homemede interpreter loop/
-console overlay?
-
 implement server
 
 set up transfer region as page-locked
@@ -25,6 +22,10 @@ named kerenel parameters
 add comments
 
 comprehensive logging
+
+clean up console code & improve
+
+unit test
 
 
 
