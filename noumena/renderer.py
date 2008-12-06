@@ -22,13 +22,8 @@ class Renderer(Console):
         # initialize glut
         glutInit(1, [])
 
-        # initialize console
-        self.console_tex = glGenTextures(1)
-        Console.__init__(self)
-
-
         # create window    
-        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH)
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_ALPHA)
       
         if(self.profile.full_screen):
             log("re: fullscreen")
@@ -71,6 +66,10 @@ class Renderer(Console):
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
+        # initialize console
+        self.console_tex = glGenTextures(1)
+        Console.__init__(self)
+
         # init gl
         glEnable(GL_TEXTURE_2D)
         glClearColor(0.0, 0.0, 0.0, 0.0)	
@@ -78,6 +77,8 @@ class Renderer(Console):
         glShadeModel(GL_FLAT)
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LEQUAL)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         # fps data
         self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME) 
