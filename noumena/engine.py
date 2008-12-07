@@ -61,6 +61,10 @@ class Engine:
         status = cudaGLRegisterBufferObject(self.pbo)        
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
 
+        # malloc host array
+        self.host_array = c_void_p()
+        cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
+
 
     def __del__(self):
         print "del!!!"
@@ -119,14 +123,15 @@ class Engine:
 
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
 
-        byte_res = (c_ubyte * (4 * (self.profile.kernel_dim ** 2)))()    
-        cudaMemcpy2D(byte_res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
-                     self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+                           self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
-        return byte_res
+        return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
+
 
     def reset_fb(self):
         self.set_fb((float4 * (self.profile.kernel_dim ** 2))())
+
 
     def set_fb(self, data):
         

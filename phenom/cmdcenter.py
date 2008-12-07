@@ -35,7 +35,7 @@ class CmdCenter(object):
 
     def inc_t_seed(self, idx):
         self.t_seed_idx += idx
-        val = self.datamanager.t_seed[self.t_idx]
+        val = self.datamanager.t_seed[self.t_seed_idx]
         self.state.T_SEED = val[0]
         for line in val[1]:
             exec(line)

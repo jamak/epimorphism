@@ -11,8 +11,6 @@ implement color func?
 
 implement server
 
-set up transfer region as page-locked
-
 MIDI & finish delta paths
 
 add comments
@@ -25,9 +23,7 @@ unit tests
 
 
 
-optimize buffer/screenshot(float images or pbo transfer)
-
-render movies
+render movies & correct animation timing
 
 switch to driver api /
 set up correct code interpolation

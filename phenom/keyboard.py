@@ -37,7 +37,6 @@ class KeyboardHandler:
 
         elif(key == "\015"): # enter
             image = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1)
-            image.show()
             StateManager().save_state(self.state, image)
 
         elif(key == "\\"):
