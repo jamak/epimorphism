@@ -6,8 +6,6 @@ implement color func?
 
 
 
-implement server
-
 MIDI & finish delta paths
 
 add comments

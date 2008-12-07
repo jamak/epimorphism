@@ -2,6 +2,7 @@ from phenom.animator import *
 from phenom.console import *
 from phenom.keyboard import *
 from phenom.mouse import *
+from phenom.server import *
 
 from aer.datamanager import *
 
@@ -20,7 +21,11 @@ class CmdCenter(object):
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion, console.render_console, console.console_keyboard)
 
         self.datamanager = DataManager()
+
+        self.server = Server(self)
     
+        self.server.start()
+
         self.T_idx = 0
         self.T_SEED_idx = 0
         self.SEED_idx = 0
