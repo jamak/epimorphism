@@ -19,27 +19,24 @@ class CmdCenter(object):
         console = Console(self)
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion, console.render_console, console.console_keyboard)
 
-        self.datamanager = DataManager(self)    
-        self.t_idx = 0
-        self.t_seed_idx = 0
+        self.datamanager = DataManager()
+    
+        self.T_idx = 0
+        self.T_SEED_idx = 0
+        self.SEED_idx = 0
+        self.SEED_W_idx = 0
+        self.SEED_C_idx = 0
+        self.SEED_A_idx = 0
 
 
-    def inc_t(self, idx):
-        self.t_idx += idx
-        val = self.datamanager.t[self.t_idx]
-        self.state.T = val[0]
+    def inc_data(self, data, idx):
+        exec("self." + data + "_idx += idx")
+        exec("self." + data + "_idx %= len(self.datamanager." + data + ")")
+        exec("val = self.datamanager." + data + "[self." + data + "_idx]")
+        exec("self.state." + data + " = val[0]")
         for line in val[1]:
             exec(line)
         self.engine.compile_kernel()
-
-
-    def inc_t_seed(self, idx):
-        self.t_seed_idx += idx
-        val = self.datamanager.t_seed[self.t_seed_idx]
-        self.state.T_SEED = val[0]
-        for line in val[1]:
-            exec(line)
-        self.engine.compile_kernel()    
 
 
    # def __getattribute__(self, name):

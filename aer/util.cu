@@ -10,13 +10,28 @@ __device__ float dot(float2 z1, float2 z2){
   return z1.x * z2.x + z1.y * z2.y;
 }
 
+
 __device__ float4 operator*(const float m, const float4 z1){
   return vec4(m * z1.x, m * z1.y, m * z1.z, m * z1.w);
 }
 
+__device__ float4 operator*(const float4 z1, const float m){
+  return vec4(m * z1.x, m * z1.y, m * z1.z, m * z1.w);
+}
+
+__device__ float4 operator/(const float4 z1, const float m){
+  return vec4(z1.x / m, z1.y / m, z1.z / m, z1.w / m);
+}
+
+
 __device__ float4 operator+(const float4 z1, const float4 z2){
   return vec4(z1.x + z2.x, z1.y + z2.y, z1.z + z2.z, z1.w + z2.w);
 }
+
+__device__ float4 operator-(const float4 z1, const float4 z2){
+  return vec4(z1.x - z2.x, z1.y - z2.y, z1.z - z2.z, z1.w - z2.w);
+}
+
 
 __device__ float2 operator*(const float m, const float2 z1){
   return vec2(m * z1.x, m * z1.y);
@@ -25,6 +40,32 @@ __device__ float2 operator*(const float m, const float2 z1){
 __device__ float2 operator*(const float2 z1, const float m){
   return vec2(m * z1.x, m * z1.y);
 }
+
+__device__ float2 operator/(const float m, const float2 z2){
+  float r = dot(z2, z2);
+  return vec2((m * z2.x) / r, (-1.0 * m * z2.y) / r);
+}
+
+__device__ float2 operator/(const float2 z2, const float m){
+  return vec2(z2.x / m, z2.y / m);
+}
+
+__device__ float2 operator+(const float m, const float2 z1){
+  return vec2(m + z1.x, z1.y);
+}
+
+__device__ float2 operator+(const float2 z1, const float m){
+  return vec2(m + z1.x, z1.y);
+}
+
+__device__ float2 operator-(const float m, const float2 z1){
+  return vec2(m - z1.x, -1.0 * z1.y);
+}
+
+__device__ float2 operator-(const float2 z1, const float m){
+  return vec2(z1.x - m, z1.y);
+}
+
 
 __device__ float2 operator+(const float2 z1, const float2 z2){
   return vec2(z1.x + z2.x, z1.y + z2.y);
@@ -43,10 +84,6 @@ __device__ float2 operator/(const float2 z1, const float2 z2){
   return vec2((z1.x * z2.x + z1.y * z2.y) / r, (z1.y * z2.x - z1.x * z2.y) / r);
 }
 
-__device__ float2 operator/(const float m, const float2 z2){
-  float r = dot(z2, z2);
-  return vec2((m * z2.x) / r, (-1.0 * m * z2.y) / r);
-}
 
 __device__ float mag(const float2 z1){
   return sqrt(z1.x * z1.x + z1.y * z1.y);
@@ -67,6 +104,10 @@ __device__ float rem(float a, float b){
 
 __device__ float2 rem(float2 z, float b){
   return vec2(rem(z.x, b), rem(z.y, b));
+}
+
+__device__ float2 floorf(float2 z){
+  return vec2(floorf(z.x), floorf(z.y));
 }
 
 

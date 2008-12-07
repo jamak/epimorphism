@@ -1,5 +1,4 @@
 
-implement mod lists?
 
 implement HSls conversions
 

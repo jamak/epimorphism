@@ -1,31 +1,22 @@
+import os
+import re
+
 class DataManager:
-    TPATH = "aer/t.epi"
-    TSEEDPATH = "aer/t_seed.epi"
 
-    def __init__(self, cmdcenter):
-        self.cmdcenter = cmdcenter
+    def __init__(self):
 
-        # load t
-        file = open(self.TPATH)
-        self.t = []
-        for line in file.readlines():
-            if(line == "\n"):
-                continue
-            data = line.split(':')
-            data[0] = data[0].strip()
-            data[1] = data[1].strip()[1:-1].split(',')
-            self.t.append(data)
-        file.close()
+        files = [file for file in os.listdir("aer") if re.search("epi$", file)]
 
-        # load t_seed
-        file = open(self.TSEEDPATH)
-        self.t_seed = []
-        for line in file.readlines():
-            if(line == "\n"):
-                continue
-            data = line.split(':')
-            data[0] = data[0].strip()
-            data[1] = data[1].strip()[1:-1].split(',')
-            self.t_seed.append(data)
-        file.close()
+        for file_name in files:
+            data_name = file_name.split('.')[0]
+            file = open("aer/" + file_name)
+            exec("data = self." + data_name + " = []")
 
+            for line in file.readlines():
+                if(line == "\n"):
+                    continue
+                val = line.split(':')
+                val[0] = val[0].strip()
+                val[1] = [cmd.strip() for cmd in val[1].strip()[1:-1].split(',')]
+                data.append(val)
+            file.close()

@@ -62,16 +62,40 @@ class KeyboardHandler:
             self.engine.reset_fb()
 
         elif(key == "1"):
-            self.cmdcenter.inc_t(1)
-
-        elif(key == "2"):
-            self.cmdcenter.inc_t_seed(1)
+            self.cmdcenter.inc_data("T", 1)
 
         elif(key == "q"):
-            self.cmdcenter.inc_t(-1)
+            self.cmdcenter.inc_data("T", -1)
+
+        elif(key == "2"):
+            self.cmdcenter.inc_data("T_SEED", 1)
 
         elif(key == "w"):
-            self.cmdcenter.inc_t_seed(-1)
+            self.cmdcenter.inc_data("T_SEED", -1)
+
+        elif(key == "3"):
+            self.cmdcenter.inc_data("SEED", 1)
+
+        elif(key == "e"):
+            self.cmdcenter.inc_data("SEED", -1)
+
+        elif(key == "4"):
+            self.cmdcenter.inc_data("SEED_W", 1)
+
+        elif(key == "r"):
+            self.cmdcenter.inc_data("SEED_W", -1)
+
+        elif(key == "5"):
+            self.cmdcenter.inc_data("SEED_C", 1)
+
+        elif(key == "t"):
+            self.cmdcenter.inc_data("SEED_C", -1)
+
+        elif(key == "6"):
+            self.cmdcenter.inc_data("SEED_A", 1)
+
+        elif(key == "y"):
+            self.cmdcenter.inc_data("SEED_A", -1)
 
         elif(key in ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"]):
             i = ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"].index(key)
