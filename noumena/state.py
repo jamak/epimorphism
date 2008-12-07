@@ -20,13 +20,20 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(manual_iter=False, FRACT=5, T="zn[0] * z + zn[1]", T_SEED="zn[6] * z + zn[7]", SEED="fade_frame", COLORIFY="rotate",  REDUCE="torus_reduce",
+        state = State(manual_iter=False, FRACT=5, T="zn[0] * z + zn[1]", T_SEED="zn[6] * z + zn[7]", SEED="seed_wca", COLORIFY="rotate",  REDUCE="torus_reduce",
                       par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(10)], short_damping = 10, vp_scale=1.0, vp_center_x=0.0, vp_center_y=0.0,
-                      par_names={"_SEED_W" : 0, "_COLOR_DHUE" : 1, "_CULL_DEPTH" : 2})
+                      par_names={"_SEED_W" : 0, "_SEED_W_BASE" : 1, "_SEED_W_THRESH" : 2, "_COLOR_DHUE" : 3, "_CULL_DEPTH" : 4, "_COLOR_A" : 5, "_COLOR_S" : 6, "_COLOR_V" : 7, 
+                                 "_COLOR_TH_EFF" : 8},
+                      SEED_W="lines_lr", SEED_C="simple_color", SEED_A="simple_alpha")
         state.zn[0] = complex(1.0, 0)
         state.zn[6] = complex(1.0, 0)
 
         state.par[0] = 0.1
+        state.par[1] = -1.0
+        state.par[5] = 1.0
+        state.par[6] = 1.0
+        state.par[7] = 1.0
+
 
         #self.save_state(state, "default")
         return state

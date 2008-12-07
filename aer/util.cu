@@ -1,5 +1,3 @@
-
-
 __device__ float4 vec4(float x, float y, float z, float w){
   return make_float4(x, y, z, w);
 }
@@ -50,7 +48,7 @@ __device__ float2 operator/(const float m, const float2 z2){
   return vec2((m * z2.x) / r, (-1.0 * m * z2.y) / r);
 }
 
-__device__ float r(const float2 z1){
+__device__ float mag(const float2 z1){
   return sqrt(z1.x * z1.x + z1.y * z1.y);
 }
 
@@ -66,6 +64,12 @@ __device__ float rem(float a, float b){
   float tmp = a / b;
   return b * (tmp - floorf(tmp));
 }
+
+__device__ float2 rem(float2 z, float b){
+  return vec2(rem(z.x, b), rem(z.y, b));
+}
+
+
 
 __device__ float2 recover(float2 z){
   if(isnan(z.x))

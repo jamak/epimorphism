@@ -42,9 +42,9 @@ extern "C" {
 	//if((((int)roundf(frame.w))) % 2.0)
 	//  seed.w = 1.0 - seed.w;
 
-
 	result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
+	// cull mode
 	result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
 
 	if(result.w > 20.0f * _CULL_DEPTH && _CULL_DEPTH != 0.0f)	  
@@ -57,7 +57,7 @@ extern "C" {
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLORIFY%(v);
 
-    // set output variable
+    // set output variables
     out[y * out_pitch + x] = result;
     pbo[y * kernel_dim + x] = make_uchar4(255.0f * result.x, 255.0f * result.y, 
     					  255.0f * result.z, 255.0f * result.w); 

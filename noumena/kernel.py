@@ -26,7 +26,6 @@ def render_file(name, state):
     file.write(contents)
     file.close()
 
-
 def loadKernel(state):
 
     global libnum
