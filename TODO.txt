@@ -1,5 +1,3 @@
-wtf is that weird bug? state_1 or 2?
-
 
 implement mod lists?
 
