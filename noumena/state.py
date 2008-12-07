@@ -20,10 +20,10 @@ class StateManager:
         log("st: load state - " + state_name)
         log("st: with vars - " + str(vars))
 
-        state = State(manual_iter=False, FRACT=5, T="(zn[0] * cos(z) + zn[1]) * 1.0 / (zn[2] * sinh(z) + zn[8])", T_SEED="zn[6] * z + zn[7]", SEED="fade_frame", COLORIFY="rotate",  REDUCE="torus_reduce",
-                      par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(10)], short_damping = 10, vp_scale=1.0, vp_center_x=0.0, vp_center_y=0.0)
+        state = State(manual_iter=False, FRACT=5, T="zn[0] * z + zn[1]", T_SEED="zn[6] * z + zn[7]", SEED="fade_frame", COLORIFY="rotate",  REDUCE="torus_reduce",
+                      par=[0.0 for i in range(40)], zn=[complex(0,0) for i in range(10)], short_damping = 10, vp_scale=1.0, vp_center_x=0.0, vp_center_y=0.0)        
+        state.zn[0] = complex(1.0, 0)
         state.zn[1] = complex(1.0, 0)
-        state.zn[2] = complex(1.0, 0)
         state.zn[6] = complex(1.0, 0)
 
         state.par[0] = 0.1
