@@ -51,7 +51,7 @@ class CmdCenter:
         try:
             exec code
         except:
-            res = traceback.format_exc().split("\n")[-2]
+            err = traceback.format_exc().split("\n")[-2]
 
 
         sys.stdout = sys.__stdout__
