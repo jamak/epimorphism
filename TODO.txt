@@ -19,8 +19,6 @@ comprehensive logging
 
 clean up console code & improve
 
-unit tests
-
 
 
 render movies & correct animation timing
@@ -33,9 +31,13 @@ state version control
 optimization
 
 
+populate seed database
+populate t databasees
 
 
 
+
+unit tests
 
 fix HSV interpolation
 

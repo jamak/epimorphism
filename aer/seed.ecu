@@ -67,7 +67,7 @@ __device__ float lines_inner(float2 z){
   if(fabsf(z.x) < _SEED_W)
     return (1.0f - fabsf(z.x) / _SEED_W);
   if(fabsf(z.y) < _SEED_W)
-    return max(1.0f - fabsf(z.x) / _SEED_W, 1.0f - fabsf(z.y) / _SEED_W);
+    return fmaxf(1.0f - fabsf(z.x) / _SEED_W, 1.0f - fabsf(z.y) / _SEED_W);
   return -1.0;
 }
 
@@ -126,9 +126,11 @@ __device__ float simple_alpha(float w){
   return _COLOR_A;
 }
 
+
 __device__ float linear_alpha(float w){
   return w * _COLOR_A;
 }
+
 
 __device__ float circular_alpha(float w){
   return sqrt(1.0f - (1.0f - w) * (1.0f - w)) * _COLOR_A;
