@@ -117,15 +117,11 @@ class Engine:
 
     def get_fb(self):
 
-        res = (c_float * (4 * (self.profile.kernel_dim ** 2)))()    
-        cudaMemcpy2DFromArray(res, self.profile.kernel_dim * sizeof(float4), self.fb, 0, 0, self.profile.kernel_dim * sizeof(float4), 
-                              self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
 
-        # byte_res = (c_ubyte * (4 * (self.profile.kernel_dim ** 2)))()    
-        # cudaMemcpy2D(byte_res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
-        #              self.profile.kernel_dim, cudaMemcpyDeviceToHost)
-
-        byte_res = (c_ubyte * (4 * self.profile.kernel_dim ** 2))(*[int(255*f) for f in res])
+        byte_res = (c_ubyte * (4 * (self.profile.kernel_dim ** 2)))()    
+        cudaMemcpy2D(byte_res, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+                     self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
         return byte_res
 

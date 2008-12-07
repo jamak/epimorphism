@@ -1,6 +1,8 @@
 __constant__ float par[40];
 __constant__ float2 zn[10];
 
+%PAR_NAMES%
+
 #include "util.cu"
 #include "colorspace.cu"
 #include "math.cu"

@@ -13,11 +13,7 @@ implement server
 
 set up transfer region as page-locked
 
-MIDI
-
-render movies
-
-named kerenel parameters
+MIDI & finish delta paths
 
 add comments
 
@@ -25,32 +21,32 @@ comprehensive logging
 
 clean up console code & improve
 
-unit test
+unit tests
 
 
+
+optimize buffer/screenshot(float images or pbo transfer)
+
+render movies
 
 switch to driver api /
 set up correct code interpolation
 
-optimize buffer/screenshot(float images or pbo transfer)
+state version control
 
 optimization
 
+
+
+
+
+
 fix HSV interpolation
-
-state version control
-
-
-
-
-
 
 lace?
 
 click point, get value, etc
 
-print kernel param
+print kernel param???
 
 cull mode glitches
-
-finish delta paths

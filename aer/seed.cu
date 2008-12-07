@@ -1,7 +1,6 @@
-
 __device__ float4 fade_frame(float2 z)
 {
-  float d = par[0];
+  float d = _SEED_W;
     
   if(z.x < (-1.0f + d) || z.x > (1.0f - d) || z.y < (-1.0f + d) || z.y > (1.0f - d)){
     float v;
@@ -18,7 +17,7 @@ __device__ float4 fade_frame(float2 z)
 
 __device__ float4 cross(float2 z)
 {
-  float d = par[0];
+  float d = _SEED_W;
    
   float w = -1;
 
@@ -35,7 +34,7 @@ __device__ float4 cross(float2 z)
 
 __device__ float4 fade_frame2(float2 z)
 {
-  float d = par[0];
+  float d = _SEED_W;
     
   if(z.x < (-1.0f + d) || z.x > (1.0f - d) || z.y < (-1.0f + d) || z.y > (1.0f - d)){
 

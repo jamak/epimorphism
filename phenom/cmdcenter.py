@@ -9,7 +9,7 @@ import StringIO
 
 import sys
 
-class CmdCenter:
+class CmdCenter(object):
 
     def __init__(self, state, renderer, engine):
         self.state, self.renderer, self.engine = state, renderer, engine
@@ -40,6 +40,24 @@ class CmdCenter:
         for line in val[1]:
             exec(line)
         self.engine.compile_kernel()
+
+
+    def register(self, name, default=0):
+        idx = len(self.state.par_names)
+        state.par_names[name] = idx
+        state.par[idx] = default
+        
+
+
+   # def __getattribute__(self, name):
+   #     return object.__getattribute__(self, name)
+        
+    def __getattr__(self, name):
+        self.__missing_method_name = name
+        return getattr(self, "__methodmissing__")
+
+    def __methodmissing__(self, *args, **kwargs):
+        print "asdfasdfasd"
 
 
     def cmd(self, code):

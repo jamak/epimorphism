@@ -36,8 +36,9 @@ class KeyboardHandler:
             self.engine.next_frame = True            
 
         elif(key == "\015"): # enter
-            StateManager().save_state(self.state, 
-                                      Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1))
+            image = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1)
+            image.show()
+            StateManager().save_state(self.state, image)
 
         elif(key == "\\"):
             self.engine.reset_fb()

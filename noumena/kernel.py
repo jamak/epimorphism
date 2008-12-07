@@ -13,6 +13,13 @@ def loadKernel(state):
     contents = file.read()
     file.close()
 
+    par_name_str = ""
+
+    for name in state.par_names:
+        par_name_str += "#define " + name + " par[" + str(state.par_names[name]) + "]\n"        
+
+    contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
+
     # replace variables
     for key in state.__dict__:
         contents = re.compile('\%' + key + '\%').sub(str(state.__dict__[key]), contents)
