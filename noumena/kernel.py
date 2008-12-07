@@ -4,19 +4,16 @@ from ctypes import *
 
 libnum = 0
 
-def loadKernel(state):
-
-    global libnum
-    
+def render_file(name, state):
     # open file & read contents
-    file = open("aer/kernel.ecu")
+    file = open("aer/" + name + ".ecu")
     contents = file.read()
     file.close()
 
     par_name_str = ""
 
-    for name in state.par_names:
-        par_name_str += "#define " + name + " par[" + str(state.par_names[name]) + "]\n"        
+    for par_name in state.par_names:
+        par_name_str += "#define " + par_name + " par[" + str(state.par_names[par_name]) + "]\n"        
 
     contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
 
@@ -25,9 +22,17 @@ def loadKernel(state):
         contents = re.compile('\%' + key + '\%').sub(str(state.__dict__[key]), contents)
 
     # write file contents
-    file = open("aer/__kernel.cu", 'w')
+    file = open("aer/__" + name + ".cu", 'w')
     file.write(contents)
     file.close()
+
+
+def loadKernel(state):
+
+    global libnum
+    
+    render_file("seed", state)
+    render_file("kernel", state)
 
     # compile
     os.system("rm lib/kernel" + str(libnum) + ".so")

@@ -6,7 +6,7 @@ __constant__ float2 zn[10];
 #include "util.cu"
 #include "colorspace.cu"
 #include "math.cu"
-#include "seed.cu"
+#include "__seed.cu"
 #include "color.cu"
 #include "reduce.cu"
 
@@ -47,7 +47,7 @@ extern "C" {
 
 	result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
 
-	if(result.w > 20.0f * par[10] && par[10] != 0.0f)	  
+	if(result.w > 20.0f * _CULL_DEPTH && _CULL_DEPTH != 0.0f)	  
 	  result = vec4(0.0, 0.0, 0.0, 0.0);
 
 	z = z_c;

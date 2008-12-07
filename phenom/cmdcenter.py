@@ -39,14 +39,7 @@ class CmdCenter(object):
         self.state.T_SEED = val[0]
         for line in val[1]:
             exec(line)
-        self.engine.compile_kernel()
-
-
-    def register(self, name, default=0):
-        idx = len(self.state.par_names)
-        state.par_names[name] = idx
-        state.par[idx] = default
-        
+        self.engine.compile_kernel()    
 
 
    # def __getattribute__(self, name):
