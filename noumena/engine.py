@@ -51,7 +51,7 @@ class Engine:
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
         # compile kernel
-        self.compile_kernel()
+        self.load_kernel()
 
         # misc variables
         self.next_frame = False
@@ -67,7 +67,7 @@ class Engine:
 
 
     def __del__(self):
-        print "del!!!"
+        print "close engine"
         cudaFreeArray(self.fb)
         cudaFree(self.output_2D)
         cudaGLUnregisterBufferObject(self.pbo)
@@ -101,7 +101,7 @@ class Engine:
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
-    def compile_kernel(self):
+    def load_kernel(self):
 
         # compute kernel
         self.kernel = loadKernel(self.state)

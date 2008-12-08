@@ -41,7 +41,7 @@ class CmdCenter(object):
         exec("self.state." + data + " = val[0]")
         for line in val[1]:
             exec(line)
-        self.engine.compile_kernel()
+        self.engine.load_kernel()
 
 
    # def __getattribute__(self, name):

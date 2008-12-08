@@ -12,6 +12,9 @@ __constant__ float2 zn[10];
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
 
+extern __device__ float2 do_math1(float2);
+extern __device__ float2 do_math2(float2);
+
 extern "C" {
 
   __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim, 
@@ -31,13 +34,13 @@ extern "C" {
 
 	float2 z_c = z;
 
-	z = recover(%REDUCE%(%T%));   
+	z = recover(%REDUCE%(do_math1(z)));   
 
 	float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));    
 
 	z = recover(%REDUCE%(%T_SEED%));  
 
-	float4 seed = _gamma3(%SEED%(z), 2.2);
+	float4 seed = _gamma3(%SEED%(do_math2(z)), 2.2);
 
 	//if((((int)roundf(frame.w))) % 2.0)
 	//  seed.w = 1.0 - seed.w;

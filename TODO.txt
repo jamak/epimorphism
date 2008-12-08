@@ -1,12 +1,9 @@
 
-
-implement HSls conversions
-
 implement color func?
 
 
 
-MIDI & finish delta paths
+MIDI & finish 'delta' paths
 
 add comments
 
@@ -15,11 +12,10 @@ comprehensive logging
 clean up console code & improve
 
 
+set up correct code interpolation /
+optimize load_kernel
 
 render movies & correct animation timing
-
-switch to driver api /
-set up correct code interpolation
 
 state version control
 
