@@ -12,58 +12,55 @@ __constant__ float2 zn[10];
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
 
-extern __device__ float2 do_math1(float2);
-extern __device__ float2 do_math2(float2);
-
 extern "C" {
 
-  __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim, 
-			    float i_kernel_dim, float m_i_kernel_dim, float i_n_sq, float inc)
+  __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim,
+                            float i_kernel_dim, float m_i_kernel_dim, float i_n_sq, float inc)
   {
     unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int y = blockIdx.y * blockDim.y + threadIdx.y;
-    
+
     float4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
-    float2 z_z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f); 	
-    float2 z = vec2(0.0f, 0.0f);    
+    float2 z_z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
+    float2 z = vec2(0.0f, 0.0f);
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
       for(z.y = z_z.y - i_kernel_dim; z.y <= z_z.y + m_i_kernel_dim; z.y += inc){
 
-	float2 z_c = z;
+        float2 z_c = z;
 
-	z = recover(%REDUCE%(do_math1(z)));   
+        z = recover(%REDUCE%(%T%));
 
-	float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));    
+        float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
 
-	z = recover(%REDUCE%(%T_SEED%));  
+        z = recover(%REDUCE%(%T_SEED%));
 
-	float4 seed = _gamma3(%SEED%(do_math2(z)), 2.2);
+        float4 seed = _gamma3(%SEED%(z), 2.2);
 
-	//if((((int)roundf(frame.w))) % 2.0)
-	//  seed.w = 1.0 - seed.w;
+        //if((((int)roundf(frame.w))) % 2.0)
+        //  seed.w = 1.0 - seed.w;
 
-	result = result + seed.w * seed + (1.0f - seed.w) * frame;
+        result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
-	// cull mode
-	result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
+        // cull mode
+        result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
 
-	if(result.w > 20.0f * _CULL_DEPTH && _CULL_DEPTH != 0.0f)	  
-	  result = vec4(0.0, 0.0, 0.0, 0.0);
+        if(result.w > 20.0f * _CULL_DEPTH && _CULL_DEPTH != 0.0f)
+          result = vec4(0.0, 0.0, 0.0, 0.0);
 
-	z = z_c;
+        z = z_c;
 
       }
-    
+
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLORIFY%(v);
 
     // set output variables
     out[y * out_pitch + x] = result;
-    pbo[y * kernel_dim + x] = make_uchar4(255.0f * result.x, 255.0f * result.y, 
-    					  255.0f * result.z, 255.0f * result.w); 
+    pbo[y * kernel_dim + x] = make_uchar4(255.0f * result.x, 255.0f * result.y,
+                                          255.0f * result.z, 255.0f * result.w);
   }
 
 }

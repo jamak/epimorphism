@@ -7,12 +7,12 @@ from common.logger import *
 
 from noumena.kernel import *
 
-class Engine:    
+class Engine:
 
     def __init__(self, profile, state, pbo):
 
-        log("en: initializing")    
-        self.profile, self.state = profile, state        
+        log("en: initializing")
+        self.profile, self.state = profile, state
 
         # get device
         self.cuda_device = c_int()
@@ -23,7 +23,7 @@ class Engine:
         cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
         print str(self.cuda_properties)
 
-        # create frame buffer 
+        # create frame buffer
         self.channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
         self.fb = cudaArray_p()
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
@@ -33,15 +33,15 @@ class Engine:
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # create output_2D
-        self.output_2D, self.output_2D_pitch = c_void_p(), c_ulong()
-        cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch), self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
-        cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)    
+        self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
+        cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch), self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)
+        cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)
 
         # initialize timing info
         self.time_events = True
         self.frame_count = 0.0
         self.events = [cudaEvent_t() for i in range(4)]
-        [cudaEventCreate(byref(event)) for event in self.events]    
+        [cudaEventCreate(byref(event)) for event in self.events]
         self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
         self.event_accum = [0 for i in range(len(self.events) - 1)]
         self.time_accum = 0
@@ -58,8 +58,8 @@ class Engine:
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
-        status = cudaGLRegisterBufferObject(self.pbo)        
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
+        status = cudaGLRegisterBufferObject(self.pbo)
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
 
         # malloc host array
         self.host_array = c_void_p()
@@ -72,7 +72,7 @@ class Engine:
         cudaFree(self.output_2D)
         cudaGLUnregisterBufferObject(self.pbo)
 
-        [cudaEventDestroy(event) for event in self.events]    
+        [cudaEventDestroy(event) for event in self.events]
 
 
     def record_event(self, idx):
@@ -84,9 +84,9 @@ class Engine:
     def print_timings(self):
 
         if(self.time_events):
-            cudaEventSynchronize(self.events[-1])        
-            
-            times = [c_float() for i in range(len(self.events) - 1)]        
+            cudaEventSynchronize(self.events[-1])
+
+            times = [c_float() for i in range(len(self.events) - 1)]
             [cudaEventElapsedTime(byref(times[i]), self.events[i], self.events[i+1]) for i in range(len(times))]
 
             self.event_accum_tmp = [self.event_accum_tmp[i] + times[i].value for i in range(len(times))]
@@ -121,9 +121,9 @@ class Engine:
 
     def get_fb(self):
 
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)    
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
 
-        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4, 
+        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
         return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
@@ -134,8 +134,8 @@ class Engine:
 
 
     def set_fb(self, data):
-        
-        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim * sizeof(float4), 
+
+        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim, cudaMemcpyHostToDevice)
 
 
@@ -148,9 +148,9 @@ class Engine:
 
         # begin
         self.record_event(0)
-        self.frame_count += 1            
+        self.frame_count += 1
 
-        # upload par & zn     
+        # upload par & zn
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
@@ -158,16 +158,16 @@ class Engine:
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
-        self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr, 
-                    self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim, 
-                    1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))            
+        self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr,
+                    self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim,
+                    1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
         self.record_event(1)
 
         # copy data to input_array
-        cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4), 
+        cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record_event(2)
-    
+
         # unmap pbo
         cudaGLUnmapBufferObject(self.pbo)
         self.record_event(3)

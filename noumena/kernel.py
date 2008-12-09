@@ -13,7 +13,7 @@ def render_file(name, state):
     par_name_str = ""
 
     for par_name in state.par_names:
-        par_name_str += "#define " + par_name + " par[" + str(state.par_names[par_name]) + "]\n"        
+        par_name_str += "#define " + par_name + " par[" + str(state.par_names[par_name]) + "]\n"
 
     contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
 
@@ -29,16 +29,16 @@ def render_file(name, state):
 def loadKernel(state):
 
     global libnum
-    
+
     render_file("seed", state)
     render_file("kernel", state)
 
     # compile
     os.system("rm lib/kernel" + str(libnum) + ".so")
     os.system("rm lib/kernel" + str(libnum - 1) + ".so")
-    os.system("/usr/local/cuda/bin/nvcc -o lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
+    os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
 
-    # via ctypes interface    
+    # via ctypes interface
     lib = CDLL('lib/kernel' + str(libnum) + '.so', RTLD_LOCAL)
     kernel = lib.__device_stub_kernel_fb
     kernel.restype = None

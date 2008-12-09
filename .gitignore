@@ -6,6 +6,6 @@
 *.bmp
 *.jpg
 *.png
-__*
+__*.cu
 *log.txt
 *.epi

@@ -5,8 +5,6 @@ from OpenGL.GLUT import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
-from noumena.console import *
-
 from common.logger import *
 
 
@@ -22,13 +20,13 @@ class Renderer():
         # initialize glut
         glutInit(1, [])
 
-        # create window    
+        # create window
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
-      
+
         if(self.profile.full_screen):
             log("re: fullscreen")
-            glutGameModeString(str(self.profile.viewport_width) + "x" + 
-                               str(self.profile.viewport_height) + ":24@" + 
+            glutGameModeString(str(self.profile.viewport_width) + "x" +
+                               str(self.profile.viewport_height) + ":24@" +
                                str(self.profile.viewport_refresh))
             glutEnterGameMode()
 
@@ -48,17 +46,17 @@ class Renderer():
         self.pbo = GLuint()
 
         glGenBuffers(1, byref(self.pbo))
-        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)     
+        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         empty_buffer = (c_float * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
         glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-        # generate texture 
+        # generate texture
         self.display_tex = glGenTextures(1)
-        glBindTexture(GL_TEXTURE_2D, self.display_tex)  
+        glBindTexture(GL_TEXTURE_2D, self.display_tex)
 
         glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim, 
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.profile.kernel_dim, self.profile.kernel_dim,
                      0, GL_RGBA, GL_UNSIGNED_BYTE, None)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
@@ -67,15 +65,15 @@ class Renderer():
 
         # init gl
         glEnable(GL_TEXTURE_2D)
-        glClearColor(0.0, 0.0, 0.0, 0.0)	
+        glClearColor(0.0, 0.0, 0.0, 0.0)
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST)
         glShadeModel(GL_FLAT)
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         # fps data
-        self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME) 
-        self.frame_count = 0.0               
+        self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
+        self.frame_count = 0.0
 
         # misc variables
         self.console = False
@@ -91,14 +89,14 @@ class Renderer():
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
         glutMouseFunc(mouse)
-        glutMotionFunc(motion)        
+        glutMotionFunc(motion)
         self.render_console = render_console
-        self.console_keyboard = console_keyboard        
+        self.console_keyboard = console_keyboard
 
 
     def set_inner_loop(self, inner_loop):
         glutDisplayFunc(inner_loop)
-    
+
 
     def reshape(self, w, h):
 
@@ -127,7 +125,7 @@ class Renderer():
             glutKeyboardFunc(self.keyboard)
 
 
-    def do(self):      
+    def do(self):
 
         # compute frame rate
         self.frame_count += 1
@@ -142,15 +140,15 @@ class Renderer():
         # copy texture from pbo
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.pbo)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim, 
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, self.profile.kernel_dim, self.profile.kernel_dim,
                         GL_RGBA, GL_UNSIGNED_BYTE, None)
         glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0)
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, 0)
 
         # compute texture coordinates
-        x0 = .5 - self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
-        x1 = .5 + self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect 
-        y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y 
+        x0 = .5 - self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect
+        x1 = .5 + self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect
+        y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
         y1 = .5 + self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
 
 
@@ -172,7 +170,7 @@ class Renderer():
 
         # render console
         if(self.console):
-            self.render_console()                     
+            self.render_console()
 
         # repost
         glutSwapBuffers()
