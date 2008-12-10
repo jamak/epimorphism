@@ -1,0 +1,7 @@
+zn[6] * z + zn[7]                 : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * 1.0 / z + zn[7]           : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * sin(z) + zn[7]            : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * cos(z) + zn[7]            : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * exp(z) + zn[7]            : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * sinh(z) + zn[7]           : (self.state.zn[6] = 1.0 + 0.0j)
+zn[6] * tanh(z) + zn[7]           : (self.state.zn[6] = 1.0 + 0.0j)

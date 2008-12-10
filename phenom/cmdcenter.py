@@ -3,6 +3,7 @@ from phenom.console import *
 from phenom.keyboard import *
 from phenom.mouse import *
 from phenom.server import *
+from phenom.midi import *
 
 from aer.datamanager import *
 
@@ -20,12 +21,18 @@ class CmdCenter(object):
         console = Console(self)
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion, console.render_console, console.console_keyboard)
 
+        # start datamanager
         self.datamanager = DataManager()
 
+        # start server
         self.server = Server(self)
-    
         self.server.start()
 
+        # start midi
+        self.midi = MidiHandler(self)
+        self.midi.start()
+
+        # init indices
         self.T_idx = 0
         self.T_SEED_idx = 0
         self.SEED_idx = 0
@@ -46,7 +53,7 @@ class CmdCenter(object):
 
    # def __getattribute__(self, name):
    #     return object.__getattribute__(self, name)
-        
+
     def __getattr__(self, name):
         self.__missing_method_name = name
         return getattr(self, "__methodmissing__")
@@ -56,9 +63,9 @@ class CmdCenter(object):
 
 
     def cmd(self, code):
-        out = StringIO.StringIO()        
+        out = StringIO.StringIO()
         sys.stdout = out
- 
+
         err = ""
 
         try:
@@ -68,7 +75,7 @@ class CmdCenter(object):
 
 
         sys.stdout = sys.__stdout__
-    
+
         res = [out.getvalue(), err]
 
         out.close()
@@ -78,4 +85,4 @@ class CmdCenter(object):
 
     def do(self):
         self.animator.do()
-    
+

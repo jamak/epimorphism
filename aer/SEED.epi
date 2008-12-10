@@ -1,0 +1,1 @@
+seed_wca : (self.state.SEED_W="lines_inner", self.state.SEED_C="simple_color", self.state.SEED_A="circular_alpha")
