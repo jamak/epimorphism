@@ -6,8 +6,6 @@
 
 fix memory bug on exit
 
-clean up console code & improve
-
 
 
 ###################################

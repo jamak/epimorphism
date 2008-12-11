@@ -34,6 +34,18 @@ class CmdCenter(object):
             self.midi = MidiHandler(self)
             self.midi.start()
 
+        # generate cmd exec environment
+        func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start',
+                          'keyboard', 'console_keyboard', 'register_callbacks', 'render_console']
+
+        def get_funcs(obj):
+            return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
+
+        self.env = get_funcs(self.engine)
+        self.env.update(get_funcs(self.renderer))
+        self.env.update(get_funcs(self.animator))
+        self.env.update(self.state.__dict__)
+
         # init indices
         self.T_idx = 0
         self.T_SEED_idx = 0
@@ -53,17 +65,6 @@ class CmdCenter(object):
         self.engine.load_kernel()
 
 
-   # def __getattribute__(self, name):
-   #     return object.__getattribute__(self, name)
-
-    def __getattr__(self, name):
-        self.__missing_method_name = name
-        return getattr(self, "__methodmissing__")
-
-    def __methodmissing__(self, *args, **kwargs):
-        print "asdfasdfasd"
-
-
     def cmd(self, code):
         out = StringIO.StringIO()
         sys.stdout = out
@@ -71,7 +72,7 @@ class CmdCenter(object):
         err = ""
 
         try:
-            exec(code, self.state.__dict__)
+            exec(code, self.env)
         except:
             err = traceback.format_exc().split("\n")[-2]
 
