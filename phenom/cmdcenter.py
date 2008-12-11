@@ -45,6 +45,7 @@ class CmdCenter(object):
         self.env.update(get_funcs(self.renderer))
         self.env.update(get_funcs(self.animator))
         self.env.update(self.state.__dict__)
+        self.env.update(self.context.__dict__)
 
         # init indices
         self.T_idx = 0

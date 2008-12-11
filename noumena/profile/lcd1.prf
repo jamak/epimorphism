@@ -1,36 +1,10 @@
-(inoumena.state
-Profile
-p0
-(dp1
-S'name'
-p2
-S'box1'
-p3
-sS'debug_freq'
-p4
-F125.0
-sS'full_screen'
-p5
-I01
-sS'viewport_refresh'
-p6
-I60
-sS'vp_center_x'
-p7
-F0.0
-sS'vp_center_y'
-p8
-F0.0
-sS'kernel_dim'
-p9
-I1536
-sS'viewport_height'
-p10
-I1050
-sS'vp_scale'
-p11
-F1.0
-sS'viewport_width'
-p12
-I1680
-sb.
+{'name': 'box1',
+ 'debug_freq': 125.0,
+ 'full_screen': True,
+ 'viewport_refresh': 60,
+ 'vp_center_x': 0.0,
+ 'vp_center_y': 0.0,
+ 'kernel_dim': 2048,
+ 'viewport_height': 1050,
+ 'vp_scale': 1.0,
+ 'viewport_width': 1680}

@@ -6,6 +6,9 @@
 
 fix memory bug on exit
 
+clean up console code & improve
+
+more robust aer/phenom/noumena system
 
 
 ###################################
@@ -18,8 +21,6 @@ fix memory bug on exit
 render movies & correct animation timing
 
 state version control
-
-more legible pickling
 
 kernel optimization
 
