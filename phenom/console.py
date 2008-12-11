@@ -14,21 +14,21 @@ class Console:
 
         self.cmdcenter, self.renderer = cmdcenter, cmdcenter.renderer
 
-        self.console_tex = glGenTextures(1)
-        glBindTexture(GL_TEXTURE_2D, self.console_tex)  
+        #self.console_tex = glGenTextures(1)
+        #glBindTexture(GL_TEXTURE_2D, self.console_tex)
 
-        data = (c_ubyte * (20 * 20 * 4 * sizeof(c_ubyte)))()
+        #data = (c_ubyte * (20 * 20 * 4 * sizeof(c_ubyte)))()
 
-        for i in range(0, 20*20*4):
-            data[i] = 0
+        #for i in range(0, 20*20*4):
+        #    data[i] = 0
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, 20, 20, 
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, data)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        #glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+        #glTexImage2D(GL_TEXTURE_2D, 0, 3, 20, 20,
+#                     0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
         self.console_font_size = 12
         self.max_num_status_rows = 20
@@ -37,19 +37,21 @@ class Console:
         self.active_text = ""
         self.cmd_queue = []
         self.queue_idx = -1
+        self.cursor_pos = 0
+
 
         self.font = common.glFreeType.font_data(self.FONT_PATH, self.console_font_size)
 
 
-    def render_console(self):    
+    def render_console(self):
 
-        # glBindTexture(GL_TEXTURE_2D, self.console_tex)    
-        glBindTexture(GL_TEXTURE_2D, 0) 
+        # glBindTexture(GL_TEXTURE_2D, self.console_tex)
+        glBindTexture(GL_TEXTURE_2D, 0)
 
         num_rows = min(len(self.status_rows), self.max_num_status_rows)
 
-        dims = [1.0 - 2.0 * self.console_width / self.renderer.profile.viewport_width, 
-                -1.0 + 2.0 * (10 + (self.console_font_size + 4) * (1 + num_rows)) / self.renderer.profile.viewport_height]   
+        dims = [1.0 - 2.0 * self.console_width / self.renderer.profile.viewport_width,
+                -1.0 + 2.0 * (10 + (self.console_font_size + 4) * (1 + num_rows)) / self.renderer.profile.viewport_height]
 
         dims_v = [self.renderer.profile.viewport_width - self.console_width, 0]
 
@@ -67,7 +69,10 @@ class Console:
 
         # render active_text
         glColor3ub(0xff, 0xff, 0xff)
+        tmp = self.active_text
+        self.active_text = self.active_text[0:self.cursor_pos] + '|' + self.active_text[self.cursor_pos:]
         self.font.glPrint(dims_v[0] + 6 + 5, 5, self.active_text)
+        self.active_text = tmp
 
         # render status
         for i in range(0, num_rows):
@@ -89,15 +94,17 @@ class Console:
             self.renderer.toggle_console()
 
         elif(key == "\010"): # backspace
-            if(self.active_text == ""):
-                return 
+            if(self.cursor_pos == 0):
+                return
             else:
-                self.active_text = self.active_text[0:-1]
-        
+                self.active_text = self.active_text[:self.cursor_pos-1] + self.active_text[self.cursor_pos:]
+                self.cursor_pos -= 1
+
         elif(key == "\015"): # enter
+            self.cursor_pos = 0
             self.cmd_queue.append(self.active_text)
             response = self.cmdcenter.cmd(self.active_text)
-            self.status_rows.append([self.active_text, 0])            
+            self.status_rows.append([self.active_text, 0])
             self.active_text = ""
             self.queue_idx = 0
             for line in response[0].split("\n"):
@@ -113,6 +120,7 @@ class Console:
             self.queue_idx += 1
             self.queue_idx %= len(self.cmd_queue)
             self.active_text = self.cmd_queue[-(self.queue_idx)]
+            self.cursor_pos = len(self.active_text)
 
         elif(key == GLUT_KEY_DOWN):
             if(len(self.cmd_queue) == 0):
@@ -120,8 +128,18 @@ class Console:
             self.queue_idx -= 1
             self.queue_idx %= len(self.cmd_queue)
             self.active_text = self.cmd_queue[-(self.queue_idx)]
+            self.cursor_pos = len(self.active_text)
+
+        elif(key == GLUT_KEY_LEFT):
+            if(self.cursor_pos != 0):
+                self.cursor_pos -= 1
+
+        elif(key == GLUT_KEY_RIGHT):
+            if(self.cursor_pos != len(self.active_text)):
+                self.cursor_pos += 1
 
         else:
-            self.active_text += str(key)
-        
-            
+            self.active_text = self.active_text[0:self.cursor_pos] + str(key) + self.active_text[self.cursor_pos:]
+            self.cursor_pos += 1
+
+

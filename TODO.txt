@@ -1,32 +1,67 @@
+###################################
+#
+#  engine, simple
+#
+#
 
-implement color func?
-
-
-
-MIDI & finish 'delta' paths
-
-add comments
-
-comprehensive logging
+fix memory bug on exit
 
 clean up console code & improve
 
 
-set up correct code interpolation /
-optimize load_kernel
+
+###################################
+#
+#  engine, complex
+#
+#
+
 
 render movies & correct animation timing
 
 state version control
 
-optimization
+more legible pickling
 
+kernel optimization
+
+add comments &
+comprehensive logging
+
+
+set up correct code interpolation &
+  optimize load_kernel
+
+correct var setter functions
+  (maybe not necessary with code interpolation)
+
+
+
+###################################
+#
+#  aer, after engine completed
+#
+#
+
+
+implement color func?
 
 populate seed database
+
 populate t databasees
 
+fill in MIDI information
 
 
+
+###################################
+#
+#  some time in the future
+#
+#
+
+
+midi smoothing. maybe keyboard smoothing
 
 unit tests
 
@@ -39,3 +74,8 @@ click point, get value, etc
 print kernel param???
 
 cull mode glitches
+
+individual par_scaling?
+  maybe with modifiable ranges for midi controls?
+
+midi output

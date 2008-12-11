@@ -9,3 +9,5 @@
 __*.cu
 *log.txt
 *.linkinfo
+*.ptx
+*.est

@@ -13,8 +13,8 @@ import sys
 
 class CmdCenter(object):
 
-    def __init__(self, state, renderer, engine):
-        self.state, self.renderer, self.engine = state, renderer, engine
+    def __init__(self, state, renderer, engine, context):
+        self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
         self.animator = Animator()
         mouse_handler = MouseHandler(self, renderer.profile)
         keyboard_handler = KeyboardHandler(self)
@@ -25,12 +25,14 @@ class CmdCenter(object):
         self.datamanager = DataManager()
 
         # start server
-        self.server = Server(self)
-        self.server.start()
+        if(context.server):
+            self.server = Server(self)
+            self.server.start()
 
         # start midi
-        self.midi = MidiHandler(self)
-        self.midi.start()
+        if(context.midi):
+            self.midi = MidiHandler(self)
+            self.midi.start()
 
         # init indices
         self.T_idx = 0
@@ -69,7 +71,7 @@ class CmdCenter(object):
         err = ""
 
         try:
-            exec code
+            exec(code, self.state.__dict__)
         except:
             err = traceback.format_exc().split("\n")[-2]
 

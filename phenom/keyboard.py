@@ -16,7 +16,7 @@ class KeyboardHandler:
 
     def __init__(self, cmdcenter):
         self.cmdcenter = cmdcenter
-        self.state, self.animator, self.engine, self.renderer = self.cmdcenter.state, self.cmdcenter.animator, self.cmdcenter.engine, self.cmdcenter.renderer
+        self.state, self.animator, self.engine, self.renderer, self.context = self.cmdcenter.state, self.cmdcenter.animator, self.cmdcenter.engine, self.cmdcenter.renderer, self.cmdcenter.context
 
 
     def keyboard(self, key, x, y):
@@ -49,10 +49,10 @@ class KeyboardHandler:
         elif(key == "\011"): # tab
             if(self.state.manual_iter):
                 self.engine.next_frame = True
-            self.state.manual_iter = not self.state.manual_iter        
+            self.state.manual_iter = not self.state.manual_iter
 
         elif(key == "\040"): # space
-            self.engine.next_frame = True            
+            self.engine.next_frame = True
 
         elif(key == "\015"): # enter
             image = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1)
@@ -101,14 +101,14 @@ class KeyboardHandler:
             i = ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = copy(z0)
-            z1[0] += 0.05
+            z1[0] += self.context.par_scale * 0.05
             self.animator.animate_var("zn" + str(i), lambda z: self.zn_setter(i, z), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
 
         elif(key in ["z", "x", "c", "v", "b", "n", "m", ",", ".", "/"]):
             i = ["z", "x", "c", "v", "b", "n", "m", ",", ".", "/"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = copy(z0)
-            z1[0] -= 0.05
+            z1[0] -= self.context.par_scale * 0.05
             if(z1[0] < 0.0):
                 z1[0] = 0
             self.animator.animate_var("zn" + str(i), lambda z: self.zn_setter(i, z), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
@@ -117,15 +117,21 @@ class KeyboardHandler:
             i = ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = copy(z0)
-            z1[1] += 2.0 * pi / 32.0
+            z1[1] += self.context.par_scale * 2.0 * pi / 32.0
             self.animator.animate_var("zn" + str(i), lambda z: self.zn_setter(i, z), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
 
         elif(key in ["Z", "X", "C", "V", "B", "N", "M", "<", ">", "?"]):
             i = ["Z", "X", "C", "V", "B", "N", "M", "<", ">", "?"].index(key)
             z0 = r_to_p(self.state.zn[i])
             z1 = copy(z0)
-            z1[1] -= 2.0 * pi / 32.0
+            z1[1] -= self.context.par_scale * 2.0 * pi / 32.0
             self.animator.animate_var("zn" + str(i), lambda z: self.zn_setter(i, z), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
+
+        elif(key == GLUT_KEY_PAGE_UP):
+            self.context.par_scale *= 2.0
+
+        elif(key == GLUT_KEY_PAGE_DOWN):
+            self.context.par_scale /= 2.0
 
 
     def zn_setter(self, i, z):

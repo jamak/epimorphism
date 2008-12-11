@@ -88,6 +88,7 @@ class Renderer():
     def register_callbacks(self, keyboard, mouse, motion, render_console, console_keyboard):
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
+        glutSpecialFunc(keyboard)
         glutMouseFunc(mouse)
         glutMotionFunc(motion)
         self.render_console = render_console

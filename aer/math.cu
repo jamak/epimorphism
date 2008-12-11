@@ -1,3 +1,4 @@
+
 __device__ float2 sq(float2 v0){
   return v0 * v0;
 }
@@ -57,14 +58,21 @@ __device__ float2 P(float2 v0, float2 v1){
 //}
 
 __device__ float2 H(float2 v0){
-  float2 v1 = vec2(par[5], par[6]);
+  //float2 v1 = vec2(par[5], par[6]);
+  float2 v1 = vec2(0.0,0.0);
   return vec2(1 - v1.x * v0.x * v0.x + v0.y, v1.y * v0.x);
 }
 
 __device__ float2 B(float2 v0){
-  float K = par[5];
+  float K = 0.0;//par[5];
   float pi = 3.14159265;
   float mid = v0.x + K * sinf( pi * (v0.y + 1) ) / pi - 1;
   return vec2(mid, v0.y + mid);
 }
 
+/*
+__global__ void do_math(float2 z, float2 *z_out){
+  float2 res =  z * sin(z);
+  z_out[0] = res;
+}
+*/
