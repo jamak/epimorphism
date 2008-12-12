@@ -1,3 +1,5 @@
+import sys
+
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
@@ -5,9 +7,8 @@ from ctypes import *
 from cuda.cuda_defs import *
 from copy import *
 
-import Image
-
 from phenom.cmdcenter import *
+from noumena.state import *
 
 from common.complex import *
 
@@ -41,7 +42,7 @@ class KeyboardHandler:
             return
 
         if(key == "\033"):
-            exit()
+            sys.exit()
 
         elif(key == "`"):
             self.renderer.toggle_console()
@@ -55,7 +56,7 @@ class KeyboardHandler:
             self.engine.next_frame = True
 
         elif(key == "\015"): # enter
-            image = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1)
+            image = self.cmdcenter.grab_image()
             StateManager().save_state(self.state, image)
 
         elif(key == "\\"):

@@ -36,7 +36,7 @@ class StateManager:
 
 
     def default_context(self, **vars):
-        vars.update({'par_scale' : 1, 'midi' : False, 'server' : False, 'render_movie' : False})
+        vars.update({'par_scale' : 1, 'midi' : False, 'server' : False, 'render_video' : True, 'max_video_frames' : 20, 'video_frame_time' : 100 })
         return Context(**vars)
 
 

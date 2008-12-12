@@ -1,39 +1,26 @@
 ###################################
 #
-#  engine, simple
+#  engine
 #
 #
 
-fix memory bug on exit
-
-clean up console code & improve
-
-more robust aer/phenom/noumena system
-
-
-###################################
-#
-#  engine, complex
-#
-#
-
-
-render movies & correct animation timing
 
 state version control
 
-kernel optimization
-
 add comments &
 comprehensive logging
+new style classes
+more robust aer/phenom/noumena system
+clean code
 
+
+kernel optimization
 
 set up correct code interpolation &
   optimize load_kernel
 
 correct var setter functions
   (maybe not necessary with code interpolation)
-
 
 
 ###################################
@@ -59,6 +46,25 @@ fill in MIDI information
 #
 #
 
+
+write ffmpeg script
+
+reset z's/par /
+  real time load state
+
+website
+
+animation framework
+
+windows & mac compatible
+
+compile to binaries
+
+device emulation mode
+
+smartly deal with deviceProperties
+
+make sure __del__ is called
 
 midi smoothing. maybe keyboard smoothing
 

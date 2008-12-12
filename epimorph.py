@@ -11,10 +11,6 @@ from noumena.state import *
 from noumena.engine import *
 from noumena.renderer import *
 
-from common.logger import *
-
-log("EP: START - " + datetime.date.today().strftime("%m/%d/%y"))
-
 # get variables
 profile_vars = dict(tuple(map(lambda x: (x[0], eval(x[1])), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == '@'))))
 state_vars   = dict(tuple(map(lambda x: (x[0], eval(x[1])), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == '%'))))

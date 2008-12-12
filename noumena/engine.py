@@ -20,8 +20,8 @@ class Engine:
 
         # get/print properties
         self.cuda_properties = cudaDeviceProp()
-        cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
-        print str(self.cuda_properties)
+        #cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
+        #print str(self.cuda_properties)
 
         # create frame buffer
         self.channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
@@ -70,6 +70,7 @@ class Engine:
         print "close engine"
         cudaFreeArray(self.fb)
         cudaFree(self.output_2D)
+        cudaFree(self.host_array)
         cudaGLUnregisterBufferObject(self.pbo)
 
         [cudaEventDestroy(event) for event in self.events]
@@ -130,6 +131,7 @@ class Engine:
 
 
     def reset_fb(self):
+
         self.set_fb((float4 * (self.profile.kernel_dim ** 2))())
 
 
