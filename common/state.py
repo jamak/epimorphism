@@ -1,32 +1,45 @@
+#
+#  state.py - definition and management of State/Profile/Context
+#
+#    The epimorphism project uses the three structures state/profile/context#    for configuration:
+#      state   - configuration variable for the systme being rendered
+#      profile - internal renderer/engine configuration
+#      context - execution context & misc parameters
+#
+
 import noumena
-import phenom
-import aer
 
 import os.path
 
-import common.default
+from common.migration import *
 
-class State:
+class State(object):
+
+    def __init__(self, **vars):
+        self.__dict__.update(migrate(vars))
+
+
+
+class Profile(object):
 
     def __init__(self, **vars):
         self.__dict__.update(vars)
 
 
-class Profile:
+
+class Context(object):
 
     def __init__(self, **vars):
         self.__dict__.update(vars)
 
 
-class Context:
 
-    def __init__(self, **vars):
-        self.__dict__.update(vars)
-
-
-class StateManager:
+class StateManager(object):
 
     extension_names = {"est" : "state", "prf" : "profile", "ctx" : "context"}
+
+    def __init__(self):
+        self.shiz = self.load_dict
 
     def load_dict(self, name, **additional_vars):
         extension = name.split(".")[1]
@@ -44,6 +57,7 @@ class StateManager:
 
 
     def save_state(self, state, image, name=""):
+        state.VERSION = noumena.VERSION
 
         if(name == ""):
             i = 0

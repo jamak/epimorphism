@@ -1,3 +1,0 @@
-#!/bin/bash
-/usr/local/cuda/bin/nvcc -o aer/kernel.so --shared --ptxas-options=-v -keep aer/__kernel.cu
-# /usr/local/cuda/bin/nvcc -ptx aer/__kernel.cu

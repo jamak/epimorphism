@@ -3,7 +3,7 @@ import re
 
 class DataManager:
 
-    def __init__(self):
+    def __init__(self, state):
 
         files = [file for file in os.listdir("aer") if re.search("epi$", file)]
 
@@ -17,6 +17,6 @@ class DataManager:
                     continue
                 val = line.split(':')
                 val[0] = val[0].strip()
-                val[1] = [cmd.strip() for cmd in val[1].strip()[1:-1].split(',')]
+                val[1] = [cmd.strip() for cmd in val[1].strip().split('#')]
                 data.append(val)
             file.close()

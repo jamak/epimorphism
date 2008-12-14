@@ -8,6 +8,8 @@ from phenom.video import *
 
 from aer.datamanager import *
 
+from common.default import *
+
 import StringIO
 
 import sys
@@ -47,7 +49,7 @@ class CmdCenter(object):
                                          console.render_console, console.console_keyboard)
 
         # start datamanager
-        self.datamanager = DataManager()
+        self.datamanager = DataManager(self.state)
 
         # start server
         if(self.context.server):
@@ -75,6 +77,7 @@ class CmdCenter(object):
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
+        funcs.update(default_funcs)
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
         # init indices
@@ -93,7 +96,7 @@ class CmdCenter(object):
         exec("val = self.datamanager." + data + "[self." + data + "_idx]")
         exec("self.state." + data + " = val[0]")
         for line in val[1]:
-            exec(line)
+            exec(line, self.env)
         self.engine.load_kernel()
 
 

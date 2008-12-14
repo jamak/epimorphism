@@ -1,6 +1,20 @@
 #! /usr/bin/python
 
-# Epimorphism - v3.0
+#
+#  epimorphis.py - the entry point to the epimorphism project
+#
+#    Epimorphism - v3.0b
+#
+#    The project is structured into 4 branches:
+#      noumena - the parametric engine which creates & displays
+#      phenom  - the control system for noumena
+#      aer     - the banks of data/libraries phenom uses to control noumena
+#      common  - common functionality across packages & utility libraries
+#
+#    The project uses 3 data structures for configuration - state/profile/context
+#      see common/state.py for reference
+#
+
 
 import sys
 
@@ -15,12 +29,12 @@ from noumena.renderer import *
 #    will load the program with the state: "state2.est", profile: "box1.prf", context: "default.ctx"
 #    it will also set state.T = "z + zn[0] * 4.0" and context.midi = True
 manager = StateManager()
-schema = [("context", '~', 'default', 'ctx'), ("state", '%', 'default', 'est'), ("profile", '@', 'box1', 'prf')]
+info_schema = [("context", '~', 'default', 'ctx'), ("state", '%', 'default', 'est'), ("profile", '@', 'box1', 'prf')]
 
-for scheme in schema:
-    var = dict(tuple(map(lambda x: (x[0], eval('"' + x[1] + '"')), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == scheme[1]))))
-    obj = manager.load_dict(var.setdefault(scheme[0], scheme[2]) + "." + scheme[3], **var)
-    exec(scheme[0] + " = obj")
+for info in info_schema:
+    var = dict(tuple(map(lambda x: (x[0], eval('"' + x[1] + '"')), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == info[1]))))
+    obj = manager.load_dict(var.setdefault(info[0], info[2]) + "." + info[3], **var)
+    exec(info[0] + " = obj")
 
 # initialize components
 renderer   = Renderer(profile, state)

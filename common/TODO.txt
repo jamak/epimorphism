@@ -5,12 +5,13 @@
 #
 
 
+reset z's/par /
+  real time load state
+
 state version control
 
 add comments &
-comprehensive logging
 new style classes
-more robust aer/phenom/noumena system
 clean code
 
 
@@ -32,11 +33,9 @@ correct var setter functions
 
 implement color func?
 
-populate seed database
+populate/upgrade seed database
 
-populate t databasees
-
-fill in MIDI information
+populate/upgrade t databasees
 
 
 
@@ -48,9 +47,6 @@ fill in MIDI information
 
 
 write ffmpeg script
-
-reset z's/par /
-  real time load state
 
 website
 
@@ -80,6 +76,7 @@ print kernel param???
 
 cull mode glitches
 
+fill in MIDI information
 individual par_scaling?
   maybe with modifiable ranges for midi controls?
 
