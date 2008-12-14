@@ -1,8 +1,6 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-from phenom.cmdcenter import *
-
 class MouseHandler:
     vp_start_x = 0
     vp_start_y = 0
@@ -31,10 +29,10 @@ class MouseHandler:
             elif(button == 4):
                 self.state.vp_scale *= 1.1
             elif(button == 3):
-                self.state.vp_scale /= 1.1    
+                self.state.vp_scale /= 1.1
 
 
-    def motion(self, x, y): 
+    def motion(self, x, y):
         self.state.vp_center_x = self.vp_start_x + self.state.vp_scale * (x - self.mouse_start_x) / self.profile.viewport_width;
         self.state.vp_center_y = self.vp_start_y + self.state.vp_scale * (y - self.mouse_start_y) / self.profile.viewport_height;
 

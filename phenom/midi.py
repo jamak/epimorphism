@@ -30,7 +30,7 @@ class MidiHandler(threading.Thread):
 
 
     def midi(self, channel, val):
-        print channel, " ", val
+        # print channel, " ", val
         if(val == 127.0):
             f = 1.0
         else:

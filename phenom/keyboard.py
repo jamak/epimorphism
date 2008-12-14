@@ -7,9 +7,7 @@ from ctypes import *
 from cuda.cuda_defs import *
 from copy import *
 
-from phenom.cmdcenter import *
-from noumena.state import *
-
+from common.state import *
 from common.complex import *
 
 
@@ -48,12 +46,12 @@ class KeyboardHandler:
             self.renderer.toggle_console()
 
         elif(key == "\011"): # tab
-            if(self.state.manual_iter):
-                self.engine.next_frame = True
-            self.state.manual_iter = not self.state.manual_iter
+            if(self.context.manual_iter):
+                self.context.next_frame = True
+            self.context.manual_iter = not self.context.manual_iter
 
         elif(key == "\040"): # space
-            self.engine.next_frame = True
+            self.context.next_frame = True
 
         elif(key == "\015"): # enter
             image = self.cmdcenter.grab_image()

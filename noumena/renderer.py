@@ -5,8 +5,6 @@ from OpenGL.GLUT import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
-from common.logger import *
-
 
 class Renderer():
 
@@ -15,8 +13,6 @@ class Renderer():
         # set variables
         self.profile, self.state = profile, state
 
-        log("re: initializing")
-
         # initialize glut
         glutInit(1, [])
 
@@ -24,14 +20,12 @@ class Renderer():
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
 
         if(self.profile.full_screen):
-            log("re: fullscreen")
             glutGameModeString(str(self.profile.viewport_width) + "x" +
                                str(self.profile.viewport_height) + ":24@" +
                                str(self.profile.viewport_refresh))
             glutEnterGameMode()
 
         else:
-            log("re: windowed")
             glutInitWindowSize(self.profile.viewport_width, self.profile.viewport_height)
             glutInitWindowPosition(10, 10)
             glutCreateWindow("Epimorphism")
@@ -100,8 +94,6 @@ class Renderer():
 
 
     def reshape(self, w, h):
-
-        log("re: reshape - " + str(w) + ' ' + str(h))
 
         # set viewport
         self.profile.viewport_width = w
@@ -180,7 +172,6 @@ class Renderer():
 
     def start(self):
 
-        log("re: starting")
         glutMainLoop()
 
 

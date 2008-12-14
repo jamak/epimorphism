@@ -2,7 +2,7 @@ from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-import common.glFreeType
+import common.util.glFreeType
 
 class Console:
 
@@ -40,7 +40,7 @@ class Console:
         self.cursor_pos = 0
 
 
-        self.font = common.glFreeType.font_data(self.FONT_PATH, self.console_font_size)
+        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.console_font_size)
 
 
     def render_console(self):

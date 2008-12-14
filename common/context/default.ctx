@@ -1,0 +1,10 @@
+{'profile': 'box1',
+ 'par_scale': 1,
+ 'midi': False,
+ 'manual_iter': False,
+ 'server': False,
+ 'render_video': False,
+ 'state': 'default',
+ 'next_frame': False,
+ 'video_frame_time': 10,
+ 'max_video_frames': None}

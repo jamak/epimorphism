@@ -3,15 +3,12 @@ from cuda.cuda_utils import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from common.logger import *
-
 from noumena.kernel import *
 
 class Engine:
 
     def __init__(self, profile, state, pbo):
 
-        log("en: initializing")
         self.profile, self.state = profile, state
 
         # get device
@@ -52,9 +49,6 @@ class Engine:
 
         # compile kernel
         self.load_kernel()
-
-        # misc variables
-        self.next_frame = False
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -142,11 +136,6 @@ class Engine:
 
 
     def do(self):
-
-        # check manual_iter
-        if(self.state.manual_iter and not self.next_frame):
-            return
-        self.next_frame = False
 
         # begin
         self.record_event(0)
