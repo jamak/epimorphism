@@ -1,23 +1,23 @@
 __device__ float4 RGBtoHSV(float4 val){
   float vmin = fmin(fmin(val.x, val.y), val.z);
-  float vmax = fmax(fmax(val.x, val.y), val.z);	
+  float vmax = fmax(fmax(val.x, val.y), val.z);
   float h, s;
-  
+
   float delta = vmax - vmin;
-  
+
   if(vmax < 0.001 || delta < 0.001){
     return vec4(0.0f, 0.0f, vmax, val.w);
-  }else {	
+  }else {
     s = delta / vmax;
     if(fabsf(val.x - vmax) < 0.0001f)
-      h = ( val.y - val.z ) / delta;		
+      h = ( val.y - val.z ) / delta;
     else if(fabsf(val.y - vmax) < 0.0001f)
-      h = 2.0f + ( val.z - val.x ) / delta;	
+      h = 2.0f + ( val.z - val.x ) / delta;
     else
-      h = 4.0f + ( val.x - val.y ) / delta;	
+      h = 4.0f + ( val.x - val.y ) / delta;
     h /= 6.0f;
     return vec4(h, s, vmax, val.w);
-  }	
+  }
 }
 
 __device__ float4 HSVtoRGB(float4 val){
@@ -39,7 +39,7 @@ __device__ float4 HSVtoRGB(float4 val){
       res = vec4(vals.y, vals.z, vals.x, 0.0f);
     else if(h == 4)
       res = vec4(vals.w, vals.y, vals.x, 0.0f);
-    else 
+    else
       res = vec4(vals.x, vals.y, vals.z, 0.0f);
     res = val.z * res;
     res.w = val.w;
@@ -49,7 +49,7 @@ __device__ float4 HSVtoRGB(float4 val){
 
 __device__ float4 HSLstoRGB(float4 val){
 
-  float s = mag(vec2(val.x, val.y));
+  float s = len(vec2(val.x, val.y));
   float h;
 
   if(s < 0.0001f){
@@ -65,8 +65,8 @@ __device__ float4 HSLstoRGB(float4 val){
   float l = val.z;
 
   if(s < 0.0001f)
-    return vec4((l + 1.0f) / 2.0f, (l + 1.0f) / 2.0f, (l + 1.0f) / 2.0f, val.w);     
-     
+    return vec4((l + 1.0f) / 2.0f, (l + 1.0f) / 2.0f, (l + 1.0f) / 2.0f, val.w);
+
   float delta = s / sqrtf(1.0f - l * l);
 
   if(l > 0)
@@ -84,7 +84,7 @@ __device__ float4 HSLstoRGB(float4 val){
 __device__ float4 RGBtoHSLs(float4 val){
   float h, s, l;
   float vmin = fminf(fminf(val.x, val.y), val.z);
-  float vmax = fmaxf(fmaxf(val.x, val.y), val.z);	
+  float vmax = fmaxf(fmaxf(val.x, val.y), val.z);
 
   float delta = vmax - vmin;
 
@@ -98,18 +98,18 @@ __device__ float4 RGBtoHSLs(float4 val){
     s /= (2.0f - l - 1.0f);
   else if(l <= 0)
     s /= (l + 1.0f);
-	
+
   if(s < 0.0001f){
     h = 0.0f;
-  }else {		     		
+  }else {
     if(fabsf(val.x - vmax) < 0.0001f)
-      h = ( val.y - val.z ) / delta;		// between yellow & magenta
+      h = ( val.y - val.z ) / delta;            // between yellow & magenta
     else if(fabsf(val.y - vmax) < 0.0001f)
-      h = 2.0f + ( val.z - val.x ) / delta;	// between cyan & yellow
+      h = 2.0f + ( val.z - val.x ) / delta;     // between cyan & yellow
     else
-      h = 4.0f + ( val.x - val.y ) / delta;			
+      h = 4.0f + ( val.x - val.y ) / delta;
     h *= 3.14159 / 3.0f;
-  }	
+  }
   return vec4(s * cosf(h), s * sinf(h), l, val.w);
-	
+
 }

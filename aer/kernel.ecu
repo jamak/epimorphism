@@ -55,7 +55,7 @@ extern "C" {
       }
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
-    result = %COLORIFY%(v);
+    result = %COLORIFY%(v, z_z);
 
     // set output variables
     out[y * out_pitch + x] = result;

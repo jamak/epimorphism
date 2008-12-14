@@ -4,12 +4,6 @@
 #
 #
 
-
-reset z's/par /
-  real time load state
-
-state version control
-
 add comments &
 new style classes
 clean code
@@ -45,6 +39,8 @@ populate/upgrade t databasees
 #
 #
 
+
+reset real time load state
 
 write ffmpeg script
 

@@ -85,7 +85,7 @@ __device__ float2 operator/(const float2 z1, const float2 z2){
 }
 
 
-__device__ float mag(const float2 z1){
+__device__ float len(const float2 z1){
   return sqrt(z1.x * z1.x + z1.y * z1.y);
 }
 
@@ -116,7 +116,7 @@ __device__ float2 recover(float2 z){
   if(isnan(z.x))
     z.x = 0;
   if(isnan(z.y))
-    z.y = 0; 
+    z.y = 0;
   return z;
 }
 

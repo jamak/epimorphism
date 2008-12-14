@@ -1,4 +1,3 @@
-
 __device__ float2 sq(float2 v0){
   return v0 * v0;
 }
