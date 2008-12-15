@@ -52,6 +52,7 @@ class Engine:
 
 
         # compile kernel
+        self.kernel = None
         self.load_kernel()
 
         # register_pbo
@@ -63,8 +64,6 @@ class Engine:
         self.host_array = c_void_p()
         cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
 
-
-        self.t_start = time.clock()
 
 
     def __del__(self):
@@ -105,20 +104,22 @@ class Engine:
 
     def load_kernel(self):
 
+        compile_kernel(self, self.state)
+
         # compute kernel
-        self.kernel = loadKernel(self.state)
+        # self.kernel = loadKernel(self.state)
 
         # bind texture
-        self.tex_ref = textureReference_p()
+        # self.tex_ref = textureReference_p()
 
-        cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+        # cudaGetTextureReference(byref(self.tex_ref), "input_texture")
 
-        self.tex_ref.contents.normalized = True
-        self.tex_ref.contents.filterMode = cudaFilterModeLinear
-        self.tex_ref.contents.addressMode[0] = cudaAddressModeClamp
-        self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
+        # self.tex_ref.contents.normalized = True
+        # self.tex_ref.contents.filterMode = cudaFilterModeLinear
+        # self.tex_ref.contents.addressMode[0] = cudaAddressModeClamp
+        # self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
-        cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
+        # cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
    # def load_kernel(self):
    #     # compute kernel
@@ -142,6 +143,8 @@ class Engine:
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
+
+        self.t_start = time.clock()
 
 
     def get_fb(self):

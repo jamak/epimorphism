@@ -8,6 +8,7 @@ import time
 
 import threading
 
+
 def render_file(name, state):
     # open file & read contents
     file = open("aer/" + name + ".ecu")
@@ -49,7 +50,6 @@ def loadKernel(state):
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
-
     libnum+=1
 
     return kernel
@@ -58,24 +58,23 @@ def loadKernel(state):
 
 
 
-#def loadKernel(engine, state):
-#    compiler = Compiler(engine, state)
-#    compiler.run()
+def compile_kernel(engine, state):
+    compiler = Compiler(engine, state)
+    compiler.start()
 
 
-#def resume(engine):
-#    print "resume"
-#    global libnum
+def resume(engine):
+    print "resume"
+    global libnum
     # via ctypes interface
-#    lib = CDLL('common/lib/kernel' + str(libnum) + '.so', RTLD_LOCAL)
-#    kernel = lib.__device_stub_kernel_fb
-#    kernel.restype = None
-#    kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
+    lib = CDLL('common/lib/kernel' + str(libnum) + '.so', RTLD_LOCAL)
+    kernel = lib.__device_stub_kernel_fb
+    kernel.restype = None
+    kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
+    libnum+=1
 
-#    libnum+=1
-
-#    engine.bind_kernel(kernel)
+    engine.bind_kernel(kernel)
 
 
 class Compiler(threading.Thread):
