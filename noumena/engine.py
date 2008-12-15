@@ -54,20 +54,6 @@ class Engine:
         self.kernel = None
         self.load_kernel()
 
-        # register_pbo
-        self.pbo, self.pbo_ptr = pbo, c_void_p()
-        status = cudaGLRegisterBufferObject(self.pbo)
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
-
-        # malloc host array
-        self.host_array = c_void_p()
-        cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
-
-        # time
-        self.t_start = time.clock()
-
-        self.clock = 0
-
     def __del__(self):
         print "close engine"
         cudaFreeArray(self.fb)
@@ -125,6 +111,7 @@ class Engine:
         self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
+
 
 
     def get_fb(self):
