@@ -1,5 +1,7 @@
 __constant__ float par[40];
 __constant__ float2 zn[10];
+__constant__ float count;
+
 
 %PAR_NAMES%
 
@@ -38,9 +40,6 @@ extern "C" {
         z = recover(%REDUCE%(%T_SEED%));
 
         float4 seed = _gamma3(%SEED%(z), 2.2);
-
-        //if((((int)roundf(frame.w))) % 2.0)
-        //  seed.w = 1.0 - seed.w;
 
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 

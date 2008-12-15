@@ -1,4 +1,5 @@
 import sys
+import time
 
 from OpenGL.GL import *
 from OpenGL.GLUT import *
@@ -40,6 +41,7 @@ class KeyboardHandler:
             return
 
         if(key == "\033"):
+            self.cmdcenter.context.midi = False
             sys.exit()
 
         elif(key == "`"):

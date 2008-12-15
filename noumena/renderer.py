@@ -66,7 +66,7 @@ class Renderer():
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         # fps data
-        self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
+        self.d_time_start = self.d_time = self.d_timebase = 0
         self.frame_count = 0.0
 
         # misc variables
@@ -122,13 +122,16 @@ class Renderer():
 
         # compute frame rate
         self.frame_count += 1
-        self.d_time = glutGet(GLUT_ELAPSED_TIME)
-        if(self.frame_count % self.profile.debug_freq == 0):
-            time = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
-            avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
-            print "gl time = " + str(time) + "ms"
-            print "gl avg  = " + str(avg) + "ms"
-            self.d_timebase = self.d_time
+        if(self.d_time == 0):
+            self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
+        else:
+            self.d_time = glutGet(GLUT_ELAPSED_TIME)
+            if(self.frame_count % self.profile.debug_freq == 0):
+                time = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
+                avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
+                print "gl time = " + str(time) + "ms"
+                print "gl avg  = " + str(avg) + "ms"
+                self.d_timebase = self.d_time
 
         # copy texture from pbo
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER_ARB, self.pbo)

@@ -68,12 +68,13 @@ class CmdCenter(object):
         # generate cmd exec environment
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture',
-                          'video_time']
+                          'video_time', 'cmd']
 
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = get_funcs(self.engine)
+        funcs = get_funcs(self)
+        funcs.update(get_funcs(self.engine))
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
@@ -103,6 +104,9 @@ class CmdCenter(object):
     def grab_image(self):
         return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1).convert("RGB")
 
+    def bindings(self):
+        for i in xrange(len(self.state.par_names)):
+            print self.state.par_names[i], ':', i
 
     def cmd(self, code):
 

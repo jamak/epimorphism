@@ -1,6 +1,6 @@
 {'profile': 'box1',
  'par_scale': 1,
- 'midi': False,
+ 'midi': True,
  'manual_iter': False,
  'server': False,
  'render_video': False,

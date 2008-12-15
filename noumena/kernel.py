@@ -6,41 +6,16 @@ libnum = 0
 
 import time
 
-def render_file(name, state):
-    # open file & read contents
-    file = open("aer/" + name + ".ecu")
-    contents = file.read()
-    file.close()
+import threading
 
-    par_name_str = ""
+def loadKernel(engine, state):
+    compiler = Compiler(engine, state)
+    compiler.run()
 
-    for par_name in state.par_names:
-        par_name_str += "#define " + par_name + " par[" + str(state.par_names[par_name]) + "]\n"
 
-    contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
-
-    # replace variables
-    for key in state.__dict__:
-        contents = re.compile('\%' + key + '\%').sub(str(state.__dict__[key]), contents)
-
-    # write file contents
-    file = open("aer/__" + name + ".cu", 'w')
-    file.write(contents)
-    file.close()
-
-def loadKernel(state):
-
+def resume(engine):
+    print "resume"
     global libnum
-
-    render_file("seed", state)
-    render_file("kernel", state)
-
-    # compile
-    os.system("rm lib/kernel" + str(libnum) + ".so")
-    os.system("rm lib/kernel" + str(libnum - 1) + ".so")
-    os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
-    os.system("rm __kernel.linkinfo")
-
     # via ctypes interface
     lib = CDLL('common/lib/kernel' + str(libnum) + '.so', RTLD_LOCAL)
     kernel = lib.__device_stub_kernel_fb
@@ -50,6 +25,50 @@ def loadKernel(state):
 
     libnum+=1
 
-    return kernel
+    engine.bind_kernel(kernel)
 
 
+class Compiler(threading.Thread):
+
+    def __init__(self, engine, state):
+        self.engine, self.state = engine, state
+        threading.Thread.__init__(self)
+
+    def render_file(self, name):
+        # open file & read contents
+        file = open("aer/" + name + ".ecu")
+        contents = file.read()
+        file.close()
+
+        par_name_str = ""
+
+        for i in xrange(len(self.state.par_names)):
+            par_name_str += "#define " + self.state.par_names[i] + " par[" + str(i) + "]\n"
+
+        contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
+
+        # replace variables
+        for key in self.state.__dict__:
+            contents = re.compile('\%' + key + '\%').sub(str(self.state.__dict__[key]), contents)
+
+        # write file contents
+        file = open("aer/__" + name + ".cu", 'w')
+        file.write(contents)
+        file.close()
+
+    def load(self):
+        global libnum
+
+        self.render_file("seed")
+        self.render_file("kernel")
+
+        # compile
+        os.system("rm lib/kernel" + str(libnum) + ".so")
+        os.system("rm lib/kernel" + str(libnum - 1) + ".so")
+        os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/kernel" + str(libnum) + ".so  --shared --ptxas-options=-v aer/__kernel.cu")
+        os.system("rm __kernel.linkinfo")
+        resume(self.engine)
+
+
+    def run(self):
+        self.load()

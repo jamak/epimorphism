@@ -26,8 +26,8 @@ __device__ float4 HSVtoRGB(float4 val){
   }else{
     float4 res = vec4(0.0f, 0.0f, 0.0f, val.w);
     val.x = 6.0f * (val.x - floorf(val.x));
-    int h = floorf(val.x);
     float f = val.x - floorf(val.x);
+    int h = floorf(val.x);
     float4 vals = vec4(1.0f, 1.0f - val.y, 1.0f - val.y * f, 1.0f - val.y * (1.0f - f));
     if(h == 0)
       res = vec4(vals.x, vals.w, vals.y, 0.0f);

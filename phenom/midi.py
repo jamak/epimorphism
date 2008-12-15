@@ -18,14 +18,19 @@ class MidiHandler(threading.Thread):
                 self.device = loop
                 print loop, name, " "
 
-        self.midi_in = pypm.Input(self.device)
+        try:
+            self.midi_in = pypm.Input(self.device)
+        except:
+            print "MIDI device not found"
+            self.cmdcenter.context.midi = False
 
 
     def run(self):
-        while(True):
-            while not self.midi_in.Poll(): time.sleep(0.01)
-            data = self.midi_in.Read(1) # read only 1 message at a time
-            self.midi(data[0][0][1], data[0][0][2])
+        while(True and self.cmdcenter.context.midi):
+            while not self.midi_in.Poll() and self.cmdcenter.context.midi : time.sleep(0.01)
+            if(self.cmdcenter.context.midi):
+                data = self.midi_in.Read(1)
+                self.midi(data[0][0][1], data[0][0][2])
 
 
 
@@ -38,7 +43,7 @@ class MidiHandler(threading.Thread):
 
         if(channel >= 81 and channel <= 88):
             th = r_to_p(self.cmdcenter.state.zn[channel - 81])[1]
-            self.cmdcenter.state.zn[channel - 81] = p_to_r([4.0 * f + 1 + 0j, th])
+            self.cmdcenter.state.zn[channel - 81] = p_to_r([1.0 * f + 1 + 0j, th])
         elif(channel >= 1 and channel <= 8):
             mag = r_to_p(self.cmdcenter.state.zn[channel - 1])[0]
             self.cmdcenter.state.zn[channel - 1] = p_to_r([mag, 2 * 3.14159 * f])

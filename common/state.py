@@ -19,6 +19,8 @@ class State(object):
 
     def __init__(self, **vars):
         self.__dict__.update(migrate(vars))
+        for i in xrange(len(self.par_names)):
+            self.par[i] = float(self.par_defaults[self.par_names[i]])
 
 
 

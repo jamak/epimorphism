@@ -5,6 +5,9 @@ from cuda.cuda_api import *
 
 from noumena.kernel import *
 
+import time
+
+
 class Engine:
 
     def __init__(self, profile, state, pbo):
@@ -48,6 +51,7 @@ class Engine:
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
         # compile kernel
+        self.kernel = None
         self.load_kernel()
 
         # register_pbo
@@ -59,6 +63,10 @@ class Engine:
         self.host_array = c_void_p()
         cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
 
+        # time
+        self.t_start = time.clock()
+
+        self.clock = 0
 
     def __del__(self):
         print "close engine"
@@ -97,10 +105,15 @@ class Engine:
 
 
     def load_kernel(self):
-
         # compute kernel
-        self.kernel = loadKernel(self.state)
+        loadKernel(self, self.state)
 
+
+    def bind_kernel(self, kernel):
+        self.kernel = kernel
+
+        print "asdfasd"
+        print self.kernel
         # bind texture
         self.tex_ref = textureReference_p()
 
@@ -137,6 +150,8 @@ class Engine:
 
     def do(self):
 
+        while(not self.kernel): pass
+
         # begin
         self.record_event(0)
         self.frame_count += 1
@@ -146,6 +161,10 @@ class Engine:
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
+        clock = c_float(time.clock() - self.t_start)
+        # clock = c_float(self.frame_count)
+        cudaMemcpyToSymbol("count", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
+
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
