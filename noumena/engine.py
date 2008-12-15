@@ -50,9 +50,22 @@ class Engine:
         self.block = dim3(8, 8, 1)
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
+
         # compile kernel
-        self.kernel = None
         self.load_kernel()
+
+        # register_pbo
+        self.pbo, self.pbo_ptr = pbo, c_void_p()
+        status = cudaGLRegisterBufferObject(self.pbo)
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
+
+        # malloc host array
+        self.host_array = c_void_p()
+        cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
+
+
+        self.t_start = time.clock()
+
 
     def __del__(self):
         print "close engine"
@@ -91,8 +104,25 @@ class Engine:
 
 
     def load_kernel(self):
+
         # compute kernel
-        loadKernel(self, self.state)
+        self.kernel = loadKernel(self.state)
+
+        # bind texture
+        self.tex_ref = textureReference_p()
+
+        cudaGetTextureReference(byref(self.tex_ref), "input_texture")
+
+        self.tex_ref.contents.normalized = True
+        self.tex_ref.contents.filterMode = cudaFilterModeLinear
+        self.tex_ref.contents.addressMode[0] = cudaAddressModeClamp
+        self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
+
+        cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
+
+   # def load_kernel(self):
+   #     # compute kernel
+   #     loadKernel(self, self.state)
 
 
     def bind_kernel(self, kernel):
