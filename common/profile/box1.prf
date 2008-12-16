@@ -1,5 +1,5 @@
 {'name': 'box1',
- 'debug_freq': 5.0,
+ 'debug_freq': 125.0,
  'full_screen': False,
  'viewport_refresh': 60,
  'kernel_dim': 1024,
