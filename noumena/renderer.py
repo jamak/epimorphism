@@ -5,8 +5,11 @@ from OpenGL.GLUT import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
+import common.util.glFreeType
 
 class Renderer():
+
+    FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
     def __init__(self, profile, state):
 
@@ -71,6 +74,7 @@ class Renderer():
 
         # misc variables
         self.console = False
+        self.disp_fps = False
 
 
     def __del__(self):
@@ -93,6 +97,50 @@ class Renderer():
         glutDisplayFunc(inner_loop)
 
 
+    def toggle_console(self):
+        self.console = not self.console
+        if(self.console):
+            glutKeyboardFunc(self.console_keyboard)
+            glutSpecialFunc(self.console_keyboard)
+        else:
+            glutSpecialFunc(self.keyboard)
+            glutKeyboardFunc(self.keyboard)
+
+
+    def show_fps(self):
+        self.disp_fps = not self.disp_fps
+
+
+    def draw_fps(self):
+        self.fps_font_size = 16
+        self.fps_width = 100
+
+        dims = [-1.0 + 2.0 * self.fps_width / self.profile.viewport_width,
+                1.0 - 2.0 * (10 + (self.fps_font_size + 4) * 2) / self.profile.viewport_height]
+
+        dims_v = [0, self.profile.viewport_height]
+
+        glBindTexture(GL_TEXTURE_2D, 0)
+
+        glColor4f(0.2, 0.2, 0.2, 0.35)
+
+        glBegin(GL_QUADS)
+        glVertex3f(dims[0], dims[1], 0.0)
+        glVertex3f(-1.0, dims[1], 0.0)
+        glVertex3f(-1.0, 1.0, 0.0)
+        glVertex3f(dims[0], 1.0, 0.0)
+        glEnd()
+
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+
+        glColor3ub(0xff, 0xff, 0xff)
+
+        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.fps_font_size)
+        self.font.glPrint(6, dims_v[1] - self.fps_font_size - 6, "fps: " + str(self.fps))
+        self.font.glPrint(6, dims_v[1] - 2 * self.fps_font_size - 10, "avg: " + str(self.fps_avg))
+
+
+
     def reshape(self, w, h):
 
         # set viewport
@@ -106,16 +154,6 @@ class Renderer():
         glLoadIdentity()
         glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
         glMatrixMode(GL_MODELVIEW)
-
-
-    def toggle_console(self):
-        self.console = not self.console
-        if(self.console):
-            glutKeyboardFunc(self.console_keyboard)
-            glutSpecialFunc(self.console_keyboard)
-        else:
-            glutSpecialFunc(self.keyboard)
-            glutKeyboardFunc(self.keyboard)
 
 
     def do(self):
@@ -167,6 +205,9 @@ class Renderer():
         # render console
         if(self.console):
             self.render_console()
+
+        if(self.disp_fps):
+            self.draw_fps()
 
         # repost
         glutSwapBuffers()

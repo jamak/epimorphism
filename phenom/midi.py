@@ -35,8 +35,6 @@ def m3_inv(f):
     return f / 5.0
 
 def m4_inv(f):
-    # print f
-    # if(f < 0): f += 2.0 * 3.14159
     return f / (2.0 * 3.14159)
 
 
@@ -57,18 +55,17 @@ class MidiHandler(threading.Thread):
 
         try:
             self.midi_in = pypm.Input(self.input_device)
+            self.midi_out = pypm.Output(self.output_device, 100)
         except:
             print "MIDI device not found"
             self.cmdcenter.context.midi = False
 
-        self.midi_out = pypm.Output(self.output_device, 10)
-
         self.bindings1 = {81: [self.cmdcenter.zn_setter_r_i(0),  "m1(f)", self.cmdcenter.zn_getter_r(0),  "m1_inv(f)"],
                           82: [self.cmdcenter.zn_setter_r_i(1),  "m0(f)", self.cmdcenter.zn_getter_r(1),  "m0_inv(f)"],
-                          83: [self.cmdcenter.zn_setter_r_i(2),  "m1(f)", self.cmdcenter.zn_getter_r(2),  "m1_inv(f)"],
-                          84: [self.cmdcenter.zn_setter_r_i(3),  "m1(f)", self.cmdcenter.zn_getter_r(3),  "m1_inv(f)"],
-                          85: [self.cmdcenter.zn_setter_r_i(4),  "m1(f)", self.cmdcenter.zn_getter_r(4),  "m1_inv(f)"],
-                          86: [self.cmdcenter.zn_setter_r_i(5),  "m1(f)", self.cmdcenter.zn_getter_r(5),  "m1_inv(f)"],
+                          83: [self.cmdcenter.zn_setter_r_i(2),  "m0(f)", self.cmdcenter.zn_getter_r(2),  "m0_inv(f)"],
+                          84: [self.cmdcenter.zn_setter_r_i(3),  "m0(f)", self.cmdcenter.zn_getter_r(3),  "m0_inv(f)"],
+                          85: [self.cmdcenter.zn_setter_r_i(4),  "m0(f)", self.cmdcenter.zn_getter_r(4),  "m0_inv(f)"],
+                          86: [self.cmdcenter.zn_setter_r_i(5),  "m0(f)", self.cmdcenter.zn_getter_r(5),  "m0_inv(f)"],
                           87: [self.cmdcenter.zn_setter_r_i(6),  "m1(f)", self.cmdcenter.zn_getter_r(6),  "m1_inv(f)"],
                           88: [self.cmdcenter.zn_setter_r_i(7),  "m0(f)", self.cmdcenter.zn_getter_r(7),  "m0_inv(f)"],
                           1 : [self.cmdcenter.zn_setter_th_i(0), "m4(f)", self.cmdcenter.zn_getter_th(0), "m4_inv(f)"],
@@ -89,16 +86,22 @@ class MidiHandler(threading.Thread):
 
         self.binding_bit0 = self.binding_bit1 = 0.0
 
-        self.change_bindings()
+        if(hasattr(self, "midi_out")):
+            self.change_bindings()
+
 
     def send_bindings(self):
 
         for key in self.bindings:
             binding = self.bindings[key]
+            print key
             f = binding[2]()
+            print f
             f = eval(binding[3])
+            print f
             val = int(f * 128.0)
             if(val == 128): val = 127
+            print key, val
             self.midi_out.Write([[[176, key, val, 0], pypm.Time()]])
 
 

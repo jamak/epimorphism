@@ -3,12 +3,12 @@ from cuda.cuda_utils import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from noumena.kernel import *
+from common.compiler import *
 
 import time
 
 
-class Engine:
+class Engine(object):
 
     def __init__(self, profile, state, pbo):
 
@@ -52,7 +52,7 @@ class Engine:
 
         # compile kernel
         self.kernel = None
-        Compiler(self, self.switch_kernel).start()
+        Compiler(self.state.__dict__, self.switch_kernel).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -64,7 +64,6 @@ class Engine:
         cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
 
         self.bind = False
-
 
     def __del__(self):
         print "close engine"
@@ -102,11 +101,8 @@ class Engine:
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
-    def load_kernel(self, callback=None):
-
-
-
     def switch_kernel(self, name):
+        if(not self.kernel) : self.t_start = time.clock()
         self.kernel = bind_kernel(name)
         self.bind = True
 
@@ -123,9 +119,8 @@ class Engine:
         self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
-
-        self.t_start = time.clock()
-
+        cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4),
+                            self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
 
 
     def get_fb(self):
@@ -151,7 +146,7 @@ class Engine:
 
     def do(self):
 
-        while(not self.kernel and not self.bind): pass
+        while(not self.kernel and not self.bind): time.sleep(0.01)
 
         if(self.bind): self.bind_texture()
 
@@ -159,13 +154,15 @@ class Engine:
         self.record_event(0)
         self.frame_count += 1
 
-        # upload par & zn
+        # upload par & zn & internal
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
+        internal = (c_float * len(self.state.internal))(*[p for p in self.state.internal])
+        cudaMemcpyToSymbol("internal", byref(internal), sizeof(internal), 0, cudaMemcpyHostToDevice)
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
+
         clock = c_float(time.clock() - self.t_start)
-        # clock = c_float(self.frame_count)
         cudaMemcpyToSymbol("count", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
 
@@ -186,5 +183,5 @@ class Engine:
         self.record_event(3)
 
         # compute and print timings
-        self.print_timings()
+        # self.print_timings()
 

@@ -12,9 +12,12 @@ from common.default import *
 
 from common.complex import *
 
-import StringIO
+from common.compiler import *
 
+import StringIO
+from copy import *
 import sys
+import time
 
 import Image
 
@@ -91,16 +94,39 @@ class CmdCenter(object):
         self.SEED_C_idx = 0
         self.SEED_A_idx = 0
 
+        # animation settings
+        self.animating = {}
+
 
     def inc_data(self, data, idx):
 
         exec("self." + data + "_idx += idx")
         exec("self." + data + "_idx %= len(self.datamanager." + data + ")")
         exec("val = self.datamanager." + data + "[self." + data + "_idx]")
-        exec("self.state." + data + " = val[0]")
+        intrp = "(1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s)" % (5.0, eval("self.state." + data), 5.0, val[0])
+        #intrp = "(1.0f - par[15]) * (%s) + par[15] * (%s)" % (eval("self.state." + data), val[0])
+        exec("self.state." + data + " = intrp")
+
         for line in val[1]:
             exec(line, self.env)
-        self.engine.load_kernel()
+
+        self.animating[data] = [val[0], None]
+
+        Compiler(self.state.__dict__, self.inc_data2).start()
+
+
+
+    def inc_data2(self, name):
+        self.state.internal[0] = time.clock() - self.engine.t_start
+        self.animating["T"][1] = time.clock() + 5
+        self.engine.switch_kernel(name)
+        self.state.T = self.animating["T"][0]
+        Compiler(self.state.__dict__, self.inc_data3).start()
+
+
+    def inc_data3(self, name):
+        while(time.clock() < self.animating["T"][1]) : time.sleep(0.01)
+        self.engine.switch_kernel(name)
 
 
     def grab_image(self):

@@ -7,12 +7,6 @@ libnum = 0
 import threading
 
 
-
-def compile_kernel(engine):
-    compiler = Compiler(engine)
-    compiler.start()
-
-
 def bind_kernel(name):
     print "bind kernel"
 
@@ -32,8 +26,8 @@ def bind_kernel(name):
 
 class Compiler(threading.Thread):
 
-    def __init__(self, engine, callback):
-        self.engine, self.state, self.callback = engine, engine.state, callback
+    def __init__(self, data, callback):
+        self.data, self.callback = data, callback
         threading.Thread.__init__(self)
 
 
@@ -46,14 +40,14 @@ class Compiler(threading.Thread):
         if(name == "kernel"):
             par_name_str = ""
 
-            for i in xrange(len(self.state.par_names)):
-                par_name_str += "#define " + self.state.par_names[i] + " par[" + str(i) + "]\n"
+            for i in xrange(len(self.data["par_names"])):
+                par_name_str += "#define " + self.data["par_names"][i] + " par[" + str(i) + "]\n"
 
             contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
 
         # replace variables
-        for key in self.state.__dict__:
-            contents = re.compile('\%' + key + '\%').sub(str(self.state.__dict__[key]), contents)
+        for key in self.data:
+            contents = re.compile('\%' + key + '\%').sub(str(self.data[key]), contents)
 
         # write file contents
         file = open("aer/__" + name + ".cu", 'w')

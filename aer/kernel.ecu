@@ -1,7 +1,7 @@
 __constant__ float par[40];
 __constant__ float2 zn[10];
+__constant__ float2 internal[10];
 __constant__ float count;
-
 
 %PAR_NAMES%
 
