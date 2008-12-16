@@ -74,7 +74,10 @@ class Renderer():
 
         # misc variables
         self.console = False
-        self.disp_fps = False
+        self.show_fps = False
+        self.fps_font_size = 16
+        self.fps_width = 100
+        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.fps_font_size)
 
 
     def __del__(self):
@@ -107,38 +110,28 @@ class Renderer():
             glutKeyboardFunc(self.keyboard)
 
 
-    def show_fps(self):
-        self.disp_fps = not self.disp_fps
+    def toggle_fps(self):
+        self.show_fps = not self.show_fps
 
 
-    def draw_fps(self):
-        self.fps_font_size = 16
-        self.fps_width = 100
-
+    def render_fps(self):
         dims = [-1.0 + 2.0 * self.fps_width / self.profile.viewport_width,
                 1.0 - 2.0 * (10 + (self.fps_font_size + 4) * 2) / self.profile.viewport_height]
 
         dims_v = [0, self.profile.viewport_height]
 
-        glBindTexture(GL_TEXTURE_2D, 0)
 
-        glColor4f(0.2, 0.2, 0.2, 0.35)
-
-        glBegin(GL_QUADS)
-        glVertex3f(dims[0], dims[1], 0.0)
-        glVertex3f(-1.0, dims[1], 0.0)
-        glVertex3f(-1.0, 1.0, 0.0)
-        glVertex3f(dims[0], 1.0, 0.0)
-        glEnd()
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
 
         glColor3ub(0xff, 0xff, 0xff)
 
-        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.fps_font_size)
-        self.font.glPrint(6, dims_v[1] - self.fps_font_size - 6, "fps: " + str(self.fps))
-        self.font.glPrint(6, dims_v[1] - 2 * self.fps_font_size - 10, "avg: " + str(self.fps_avg))
+        self.font.glPrint(6, dims_v[1] - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
+        self.font.glPrint(6, dims_v[1] - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
 
+
+    def reset_fps_avg():
+        self.d_time = 0
 
 
     def reshape(self, w, h):
@@ -159,16 +152,15 @@ class Renderer():
     def do(self):
 
         # compute frame rate
-        self.frame_count += 1
         if(self.d_time == 0):
+            self.frame_count = 0
             self.d_time_start = self.d_time = self.d_timebase = glutGet(GLUT_ELAPSED_TIME)
         else:
+            self.frame_count += 1
             self.d_time = glutGet(GLUT_ELAPSED_TIME)
             if(self.frame_count % self.profile.debug_freq == 0):
-                time = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
-                avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
-                print "gl time = " + str(time) + "ms"
-                print "gl avg  = " + str(avg) + "ms"
+                self.fps = (1.0 * self.d_time - self.d_timebase) / self.profile.debug_freq
+                self.fps_avg = (1.0 * self.d_time - self.d_time_start) / self.frame_count
                 self.d_timebase = self.d_time
 
         # copy texture from pbo
@@ -206,8 +198,8 @@ class Renderer():
         if(self.console):
             self.render_console()
 
-        if(self.disp_fps):
-            self.draw_fps()
+        if(self.show_fps):
+            self.render_fps()
 
         # repost
         glutSwapBuffers()

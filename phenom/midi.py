@@ -48,10 +48,10 @@ class MidiHandler(threading.Thread):
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(loop)
             if(re.compile("BCF2000").search(name) and inp == 1):
                 self.input_device = loop
-                print "in", loop, name, " "
+                # print "in", loop, name, " "
             if(re.compile("BCF2000").search(name) and outp == 1):
                 self.output_device = loop
-                print "out", loop, name, " "
+                # print "out", loop, name, " "
 
         try:
             self.midi_in = pypm.Input(self.input_device)
@@ -94,20 +94,15 @@ class MidiHandler(threading.Thread):
 
         for key in self.bindings:
             binding = self.bindings[key]
-            print key
             f = binding[2]()
-            print f
             f = eval(binding[3])
-            print f
             val = int(f * 128.0)
             if(val == 128): val = 127
-            print key, val
             self.midi_out.Write([[[176, key, val, 0], pypm.Time()]])
 
 
     def change_bindings(self):
         var = self.binding_bit1 * 2 + self.binding_bit0
-        print var
         if(var == 0):
             self.bindings = self.bindings1
         elif(var == 1):

@@ -134,6 +134,9 @@ class KeyboardHandler:
         elif(key == GLUT_KEY_PAGE_DOWN):
             self.context.par_scale /= 2.0
 
+        elif(key == GLUT_KEY_F12):
+            self.renderer.toggle_fps()
+
 
     def do(self):
         messages
