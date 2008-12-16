@@ -52,7 +52,7 @@ class Engine:
 
         # compile kernel
         self.kernel = None
-        self.load_kernel()
+        Compiler(self, self.switch_kernel).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -102,8 +102,8 @@ class Engine:
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
-    def load_kernel(self):
-        Compiler(self, self.switch_kernel).start()
+    def load_kernel(self, callback=None):
+
 
 
     def switch_kernel(self, name):
