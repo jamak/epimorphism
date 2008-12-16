@@ -50,7 +50,6 @@ class Engine:
         self.block = dim3(8, 8, 1)
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
-
         # compile kernel
         self.kernel = None
         self.load_kernel()
@@ -64,6 +63,7 @@ class Engine:
         self.host_array = c_void_p()
         cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
 
+        self.bind = False
 
 
     def __del__(self):
@@ -103,35 +103,16 @@ class Engine:
 
 
     def load_kernel(self):
-
-        compile_kernel(self, self.state)
-
-        # compute kernel
-        # self.kernel = loadKernel(self.state)
-
-        # bind texture
-        # self.tex_ref = textureReference_p()
-
-        # cudaGetTextureReference(byref(self.tex_ref), "input_texture")
-
-        # self.tex_ref.contents.normalized = True
-        # self.tex_ref.contents.filterMode = cudaFilterModeLinear
-        # self.tex_ref.contents.addressMode[0] = cudaAddressModeClamp
-        # self.tex_ref.contents.addressMode[1] = cudaAddressModeClamp
-
-        # cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
-
-   # def load_kernel(self):
-   #     # compute kernel
-   #     loadKernel(self, self.state)
+        Compiler(self, self.switch_kernel).start()
 
 
-    def bind_kernel(self, kernel):
-        self.kernel = kernel
+    def switch_kernel(self, name):
+        self.kernel = bind_kernel(name)
+        self.bind = True
 
-        print "asdfasd"
-        print self.kernel
-        # bind texture
+
+    def bind_texture(self):
+        self.bind = False
         self.tex_ref = textureReference_p()
 
         cudaGetTextureReference(byref(self.tex_ref), "input_texture")
@@ -143,8 +124,8 @@ class Engine:
 
         cudaBindTextureToArray(self.tex_ref, self.fb, byref(self.channel_desc))
 
-
         self.t_start = time.clock()
+
 
 
     def get_fb(self):
@@ -170,7 +151,9 @@ class Engine:
 
     def do(self):
 
-        while(not self.kernel): pass
+        while(not self.kernel and not self.bind): pass
+
+        if(self.bind): self.bind_texture()
 
         # begin
         self.record_event(0)

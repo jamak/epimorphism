@@ -14,9 +14,6 @@ kernel optimization
 set up correct code interpolation &
   optimize load_kernel
 
-correct var setter functions
-  (maybe not necessary with code interpolation)
-
 
 ###################################
 #
@@ -40,7 +37,7 @@ populate/upgrade t databasees
 #
 
 
-reset real time load state
+real time load state
 
 write ffmpeg script
 
@@ -72,8 +69,3 @@ print kernel param???
 
 cull mode glitches
 
-fill in MIDI information
-individual par_scaling?
-  maybe with modifiable ranges for midi controls?
-
-midi output

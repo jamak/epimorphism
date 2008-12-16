@@ -29,7 +29,7 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
   float l = len(z_z);
   l = (4.0 * _COLOR_LEN_SC + 1.0) * l /(l + 4.0 * _COLOR_LEN_SC);
 
-  float th =  2.0 * 3.14159 * (_COLOR_DHUE + l + count / 15);
+  float th =  2.0 * 3.14159 * (_COLOR_DHUE + l + count * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
 
   float vx_old = v.x;
   v.x = v.x * cos(th) - v.y * sin(th);

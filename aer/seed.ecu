@@ -128,7 +128,7 @@ __device__ float4 simple_color(float2 z, float w){
     a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
   }
 
-  return HSVtoRGB(vec4(count / 10 + a, _COLOR_S, w * _COLOR_V, 0.0f));
+  return HSVtoRGB(vec4(count * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f + a, _COLOR_S, w * _COLOR_V, 0.0f));
 }
 
 
@@ -160,9 +160,9 @@ __device__ float4 seed_wca(float2 z)
   if(w < _SEED_W_THRESH && w >= 0.0f)
     w = 1.0f;
   if(w == -1.0f)
-    w = _SEED_W_BASE;
+    w = _SEED_W_BASE == 0.0f ? -1.0f : _SEED_W_BASE;
   if(w != -1.0f){
-    w = sqrtf(1.0f - (1.0f - w) * (1.0f - w));
+    // w = sqrtf(1.0f - (1.0f - w) * (1.0f - w));
     res = %SEED_C%(z, w);
     res.w = %SEED_A%(w);
   }else{

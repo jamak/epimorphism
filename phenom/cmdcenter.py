@@ -10,6 +10,8 @@ from aer.datamanager import *
 
 from common.default import *
 
+from common.complex import *
+
 import StringIO
 
 import sys
@@ -104,9 +106,52 @@ class CmdCenter(object):
     def grab_image(self):
         return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1).convert("RGB")
 
+
     def bindings(self):
         for i in xrange(len(self.state.par_names)):
             print self.state.par_names[i], ':', i
+
+    def zn_getter_r(self, i):
+        return lambda : r_to_p(self.state.zn[i])[0]
+
+    def zn_getter_th(self, i):
+        return lambda : r_to_p(self.state.zn[i])[1]
+
+
+    def zn_setter(self, i, z):
+        self.state.zn[i] = z
+
+
+    def zn_setter_r(self, i, r):
+        p = r_to_p(self.state.zn[i])
+        p[0] = r
+        self.state.zn[i] = p_to_r(p)
+
+
+    def zn_setter_th(self, i, th):
+        p = r_to_p(self.state.zn[i])
+        p[1] = th
+        self.state.zn[i] = p_to_r(p)
+
+    def zn_setter_r_i(self, i):
+        return lambda r: self.zn_setter_r(i, r)
+
+    def zn_setter_th_i(self, i):
+        return lambda th: self.zn_setter_th(i, th)
+
+    def par_setter(self, i, x):
+        self.state.par[i] = x
+
+    def par_setter_i(self, i):
+        return lambda x: self.par_setter(i, x)
+
+    def par_getter_i(self, i):
+        return lambda : self.state.par[i]
+
+    def par_getter(self, i):
+        return lambda : self.state.par[i]
+
+
 
     def cmd(self, code):
 
