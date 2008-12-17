@@ -118,7 +118,7 @@ class CmdCenter(Setter):
     def blend_to_data(self, data, val):
 
         # phase 0
-        print "blending %s to: %s" % (data, val)
+        print "switching %s to: %s" % (data, val)
 
         idx_idx = self.datamanager.__dict__.keys().index(data)
         intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.switch_time, eval("self.state." + data),
@@ -168,6 +168,7 @@ class CmdCenter(Setter):
         self.engine.new_kernel = self.new_kernel[data][1]
         self.new_kernel[data][1] = None
 
+        print "done switching %s" % data
 
     def grab_image(self):
         return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")

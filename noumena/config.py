@@ -59,8 +59,7 @@ class ConfigManager(object):
 
         if(name == ""):
             i = 0
-            while(os.path.exists("config/state/state_" + str(i) + ".est")):
-                i += 1
+            while(os.path.exists("config/state/state_" + str(i) + ".est")) : i += 1
             name = "state_" + str(i)
 
         if(image):
