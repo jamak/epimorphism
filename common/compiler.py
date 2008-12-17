@@ -26,8 +26,8 @@ def bind_kernel(name):
 
 class Compiler(threading.Thread):
 
-    def __init__(self, data, callback):
-        self.data, self.callback = data, callback
+    def __init__(self, data, obj):
+        self.data, self.obj = data, obj
         threading.Thread.__init__(self)
 
 
@@ -68,5 +68,5 @@ class Compiler(threading.Thread):
         os.system("rm common/lib/" + name)
         os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/" + name + " --shared --ptxas-options=-v aer/__kernel.cu")
         os.system("rm __kernel.linkinfo")
-        self.callback(name)
+        self.obj.new_kernel = name
 

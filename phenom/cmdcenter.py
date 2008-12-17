@@ -71,7 +71,7 @@ class CmdCenter(object):
             self.video_renderer.video_start()
 
         # generate cmd exec environment
-        func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start',
+        func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture',
                           'video_time', 'cmd']
 
