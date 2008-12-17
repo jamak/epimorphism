@@ -79,7 +79,7 @@ __device__ float lines_box(float2 z){
 
 __device__ float lines_box_stag(float2 z){
   // 4 lines in a box, staggered
-  float w = 0.0;
+  float w = nextafter(0.0f, -1.0f);
   if(z.x > (1.0f - _SEED_W))
     w = (z.x - (1.0f - _SEED_W)) / _SEED_W;
   if(z.y > (1.0f - _SEED_W))
@@ -94,7 +94,7 @@ __device__ float lines_box_stag(float2 z){
 
 __device__ float lines_inner(float2 z){
   // lines in a cross
-  float w = -1.0;
+  float w = nextafter(0.0f, -1.0f);
   if(fabsf(z.x) < _SEED_W)
     w = (1.0f - fabsf(z.x) / _SEED_W);
   if(fabsf(z.y) < _SEED_W)
@@ -105,7 +105,7 @@ __device__ float lines_inner(float2 z){
 
 __device__ float anti_grid_fade(float2 z){
   // inverse grid, radially shaded
-  float w = 0.0;
+  float w = nextafter(0.0f, -1.0f);
   z = rem(z * 3.0f, 1.0f);
   if((z.x > 0.5f * (1.0f - _SEED_W) && z.x < 0.5f * (1.0f + _SEED_W)) && (z.y < 0.5f * (1.0f + _SEED_W) && z.y > 0.5f * (1.0f - _SEED_W)))
     w = min((1.0f - 2.0f * fabsf(z.y - 0.5f) / _SEED_W), (1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W));
@@ -115,7 +115,7 @@ __device__ float anti_grid_fade(float2 z){
 
 __device__ float grid_fade(float2 z){
   // grid,
-  float w = -1.0;
+  float w = nextafter(0.0f, -1.0f);
   z = rem(z * 3.0f, 1.0f);
   if((z.x > 0.5f * (1.0f - _SEED_W) && z.x < 0.5f * (1.0f + _SEED_W)))
     w = (1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W);
@@ -127,7 +127,7 @@ __device__ float grid_fade(float2 z){
 
 __device__ float ball(float2 z){
   // ball, radially shaded
-  float w = 0.0;
+  float w = nextafter(0.0f, -1.0f);
   float r = len(z);
   if(r < _SEED_W)
     w = 1.0f - r / _SEED_W;

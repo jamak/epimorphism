@@ -12,14 +12,11 @@ reset zs & reset pars
 
 make datamanager more robust
 
-fix T zn[1] interpolation
 
-
-
-error checking?
 
 add comments &
 clean code
+error checking?
 
 kernel optimization
 
@@ -37,7 +34,7 @@ implement color func?
 populate/upgrade seed database
 
 populate/upgrade t databasees
-
+fix T zn[1] interpolation
 
 
 ###################################

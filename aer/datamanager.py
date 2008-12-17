@@ -43,10 +43,8 @@ class DataManager(object):
                     if(not re.match("EXCLUDE", comments[0])):
                         val = [func_name + clause, [], comments[0]]
                         if(len(comments) == 2):
-                            val[1] = comments[1]
+                            val[1] = [cmd.strip() for cmd in comments[1].strip().split('#')]
                         data.append(val)
-
-                # print data
 
 
 
