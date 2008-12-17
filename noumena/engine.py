@@ -34,8 +34,10 @@ class Engine(object):
 
         # create output_2D
         self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
-        cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch), self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)
-        cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)
+        cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch),
+                        self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim)
+        cudaMemset2D(self.output_2D, self.output_2D_pitch, 0, self.profile.kernel_dim * sizeof(float4),
+                     self.profile.kernel_dim)
 
         # initialize timing info
         self.time_events = False
@@ -200,7 +202,8 @@ class Engine(object):
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
 
         # copy pbo to host
-        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
+        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr,
+                           self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
         # return c_ubyte array
@@ -212,8 +215,9 @@ class Engine(object):
             data is a dim ** 2 array of float4 '''
 
         # copy data to fb
-        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim * sizeof(float4),
-                            self.profile.kernel_dim, cudaMemcpyHostToDevice)
+        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
+                            self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
+                            cudaMemcpyHostToDevice)
 
 
     def reset_fb(self):

@@ -6,10 +6,9 @@ from phenom.keyboard import *
 from phenom.mouse import *
 
 import common.util.glFreeType
+FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
 class Renderer():
-
-    FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
     def __init__(self, profile, state):
 
@@ -33,22 +32,23 @@ class Renderer():
             glutInitWindowPosition(10, 10)
             glutCreateWindow("Epimorphism")
 
+        # reshape
         self.reshape(self.profile.viewport_width, self.profile.viewport_height)
 
         # register callbacks
         glutReshapeFunc(self.reshape)
 
         # generate buffer object
-        size = (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float)
         self.pbo = GLuint()
 
         glGenBuffers(1, byref(self.pbo))
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         empty_buffer = (c_float * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()
-        glBufferData(GL_ARRAY_BUFFER, size, empty_buffer, GL_DYNAMIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, (self.profile.kernel_dim ** 2) * 4 * sizeof(c_float),
+                     empty_buffer, GL_DYNAMIC_DRAW)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
-        # generate texture
+        # generate texture & set parameters
         self.display_tex = glGenTextures(1)
         glBindTexture(GL_TEXTURE_2D, self.display_tex)
 
@@ -73,65 +73,42 @@ class Renderer():
         self.frame_count = 0.0
 
         # misc variables
-        self.console = False
+        self.show_console = False
         self.show_fps = False
         self.fps_font_size = 16
-        self.fps_width = 100
-        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.fps_font_size)
+        self.fps_font = common.util.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 
 
     def __del__(self):
 
+        # bind & delete pbo
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
 
 
     def register_callbacks(self, keyboard, mouse, motion, render_console, console_keyboard):
+
+        # set all standard handlers
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
         glutSpecialFunc(keyboard)
         glutMouseFunc(mouse)
         glutMotionFunc(motion)
+
+        # set console handers
         self.render_console = render_console
         self.console_keyboard = console_keyboard
 
 
-    def set_inner_loop(self, inner_loop):
-        glutDisplayFunc(inner_loop)
-
-
-    def toggle_console(self):
-        self.console = not self.console
-        if(self.console):
-            glutKeyboardFunc(self.console_keyboard)
-            glutSpecialFunc(self.console_keyboard)
-        else:
-            glutSpecialFunc(self.keyboard)
-            glutKeyboardFunc(self.keyboard)
-
-
-    def toggle_fps(self):
-        self.show_fps = not self.show_fps
-
-
     def render_fps(self):
-        dims = [-1.0 + 2.0 * self.fps_width / self.profile.viewport_width,
-                1.0 - 2.0 * (10 + (self.fps_font_size + 4) * 2) / self.profile.viewport_height]
 
-        dims_v = [0, self.profile.viewport_height]
-
-
-
+        # if this isn't set font looks terrible
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
 
+        # render text into ulc
         glColor3ub(0xff, 0xff, 0xff)
-
-        self.font.glPrint(6, dims_v[1] - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
-        self.font.glPrint(6, dims_v[1] - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
-
-
-    def reset_fps_avg():
-        self.d_time = 0
+        self.fps_font.glPrint(6, self.profile.viewport_height - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
+        self.fps_font.glPrint(6, self.profile.viewport_height - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
 
 
     def reshape(self, w, h):
@@ -195,9 +172,10 @@ class Renderer():
         glEnd()
 
         # render console
-        if(self.console):
+        if(self.show_console):
             self.render_console()
 
+        # render fps
         if(self.show_fps):
             self.render_fps()
 
@@ -206,8 +184,43 @@ class Renderer():
         glutPostRedisplay()
 
 
+    def set_inner_loop(self, inner_loop):
+
+        # set the display function to be the inner loop of the application
+        glutDisplayFunc(inner_loop)
+
+
     def start(self):
 
+        # start main glut loop
         glutMainLoop()
+
+
+    def toggle_console(self):
+        ''' This function toggles the interactive console '''
+
+        # toggle console
+        self.show_console = not self.show_console
+
+        # juggle keyboard handlers
+        if(self.show_console):
+            glutKeyboardFunc(self.console_keyboard)
+            glutSpecialFunc(self.console_keyboard)
+        else:
+            glutSpecialFunc(self.keyboard)
+            glutKeyboardFunc(self.keyboard)
+
+
+    def toggle_fps(self):
+        ''' This function toggles the fps display '''
+
+        # reset debug information
+        self.d_time = 0
+
+        # toggle fps display
+        self.show_fps = not self.show_fps
+
+
+
 
 

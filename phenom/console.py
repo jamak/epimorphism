@@ -3,12 +3,9 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 
 import common.util.glFreeType
+FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
 class Console:
-
-
-    FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
-    #FONT_PATH = "/usr/share/fonts/truetype/aefonts/visitor1.ttf"
 
     def __init__(self, cmdcenter):
 
@@ -40,7 +37,7 @@ class Console:
         self.cursor_pos = 0
 
 
-        self.font = common.util.glFreeType.font_data(self.FONT_PATH, self.console_font_size)
+        self.font = common.util.glFreeType.font_data(FONT_PATH, self.console_font_size)
 
 
     def render_console(self):

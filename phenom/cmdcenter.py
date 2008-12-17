@@ -72,7 +72,7 @@ class CmdCenter(object):
 
         # generate cmd exec environment
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
-                          'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture',
+                          'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
                           'video_time', 'cmd']
 
         def get_funcs(obj):
