@@ -57,7 +57,7 @@ class Engine(object):
 
         # compile kernel
         self.kernel = None
-        Compiler(self.state.__dict__, self).start()
+        Compiler(self.state.__dict__, self.set_new_kernel).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -125,8 +125,11 @@ class Engine(object):
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
+    def set_new_kernel(self, name):
+        self.new_kernel = name
+
+
     def switch_kernel(self):
-        print "switch"
         # start clock if necessary
         if(not self.kernel) : self.t_start = time.clock()
 

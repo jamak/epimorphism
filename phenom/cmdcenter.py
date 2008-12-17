@@ -78,7 +78,7 @@ class CmdCenter(Setter):
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save, 'func_bindings' : self.func_bindings}
+        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save, 'data_bindings' : self.data_bindings}
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
@@ -94,6 +94,12 @@ class CmdCenter(Setter):
         # animation settings
         self.animating = {}
 
+        self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
+
+
+    def set_new_kernel(self, data, idx, name):
+        self.new_kernel[data][idx] = name
+
 
     def inc_data(self, data, idx):
 
@@ -105,10 +111,13 @@ class CmdCenter(Setter):
         for line in val[1]:
             exec(line, self.env)
 
-        self.set_data(data, val[0])
+        self.blend_to_data(data, val[0])
 
 
-    def set_data(self, data, val):
+    def blend_to_data(self, data, val):
+
+        # phase 0
+        print "blending %s to: %s" % (data, val)
 
         idx_idx = self.datamanager.__dict__.keys().index(data)
         intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.switch_time, eval("self.state." + data),
@@ -117,26 +126,30 @@ class CmdCenter(Setter):
 
         self.animating[data] = [val, None]
 
-        self.new_kernel = None
+        self.new_kernel[data][0] = None
 
-        Compiler(self.state.__dict__, self).start()
+        Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 0, name))).start()
 
-        while(not self.new_kernel): time.sleep(0.01)
+        while(not self.new_kernel[data][0]) : time.sleep(0.1)
 
-        self.engine.new_kernel = self.new_kernel
-        self.new_kernel = None
+        # phase 1
+        self.engine.new_kernel = self.new_kernel[data][0]
+
+        self.new_kernel[data][1] = None
 
         self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+
         self.animating[data][1] = time.clock() + self.context.switch_time
 
         setattr(self.state, data, self.animating[data][0])
 
-        Compiler(self.state.__dict__, self).start()
+        Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name))).start()
 
-        while(time.clock() < self.animating[data][1] or not self.new_kernel) : time.sleep(0.01)
+        while(time.clock() < self.animating[data][1] or not self.new_kernel[data][1]) : time.sleep(0.01)
 
-        self.engine.new_kernel = self.new_kernel
-        self.new_kernel = None
+        # complete
+        self.engine.new_kernel = self.new_kernel[data][1]
+        self.new_kernel[data][1] = None
 
 
     def grab_image(self):
@@ -152,7 +165,7 @@ class CmdCenter(Setter):
         for key in self.env.funcs.keys() : print key
 
 
-    def func_bindings(self):
+    def data_bindings(self):
         keys = self.datamanager.__dict__.keys()
         keys.sort()
         for i in xrange(len(keys)) : print i+1, ":", keys[i]

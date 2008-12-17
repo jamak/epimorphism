@@ -8,13 +8,10 @@
 add comments &
 clean code
 
-compiler locking
-
-investingat reduce switching
-
 fix seed_w interpolating & seed_wt
 
 real time load state
+reset zs & reset pars
 
 error checking
 
@@ -25,6 +22,8 @@ make datamanager more robust
 fix T zn[1] interpolation
 
 kernel optimization
+
+
 
 ###################################
 #
@@ -47,7 +46,9 @@ populate/upgrade t databasees
 #
 #
 
-multiple compiles
+seed impulses
+
+state recording
 
 camera input
 
