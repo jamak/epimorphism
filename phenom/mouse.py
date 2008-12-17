@@ -1,7 +1,9 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-class MouseHandler:
+
+class MouseHandler(object):
+
     vp_start_x = 0
     vp_start_y = 0
     mouse_start_x = 0
@@ -18,6 +20,7 @@ class MouseHandler:
             if(button == 0):
                 self.vp_start_x = self.state.vp_center_x
                 self.vp_start_y = self.state.vp_center_y
+
                 self.mouse_start_x = x
                 self.mouse_start_y = y
 
@@ -26,8 +29,10 @@ class MouseHandler:
                 self.state.vp_scale = 1.0
                 self.state.vp_center_x = 0.0
                 self.state.vp_center_y = 0.0
+
             elif(button == 4):
                 self.state.vp_scale *= 1.1
+
             elif(button == 3):
                 self.state.vp_scale /= 1.1
 

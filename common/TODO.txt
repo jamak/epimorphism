@@ -5,7 +5,6 @@
 #
 
 add comments &
-new style classes
 clean code
 
 

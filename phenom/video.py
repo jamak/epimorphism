@@ -12,6 +12,7 @@ class VideoRenderer(object):
 
 
     def video_start(self, video_name=None):
+
         if(self.rendering):
             return False
 
@@ -32,6 +33,7 @@ class VideoRenderer(object):
 
 
     def capture(self):
+
         if(not self.rendering or not self.context.render_video):
             return False
 
@@ -60,6 +62,7 @@ class VideoRenderer(object):
 
 
     def video_time(self):
+
         return (self.frame_num * self.context.video_frame_time) / 1000.0
 
 

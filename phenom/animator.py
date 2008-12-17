@@ -3,8 +3,7 @@ import time
 from aer.datapath import *
 
 
-
-class Animator:
+class Animator(object):
 
     paths = []
 

@@ -6,11 +6,19 @@ __constant__ float count;
 %PAR_NAMES%
 
 #include "util.cu"
-#include "colorspace.cu"
 #include "math.cu"
-#include "__seed.cu"
+#include "colorspace.cu"
+
 #include "color.cu"
 #include "reduce.cu"
+#include "seed_w.cu"
+#include "seed_a.cu"
+#include "seed_c.cu"
+#include "seed_wt.cu"
+
+
+
+#include "__seed.cu"
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
 

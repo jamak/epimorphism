@@ -1,7 +1,7 @@
 import os
 import re
 
-class DataManager:
+class DataManager(object):
 
     def __init__(self, state):
 

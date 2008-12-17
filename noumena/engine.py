@@ -126,7 +126,6 @@ class Engine(object):
 
 
     def switch_kernel(self):
-
         # start clock if necessary
         if(not self.kernel) : self.t_start = time.clock()
 
@@ -156,7 +155,7 @@ class Engine(object):
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
 
         # switch kernel if necessary
-        if(self.new_kernel): self.switch_kernel()
+        if(self.new_kernel) : self.switch_kernel()
 
         # begin
         self.record_event(0)

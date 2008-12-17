@@ -1,15 +1,15 @@
 import os
 import re
+import sys
 from ctypes import *
+
+import threading
+import StringIO
 
 libnum = 0
 
-import threading
-
 
 def bind_kernel(name):
-    print "bind kernel"
-
     # via ctypes interface
     try:
         lib = CDLL('common/lib/' + name, RTLD_LOCAL)
@@ -21,7 +21,6 @@ def bind_kernel(name):
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
     return kernel
-
 
 
 class Compiler(threading.Thread):
@@ -56,6 +55,7 @@ class Compiler(threading.Thread):
 
 
     def run(self):
+
         global libnum
 
         self.render_file("seed")
@@ -66,7 +66,8 @@ class Compiler(threading.Thread):
         libnum += 1
 
         os.system("rm common/lib/" + name)
-        os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/" + name + " --shared --ptxas-options=-v aer/__kernel.cu")
+        os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/%s --shared  aer/__kernel.cu" % name)
         os.system("rm __kernel.linkinfo")
+
         self.obj.new_kernel = name
 

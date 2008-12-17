@@ -60,28 +60,22 @@ class MidiHandler(threading.Thread):
             print "MIDI device not found"
             self.cmdcenter.context.midi = False
 
-        self.bindings1 = {81: [self.cmdcenter.zn_setter_r_i(0),  "m1(f)", self.cmdcenter.zn_getter_r(0),  "m1_inv(f)"],
-                          82: [self.cmdcenter.zn_setter_r_i(1),  "m0(f)", self.cmdcenter.zn_getter_r(1),  "m0_inv(f)"],
-                          83: [self.cmdcenter.zn_setter_r_i(2),  "m0(f)", self.cmdcenter.zn_getter_r(2),  "m0_inv(f)"],
-                          84: [self.cmdcenter.zn_setter_r_i(3),  "m0(f)", self.cmdcenter.zn_getter_r(3),  "m0_inv(f)"],
-                          85: [self.cmdcenter.zn_setter_r_i(4),  "m0(f)", self.cmdcenter.zn_getter_r(4),  "m0_inv(f)"],
-                          86: [self.cmdcenter.zn_setter_r_i(5),  "m0(f)", self.cmdcenter.zn_getter_r(5),  "m0_inv(f)"],
-                          87: [self.cmdcenter.zn_setter_r_i(6),  "m1(f)", self.cmdcenter.zn_getter_r(6),  "m1_inv(f)"],
-                          88: [self.cmdcenter.zn_setter_r_i(7),  "m0(f)", self.cmdcenter.zn_getter_r(7),  "m0_inv(f)"],
-                          1 : [self.cmdcenter.zn_setter_th_i(0), "m4(f)", self.cmdcenter.zn_getter_th(0), "m4_inv(f)"],
-                          2 : [self.cmdcenter.zn_setter_th_i(1), "m4(f)", self.cmdcenter.zn_getter_th(1), "m4_inv(f)"],
-                          3 : [self.cmdcenter.zn_setter_th_i(2), "m4(f)", self.cmdcenter.zn_getter_th(2), "m4_inv(f)"],
-                          4 : [self.cmdcenter.zn_setter_th_i(3), "m4(f)", self.cmdcenter.zn_getter_th(3), "m4_inv(f)"],
-                          5 : [self.cmdcenter.zn_setter_th_i(4), "m4(f)", self.cmdcenter.zn_getter_th(4), "m4_inv(f)"],
-                          6 : [self.cmdcenter.zn_setter_th_i(5), "m4(f)", self.cmdcenter.zn_getter_th(5), "m4_inv(f)"],
-                          7 : [self.cmdcenter.zn_setter_th_i(6), "m4(f)", self.cmdcenter.zn_getter_th(6), "m4_inv(f)"],
-                          8 : [self.cmdcenter.zn_setter_th_i(7), "m4(f)", self.cmdcenter.zn_getter_th(7), "m4_inv(f)"]}
+        self.bindings1 = {81: [self.cmdcenter.zn_set_r_i(0),  "m1(f)", self.cmdcenter.zn_get_r_i(0),  "m1_inv(f)"],
+                          82: [self.cmdcenter.zn_set_r_i(1),  "m0(f)", self.cmdcenter.zn_get_r_i(1),  "m0_inv(f)"],
+                          83: [self.cmdcenter.zn_set_r_i(2),  "m0(f)", self.cmdcenter.zn_get_r_i(2),  "m0_inv(f)"],
+                          84: [self.cmdcenter.zn_set_r_i(3),  "m0(f)", self.cmdcenter.zn_get_r_i(3),  "m0_inv(f)"],
+                          85: [self.cmdcenter.zn_set_r_i(4),  "m0(f)", self.cmdcenter.zn_get_r_i(4),  "m0_inv(f)"],
+                          86: [self.cmdcenter.zn_set_r_i(5),  "m0(f)", self.cmdcenter.zn_get_r_i(5),  "m0_inv(f)"],
+                          87: [self.cmdcenter.zn_set_r_i(6),  "m1(f)", self.cmdcenter.zn_get_r_i(6),  "m1_inv(f)"],
+                          88: [self.cmdcenter.zn_set_r_i(7),  "m0(f)", self.cmdcenter.zn_get_r_i(7),  "m0_inv(f)"]}
 
-        self.bindings2 = dict([(81 + i, [self.cmdcenter.par_setter_i(i), "m0(f)", self.cmdcenter.par_getter_i(i), "m0_inv(f)"]) for i in xrange(8)])
+        self.bindings1.update(dict([(1 + i, [self.cmdcenter.zn_set_th_i(i), "m4(f)", self.cmdcenter.zn_get_th_i(i), "m4_inv(f)"]) for i in xrange(8)]))
 
-        self.bindings3 = dict([(81 + i, [self.cmdcenter.par_setter_i(i + 8), "m0(f)", self.cmdcenter.par_getter_i(i + 8), "m0_inv(f)"]) for i in xrange(8)])
+        self.bindings2 = dict([(81 + i, [self.cmdcenter.par_set_i(i), "m0(f)", self.cmdcenter.par_get_i(i), "m0_inv(f)"]) for i in xrange(8)])
 
-        self.bindings4 = dict([(81 + i, [self.cmdcenter.par_setter_i(i + 16), "m0(f)", self.cmdcenter.par_getter_i(i + 16), "m0_inv(f)"]) for i in xrange(8)])
+        self.bindings3 = dict([(81 + i, [self.cmdcenter.par_set_i(i + 8), "m0(f)", self.cmdcenter.par_get_i(i + 8), "m0_inv(f)"]) for i in xrange(8)])
+
+        self.bindings4 = dict([(81 + i, [self.cmdcenter.par_set_i(i + 16), "m0(f)", self.cmdcenter.par_get_i(i + 16), "m0_inv(f)"]) for i in xrange(8)])
 
 
         self.binding_bit0 = self.binding_bit1 = 0.0
@@ -127,7 +121,7 @@ class MidiHandler(threading.Thread):
 
 
     def midi(self, channel, val):
-        print channel, " ", val
+        # print channel, " ", val
         if(val == 127.0):
             f = 1.0
         else:
@@ -142,11 +136,3 @@ class MidiHandler(threading.Thread):
         elif(channel == 80):
             self.binding_bit1 = f == 1.0 and 1 or 0
             self.change_bindings()
-
-
-        #if(channel >= 81 and channel <= 88):
-        #    th = r_to_p(self.cmdcenter.state.zn[channel - 81])[1]
-        #    self.cmdcenter.state.zn[channel - 81] = p_to_r([1.0 * f + 1 + 0j, th])
-        #elif(channel >= 1 and channel <= 8):
-        #    mag = r_to_p(self.cmdcenter.state.zn[channel - 1])[0]
-        #    self.cmdcenter.state.zn[channel - 1] = p_to_r([mag, 2 * 3.14159 * f])

@@ -2,10 +2,10 @@ from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
-import common.util.glFreeType
+import common.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
-class Console:
+class Console(object):
 
     def __init__(self, cmdcenter):
 
@@ -37,7 +37,7 @@ class Console:
         self.cursor_pos = 0
 
 
-        self.font = common.util.glFreeType.font_data(FONT_PATH, self.console_font_size)
+        self.font = common.glFreeType.font_data(FONT_PATH, self.console_font_size)
 
 
     def render_console(self):

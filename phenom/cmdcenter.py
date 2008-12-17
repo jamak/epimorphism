@@ -5,13 +5,12 @@ from phenom.mouse import *
 from phenom.server import *
 from phenom.midi import *
 from phenom.video import *
+from phenom.setter import *
 
 from aer.datamanager import *
 
 from common.default import *
-
 from common.complex import *
-
 from common.compiler import *
 
 import StringIO
@@ -20,6 +19,7 @@ import sys
 import time
 
 import Image
+
 
 class CmdEnv(dict):
 
@@ -40,7 +40,7 @@ class CmdEnv(dict):
                 d[key] = value
 
 
-class CmdCenter(object):
+class CmdCenter(Setter):
 
     def __init__(self, state, renderer, engine, context):
 
@@ -73,17 +73,19 @@ class CmdCenter(object):
         # generate cmd exec environment
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
-                          'video_time', 'cmd']
+                          'video_time', 'set_inner_loop'] + dir(object)
 
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = get_funcs(self)
-        funcs.update(get_funcs(self.engine))
+        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save}
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
+        funcs.update(get_funcs(self.engine))
+
         funcs.update(default_funcs)
+
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
         # init indices
@@ -103,7 +105,7 @@ class CmdCenter(object):
         exec("self." + data + "_idx += idx")
         exec("self." + data + "_idx %= len(self.datamanager." + data + ")")
         exec("val = self.datamanager." + data + "[self." + data + "_idx]")
-        intrp = "(1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s)" % (5.0, eval("self.state." + data), 5.0, val[0])
+        intrp = "((1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s))" % (5.0, eval("self.state." + data), 5.0, val[0])
         #intrp = "(1.0f - par[15]) * (%s) + par[15] * (%s)" % (eval("self.state." + data), val[0])
         exec("self.state." + data + " = intrp")
 
@@ -112,21 +114,26 @@ class CmdCenter(object):
 
         self.animating[data] = [val[0], None]
 
-        Compiler(self.state.__dict__, self.inc_data2).start()
+        self.new_kernel = None
 
+        Compiler(self.state.__dict__, self).start()
 
+        while(not self.new_kernel): time.sleep(0.01)
 
-    def inc_data2(self, name):
+        self.engine.new_kernel = self.new_kernel
+        self.new_kernel = None
+
         self.state.internal[0] = time.clock() - self.engine.t_start
         self.animating["T"][1] = time.clock() + 5
-        self.engine.switch_kernel(name)
         self.state.T = self.animating["T"][0]
-        Compiler(self.state.__dict__, self.inc_data3).start()
 
+        Compiler(self.state.__dict__, self).start()
 
-    def inc_data3(self, name):
-        while(time.clock() < self.animating["T"][1]) : time.sleep(0.01)
-        self.engine.switch_kernel(name)
+        while(time.clock() < self.animating["T"][1] or not self.new_kernel) : time.sleep(0.01)
+
+        self.engine.new_kernel = self.new_kernel
+        self.new_kernel = None
+
 
 
     def grab_image(self):
@@ -137,46 +144,14 @@ class CmdCenter(object):
         for i in xrange(len(self.state.par_names)):
             print self.state.par_names[i], ':', i
 
-    def zn_getter_r(self, i):
-        return lambda : r_to_p(self.state.zn[i])[0]
 
-    def zn_getter_th(self, i):
-        return lambda : r_to_p(self.state.zn[i])[1]
+    def funcs(self):
+        for key in self.env.funcs.keys() : print key
 
 
-    def zn_setter(self, i, z):
-        self.state.zn[i] = z
-
-
-    def zn_setter_r(self, i, r):
-        p = r_to_p(self.state.zn[i])
-        p[0] = r
-        self.state.zn[i] = p_to_r(p)
-
-
-    def zn_setter_th(self, i, th):
-        p = r_to_p(self.state.zn[i])
-        p[1] = th
-        self.state.zn[i] = p_to_r(p)
-
-    def zn_setter_r_i(self, i):
-        return lambda r: self.zn_setter_r(i, r)
-
-    def zn_setter_th_i(self, i):
-        return lambda th: self.zn_setter_th(i, th)
-
-    def par_setter(self, i, x):
-        self.state.par[i] = x
-
-    def par_setter_i(self, i):
-        return lambda x: self.par_setter(i, x)
-
-    def par_getter_i(self, i):
-        return lambda : self.state.par[i]
-
-    def par_getter(self, i):
-        return lambda : self.state.par[i]
-
+    def save(self):
+        print "saving"
+        StateManager().save_state(self.state, self.grab_image())
 
 
     def cmd(self, code):
@@ -190,7 +165,6 @@ class CmdCenter(object):
             exec(code, self.env)
         except:
             err = traceback.format_exc().split("\n")[-2]
-
 
         sys.stdout = sys.__stdout__
 

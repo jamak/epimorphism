@@ -5,7 +5,7 @@ from OpenGL.GLUT import *
 from phenom.keyboard import *
 from phenom.mouse import *
 
-import common.util.glFreeType
+import common.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
 
@@ -78,7 +78,7 @@ class Renderer(object):
         self.show_console = False
         self.show_fps = False
         self.fps_font_size = 16
-        self.fps_font = common.util.glFreeType.font_data(FONT_PATH, self.fps_font_size)
+        self.fps_font = common.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 
 
     def __del__(self):
