@@ -12,6 +12,7 @@ from aer.datamanager import *
 from common.default import *
 from common.complex import *
 from noumena.compiler import *
+from noumena.config import *
 
 import StringIO
 from copy import *
@@ -189,9 +190,12 @@ class CmdCenter(Setter):
         for i in xrange(len(keys)) : print i+1, ":", keys[i]
 
 
-    def save(self):
+    def save(self, image=True):
         print "saving"
-        ConfigManager().save_state(self.state, self.grab_image())
+        name = ConfigManager().save_state(self.state)
+        if(image):
+            self.grab_image().save("image/image_%s.png" % name)
+
 
 
     def cmd(self, code):

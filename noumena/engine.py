@@ -8,7 +8,7 @@ import time
 
 
 class Engine(object):
-    ''' The engine object is the applications interface, via cuda, to the graphics hardware.
+    ''' The Engine object is the applications interface, via cuda, to the graphics hardware.
         It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
         It communicates to the renderer via pbo  '''
 
