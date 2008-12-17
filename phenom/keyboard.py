@@ -62,41 +62,17 @@ class KeyboardHandler(object):
         elif(key == "\\"):
             self.engine.reset_fb()
 
-        elif(key == "1"):
-            run_as_thread(lambda : self.cmdcenter.inc_data("T", 1))
+        elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
+            i = ["1", "2", "3", "4", "5", "6", "7", "8", "9"].index(key)
+            keys = self.cmdcenter.datamanager.__dict__.keys()
+            keys.sort()
+            run_as_thread(lambda : self.cmdcenter.inc_data(keys[i], 1))
 
-        elif(key == "q"):
-            self.cmdcenter.inc_data("T", -1)
-
-        elif(key == "2"):
-            self.cmdcenter.inc_data("T_SEED", 1)
-
-        elif(key == "w"):
-            self.cmdcenter.inc_data("T_SEED", -1)
-
-        elif(key == "3"):
-            self.cmdcenter.inc_data("SEED", 1)
-
-        elif(key == "e"):
-            self.cmdcenter.inc_data("SEED", -1)
-
-        elif(key == "4"):
-            self.cmdcenter.inc_data("SEED_W", 1)
-
-        elif(key == "r"):
-            self.cmdcenter.inc_data("SEED_W", -1)
-
-        elif(key == "5"):
-            self.cmdcenter.inc_data("SEED_C", 1)
-
-        elif(key == "t"):
-            self.cmdcenter.inc_data("SEED_C", -1)
-
-        elif(key == "6"):
-            self.cmdcenter.inc_data("SEED_A", 1)
-
-        elif(key == "y"):
-            self.cmdcenter.inc_data("SEED_A", -1)
+        elif(key in ["q", "w", "e", "r", "t", "y", "u", "i", "o"]):
+            i = ["q", "w", "e", "r", "t", "y", "u", "i", "o"].index(key)
+            keys = self.cmdcenter.datamanager.__dict__.keys()
+            keys.sort()
+            run_as_thread(lambda : self.cmdcenter.inc_data(keys[i], -1))
 
         elif(key in ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"]):
             i = ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"].index(key)

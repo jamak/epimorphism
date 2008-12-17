@@ -1,4 +1,5 @@
 // EPIMORPH library file
+// complex plane reductions
 
 __device__ float2 grid_reduce(float2 z){
   // standard reduction based on the cartesian grid

@@ -1,9 +1,11 @@
 __constant__ float par[40];
 __constant__ float2 zn[10];
-__constant__ float2 internal[10];
+__constant__ float internal[10];
 __constant__ float count;
 
 %PAR_NAMES%
+
+#define PI 3.1415926535
 
 #include "util.cu"
 #include "math.cu"
@@ -15,9 +17,6 @@ __constant__ float count;
 #include "seed_a.cu"
 #include "seed_c.cu"
 #include "seed_wt.cu"
-
-
-
 #include "__seed.cu"
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
@@ -41,13 +40,15 @@ extern "C" {
 
         float2 z_c = z;
 
-        z = recover(%REDUCE%(%T%));
+        z = %T%;
+        z = recover(%REDUCE%);
 
         float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
 
-        z = recover(%REDUCE%(%T_SEED%));
+        z = %T_SEED%;
+        z = recover(%REDUCE%);
 
-        float4 seed = _gamma3(%SEED%(z), 2.2);
+        float4 seed = _gamma3(%SEED%, 2.2);
 
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
@@ -62,7 +63,7 @@ extern "C" {
       }
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
-    result = %COLORIFY%(v, z_z);
+    result = %COLORIFY%;
 
     // set output variables
     out[y * out_pitch + x] = result;

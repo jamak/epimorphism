@@ -1,170 +1,19 @@
-__device__ float solid(float2 z){
-  return 1.0f;
-}
+// EPIMORPH library file
+// seed functions
 
-
-__device__ float fade(float2 z){
-  return (z.x + 1.0f) / 2.0f;
-}
-
-
-__device__ float wave(float2 z){
-  return (2.0f + sin(2.0f * 3.14259f * (z.y + /*inc1*/0.0))) / 4.0f;
-}
-
-
-__device__ float circle(float2 z){
-  float r = len(z);
-  float w = -1.0f;
-  if(r > 0.5f - _SEED_W / 2.0f && r  < 0.5f + _SEED_W / 2.0f)
-    w = (1.0f - 2.0f * fabsf(r - 0.5f) / _SEED_W);
-  return w;
-}
-
-
-__device__ float lines_lr(float2 z){
-  float w = -1.0f;
-  if(z.x > (1.0f - _SEED_W))
-    w = (z.x - (1.0f - _SEED_W)) / _SEED_W;
-  else if(z.x < -1.0f * (1.0f - _SEED_W))
-    w = (-1.0f * (1.0f - _SEED_W) - z.x) / _SEED_W;
-  return w;
-}
-
-
-__device__ float square_fade(float2 z){
-  float w = -1.0f;
-  if(z.x < _SEED_W && z.x > -1.0f * _SEED_W && z.y < _SEED_W && z.y > -1.0f * _SEED_W)
-    w = min((1.0f - fabsf(z.x) / _SEED_W), (1.0f - fabsf(z.y) / _SEED_W));
-  return w;
-}
-
-
-__device__ float lines_box(float2 z){
-  float w = -1.0f;
-  if(z.x > (1.0f - _SEED_W))
-    w =  (z.y < 0.0f ? max((z.x - (1.0f - _SEED_W)), (-1.0f * (1.0f - _SEED_W) - z.y)) : max((z.x - (1.0f - _SEED_W)), (z.y - (1.0f - _SEED_W)))) / _SEED_W;
-  else if(z.y > (1.0f - _SEED_W))
-    w =  (z.x > 0.0f ? (z.y - (1.0f - _SEED_W)) : max((z.y - (1.0f - _SEED_W)), -1.0f * (1.0f - _SEED_W) - z.x)) / _SEED_W;
-  else if(z.x < -1.0f * (1.0f - _SEED_W))
-    w =  (z.y > 0.0f ? (-1.0f * (1.0f - _SEED_W) - z.x) : max((-1.0f * (1.0f - _SEED_W) - z.y), -1.0f * (1.0f - _SEED_W) - z.x)) / _SEED_W;
-  else if(z.y < -1.0f * (1.0f - _SEED_W))
-    w =  (z.x < 0.0f ? (-1.0f * (1.0f - _SEED_W) - z.y) : max((-1.0f * (1.0f - _SEED_W) - z.y), (z.x - (1.0f - _SEED_W)))) / _SEED_W;
-  return w;
-}
-
-
-__device__ float lines_box_stag(float2 z){
-  float w = -1.0f;
-  if(z.x > (1.0f - _SEED_W))
-    w = (z.x - (1.0f - _SEED_W)) / _SEED_W;
-  if(z.y > (1.0f - _SEED_W))
-    w = (z.y - (1.0f - _SEED_W)) / _SEED_W;
-  if(z.x < -1.0f * (1.0f - _SEED_W))
-    w = (-1.0f * (1.0f - _SEED_W) - z.x) / _SEED_W;
-  if(z.y < -1.0f * (1.0f - _SEED_W) && z.x < (1.0f - _SEED_W))
-    w = (-1.0f * (1.0f - _SEED_W) - z.y) / _SEED_W;
-  return w;
-}
-
-
-__device__ float lines_inner(float2 z){
-  float w = -1.0;
-  if(fabsf(z.x) < _SEED_W)
-    w = (1.0f - fabsf(z.x) / _SEED_W);
-  if(fabsf(z.y) < _SEED_W)
-    w = fmaxf(1.0f - fabsf(z.x) / _SEED_W, 1.0f - fabsf(z.y) / _SEED_W);
-  return w;
-}
-
-
-
-__device__ float anti_grid_fade(float2 z){
-  float w = -1.0f;
-  z = rem(z * 3.0f, 1.0f);
-  if((z.x > 0.5f * (1.0f - _SEED_W) && z.x < 0.5f * (1.0f + _SEED_W)) && (z.y < 0.5f * (1.0f + _SEED_W) && z.y > 0.5f * (1.0f - _SEED_W)))
-    w = min((1.0f - 2.0f * fabsf(z.y - 0.5f) / _SEED_W), (1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W));
-  return w;
-}
-
-
-__device__ float grid_fade(float2 z){
-  float w = -1.0;
-  z = rem(z * 3.0f, 1.0f);
-  if((z.x > 0.5f * (1.0f - _SEED_W) && z.x < 0.5f * (1.0f + _SEED_W)))
-    w = (1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W);
-  if((z.y < 0.5f * (1.0f + _SEED_W) && z.y > 0.5f * (1.0f - _SEED_W)))
-    w = fmaxf((1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W), (1.0f - 2.0f * fabsf(z.y - 0.5f) / _SEED_W));
-  return w;
-}
-
-
-__device__ float ball_inner(float2 z){
-  float w = -1.0f;
-  float r = len(z);
-  if(r < _SEED_W)
-    w = 1.0f - r / _SEED_W;
-  return w;
-}
-
-
-__device__ float ball_outer(float2 z){
-  float w = -1.0f;
-  float r = len(z);
-  if(r > _SEED_W)
-    w = fminf(fmaxf((r / (1.0f - _SEED_W) - 1.0f), 0.0f), 1.0f);
-  return w;
-}
-
-
-
-
-__device__ float4 simple_color(float2 z, float w){
-  float a = 0.0f;
-  if(z.y != 0.0f || z.x != 0.0f){
-    a = atan2f(z.y, z.x);
-    if(a < 0.0f)
-      a += 2.0f * 3.14159f;
-    a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
-  }
-
-  return HSVtoRGB(vec4(count * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f + a, _COLOR_S, w * _COLOR_V, 0.0f));
-}
-
-
-__device__ float simple_alpha(float w){
-  return _COLOR_A;
-}
-
-
-__device__ float linear_alpha(float w){
-  return w * _COLOR_A;
-}
-
-
-__device__ float circular_alpha(float w){
-  return sqrtf(1.0f - (1.0f - w) * (1.0f - w)) * _COLOR_A;
-}
-
-
-
-
-
-__device__ float4 seed_wca(float2 z)
-{
+__device__ float4 seed_wca(float2 z){
+  // width, color, alpha, width_trans templated seed family
 
   float4 res;
-  float w = -1.0f;
-  w = %SEED_W%(z);
+  float ep = nextafter(0.0f, -1.0f);
+  float w = ep;
+  w = %SEED_W%;
+  w = fmaxf(fminf(w, 1.0f), ep);
 
-  if(w < _SEED_W_THRESH && w >= 0.0f)
-    w = 1.0f;
-  if(w == -1.0f)
-    w = _SEED_W_BASE == 0.0f ? -1.0f : _SEED_W_BASE;
-  if(w != -1.0f){
-    // w = sqrtf(1.0f - (1.0f - w) * (1.0f - w));
-    res = %SEED_C%(z, w);
-    res.w = %SEED_A%(w);
+  if(w > 0.0f){
+    w = %SEED_WT%;
+    res = %SEED_C%;
+    res.w = %SEED_A%;
   }else{
     res = vec4(0.0f,0.0f,0.0f,0.0f);
   }

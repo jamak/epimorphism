@@ -64,7 +64,7 @@ __device__ float2 H(float2 v0){
 
 __device__ float2 B(float2 v0){
   float K = 0.0;//par[5];
-  float pi = 3.14159265;
+  float pi = PI;
   float mid = v0.x + K * sinf( pi * (v0.y + 1) ) / pi - 1;
   return vec2(mid, v0.y + mid);
 }

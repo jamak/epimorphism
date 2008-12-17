@@ -126,6 +126,7 @@ class Engine(object):
 
 
     def switch_kernel(self):
+        print "switch"
         # start clock if necessary
         if(not self.kernel) : self.t_start = time.clock()
 

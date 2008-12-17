@@ -78,7 +78,7 @@ class CmdCenter(Setter):
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save}
+        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save, 'func_bindings' : self.func_bindings}
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
@@ -89,12 +89,7 @@ class CmdCenter(Setter):
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
         # init indices
-        self.T_idx = 0
-        self.T_SEED_idx = 0
-        self.SEED_idx = 0
-        self.SEED_W_idx = 0
-        self.SEED_C_idx = 0
-        self.SEED_A_idx = 0
+        self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
 
         # animation settings
         self.animating = {}
@@ -102,17 +97,23 @@ class CmdCenter(Setter):
 
     def inc_data(self, data, idx):
 
-        exec("self." + data + "_idx += idx")
-        exec("self." + data + "_idx %= len(self.datamanager." + data + ")")
-        exec("val = self.datamanager." + data + "[self." + data + "_idx]")
-        intrp = "((1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s))" % (5.0, eval("self.state." + data), 5.0, val[0])
-        #intrp = "(1.0f - par[15]) * (%s) + par[15] * (%s)" % (eval("self.state." + data), val[0])
-        exec("self.state." + data + " = intrp")
+        idx_idx = self.datamanager.__dict__.keys().index(data)
+        self.indices[idx_idx] += idx
+        self.indices[idx_idx] %= len(eval("self.datamanager." + data))
+        val = eval("self.datamanager." + data)[self.indices[idx_idx]]
 
         for line in val[1]:
             exec(line, self.env)
 
-        self.animating[data] = [val[0], None]
+        self.set_data(data, val[0])
+
+
+    def set_data(self, data, val):
+
+        intrp = "((1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s))" % (5.0, eval("self.state." + data), 5.0, val)
+        exec("self.state." + data + " = intrp")
+
+        self.animating[data] = [val, None]
 
         self.new_kernel = None
 
@@ -124,16 +125,16 @@ class CmdCenter(Setter):
         self.new_kernel = None
 
         self.state.internal[0] = time.clock() - self.engine.t_start
-        self.animating["T"][1] = time.clock() + 5
-        self.state.T = self.animating["T"][0]
+        self.animating[data][1] = time.clock() + 5
+
+        setattr(self.state, data, self.animating[data][0])
 
         Compiler(self.state.__dict__, self).start()
 
-        while(time.clock() < self.animating["T"][1] or not self.new_kernel) : time.sleep(0.01)
+        while(time.clock() < self.animating[data][1] or not self.new_kernel) : time.sleep(0.01)
 
         self.engine.new_kernel = self.new_kernel
         self.new_kernel = None
-
 
 
     def grab_image(self):
@@ -147,6 +148,12 @@ class CmdCenter(Setter):
 
     def funcs(self):
         for key in self.env.funcs.keys() : print key
+
+
+    def func_bindings(self):
+        keys = self.datamanager.__dict__.keys()
+        keys.sort()
+        for i in xrange(len(keys)) : print i+1, ":", keys[i]
 
 
     def save(self):
