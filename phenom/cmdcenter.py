@@ -11,7 +11,7 @@ from aer.datamanager import *
 
 from common.default import *
 from common.complex import *
-from common.compiler import *
+from noumena.compiler import *
 
 import StringIO
 from copy import *
@@ -190,7 +190,7 @@ class CmdCenter(Setter):
 
     def save(self):
         print "saving"
-        StateManager().save_state(self.state, self.grab_image())
+        ConfigManager().save_state(self.state, self.grab_image())
 
 
     def cmd(self, code):

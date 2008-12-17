@@ -68,10 +68,3 @@ __device__ float2 B(float2 v0){
   float mid = v0.x + K * sinf( pi * (v0.y + 1) ) / pi - 1;
   return vec2(mid, v0.y + mid);
 }
-
-/*
-__global__ void do_math(float2 z, float2 *z_out){
-  float2 res =  z * sin(z);
-  z_out[0] = res;
-}
-*/

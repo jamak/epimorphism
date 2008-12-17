@@ -1,6 +1,6 @@
 import noumena
 
-from common.migration import *
+from noumena.migration import *
 
 import os.path
 
@@ -32,14 +32,14 @@ class Context(object):
         self.__dict__.update(vars)
 
 
-class StateManager(object):
+class ConfigManager(object):
 
     extension_names = {"est" : "state", "prf" : "profile", "ctx" : "context"}
 
     def load_dict(self, name, **additional_vars):
 
         extension = name.split(".")[1]
-        file = open("common/" + self.extension_names[extension] + "/" + name)
+        file = open("config/" + self.extension_names[extension] + "/" + name)
         vars = eval(file.read().replace("\n", ""))
         vars.update(additional_vars)
         file.close()
@@ -59,12 +59,12 @@ class StateManager(object):
 
         if(name == ""):
             i = 0
-            while(os.path.exists("common/state/state_" + str(i) + ".est")):
+            while(os.path.exists("config/state/state_" + str(i) + ".est")):
                 i += 1
             name = "state_" + str(i)
 
         if(image):
-            image.save("common/state/image_" + str(i) + ".png")
+            image.save("image/image_" + str(i) + ".png")
 
-        self.outp_dict("common/state/" + name + ".est", state)
+        self.outp_dict("config/state/" + name + ".est", state)
 

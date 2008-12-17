@@ -6,9 +6,7 @@ from OpenGL.GLUT import *
 
 from ctypes import *
 from cuda.cuda_defs import *
-from copy import *
 
-from common.state import *
 from common.complex import *
 
 from common.runner import *
@@ -77,14 +75,14 @@ class KeyboardHandler(object):
         elif(key in ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"]):
             i = ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";"].index(key)
             z0 = r_to_p(self.state.zn[i])
-            z1 = copy(z0)
+            z1 = [z0[0], z0[1]]
             z1[0] += self.context.par_scale * 0.05
             self.animator.animate_var("zn" + str(i),self.cmdcenter.zn_set_i(i), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
 
         elif(key in ["z", "x", "c", "v", "b", "n", "m", ",", ".", "/"]):
             i = ["z", "x", "c", "v", "b", "n", "m", ",", ".", "/"].index(key)
             z0 = r_to_p(self.state.zn[i])
-            z1 = copy(z0)
+            z1 = [z0[0], z0[1]]
             z1[0] -= self.context.par_scale * 0.05
             if(z1[0] < 0.0):
                 z1[0] = 0
@@ -93,14 +91,14 @@ class KeyboardHandler(object):
         elif(key in ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":"]):
             i = ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":"].index(key)
             z0 = r_to_p(self.state.zn[i])
-            z1 = copy(z0)
+            z1 = [z0[0], z0[1]]
             z1[1] += self.context.par_scale * 2.0 * pi / 32.0
             self.animator.animate_var("zn" + str(i),self.cmdcenter.zn_set_i(i), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
 
         elif(key in ["Z", "X", "C", "V", "B", "N", "M", "<", ">", "?"]):
             i = ["Z", "X", "C", "V", "B", "N", "M", "<", ">", "?"].index(key)
             z0 = r_to_p(self.state.zn[i])
-            z1 = copy(z0)
+            z1 = [z0[0], z0[1]]
             z1[1] -= self.context.par_scale * 2.0 * pi / 32.0
             self.animator.animate_var("zn" + str(i),self.cmdcenter.zn_set_i(i), "radial_2d", 200, {"s":z0, "e":z1, 'loop':False})
 

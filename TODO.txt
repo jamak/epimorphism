@@ -5,13 +5,10 @@
 #
 
 
-fix seed_w interpolating & seed_wt
-
 real time load state
 reset zs & reset pars
 
 make datamanager more robust
-
 
 
 add comments &

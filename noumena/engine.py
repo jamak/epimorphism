@@ -2,7 +2,7 @@ from ctypes import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from common.compiler import *
+from noumena.compiler import *
 
 import time
 
