@@ -5,21 +5,21 @@
 #
 
 
-add comments &
-clean code
-
 fix seed_w interpolating & seed_wt
 
 real time load state
 reset zs & reset pars
 
-error checking
-
-picture upload
-
 make datamanager more robust
 
 fix T zn[1] interpolation
+
+
+
+error checking?
+
+add comments &
+clean code
 
 kernel optimization
 
@@ -45,6 +45,11 @@ populate/upgrade t databasees
 #  some time in the future
 #
 #
+
+
+fix recursive readjust
+
+picture upload
 
 seed impulses
 

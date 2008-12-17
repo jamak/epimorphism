@@ -20,6 +20,7 @@ import time
 
 import Image
 
+COMPILE_TIME = 2.5
 
 class CmdEnv(dict):
 
@@ -92,7 +93,7 @@ class CmdCenter(Setter):
         self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
 
         # animation settings
-        self.animating = {}
+        self.animating = dict([(data, [None, None, None]) for data in self.datamanager.__dict__.keys()])
 
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
@@ -124,36 +125,52 @@ class CmdCenter(Setter):
                                                                                                           idx_idx, self.context.switch_time, val)
         setattr(self.state, data, intrp)
 
-        self.animating[data] = [val, None]
-
         self.new_kernel[data][0] = None
 
-        Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 0, name))).start()
+        var = self.state.__dict__
+
+        # check for multi-compile
+        for key in self.datamanager.__dict__.keys():
+            if(self.animating[key][0] and time.clock() + COMPILE_TIME < self.animating[key][0] and key != data):
+                new_var = {}
+                new_var.update(var)
+                new_var.update({key : self.animating[key][1]})
+                var = new_var
+                self.animating[key][2].update({key : self.animating[key][1]})
+
+
+
+        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name))).start()
 
         while(not self.new_kernel[data][0]) : time.sleep(0.1)
 
         # phase 1
+        self.animating[data] = [time.clock() + self.context.switch_time, getattr(self.state, data), None]
+
         self.engine.new_kernel = self.new_kernel[data][0]
 
         self.new_kernel[data][1] = None
 
         self.state.internal[idx_idx] = time.clock() - self.engine.t_start
 
-        self.animating[data][1] = time.clock() + self.context.switch_time
+        setattr(self.state, data, val)
 
-        setattr(self.state, data, self.animating[data][0])
+        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)))
 
-        Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name))).start()
+        self.animating[data][2] = compiler
 
-        while(time.clock() < self.animating[data][1] or not self.new_kernel[data][1]) : time.sleep(0.01)
+        compiler.start()
+
+        while(time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) : time.sleep(0.01)
 
         # complete
+        self.animating[data] = [None, None, None]
         self.engine.new_kernel = self.new_kernel[data][1]
         self.new_kernel[data][1] = None
 
 
     def grab_image(self):
-        return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, 1).convert("RGB")
+        return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
 
     def bindings(self):

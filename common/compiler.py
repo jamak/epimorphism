@@ -28,7 +28,12 @@ class Compiler(threading.Thread):
     def __init__(self, data, callback):
         self.data, self.callback = data, callback
         threading.Thread.__init__(self)
+        self.update_vars = {}
+        self.update_vars.update(data)
 
+    def update(self, new_vars):
+        self.update_vars.update(new_vars)
+        self.do_update = True
 
     def render_file(self, name):
         # open file & read contents
@@ -45,7 +50,7 @@ class Compiler(threading.Thread):
             contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
 
         # replace variables
-        for key in self.data:
+        for key in self.update_vars:
             contents = re.compile('\%' + key + '\%').sub(str(self.data[key]), contents)
 
         # write file contents
@@ -58,16 +63,20 @@ class Compiler(threading.Thread):
 
         global libnum
 
-        self.render_file("seed")
-        self.render_file("kernel")
+        self.do_update = True
 
-        name = "kernel" + str(libnum) + ".so"
+        while(self.do_update):
+            self.do_update = False
+            self.render_file("seed")
+            self.render_file("kernel")
 
-        libnum += 1
+            name = "kernel" + str(libnum) + ".so"
 
-        os.system("rm common/lib/" + name)
-        os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/%s --shared  aer/__kernel.cu" % name)
-        os.system("rm __kernel.linkinfo")
+            libnum += 1
+
+            os.system("rm common/lib/" + name)
+            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o common/lib/%s --shared  aer/__kernel.cu" % name)
+            os.system("rm __kernel.linkinfo")
 
         self.callback(name)
 
