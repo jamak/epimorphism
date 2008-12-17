@@ -8,7 +8,9 @@ from phenom.mouse import *
 import common.util.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
-class Renderer():
+
+class Renderer(object):
+    ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
     def __init__(self, profile, state):
 

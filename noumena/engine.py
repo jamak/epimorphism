@@ -8,6 +8,9 @@ import time
 
 
 class Engine(object):
+    ''' The engine object is the applications interface, via cuda, to the graphics hardware.
+        It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
+        It communicates to the renderer via pbo  '''
 
     def __init__(self, profile, state, pbo):
 
@@ -180,7 +183,7 @@ class Engine(object):
                     1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
         self.record_event(1)
 
-        # copy data to input_array
+        # copy data to output_2D
         cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record_event(2)
@@ -191,7 +194,6 @@ class Engine(object):
 
         # compute and print timings
         self.print_timings()
-
 
 
     def get_fb(self):
