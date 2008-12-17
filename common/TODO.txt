@@ -22,6 +22,8 @@ picture upload
 
 make datamanager more robust
 
+fix T zn[1] interpolation
+
 kernel optimization
 
 ###################################

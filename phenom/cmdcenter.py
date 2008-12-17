@@ -110,8 +110,10 @@ class CmdCenter(Setter):
 
     def set_data(self, data, val):
 
-        intrp = "((1.0f - (count - internal[0]) / %ff) * (%s) + (count - internal[0]) / %ff * (%s))" % (5.0, eval("self.state." + data), 5.0, val)
-        exec("self.state." + data + " = intrp")
+        idx_idx = self.datamanager.__dict__.keys().index(data)
+        intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.switch_time, eval("self.state." + data),
+                                                                                                          idx_idx, self.context.switch_time, val)
+        setattr(self.state, data, intrp)
 
         self.animating[data] = [val, None]
 
@@ -124,8 +126,8 @@ class CmdCenter(Setter):
         self.engine.new_kernel = self.new_kernel
         self.new_kernel = None
 
-        self.state.internal[0] = time.clock() - self.engine.t_start
-        self.animating[data][1] = time.clock() + 5
+        self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+        self.animating[data][1] = time.clock() + self.context.switch_time
 
         setattr(self.state, data, self.animating[data][0])
 

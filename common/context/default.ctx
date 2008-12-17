@@ -4,6 +4,7 @@
  'manual_iter': False,
  'server': False,
  'render_video': False,
+ 'switch_time' : 3.0,
  'state': 'default',
  'next_frame': False,
  'video_frame_time': 10,
