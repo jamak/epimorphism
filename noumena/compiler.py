@@ -94,6 +94,8 @@ class Compiler(threading.Thread):
 
             # compile
             os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared  aer/__kernel.cu" % name)
+            os.system("rm aer/__seed.cu")
+            os.system("rm aer/__kernel.cu")
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback

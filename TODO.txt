@@ -5,7 +5,6 @@
 #
 
 
-clean aer
 clean phenom
 
 error checking?
@@ -29,17 +28,24 @@ populate/upgrade t databasees
 fix T zn[1] interpolation
 
 
+
+
 ###################################
 #
 #  some time in the future
 #
 #
 
+random segfaults?
+
+midi smoothing. maybe keyboard smoothing
 
 smooth repat switching of same func
 fix recursive readjust
 identical change time problem
 multiswitching
+
+smoother state load
 
 picture upload
 
@@ -66,8 +72,6 @@ device emulation mode
 fix deviceProperties stupid shit
 
 make sure __del__ is called
-
-midi smoothing. maybe keyboard smoothing
 
 unit tests
 
