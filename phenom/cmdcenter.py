@@ -151,7 +151,8 @@ class CmdCenter(Setter, Animator):
         Compiler(var, (lambda name: self.set_new_kernel(data, 0, name))).start()
 
         while(not self.new_kernel[data][0] and not self.context.exit) : time.sleep(0.1)
-        if(self.context.exit) : exit()
+        if(self.context.exit) :
+            print "wtf"
 
         # phase 1
         self.animating[data] = [time.clock() + self.context.component_switch_time, getattr(self.state, data), None]
@@ -171,7 +172,8 @@ class CmdCenter(Setter, Animator):
         compiler.start()
 
         while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) : time.sleep(0.01)
-        if(self.context.exit) : exit()
+        if(self.context.exit) :
+            print "wtf"
 
         # complete
         self.animating[data] = [None, None, None]

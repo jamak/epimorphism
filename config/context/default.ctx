@@ -11,5 +11,6 @@
  'next_frame': False,
  'video_frame_time': 10,
  'max_video_frames': None,
- 'exit' : False
+ 'exit' : False,
+ 'quit' : False
 }

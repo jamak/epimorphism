@@ -67,10 +67,10 @@ class Console(object):
 
     def console_keyboard(self, key, x, y):
         if(key == "\033"):
+            self.cmdcenter.context.exit = True
             exit()
 
         elif(key == "`"):
-            self.cmdcenter.context.exit = True
             self.renderer.toggle_console()
 
         elif(key == "\010"): # backspace
