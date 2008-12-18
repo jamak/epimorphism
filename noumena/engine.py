@@ -12,9 +12,9 @@ class Engine(object):
         It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
         It communicates to the renderer via pbo  '''
 
-    def __init__(self, profile, state, context, pbo):
+    def __init__(self, state, profile, context, pbo):
 
-        self.profile, self.state, self.context = profile, state, context
+        self.state, self.profile, self.context = state, profile, context
 
         # get device
         self.cuda_device = c_int()
@@ -153,6 +153,11 @@ class Engine(object):
 
 
     def do(self):
+
+        # return if necessary
+        if((self.context.manual_iter and not self.context.next_frame) or self.context.exit) : return
+
+        self.context.next_frame = False
 
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)

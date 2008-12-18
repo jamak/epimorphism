@@ -12,10 +12,10 @@ FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
-    def __init__(self, profile, state):
+    def __init__(self, state, profile, context):
 
         # set variables
-        self.profile, self.state = profile, state
+        self.state, self.profile, self.context = state, profile, context
 
         # initialize glut
         glutInit(1, [])
@@ -129,6 +129,7 @@ class Renderer(object):
 
 
     def do(self):
+        if(self.context.exit) : return
 
         # compute frame rate
         if(self.d_time == 0):

@@ -74,10 +74,14 @@ class CmdCenter(Setter, Animator):
                 self.state.zn.midi = self.midi
                 self.state.par.midi = self.midi
                 self.midi.start()
+        else:
+            self.midi = None
 
         # start video_renderer
         if(self.context.render_video):
             self.video_renderer.video_start()
+        else:
+            self.server = None
 
         # generate cmd exec environment
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
@@ -105,9 +109,9 @@ class CmdCenter(Setter, Animator):
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
 
-    # doesnt work well
     def __del__(self):
-        self.server.__del___()
+        if(self.server):
+            self.server.__del___()
 
     def set_new_kernel(self, data, idx, name):
         self.new_kernel[data][idx] = name

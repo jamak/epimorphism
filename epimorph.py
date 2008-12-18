@@ -18,27 +18,21 @@ for info in info_schema:
     exec(info[0] + " = obj")
 
 # initialize components
-renderer   = Renderer(profile, state)
-engine     = Engine(profile, state, context, renderer.pbo)
+renderer   = Renderer(state, profile, context)
+engine     = Engine(state, profile, context, renderer.pbo)
 cmdcenter  = CmdCenter(state, renderer, engine, context)
 
 # create execution loop
 def inner_loop():
-    # execute commands
+
     cmdcenter.do()
-
-    # if necessary, compute frame
-    if((not context.manual_iter or context.next_frame) and not context.exit):
-        engine.do()
-        context.next_frame = False
-
-    # render
+    engine.do()
     renderer.do()
 
-    # exit, clean data
     if(context.exit):
         renderer.__del__()
         engine.__del__()
+        cmdcenter.__del__()
         sys.exit()
 
 # set execution loop
