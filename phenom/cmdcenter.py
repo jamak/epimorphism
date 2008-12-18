@@ -70,6 +70,8 @@ class CmdCenter(Setter, Animator):
         # start midi
         if(self.context.midi):
             self.midi = MidiHandler(self)
+            self.state.zn.midi = self.midi
+            self.state.par.midi = self.midi
             self.midi.start()
 
         # start video_renderer
@@ -176,6 +178,7 @@ class CmdCenter(Setter, Animator):
 
         print "done switching %s" % data
 
+
     def grab_image(self):
         return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
@@ -189,7 +192,7 @@ class CmdCenter(Setter, Animator):
         for key in self.env.funcs.keys() : print key
 
 
-    def data_bindings(self):
+    def components(self):
         keys = self.datamanager.__dict__.keys()
         keys.sort()
         for i in xrange(len(keys)) : print i+1, ":", keys[i]
@@ -199,6 +202,28 @@ class CmdCenter(Setter, Animator):
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
         print "saved state as", name
+
+
+    def load(self, name):
+        new_state = ConfigManager().load_dict(name + ".est")
+        for i in xrange(len(new_state.zn)):
+            self.radial_2d(self.state.zn, i, 200, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+        for i in xrange(len(new_state.par)):
+            self.linear_1d(self.state.par, i, 200, self.state.par[i], new_state.par[i])
+
+        del new_state.zn
+        del new_state.par
+
+        updates = {}
+
+        for data in self.datamanager.__dict__.keys():
+            if(getattr(self.state, data) != getattr(new_state, data)):
+                updates[data] = getattr(new_state, data)
+            delattr(new_state, data)
+
+        for data in updates:
+            run_as_thread(lambda : self.blend_to_data(data, updates[data]))
+            time.sleep(0.3)
 
 
     def manual(self):

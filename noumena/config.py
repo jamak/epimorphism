@@ -1,9 +1,33 @@
 import noumena
 
 from noumena.migration import *
+from common.complex import *
+from phenom.midi import *
 
 import os.path
 
+
+class midi_list(list):
+    ''' This is an internal class to add midi synchronization to
+        changes in parameters '''
+
+    # maintain copy of origonal setter
+    old_set = list.__setitem__
+
+    def __setitem__(self, key, val):
+        # set value
+        self.old_set(key, val)
+
+        # lookup bindings
+        for binding in self.midi.bindings:
+            if(self.midi.bindings[binding][4] == (self, key)):
+
+                # compute value
+                f = self.midi.bindings[binding][2]()
+                f = eval(self.midi.bindings[binding][3])
+
+                # send value
+                self.midi.writef(binding, f)
 
 
 class State(object):
@@ -18,6 +42,10 @@ class State(object):
         # set par defaults
         for i in xrange(len(self.par_names)):
             self.par[i] = float(self.par_defaults[self.par_names[i]])
+
+
+        self.zn = midi_list(self.zn)
+        self.par = midi_list(self.par)
 
 
 class Profile(object):

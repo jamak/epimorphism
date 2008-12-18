@@ -7,14 +7,13 @@ class MouseHandler(object):
         in the Renderer object during normal opperation '''
 
     def __init__(self, cmdcenter, profile):
-        self.cmdcenter, self.profile self.state = cmdcenter, profile, cmdcenter.state
+        self.cmdcenter, self.profile, self.state = cmdcenter, profile, cmdcenter.state
 
         # init coords
         self.vp_start_x = 0
         self.vp_start_y = 0
         self.mouse_start_x = 0
         self.mouse_start_y = 0
-
 
     def mouse(self, button, state, x, y):
 

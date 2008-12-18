@@ -1,6 +1,7 @@
 from common.complex import *
 
 class Setter(object):
+
     def zn_get_i(self, i):
         return lambda : self.state.zn[i]
 

@@ -41,7 +41,7 @@
  'vp_center_x': 0.0,
  'vp_center_y': 0.0,
  'VERSION': 0.5,
- 'COLORIFY': 'rotate_hsls(v,
+ 'COLOR': 'rotate_hsls(v,
  z_z)',
  'SEED_WT': 'wt_circular(w)',
  'internal': [0.0,

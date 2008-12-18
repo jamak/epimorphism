@@ -11,22 +11,6 @@ class Console(object):
 
         self.cmdcenter, self.renderer = cmdcenter, cmdcenter.renderer
 
-        #self.console_tex = glGenTextures(1)
-        #glBindTexture(GL_TEXTURE_2D, self.console_tex)
-
-        #data = (c_ubyte * (20 * 20 * 4 * sizeof(c_ubyte)))()
-
-        #for i in range(0, 20*20*4):
-        #    data[i] = 0
-
-        #glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        #glTexImage2D(GL_TEXTURE_2D, 0, 3, 20, 20,
-#                     0, GL_RGBA, GL_UNSIGNED_BYTE, data)
-        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        #glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
         self.console_font_size = 12
         self.max_num_status_rows = 20
         self.status_rows = []
@@ -36,13 +20,11 @@ class Console(object):
         self.queue_idx = -1
         self.cursor_pos = 0
 
-
         self.font = common.glFreeType.font_data(FONT_PATH, self.console_font_size)
 
 
     def render_console(self):
 
-        # glBindTexture(GL_TEXTURE_2D, self.console_tex)
         glBindTexture(GL_TEXTURE_2D, 0)
 
         num_rows = min(len(self.status_rows), self.max_num_status_rows)
