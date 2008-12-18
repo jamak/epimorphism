@@ -21,7 +21,8 @@ import time
 
 import Image
 
-COMPILE_TIME = 2.5
+COMPILE_TIME = 1.9
+
 
 class CmdEnv(dict):
 
@@ -60,7 +61,6 @@ class CmdCenter(Setter, Animator):
         console = Console(self)
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion,
                                          console.render_console, console.console_keyboard)
-
 
         # start server
         if(self.context.server):

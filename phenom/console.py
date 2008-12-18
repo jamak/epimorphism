@@ -6,11 +6,14 @@ import common.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
 class Console(object):
+    ''' The Console object is responsible for rendering the console in the
+        Renderer as well as relaying key events to the Cmdcenter '''
 
     def __init__(self, cmdcenter):
 
         self.cmdcenter, self.renderer = cmdcenter, cmdcenter.renderer
 
+        # console parameters
         self.console_font_size = 12
         self.max_num_status_rows = 20
         self.status_rows = []
@@ -25,10 +28,13 @@ class Console(object):
 
     def render_console(self):
 
+        # don't render pbo
         glBindTexture(GL_TEXTURE_2D, 0)
 
+        # compute num_rows
         num_rows = min(len(self.status_rows), self.max_num_status_rows)
 
+        # calculate dimensions
         dims = [1.0 - 2.0 * self.console_width / self.renderer.profile.viewport_width,
                 -1.0 + 2.0 * (10 + (self.console_font_size + 4) * (1 + num_rows)) / self.renderer.profile.viewport_height]
 
@@ -66,12 +72,16 @@ class Console(object):
 
 
     def console_keyboard(self, key, x, y):
+
+        # exit
         if(key == "\033"):
             self.cmdcenter.context.exit = True
 
+        # toggle console
         elif(key == "`"):
             self.renderer.toggle_console()
 
+        # delete character
         elif(key == "\010"): # backspace
             if(self.cursor_pos == 0):
                 return
@@ -79,6 +89,7 @@ class Console(object):
                 self.active_text = self.active_text[:self.cursor_pos-1] + self.active_text[self.cursor_pos:]
                 self.cursor_pos -= 1
 
+        # send command
         elif(key == "\015"): # enter
             self.cursor_pos = 0
             self.cmd_queue.append(self.active_text)
@@ -93,6 +104,7 @@ class Console(object):
                 if(line != ""):
                     self.status_rows.append([line, 2])
 
+        # cycle up through queue
         elif(key == GLUT_KEY_UP):
             if(len(self.cmd_queue) == 0):
                 return
@@ -101,6 +113,7 @@ class Console(object):
             self.active_text = self.cmd_queue[-(self.queue_idx)]
             self.cursor_pos = len(self.active_text)
 
+        # cycle down through queue
         elif(key == GLUT_KEY_DOWN):
             if(len(self.cmd_queue) == 0):
                 return
@@ -109,14 +122,17 @@ class Console(object):
             self.active_text = self.cmd_queue[-(self.queue_idx)]
             self.cursor_pos = len(self.active_text)
 
+        # cursor left
         elif(key == GLUT_KEY_LEFT):
             if(self.cursor_pos != 0):
                 self.cursor_pos -= 1
 
+        # cursor right
         elif(key == GLUT_KEY_RIGHT):
             if(self.cursor_pos != len(self.active_text)):
                 self.cursor_pos += 1
 
+        # add character to buffer
         else:
             self.active_text = self.active_text[0:self.cursor_pos] + str(key) + self.active_text[self.cursor_pos:]
             self.cursor_pos += 1

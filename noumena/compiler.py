@@ -6,6 +6,8 @@ from ctypes import *
 import threading
 import StringIO
 
+import time
+
 PTXAS = True
 
 libnum = 0
@@ -95,7 +97,9 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
+            print name, time.clock()
             os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, PTXAS and "--ptxas-options=-v" or ""))
+            print name, time.clock()
 
             # remove tmp files
             for file in files:
