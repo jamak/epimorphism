@@ -19,23 +19,29 @@ for info in info_schema:
 
 # initialize components
 renderer   = Renderer(profile, state)
-engine     = Engine(profile, state, renderer.pbo)
+engine     = Engine(profile, state, context, renderer.pbo)
 cmdcenter  = CmdCenter(state, renderer, engine, context)
 
-
-
-# create and set execution loop
+# create execution loop
 def inner_loop():
+    # execute commands
     cmdcenter.do()
+
+    # if necessary, compute frame
     if((not context.manual_iter or context.next_frame) and not context.exit):
         engine.do()
         context.next_frame = False
+
+    # render
     renderer.do()
+
+    # exit, clean data
     if(context.exit):
         renderer.__del__()
         engine.__del__()
         sys.exit()
 
+# set execution loop
 renderer.set_inner_loop(inner_loop)
 
 # start

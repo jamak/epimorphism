@@ -5,7 +5,7 @@
 #
 
 
-fix state/profile cmdline load
+fix rewrite arg load
 
 clean phenom
 

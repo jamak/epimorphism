@@ -8,8 +8,6 @@ import StringIO
 
 import time
 
-PTXAS = True
-
 libnum = 0
 
 def bind_kernel(name):
@@ -34,9 +32,9 @@ class Compiler(threading.Thread):
     ''' A Compiler object if responsible for asynchronously calling nvcc.
         The compilation can be restarted by a call to update. '''
 
-    def __init__(self, data, callback):
+    def __init__(self, data, callback, context):
 
-        self.data, self.callback = data, callback
+        self.data, self.callback, self.context = data, callback, context
 
         # init update_vars
         self.update_vars = {}
@@ -97,9 +95,7 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
-            print name, time.clock()
-            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, PTXAS and "--ptxas-options=-v" or ""))
-            print name, time.clock()
+            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             for file in files:
