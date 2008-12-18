@@ -3,36 +3,48 @@ __device__ float2 sq(float2 v0){
 }
 
 __device__ float2 sin(float2 v0){
-  return vec2(sinf(v0.x) * coshf(v0.y), cosf(v0.x) * sinhf(v0.y));
+  float s, c;
+  sincosf(v0.x, &s, &c);
+  return vec2(s * coshf(v0.y), c * sinhf(v0.y));
 }
 
 __device__ float2 cos(float2 v0){
-  return vec2(cosf(v0.x) * coshf(v0.y), -1.0f * sinf(v0.x) * sinhf(v0.y));
+  float s, c;
+  sincosf(v0.x, &s, &c);
+  return vec2(c * coshf(v0.y), -1.0f * s * sinhf(v0.y));
 }
 
 __device__ float2 tan(float2 v0){
-  float r = (4.0f * cosf(v0.x) * cosf(v0.x)  - 2.0f) * expf(2.0f * v0.y) + expf(4.0f * v0.y) + 1.0f;
-  return vec2((2.0f * sinf(2.0f * v0.x) * expf(2.0f * v0.y)) / r, (expf(4.0f * v0.y) - 1.0f) / r);
+  float s, c;
+  sincosf(2.0f * v0.x, &s, &c);
+  float r = c + coshf(2.0f * v0.y);
+  return vec2(s, sinhf(2.0f * v0.y)) / r;
 }
 
 __device__ float2 sinh(float2 v0){
-  return vec2(sinhf(v0.x) * cosf(v0.y), coshf(v0.x) * sinf(v0.y));
+  float s, c;
+  sincosf(v0.y, &s, &c);
+  return vec2(sinhf(v0.x) * c, coshf(v0.x) * s);
 }
 
 __device__ float2 cosh(float2 v0){
-  return vec2(coshf(v0.x) * cosf(v0.y), sinhf(v0.x) * sinf(v0.y));
+  float s, c;
+  sincosf(v0.y, &s, &c);
+  return vec2(coshf(v0.x) * c, sinhf(v0.x) * s);
 }
 
 __device__ float2 tanh(float2 v0){
-  float k = 1.0f / expf(2.0f * v0.x);
-  float s = sinf(2.0f * v0.y);
-  float r = 2.0f * cosf(2.0f * v0.y) * k + k * k + 1.0f;
-  return vec2((1.0f - k * k) / r, (2.0f * k * s) / r);
+  float s, c;
+  sincosf(2.0f * v0.y, &s, &c);
+  float r = coshf(2.0f * v0.x) + c;
+  return vec2(sinhf(2.0f * v0.x), s) / r;
 }
 
 __device__ float2 exp(float2 v0){
   float f = expf(v0.x);
-  return vec2(f * cosf(v0.y), f * sinf(v0.y));
+  float s, c;
+  sincosf(v0.y, &s, &c);
+  return vec2(f * c, f * s);
 }
 
 __device__ float2 sqrt(float2 v0){

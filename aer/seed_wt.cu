@@ -7,6 +7,11 @@ __device__ float wt_id(float w){
   return w;
 }
 
+__device__ float wt_inv(float w){
+  // identity transform
+  return 1.0f - w;
+}
+
 
 __device__ float wt_circular(float w){
   // circular transform
@@ -15,5 +20,5 @@ __device__ float wt_circular(float w){
 
 __device__ float wt_inv_circular(float w){
   // circular transform
-  return 1.0 - sqrtf(1.0f - (1.0f - w) * (1.0f - w));
+  return 1.0f - sqrtf(1.0f - (1.0f - w) * (1.0f - w));
 }

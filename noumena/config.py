@@ -9,18 +9,21 @@ import os.path
 
 class midi_list(list):
     ''' This is an internal class to add midi synchronization to
-        changes in parameters '''
+        changes in parameters. '''
 
     # maintain copy of origonal setter
     old_set = list.__setitem__
 
     def __setitem__(self, key, val):
+
         # set value
         self.old_set(key, val)
 
         if(hasattr(self, "midi")):
+
             # lookup bindings
             for binding in self.midi.bindings:
+
                 if(self.midi.bindings[binding][4] == (self, key)):
 
                     # compute value
@@ -33,7 +36,7 @@ class midi_list(list):
 
 class State(object):
     ''' The State object contains the main configuration parameters for
-        the Engine's kernel.  '''
+        the Engine's kernel. '''
 
     def __init__(self, **vars):
 
@@ -44,14 +47,14 @@ class State(object):
         for i in xrange(len(self.par_names)):
             self.par[i] = float(self.par_defaults[self.par_names[i]])
 
-
+        # create midi_lists
         self.zn = midi_list(self.zn)
         self.par = midi_list(self.par)
 
 
 class Profile(object):
     ''' The Profile object contains the configuration settings for the
-        Renderer and Engine '''
+        Renderer and Engine. '''
 
     def __init__(self, **vars):
 
@@ -64,14 +67,13 @@ class Context(object):
         current execution context of the application. '''
 
     def __init__(self, **vars):
-
         # init
         self.__dict__.update(vars)
 
 
 class ConfigManager(object):
     ''' The ConfigManager class is responsible for managing(save/load)
-        the various config settings '''
+        the various config settings. '''
 
     # mappings from config extensions to classes/names
     extension_names = {"est" : "state", "prf" : "profile", "ctx" : "context"}

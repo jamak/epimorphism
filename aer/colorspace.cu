@@ -5,7 +5,7 @@ __device__ float4 RGBtoHSV(float4 val){
 
   float delta = vmax - vmin;
 
-  if(vmax < 0.001 || delta < 0.001){
+  if(vmax < 0.001f || delta < 0.001f){
     return vec4(0.0f, 0.0f, vmax, val.w);
   }else {
     s = delta / vmax;
@@ -108,7 +108,7 @@ __device__ float4 RGBtoHSLs(float4 val){
       h = 2.0f + ( val.z - val.x ) / delta;     // between cyan & yellow
     else
       h = 4.0f + ( val.x - val.y ) / delta;
-    h *= 3.14159 / 3.0f;
+    h *= PI / 3.0f;
   }
   return vec4(s * cosf(h), s * sinf(h), l, val.w);
 

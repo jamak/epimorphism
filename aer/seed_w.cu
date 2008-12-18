@@ -27,7 +27,7 @@ __device__ float fade(float2 z){
 
 __device__ float wave(float2 z){
   // sinousoid
-  float w = (2.0f + sin(2.0f * 3.14259f * (z.y + /*inc1*/0.0))) / 4.0f;
+  float w = (2.0f + sin(2.0f * 3.14259f * (z.y + /*inc1*/0.0f))) / 4.0f;
   return trans_w(w);
 }
 

@@ -6,8 +6,9 @@ from ctypes import *
 import threading
 import StringIO
 
-libnum = 0
+PTXAS = True
 
+libnum = 0
 
 def bind_kernel(name):
 
@@ -94,7 +95,7 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
-            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared  aer/__kernel.cu" % name)
+            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, PTXAS and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             for file in files:

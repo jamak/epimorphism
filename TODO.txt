@@ -5,6 +5,8 @@
 #
 
 
+fix state/profile cmdline load
+
 clean phenom
 
 error checking?

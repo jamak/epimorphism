@@ -15,7 +15,7 @@ __device__ float4 seed_wca(float2 z){
     res = %SEED_C%;
     res.w = %SEED_A%;
   }else{
-    res = vec4(0.0f,0.0f,0.0f,0.0f);
+    res = vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 
   return res;

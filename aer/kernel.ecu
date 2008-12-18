@@ -5,7 +5,7 @@ __constant__ float count;
 
 %PAR_NAMES%
 
-#define PI 3.1415926535
+#define PI 3.1415926535f
 
 #include "util.cu"
 #include "math.cu"
@@ -48,15 +48,17 @@ extern "C" {
         z = %T_SEED%;
         z = recover(%REDUCE%);
 
-        float4 seed = _gamma3(%SEED%, 2.2);
+        float4 seed = _gamma3(%SEED%, 2.2f);
 
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
         // cull mode
-        result.w = seed.w < 0.0001 ? frame.w + 1.0 : 1.0;
+        if(_CULL_DEPTH != 0.0f){
+          result.w = seed.w < 0.0001f ? frame.w + 1.0f : 1.0f;
 
-        if(result.w > 20.0f * _CULL_DEPTH && _CULL_DEPTH != 0.0f)
-          result = vec4(0.0, 0.0, 0.0, 0.0);
+          if(result.w > 20.0f * _CULL_DEPTH)
+            result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+        }
 
         z = z_c;
 
