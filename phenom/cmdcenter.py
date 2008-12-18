@@ -42,7 +42,7 @@ class CmdEnv(dict):
                 d[key] = value
 
 
-class CmdCenter(Setter):
+class CmdCenter(Setter, Animator):
 
     def __init__(self, state, renderer, engine, context):
 
@@ -51,13 +51,16 @@ class CmdCenter(Setter):
         # start datamanager
         self.datamanager = DataManager(self.state)
 
-        self.animator = Animator()
+        # init animator
+        Animator.__init__(self)
+
         self.video_renderer = VideoRenderer(self)
         mouse_handler = MouseHandler(self, renderer.profile)
         keyboard_handler = KeyboardHandler(self)
         console = Console(self)
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion,
                                          console.render_console, console.console_keyboard)
+
 
         # start server
         if(self.context.server):
@@ -76,16 +79,13 @@ class CmdCenter(Setter):
         # generate cmd exec environment
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
-                          'video_time', 'set_inner_loop'] + dir(object)
+                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths'] + dir(object) + dir(Setter)
 
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save,
-                 'data_bindings' : self.data_bindings, 'manual' : self.manual, 'next' : self.next,
-                 'inc_data' : self.inc_data}
+        funcs = get_funcs(self)
         funcs.update(get_funcs(self.renderer))
-        funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
 
@@ -235,7 +235,7 @@ class CmdCenter(Setter):
 
     def do(self):
 
-        self.animator.do()
+        self.execute_paths()
 
         if(self.context.render_video):
             self.video_renderer.capture()

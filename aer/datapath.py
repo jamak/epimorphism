@@ -2,6 +2,7 @@ from math import *
 
 from common.complex import *
 
+
 def linear_1d(t, data):
     if(t > 1):
         t = data['loop'] and fmod(t, 1.0) or 1
@@ -20,7 +21,7 @@ def radial_2d(t, data):
         t = data['loop'] and fmod(t, 1.0) or 1
     z = [data['s'][0] * (1 - t) + data['e'][0] * t, data['s'][1] * (1 - t) + data['e'][1] * t]
     return (p_to_r(z), t != 1 or data['loop'])
-                       
+
 
 def wave_1d(t, data):
     return (data['a'] * sin(2.0 * pi * t + data['th']) + data['b'], True)

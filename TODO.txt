@@ -6,8 +6,6 @@
 
 
 real time load state
-reset zs & reset pars
-
 
 clean aer
 clean phenom
@@ -43,6 +41,7 @@ fix T zn[1] interpolation
 smooth multiswitching of same func
 fix recursive readjust
 
+state change echo
 
 picture upload
 

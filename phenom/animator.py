@@ -5,11 +5,17 @@ from aer.datapath import *
 
 class Animator(object):
 
-    paths = []
-
-
     def __init__(self):
         self.time = time.clock
+        self.paths = []
+
+
+    def radial_2d(self, i, spd, z0, z1):
+        self.animate_var("zn%d" % i, self.zn_set_i(i), "radial_2d", spd, {"s" : z0, "e" : z1, 'loop' : False})
+
+
+    def linear_1d(self, i, spd, x0, x1):
+        self.animate_var("par%d" % i, self.par_set_i(i), "linear_1d", spd, {"s" : x0, "e" : x1, 'loop' : False})
 
 
     def animate_var(self, id, setter, type, speed, data, exclude=True):
@@ -19,7 +25,7 @@ class Animator(object):
         return True
 
 
-    def do(self):
+    def execute_paths(self):
 
         t = self.time()
 

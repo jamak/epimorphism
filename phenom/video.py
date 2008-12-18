@@ -29,7 +29,7 @@ class VideoRenderer(object):
 
         self.video_name = video_name
 
-        self.cmdcenter.animator.time = self.video_time
+        self.cmdcenter.time = self.video_time
 
 
     def capture(self):
@@ -58,7 +58,7 @@ class VideoRenderer(object):
 
         self.rendering = False
 
-        self.cmdcenter.animator.time = time.clock
+        self.cmdcenter.time = time.clock
 
 
     def video_time(self):
