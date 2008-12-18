@@ -14,7 +14,7 @@ import time
 
 
 class KeyboardHandler(object):
-    ''' The KeyboardHandler is the GLUT function that handles keyboard events
+    ''' The KeyboardHandler is the GLUT callback that handles keyboard events
         in the Renderer object during normal opperation '''
 
     def __init__(self, cmdcenter):
