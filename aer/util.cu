@@ -12,6 +12,7 @@ __device__ float4 vec4(float x, float y, float z, float w){
   return make_float4(x, y, z, w);
 }
 
+
 // dot product
 __device__ float dot(float2 z1, float2 z2){
   return z1.x * z2.x + z1.y * z2.y;
@@ -102,11 +103,11 @@ __device__ float4 operator-(const float4 z1, const float4 z2){
 
 
 __device__ float len(const float2 z1){
-  return sqrt(z1.x * z1.x + z1.y * z1.y);
+  return sqrtf(z1.x * z1.x + z1.y * z1.y);
 }
 
 __device__ float len(const float3 z1){
-  return sqrt(z1.x * z1.x + z1.y * z1.y + z1.z * z1.z);
+  return sqrtf(z1.x * z1.x + z1.y * z1.y + z1.z * z1.z);
 }
 
 __device__ float4 tex2D(texture<float4, 2, cudaReadModeElementType> tex, float2 z){
@@ -114,7 +115,7 @@ __device__ float4 tex2D(texture<float4, 2, cudaReadModeElementType> tex, float2 
 }
 
 __device__ float4 _gamma3(float4 v, float gamma){
-  return vec4(pow(v.x, gamma), pow(v.y, gamma), pow(v.z, gamma), v.w);
+  return vec4(powf(v.x, gamma), powf(v.y, gamma), powf(v.z, gamma), v.w);
 }
 
 __device__ float rem(float a, float b){
@@ -129,7 +130,6 @@ __device__ float2 rem(float2 z, float b){
 __device__ float2 floorf(float2 z){
   return vec2(floorf(z.x), floorf(z.y));
 }
-
 
 
 __device__ float2 recover(float2 z){

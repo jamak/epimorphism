@@ -1,5 +1,5 @@
 zn[0] * z + zn[1]                               : zn[0] = min_r(zn[0], 1.0)
-zn[0] * tanh(z) + zn[1]                         : zn[0] = min_r(zn[0], 1.0)
+zn[0] * z * z + zn[1]                         : zn[0] = min_r(zn[0], 1.0)
 zn[0] * 1.0 / sinh(z) + zn[1]                   : zn[0] = min_r(zn[0], 1.0)
 zn[0] * exp(z) + zn[1]                          : zn[0] = min_r(zn[0], 1.0)
 zn[0] * sin(z) + zn[1]                          : zn[0] = min_r(zn[0], 1.0)
