@@ -1,13 +1,13 @@
 import noumena
 
-from noumena.migration import *
+from config.migration import *
 from common.complex import *
 from phenom.midi import *
 
 import os.path
 
 
-class midi_list(list):
+class MidiList(list):
     ''' This is an internal class to add midi synchronization to
         changes in parameters. '''
 
@@ -48,8 +48,8 @@ class State(object):
             self.par[i] = float(self.par_defaults[self.par_names[i]])
 
         # create midi_lists
-        self.zn = midi_list(self.zn)
-        self.par = midi_list(self.par)
+        self.zn = MidiList(self.zn)
+        self.par = MidiList(self.par)
 
 
 class Profile(object):

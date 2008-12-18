@@ -1,5 +1,6 @@
 from common.complex import *
 
+
 class Setter(object):
     ''' Returns various closures for setting zn & par. '''
 

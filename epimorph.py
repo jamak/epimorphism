@@ -2,7 +2,7 @@
 
 import sys
 
-from noumena.config import *
+from config.configmanager import *
 from phenom.cmdcenter import *
 from noumena.engine import *
 from noumena.renderer import *

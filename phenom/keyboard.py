@@ -7,7 +7,7 @@ from OpenGL.GLUT import *
 from common.complex import *
 from common.runner import *
 
-from noumena.config import *
+from config.configmanager import *
 
 import sys
 import time

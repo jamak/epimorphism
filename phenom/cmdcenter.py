@@ -12,7 +12,8 @@ from aer.datamanager import *
 from common.default import *
 from common.complex import *
 from noumena.compiler import *
-from noumena.config import *
+
+from config.configmanager import *
 
 import StringIO
 import sys
