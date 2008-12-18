@@ -18,16 +18,17 @@ class midi_list(list):
         # set value
         self.old_set(key, val)
 
-        # lookup bindings
-        for binding in self.midi.bindings:
-            if(self.midi.bindings[binding][4] == (self, key)):
+        if(hasattr(self, "midi")):
+            # lookup bindings
+            for binding in self.midi.bindings:
+                if(self.midi.bindings[binding][4] == (self, key)):
 
-                # compute value
-                f = self.midi.bindings[binding][2]()
-                f = eval(self.midi.bindings[binding][3])
+                    # compute value
+                    f = self.midi.bindings[binding][2]()
+                    f = eval(self.midi.bindings[binding][3])
 
-                # send value
-                self.midi.writef(binding, f)
+                    # send value
+                    self.midi.writef(binding, f)
 
 
 class State(object):

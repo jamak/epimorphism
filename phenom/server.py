@@ -1,6 +1,7 @@
 import threading
 import socket
 
+
 class Server(threading.Thread):
     def __init__(self, cmdcenter):
 

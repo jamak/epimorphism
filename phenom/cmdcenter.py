@@ -69,9 +69,10 @@ class CmdCenter(Setter, Animator):
         # start midi
         if(self.context.midi):
             self.midi = MidiHandler(self)
-            self.state.zn.midi = self.midi
-            self.state.par.midi = self.midi
-            self.midi.start()
+            if(self.context.midi):
+                self.state.zn.midi = self.midi
+                self.state.par.midi = self.midi
+                self.midi.start()
 
         # start video_renderer
         if(self.context.render_video):

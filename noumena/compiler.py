@@ -53,7 +53,7 @@ class Compiler(threading.Thread):
     def render_file(self, name):
 
         # open file & read contents
-        file = open("aer/" + name + ".ecu")
+        file = open("aer/" + name)
         contents = file.read()
         file.close()
 
@@ -70,7 +70,7 @@ class Compiler(threading.Thread):
             contents = re.compile("\%" + key + "\%").sub(str(self.data[key]), contents)
 
         # write file contents
-        file = open("aer/__%s.cu" % name, 'w')
+        file = open("aer/__%s" % (name.replace(".ecu", ".cu")), 'w')
         file.write(contents)
         file.close()
 
@@ -84,9 +84,10 @@ class Compiler(threading.Thread):
         while(self.do_update):
             self.do_update = False
 
-            # render files
-            self.render_file("seed")
-            self.render_file("kernel")
+            # render ecu files
+            files = [file for file in os.listdir("aer") if re.search("\.ecu$", file)]
+            for file in files:
+                self.render_file(file)
 
             # get name
             name = "kernel%d.so" % libnum
@@ -94,8 +95,10 @@ class Compiler(threading.Thread):
 
             # compile
             os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared  aer/__kernel.cu" % name)
-            os.system("rm aer/__seed.cu")
-            os.system("rm aer/__kernel.cu")
+
+            # remove tmp files
+            for file in files:
+                os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback

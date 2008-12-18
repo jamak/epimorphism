@@ -135,13 +135,13 @@ class KeyboardHandler(object):
             elif(key == GLUT_KEY_HOME):
                 default = ConfigManager().load_dict("default.est")
                 for i in xrange(len(default.zn)):
-                    self.cmdcenter.radial_2d(self.state.zn, i, 10, r_to_p(self.state.zn[i]), r_to_p(default.zn[i]))
+                    self.cmdcenter.radial_2d(self.state.zn, i, 0.4, r_to_p(self.state.zn[i]), r_to_p(default.zn[i]))
 
             # reset par
             elif(key == GLUT_KEY_END):
                 default = ConfigManager().load_dict("default.est")
                 for i in xrange(len(default.par)):
-                    self.cmdcenter.linear_1d(self.state.par, i, 10, self.state.par[i], default.par[i])
+                    self.cmdcenter.linear_1d(self.state.par, i, 0.4, self.state.par[i], default.par[i])
 
             # toggle fps
             elif(key == GLUT_KEY_F12):
