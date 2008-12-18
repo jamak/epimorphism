@@ -1,7 +1,7 @@
 __constant__ float par[40];
 __constant__ float2 zn[10];
 __constant__ float internal[10];
-__constant__ float count;
+__constant__ float _clock;
 
 %PAR_NAMES%
 
@@ -43,7 +43,7 @@ extern "C" {
         z = %T%;
         z = recover(%REDUCE%);
 
-        float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
+        float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f)); // possibly optimize using a texture
 
         z = %T_SEED%;
         z = recover(%REDUCE%);

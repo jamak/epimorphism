@@ -40,8 +40,6 @@ fix T zn[1] interpolation
 
 multi-connection server
 
-random segfaults?
-
 midi smoothing. maybe keyboard smoothing
 
 smooth repat switching of same func

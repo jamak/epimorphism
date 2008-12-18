@@ -6,8 +6,8 @@ __device__ float4 seed_wca(float2 z){
 
   float4 res;
   float ep = nextafter(0.0f, -1.0f);
-  float w = ep;
-  w = %SEED_W%;
+  float w = %SEED_W%;
+
   w = fmaxf(fminf(w, 1.0f), ep);
 
   if(w > 0.0f){

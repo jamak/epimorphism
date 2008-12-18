@@ -40,7 +40,7 @@ __device__ float4 rotate_hsv(float4 v, float2 z_z){
     a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
   }
 
-  float th =  2.0f * PI * (_COLOR_DHUE + l + a + count * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
+  float th =  2.0f * PI * (_COLOR_DHUE + l + a + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
 
   v.x += th;
 
@@ -64,7 +64,7 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
     a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
   }
 
-  float th =  2.0f * PI * (_COLOR_DHUE + a + l + count * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
+  float th =  2.0f * PI * (_COLOR_DHUE + a + l + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
   float phi = 2.0f * PI * _COLOR_PHI;
   float psi = 2.0f * PI * _COLOR_PSI;
   float c = cosf(th);

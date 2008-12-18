@@ -1,5 +1,5 @@
 // EPIMORPH library file
-// complex plane reductions
+// complex plane reductions C -> [-1, -1] x [1, 1]
 
 
 __device__ float2 grid_reduce(float2 z){
@@ -9,14 +9,14 @@ __device__ float2 grid_reduce(float2 z){
 
 
 __device__ float2 torus_reduce(float2 z){
-  // reduction based on the reflective torus
+  // reduction based on the reflective torus  -  possibly optimize using a texture
   z = z + vec2(1.0f, 1.0f);
 
-  float2 tmp = rem(z, 2.0f);
-  if(tmp.x >= 2.0f)
-    z.x = 4.0f - z.x;
-  if(tmp.y >= 2.0f)
-    z.y = 4.0f - z.y;
+  z = rem(z, 4.0f);
+  if(z.x >= 2.0f)
+    z.x = 4.0 - z.x;
+  if(z.y >= 2.0f)
+    z.y = 4.0 - z.y;
 
-  return tmp - vec2(1.0f, 1.0f);
+  return z - vec2(1.0f, 1.0f);
 }

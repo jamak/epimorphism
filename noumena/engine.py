@@ -177,7 +177,7 @@ class Engine(object):
 
         # upload clock
         clock = c_float(time.clock() - self.t_start)
-        cudaMemcpyToSymbol("count", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
+        cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
