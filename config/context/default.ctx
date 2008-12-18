@@ -1,12 +1,15 @@
-{'profile': 'box1',
+{
+ 'profile': 'box1',
  'par_scale': 1,
  'midi': True,
  'manual_iter': False,
  'server': False,
  'render_video': False,
- 'switch_time' : 6.0,
+ 'component_switch_time' : 3.0,
+ 'kbd_switch_spd' : 0.2,
  'state': 'default',
  'next_frame': False,
  'video_frame_time': 10,
  'max_video_frames': None,
- 'exit' : False}
+ 'exit' : False
+}

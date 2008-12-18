@@ -15,7 +15,6 @@ from noumena.compiler import *
 from noumena.config import *
 
 import StringIO
-from copy import *
 import sys
 import time
 
@@ -104,6 +103,8 @@ class CmdCenter(Setter, Animator):
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
 
+        # self.load("state_0")
+
     def set_new_kernel(self, data, idx, name):
         self.new_kernel[data][idx] = name
 
@@ -127,8 +128,8 @@ class CmdCenter(Setter, Animator):
         print "switching %s to: %s" % (data, val)
 
         idx_idx = self.datamanager.__dict__.keys().index(data)
-        intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.switch_time, eval("self.state." + data),
-                                                                                                          idx_idx, self.context.switch_time, val)
+        intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
+                                                                                                          idx_idx, self.context.component_switch_time, val)
         setattr(self.state, data, intrp)
 
         self.new_kernel[data][0] = None
@@ -152,7 +153,7 @@ class CmdCenter(Setter, Animator):
         if(self.context.exit) : exit()
 
         # phase 1
-        self.animating[data] = [time.clock() + self.context.switch_time, getattr(self.state, data), None]
+        self.animating[data] = [time.clock() + self.context.component_switch_time, getattr(self.state, data), None]
 
         self.engine.new_kernel = self.new_kernel[data][0]
 
@@ -206,10 +207,11 @@ class CmdCenter(Setter, Animator):
 
     def load(self, name):
         new_state = ConfigManager().load_dict(name + ".est")
+
         for i in xrange(len(new_state.zn)):
-            self.radial_2d(self.state.zn, i, 200, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+            self.radial_2d(self.state.zn, i, self.context.component_switch_time + COMPILE_TIME, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
         for i in xrange(len(new_state.par)):
-            self.linear_1d(self.state.par, i, 200, self.state.par[i], new_state.par[i])
+            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
 
         del new_state.zn
         del new_state.par
@@ -223,7 +225,7 @@ class CmdCenter(Setter, Animator):
 
         for data in updates:
             run_as_thread(lambda : self.blend_to_data(data, updates[data]))
-            time.sleep(0.3)
+            time.sleep(0.1)
 
 
     def manual(self):

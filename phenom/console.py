@@ -70,6 +70,7 @@ class Console(object):
             exit()
 
         elif(key == "`"):
+            self.cmdcenter.context.exit = True
             self.renderer.toggle_console()
 
         elif(key == "\010"): # backspace

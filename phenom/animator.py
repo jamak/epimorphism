@@ -21,7 +21,7 @@ class Animator(object):
     def animate_var(self, var, type, speed, data, exclude=True):
         if(exclude and any([path[0] == var for path in self.paths])):
             return False
-        self.paths.append((var, lambda t: eval(type)(t, data), self.time(), speed / 1000.0))
+        self.paths.append((var, lambda t: eval(type)(t, data), self.time(), speed))
         return True
 
 
