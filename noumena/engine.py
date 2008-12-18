@@ -72,7 +72,6 @@ class Engine(object):
         self.new_kernel = None
 
 
-    # for some reason this isn't called
     def __del__(self):
 
         # clear cuda memory

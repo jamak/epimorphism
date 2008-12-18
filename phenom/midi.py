@@ -77,7 +77,6 @@ class MidiHandler(threading.Thread):
 
         self.bindings4 = dict([(81 + i, [self.cmdcenter.par_set_i(i + 16), "m0(f)", self.cmdcenter.par_get_i(i + 16), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
 
-
         self.binding_bit0 = self.binding_bit1 = 0.0
 
         if(hasattr(self, "midi_out")):

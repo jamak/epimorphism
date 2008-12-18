@@ -129,8 +129,8 @@ class CmdCenter(Setter, Animator):
         print "switching %s to: %s" % (data, val)
 
         idx_idx = self.datamanager.__dict__.keys().index(data)
-        intrp = "((1.0f - (count - internal[%d]) / %ff) * (%s) + (count - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
-                                                                                                          idx_idx, self.context.component_switch_time, val)
+        intrp = "((1.0f - (_clock - internal[%d]) / %ff) * (%s) + (_clock - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
+                                                                                                            idx_idx, self.context.component_switch_time, val)
         setattr(self.state, data, intrp)
 
         self.new_kernel[data][0] = None

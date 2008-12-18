@@ -22,13 +22,19 @@ renderer   = Renderer(profile, state)
 engine     = Engine(profile, state, renderer.pbo)
 cmdcenter  = CmdCenter(state, renderer, engine, context)
 
+
+
 # create and set execution loop
 def inner_loop():
     cmdcenter.do()
-    if(not context.manual_iter or context.next_frame):
+    if((not context.manual_iter or context.next_frame) and not context.exit):
         engine.do()
         context.next_frame = False
     renderer.do()
+    if(context.exit):
+        renderer.__del__()
+        engine.__del__()
+        sys.exit()
 
 renderer.set_inner_loop(inner_loop)
 

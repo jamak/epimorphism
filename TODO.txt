@@ -73,8 +73,6 @@ device emulation mode
 
 fix deviceProperties stupid shit
 
-make sure __del__ is called
-
 unit tests
 
 fix HSV interpolation

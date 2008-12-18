@@ -56,8 +56,6 @@ class KeyboardHandler(object):
             # exit
             if(key == "\033"): # enter
                 self.cmdcenter.context.exit = True
-                time.sleep(0.1)
-                sys.exit()
 
             # toggle manual iteration
             elif(key == "\011"): # tab
