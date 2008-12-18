@@ -9,6 +9,7 @@ fix state/profile cmdline load
 
 clean phenom
 
+add argument lists to doc
 error checking?
 
 kernel optimization
@@ -38,7 +39,7 @@ fix T zn[1] interpolation
 #
 #
 
-multi-connection server
+test server
 
 midi smoothing. maybe keyboard smoothing
 

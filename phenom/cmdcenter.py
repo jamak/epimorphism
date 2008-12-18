@@ -105,7 +105,9 @@ class CmdCenter(Setter, Animator):
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
 
-        # self.load("state_0")
+    # doesnt work well
+    def __del__(self):
+        self.server.__del___()
 
     def set_new_kernel(self, data, idx, name):
         self.new_kernel[data][idx] = name
