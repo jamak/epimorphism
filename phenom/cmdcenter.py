@@ -47,6 +47,10 @@ class CmdCenter(Setter):
     def __init__(self, state, renderer, engine, context):
 
         self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
+
+        # start datamanager
+        self.datamanager = DataManager(self.state)
+
         self.animator = Animator()
         self.video_renderer = VideoRenderer(self)
         mouse_handler = MouseHandler(self, renderer.profile)
@@ -54,9 +58,6 @@ class CmdCenter(Setter):
         console = Console(self)
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion,
                                          console.render_console, console.console_keyboard)
-
-        # start datamanager
-        self.datamanager = DataManager(self.state)
 
         # start server
         if(self.context.server):
@@ -80,7 +81,9 @@ class CmdCenter(Setter):
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
-        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save, 'data_bindings' : self.data_bindings}
+        funcs = {'bindings' : self.bindings, 'funcs' : self.funcs, 'save' : self.save,
+                 'data_bindings' : self.data_bindings, 'manual' : self.manual, 'next' : self.next,
+                 'inc_data' : self.inc_data}
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.animator))
         funcs.update(get_funcs(self.video_renderer))
@@ -143,7 +146,8 @@ class CmdCenter(Setter):
 
         Compiler(var, (lambda name: self.set_new_kernel(data, 0, name))).start()
 
-        while(not self.new_kernel[data][0]) : time.sleep(0.1)
+        while(not self.new_kernel[data][0] and not self.context.exit) : time.sleep(0.1)
+        if(self.context.exit) : exit()
 
         # phase 1
         self.animating[data] = [time.clock() + self.context.switch_time, getattr(self.state, data), None]
@@ -162,7 +166,8 @@ class CmdCenter(Setter):
 
         compiler.start()
 
-        while(time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) : time.sleep(0.01)
+        while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) : time.sleep(0.01)
+        if(self.context.exit) : exit()
 
         # complete
         self.animating[data] = [None, None, None]
@@ -190,18 +195,24 @@ class CmdCenter(Setter):
         for i in xrange(len(keys)) : print i+1, ":", keys[i]
 
 
-    def save(self, image=True):
-        print "saving"
-        name = ConfigManager().save_state(self.state)
-        if(image):
-            self.grab_image().save("image/image_%s.png" % name)
+    def save(self, name=None):
+        name = ConfigManager().save_state(self.state, name)
+        self.grab_image().save("image/image_%s.png" % name)
+        print "saved state as", name
 
 
+    def manual(self):
+        if(self.context.manual_iter):
+            self.context.next_frame = True
+        self.context.manual_iter = not self.context.manual_iter
 
-    def cmd(self, code):
+    def next(self):
+        self.context.next_frame = True
+
+    def cmd(self, code, capture=False):
 
         out = StringIO.StringIO()
-        sys.stdout = out
+        sys.stdout = capture and out or sys.stdout
 
         err = ""
 
@@ -213,6 +224,9 @@ class CmdCenter(Setter):
         sys.stdout = sys.__stdout__
 
         res = [out.getvalue(), err]
+
+        if(res[1] != "" and not capture):
+            print err
 
         out.close()
 

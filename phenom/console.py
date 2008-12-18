@@ -100,7 +100,7 @@ class Console(object):
         elif(key == "\015"): # enter
             self.cursor_pos = 0
             self.cmd_queue.append(self.active_text)
-            response = self.cmdcenter.cmd(self.active_text)
+            response = self.cmdcenter.cmd(self.active_text, True)
             self.status_rows.append([self.active_text, 0])
             self.active_text = ""
             self.queue_idx = 0

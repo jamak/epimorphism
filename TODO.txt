@@ -8,11 +8,10 @@
 real time load state
 reset zs & reset pars
 
-make datamanager more robust
 
+clean aer
+clean phenom
 
-add comments &
-clean code
 error checking?
 
 kernel optimization
@@ -41,7 +40,9 @@ fix T zn[1] interpolation
 #
 
 
+smooth multiswitching of same func
 fix recursive readjust
+
 
 picture upload
 

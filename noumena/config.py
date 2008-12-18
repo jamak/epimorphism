@@ -7,7 +7,7 @@ import os.path
 
 
 class State(object):
-    ''' The State object is the main configuration parameters for
+    ''' The State object contains the main configuration parameters for
         the Engine's kernel.  '''
 
     def __init__(self, **vars):
@@ -21,7 +21,7 @@ class State(object):
 
 
 class Profile(object):
-    ''' The Profile object is the configuration settings for the
+    ''' The Profile object contains the configuration settings for the
         Renderer and Engine '''
 
     def __init__(self, **vars):
@@ -43,7 +43,6 @@ class Context(object):
 class ConfigManager(object):
     ''' The ConfigManager class is responsible for managing(save/load)
         the various config settings '''
-
 
     # mappings from config extensions to classes/names
     extension_names = {"est" : "state", "prf" : "profile", "ctx" : "context"}
@@ -75,13 +74,13 @@ class ConfigManager(object):
         file.close()
 
 
-    def save_state(self, state, name=""):
+    def save_state(self, state, name=None):
 
         # set correct version
         state.VERSION = noumena.VERSION
 
         # generate name if necessary
-        if(name == ""):
+        if(not name):
             i = 0
             while(os.path.exists("config/state/state_%d.est" % i)) : i += 1
             name = "state_" + str(i)

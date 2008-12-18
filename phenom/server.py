@@ -21,6 +21,6 @@ class Server(threading.Thread):
         while(True):
             cmd = channel.recv ( 100 )
             print "executing: ", cmd
-            res = self.cmdcenter.cmd(cmd)
+            res = self.cmdcenter.cmd(cmd, True)
             channel.send (str(res))
         channel.close()

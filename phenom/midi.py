@@ -113,10 +113,10 @@ class MidiHandler(threading.Thread):
 
     def run(self):
         while(True and self.cmdcenter.context.midi):
-            while not self.midi_in.Poll() and self.cmdcenter.context.midi : time.sleep(0.01)
-            if(self.cmdcenter.context.midi):
-                data = self.midi_in.Read(1)
-                self.midi(data[0][0][1], data[0][0][2])
+            while(not self.midi_in.Poll() and not self.cmdcenter.context.exit) : time.sleep(0.01)
+            if(self.cmdcenter.context.exit) : exit()
+            data = self.midi_in.Read(1)
+            self.midi(data[0][0][1], data[0][0][2])
 
 
 
