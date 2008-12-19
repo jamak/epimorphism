@@ -21,6 +21,9 @@ __constant__ float _clock;
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
 
+texture<float4, 3, cudaReadModeElementType> RGB_HSV;
+texture<float4, 3, cudaReadModeElementType> HSV_RGB;
+
 extern "C" {
 
   __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim,
