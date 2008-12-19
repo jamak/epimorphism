@@ -34,10 +34,7 @@ __device__ float4 rotate_hsv(float4 v, float2 z_z){
 
   float a = 0.0f;
   if(_COLOR_TH_EFF != 0 && (z_z.y != 0.0f || z_z.x != 0.0f)){
-    a = atan2f(z_z.y, z_z.x);
-    if(a < 0.0f)
-      a += 2.0f * 3.14159f;
-    a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
+    a = atan2f(z_z.y, z_z.x) * floorf(8.0f * _COLOR_TH_EFF) / (2.0f * PI);
   }
 
   float th =  2.0f * PI * (_COLOR_DHUE + l + a + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
@@ -58,10 +55,7 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
 
   float a = 0.0f;
   if(_COLOR_TH_EFF != 0 && (z_z.y != 0.0f || z_z.x != 0.0f)){
-    a = atan2f(z_z.y, z_z.x);
-    if(a < 0.0f)
-      a += 2.0f * 3.14159f;
-    a *= floorf(8.0f * _COLOR_TH_EFF) / (2.0f * 3.14159f);
+    a = atan2f(z_z.y, z_z.x) * floorf(8.0f * _COLOR_TH_EFF) / (2.0f * PI);
   }
 
   float th =  2.0f * PI * (_COLOR_DHUE + a + l + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);

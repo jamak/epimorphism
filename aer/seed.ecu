@@ -5,7 +5,7 @@ __device__ float4 seed_wca(float2 z){
   // width, color, alpha, width_trans templated seed family
 
   float4 res;
-  float ep = nextafter(0.0f, -1.0f);
+  float ep = nextafterf(0.0f, -1.0f);
   float w = %SEED_W%;
 
   w = fmaxf(fminf(w, 1.0f), ep);

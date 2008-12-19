@@ -43,6 +43,6 @@ class Setter(object):
     # closure for setting state.par[i]
     def par_set_i(self, i):
         def par_set(i, x):
-            state.par[i] = x
+            self.state.par[i] = x
         return lambda x: par_set(i, x)
 
