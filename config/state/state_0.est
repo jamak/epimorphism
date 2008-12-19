@@ -46,6 +46,9 @@
  '_GLOBAL_SPEED' : 1.0,
  '_CULL_DEPTH' : 0.0
  },
+ 'SEED_A': 'circular_alpha(w)',
+ 'SEED_C': 'simple_color(z,
+ w)',
  'T_SEED': 'zn[6] * sinh(z) + zn[7]',
  'vp_center_x': 0.0,
  'vp_center_y': 0.0,
@@ -53,8 +56,6 @@
  'COLOR': 'rotate_hsls(v,
  z_z)',
  'SEED_WT': 'wt_circular(w)',
- 'SEED_A': 'circular_alpha(w)',
- 'SEED_C': 'simple_color(w)',
  'internal': [0.0,
  0.0,
  0.0,
@@ -110,4 +111,5 @@
  'REDUCE': 'torus_reduce(z)',
  'state': 'default',
  'SEED': 'seed_wca(z)',
-}
+ 'vp_scale': 1.0,
+ 'T': 'zn[0] * sin(z) + zn[1]'}
