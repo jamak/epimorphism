@@ -1,6 +1,6 @@
 __device__ float4 RGBtoHSV(float4 val){
-  float vmin = fmin(fmin(val.x, val.y), val.z);
-  float vmax = fmax(fmax(val.x, val.y), val.z);
+  float vmin = fminf(fminf(val.x, val.y), val.z);
+  float vmax = fmaxf(fmaxf(val.x, val.y), val.z);
   float h, s;
 
   float delta = vmax - vmin;
