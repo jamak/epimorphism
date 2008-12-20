@@ -20,6 +20,8 @@ improve colorfunc
 #
 
 
+unify t & t_seed
+
 fix help
 
 animate datamanager defaults
@@ -45,6 +47,8 @@ improve console
 #
 
 t_surface
+
+interesting way to explore t's
 
 maintain phase in speed changes
 

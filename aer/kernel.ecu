@@ -6,6 +6,7 @@ __constant__ float _clock;
 %PAR_NAMES%
 
 #define PI 3.1415926535f
+#define $I vec2(0.0, 1.0)
 
 #include "util.cu"
 #include "math.cu"

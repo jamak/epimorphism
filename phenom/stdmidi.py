@@ -2,7 +2,7 @@ def m0(f):
     return f
 
 def m1(f):
-    return f + 1.0
+    return 4.0 * f
 
 def m2(f):
     return 4.0 * f + 1.0
@@ -17,7 +17,7 @@ def m0_inv(f):
     return f
 
 def m1_inv(f):
-    return f - 1.0
+    return f / 4.0
 
 def m2_inv(f):
     return (f - 1.0) / 4.0
