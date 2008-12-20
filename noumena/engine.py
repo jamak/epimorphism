@@ -22,9 +22,9 @@ class Engine(object):
 
         # DEACTIVATED - throws an error on close
         # get/print properties
-        # self.cuda_properties = cudaDeviceProp()
-        # cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
-        # print str(self.cuda_properties)
+        self.cuda_properties = cudaDeviceProp()
+        cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)
+        print str(self.cuda_properties)
 
         # create frame buffer
         self.channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
