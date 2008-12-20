@@ -2,7 +2,7 @@ import noumena
 
 from config.migration import *
 from common.complex import *
-from phenom.midi import *
+from phenom.stdmidi import *
 
 import os.path
 

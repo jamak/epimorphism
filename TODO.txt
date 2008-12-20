@@ -7,12 +7,8 @@
 
 fix rewrite arg load
 
-clean phenom
-
-add argument lists to doc
-error checking?
-
-kernel optimization
+clean midi
+clean cmdcenter
 
 
 
@@ -23,7 +19,7 @@ kernel optimization
 #
 
 
-implement color func?
+improve colorfunc
 
 populate/upgrade seed database
 
@@ -39,6 +35,12 @@ fix T zn[1] interpolation
 #
 #
 
+
+add argument lists to doc
+error checking?
+
+kernel optimization
+
 test server
 
 midi smoothing. maybe keyboard smoothing
@@ -51,6 +53,8 @@ multiswitching
 smoother state load
 
 picture upload
+
+
 
 seed impulses
 
@@ -71,8 +75,6 @@ windows & mac compatible
 compile to binaries
 
 device emulation mode
-
-fix deviceProperties stupid shit
 
 unit tests
 
