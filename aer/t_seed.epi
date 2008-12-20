@@ -1,7 +1,8 @@
-zn[6] * z + zn[7]                 : min_r(zn, 6, 1.0)
-zn[6] * 1.0 / z + zn[7]           : min_r(zn, 6, 1.0)
-zn[6] * sin(z) + zn[7]            : min_r(zn, 6, 1.0)
-zn[6] * cos(z) + zn[7]            : min_r(zn, 6, 1.0)
-zn[6] * exp(z) + zn[7]            : min_r(zn, 6, 1.0)
-zn[6] * sinh(z) + zn[7]           : min_r(zn, 6, 1.0)
-zn[6] * tanh(z) + zn[7]           : min_r(zn, 6, 1.0)
+z                 :
+1.0 / z           :
+sin(z)            :
+cos(z)            :
+exp(z)            :
+sinh(z)           :
+tanh(z)           :
+

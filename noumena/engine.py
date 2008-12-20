@@ -73,8 +73,8 @@ class Engine(object):
 
 
         self.reset_buf = (float4 * (self.profile.kernel_dim ** 2))()
-        # for i in xrange(len(self.reset_buf)):
-        #     self.reset_buf[i] = float4(0.5, 0.5, 0.5, 0.0)
+        for i in xrange(len(self.reset_buf)):
+            self.reset_buf[i] = float4(0.5, 0.5, 0.5, 0.0)
 
     def __del__(self):
 

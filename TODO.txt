@@ -5,8 +5,7 @@
 #
 
 
-populate/upgrade t databasees
-fix T zn[1] interpolation
+populate T & T_SEED databasees
 
 populate/upgrade seed database
 
@@ -21,7 +20,7 @@ improve colorfunc
 #
 
 
-animate defaults
+animate datamanager defaults
 
 general reset_buf mechanism
 
@@ -43,6 +42,11 @@ improve console
 #
 #
 
+maintain phase in speed changes
+
+quantize angles, etc
+
+forced synchronous compilation(video)
 
 kernel optimization
 

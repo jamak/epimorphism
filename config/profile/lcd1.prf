@@ -3,7 +3,7 @@
  'debug_freq': 125.0,
  'full_screen': True,
  'viewport_refresh': 60,
- 'kernel_dim': 1024,
+ 'kernel_dim': 1536,
  'viewport_height': 1050,
  'viewport_width': 1680
 }

@@ -178,9 +178,17 @@ class CmdCenter(Setter, Animator):
     def blend_to_component(self, data, val):
 
         # phase 0
-        print "switching %s to: %s" % (data, val)
 
         idx_idx = self.datamanager.__dict__.keys().index(data)
+
+        # cheat if t or t_seed
+        if(data == "T"):
+            val = "zn[0] * %s + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
+        elif(data == "T_SEED"):
+            val = "zn[8] * %s + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
+
+        print "switching %s to: %s" % (data, val)
+
         intrp = "((1.0f - (_clock - internal[%d]) / %ff) * (%s) + (_clock - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
                                                                                                             idx_idx, self.context.component_switch_time, val)
         setattr(self.state, data, intrp)
