@@ -1,4 +1,6 @@
 zn[0] * z + zn[1]                               : min_r(0, 1.0)
+1.0 / z                                         : min_r(0, 1.0) # min_r(2, 1.0)
+zn[0] * 1.0 / z + zn[1]                         : min_r(0, 1.0) # min_r(2, 1.0)
 zn[0] * 1.0 / (zn[2] * z + zn[3]) + zn[1]       : min_r(0, 1.0) # min_r(2, 1.0)
 zn[0] * 1.0 / sinh(z) + zn[1]                   : min_r(0, 1.0)
 zn[0] * exp(z) + zn[1]                          : min_r(0, 1.0)

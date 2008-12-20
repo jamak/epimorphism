@@ -11,6 +11,8 @@ class DataManager(object):
         # load components from files of form *.epi
         files = [file for file in os.listdir("aer") if re.search("^[^.#].+?\.epi$", file)]
 
+        print files
+
         for file_name in files:
 
             # get component name
