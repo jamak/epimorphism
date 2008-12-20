@@ -43,7 +43,6 @@ class KeyboardHandler(object):
                 x1 = self.state.par[i] + 0.05
                 self.cmdcenter.linear_1d(self.state.par, i, self.context.kbd_switch_spd, x0, x1)
 
-
             # decrement par[i]
             elif(ord(key) in [17, 23, 5, 18, 20, 25, 21, 9, 15, 16, 26, 24, 3, 22, 2, 14, 13, 44, 46, 31]): # row 2 & 4
                 i = [17, 23, 5, 18, 20, 25, 21, 9, 15, 16, 26, 24, 3, 22, 2, 14, 13, 44, 46, 31].index(ord(key))
@@ -80,6 +79,9 @@ class KeyboardHandler(object):
             # increment component
             elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
                 i = ["1", "2", "3", "4", "5", "6", "7", "8", "9"].index(key)
+
+                print self.components
+
                 async(lambda : self.cmdcenter.cmd("inc_data('%s', 1)" % self.components[i]))
 
             # decrement component
