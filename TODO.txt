@@ -1,6 +1,6 @@
 ###################################
 #
-#  aer
+#  v 0.9 - aer
 #
 #
 
@@ -21,6 +21,8 @@ improve colorfunc
 #
 
 
+animate defaults
+
 general reset_buf mechanism
 
 logging
@@ -32,6 +34,7 @@ test server
 
 write ffmpeg script
 
+improve console
 
 
 ###################################

@@ -80,8 +80,6 @@ class KeyboardHandler(object):
             elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
                 i = ["1", "2", "3", "4", "5", "6", "7", "8", "9"].index(key)
 
-                print self.components
-
                 async(lambda : self.cmdcenter.cmd("inc_data('%s', 1)" % self.components[i]))
 
             # decrement component

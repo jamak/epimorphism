@@ -169,7 +169,7 @@ class CmdCenter(Setter, Animator):
 
         # initialize component
         for line in val[1]:
-            exec(line, self.env)
+            exec(line) in self.env
 
         # switch to component
         self.blend_to_component(component, val[0])
@@ -241,7 +241,7 @@ class CmdCenter(Setter, Animator):
 
         # execute code
         try:
-            exec(code, self.env)
+            exec(code) in self.env
         except:
             err = traceback.format_exc().split("\n")[-2]
 
