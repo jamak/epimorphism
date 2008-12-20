@@ -88,6 +88,10 @@ class CmdCenter(Setter, Animator):
             self.server = Server(self)
             self.server.start()
 
+        else:
+
+            self.server = None
+
         # start midi
         if(self.context.midi):
 
@@ -108,14 +112,11 @@ class CmdCenter(Setter, Animator):
 
             self.video_renderer.video_start()
 
-        else:
-
-            self.server = None
-
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
-                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths'] + dir(object) + dir(Setter)
+                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths',
+                          'set_indices'] + dir(object) + dir(Setter)
 
         # extract non-blacklist functions from an object
         def get_funcs(obj):
@@ -133,12 +134,13 @@ class CmdCenter(Setter, Animator):
 
         # init indices for components
         self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
+        self.set_indices()
 
         # animation settings
-        self.animating = dict([(data, [None, None, None]) for data in self.datamanager.__dict__.keys()])
+        self.animating = dict([(data, [None, None, None]) for data in self.datamanager.components])
 
         # get new kernel settings
-        self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
+        self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.components])
 
 
     def __del__(self):
@@ -154,32 +156,62 @@ class CmdCenter(Setter, Animator):
         self.new_kernel[data][idx] = name
 
 
-    def inc_data(self, component, idx):
+    def set_indices(self):
+
+        # set indices
+        for component_name in self.datamanager.components:
+
+            # get components
+            components = getattr(self.datamanager, component_name)
+
+            # get current component value
+            val = getattr(self.state, component_name)
+
+            # invert if T or T_SEED - should be replaced by surface
+            if(component_name == "T"):
+                val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * ", "").replace(" + zn[1]", "")
+            elif(component_name == "T_SEED"):
+                val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * ", "").replace(" + zn[9]", "")
+
+            # get component
+            component = self.datamanager.get_component_for_val(component_name, val)
+
+            # get idx_idx
+            idx_idx = self.datamanager.components.index(component_name)
+
+            # set index
+            try:
+                self.indices[idx_idx] = components.index(component)
+            except:
+                pass
+
+
+    def inc_data(self, component_name, idx):
 
         # get components
-        components = getattr(self.datamanager, component)
+        components = getattr(self.datamanager, component_name)
 
         # get and update index
-        idx_idx = self.datamanager.__dict__.keys().index(component)
+        idx_idx = self.datamanager.components.index(component_name)
         self.indices[idx_idx] += idx
         self.indices[idx_idx] %= len(components)
 
         # get component
-        val = components[self.indices[idx_idx]]
+        component = components[self.indices[idx_idx]]
 
         # initialize component
-        for line in val[1]:
+        for line in component[1]:
             exec(line) in self.env
 
         # switch to component
-        self.blend_to_component(component, val[0])
+        self.blend_to_component(component_name, component[0])
 
 
     def blend_to_component(self, data, val):
 
         # phase 0
 
-        idx_idx = self.datamanager.__dict__.keys().index(data)
+        idx_idx = self.datamanager.components.index(data)
 
         # cheat if t or t_seed
         if(data == "T"):
@@ -199,7 +231,7 @@ class CmdCenter(Setter, Animator):
         var = self.state.__dict__
 
         # check for multi-compile
-        for key in self.datamanager.__dict__.keys():
+        for key in self.datamanager.components:
             if(self.animating[key][0] and time.clock() + COMPILE_TIME < self.animating[key][0] and key != data):
                 new_var = {}
                 new_var.update(var)
@@ -239,6 +271,8 @@ class CmdCenter(Setter, Animator):
 
         print "done switching %s" % data
         self.renderer.echo_string = None
+
+        self.set_indices()
 
 
     def cmd(self, code, capture=False):
@@ -304,8 +338,7 @@ class CmdCenter(Setter, Animator):
     def components(self):
         ''' Prints a list of all components, their bindings, and their values. '''
 
-        keys = self.datamanager.__dict__.keys()
-        keys.sort()
+        keys = self.datamanager.components
 
         for i in xrange(len(keys)) :
             component = getattr(self.state, keys[i])
@@ -315,10 +348,13 @@ class CmdCenter(Setter, Animator):
     def save(self, name=None):
         ''' Saves the current state. '''
 
+        self.renderer.echo_string = "saving"
+
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
 
         print "saved state as", name
+        self.renderer.echo_string = None
 
 
     def load(self, name):
@@ -343,7 +379,7 @@ class CmdCenter(Setter, Animator):
         updates = {}
 
         # update components
-        for name in self.datamanager.__dict__.keys():
+        for name in self.datamanager.components:
 
             if(getattr(self.state, name) != getattr(new_state, name)):
 
@@ -360,6 +396,9 @@ class CmdCenter(Setter, Animator):
 
         # update state
         print self.state.__dict__.update(new_state.__dict__)
+
+        # set indices
+        self.set_indices()
 
 
     def manual(self):

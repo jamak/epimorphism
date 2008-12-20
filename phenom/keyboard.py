@@ -23,8 +23,7 @@ class KeyboardHandler(object):
         self.state, self.context = self.cmdcenter.state, self.cmdcenter.context
 
         # initialize component list
-        self.components = cmdcenter.datamanager.__dict__.keys()
-        self.components.sort()
+        self.components = cmdcenter.datamanager.components
 
 
     def keyboard(self, key, x, y):

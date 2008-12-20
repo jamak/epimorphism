@@ -1,11 +1,14 @@
 #! /usr/bin/python
 
 import sys
+import os
 
 from config.configmanager import *
 from phenom.cmdcenter import *
 from noumena.engine import *
 from noumena.renderer import *
+
+# run unclutter to hide mouse
 
 
 # initialize state/profile/context

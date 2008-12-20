@@ -32,6 +32,8 @@ class MidiHandler(threading.Thread, Setter):
             self.midi_in = pypm.Input(self.input_device)
             self.midi_out = pypm.Output(self.output_device, 10)
         except:
+            self.midi_in = None
+            self.midi_out = None
             print "MIDI device not found"
             self.cmdcenter.context.midi = False
 
@@ -101,7 +103,8 @@ class MidiHandler(threading.Thread, Setter):
         if(val == 128): val = 127
 
         # send
-        self.midi_out.Write([[[176, channel, val, 0], pypm.Time()]])
+        if(self.midi_out):
+            self.midi_out.Write([[[176, channel, val, 0], pypm.Time()]])
 
 
     def get_bindings(self):

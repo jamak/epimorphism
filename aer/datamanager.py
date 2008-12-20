@@ -100,14 +100,30 @@ class DataManager(object):
                         # add component
                         components.append(component)
 
+        self.components = self.__dict__.keys()
+        self.components.sort()
 
-    def comment(self, component_name, component):
 
+    def get_component_for_val(self, component_name, val):
         # get list
-        res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == component]
+        res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == val]
 
-        # return comment
+        # return component
         if(len(res) != 0):
-            return res[0][2]
+            return res[0]
+        else:
+            return None
+
+
+    def comment(self, component_name, val):
+
+        # get component
+        component = self.get_component_for_val(component_name, val)
+
+        # get comment
+        if(component):
+            return component[2]
         else:
             return ""
+
+
