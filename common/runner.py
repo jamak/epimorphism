@@ -17,7 +17,7 @@ class Runner(threading.Thread):
         self.func()
 
 
-def run_as_thread(func):
+def async(func):
 
     # create and start thread
     Runner(func).start()

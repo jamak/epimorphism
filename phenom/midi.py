@@ -23,6 +23,7 @@ class MidiHandler(threading.Thread, Setter):
 
             if(re.compile("BCF2000").search(name) and inp == 1):
                 self.input_device = loop
+
             if(re.compile("BCF2000").search(name) and outp == 1):
                 self.output_device = loop
 
@@ -35,25 +36,25 @@ class MidiHandler(threading.Thread, Setter):
             self.cmdcenter.context.midi = False
 
         # create sefault zn bindings
-        self.bindings0 = {81: [self.cmdcenter.zn_set_r_i(0),  "m1(f)", self.cmdcenter.zn_get_r_i(0),  "m1_inv(f)", (self.state.zn, 0)],
-                          82: [self.cmdcenter.zn_set_r_i(1),  "m0(f)", self.cmdcenter.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
-                          83: [self.cmdcenter.zn_set_r_i(2),  "m0(f)", self.cmdcenter.zn_get_r_i(2),  "m0_inv(f)", (self.state.zn, 2)],
-                          84: [self.cmdcenter.zn_set_r_i(3),  "m0(f)", self.cmdcenter.zn_get_r_i(3),  "m0_inv(f)", (self.state.zn, 3)],
-                          85: [self.cmdcenter.zn_set_r_i(4),  "m0(f)", self.cmdcenter.zn_get_r_i(4),  "m0_inv(f)", (self.state.zn, 4)],
-                          86: [self.cmdcenter.zn_set_r_i(5),  "m0(f)", self.cmdcenter.zn_get_r_i(5),  "m0_inv(f)", (self.state.zn, 5)],
-                          87: [self.cmdcenter.zn_set_r_i(6),  "m1(f)", self.cmdcenter.zn_get_r_i(6),  "m1_inv(f)", (self.state.zn, 6)],
-                          88: [self.cmdcenter.zn_set_r_i(7),  "m0(f)", self.cmdcenter.zn_get_r_i(7),  "m0_inv(f)", (self.state.zn, 7)]}
-        self.bindings0.update(dict([(1 + i, [self.cmdcenter.zn_set_th_i(i), "m4(f)", self.cmdcenter.zn_get_th_i(i), "m4_inv(f)", (self.state.zn, i)]) for i in xrange(8)]))
+        self.bindings0 = {81: [self.zn_set_r_i(0),  "m1(f)", self.zn_get_r_i(0),  "m1_inv(f)", (self.state.zn, 0)],
+                          82: [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
+                          83: [self.zn_set_r_i(2),  "m0(f)", self.zn_get_r_i(2),  "m0_inv(f)", (self.state.zn, 2)],
+                          84: [self.zn_set_r_i(3),  "m0(f)", self.zn_get_r_i(3),  "m0_inv(f)", (self.state.zn, 3)],
+                          85: [self.zn_set_r_i(4),  "m0(f)", self.zn_get_r_i(4),  "m0_inv(f)", (self.state.zn, 4)],
+                          86: [self.zn_set_r_i(5),  "m0(f)", self.zn_get_r_i(5),  "m0_inv(f)", (self.state.zn, 5)],
+                          87: [self.zn_set_r_i(6),  "m1(f)", self.zn_get_r_i(6),  "m1_inv(f)", (self.state.zn, 6)],
+                          88: [self.zn_set_r_i(7),  "m0(f)", self.zn_get_r_i(7),  "m0_inv(f)", (self.state.zn, 7)]}
+        self.bindings0.update(dict([(1 + i, [self.zn_set_th_i(i), "m4(f)", self.zn_get_th_i(i), "m4_inv(f)", (self.state.zn, i)]) for i in xrange(8)]))
 
-        self.bindings1 = dict([(1 + i, [self.cmdcenter.par_set_i(i), "m0(f)", self.cmdcenter.par_get_i(i), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8, 10)])
-        self.bindings1.update(dict([(1 + i, [self.cmdcenter.zn_set_th_i(i), "m4(f)", self.cmdcenter.zn_get_th_i(i), "m4_inv(f)", (self.state.zn, i)]) for i in xrange(8, 10)]))
+        self.bindings1 = dict([(1 + i, [self.par_set_i(i), "m0(f)", self.par_get_i(i), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8, 10)])
+        self.bindings1.update(dict([(1 + i, [self.zn_set_th_i(i), "m4(f)", self.zn_get_th_i(i), "m4_inv(f)", (self.state.zn, i)]) for i in xrange(8, 10)]))
 
         # create par bindings
-        self.bindings2 = dict([(81 + i, [self.cmdcenter.par_set_i(i), "m0(f)", self.cmdcenter.par_get_i(i), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
+        self.bindings2 = dict([(81 + i, [self.par_set_i(i), "m0(f)", self.par_get_i(i), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
 
-        self.bindings3 = dict([(81 + i, [self.cmdcenter.par_set_i(i + 8), "m0(f)", self.cmdcenter.par_get_i(i + 8), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
+        self.bindings3 = dict([(81 + i, [self.par_set_i(i + 8), "m0(f)", self.par_get_i(i + 8), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
 
-        self.bindings4 = dict([(81 + i, [self.cmdcenter.par_set_i(i + 16), "m0(f)", self.cmdcenter.par_get_i(i + 16), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
+        self.bindings4 = dict([(81 + i, [self.par_set_i(i + 16), "m0(f)", self.par_get_i(i + 16), "m0_inv(f)", (self.state.par, i)]) for i in xrange(8)])
 
         # set default bindings
         self.bindings = 0

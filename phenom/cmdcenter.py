@@ -25,25 +25,38 @@ COMPILE_TIME = 1.9
 
 
 class CmdEnv(dict):
+    ''' The CmdEnv object is a subclass of dict used as the execution
+        environment for the CmdCenter.cmd method '''
 
     def __init__(self, data, funcs):
+
         self.data, self.funcs = data, funcs
 
 
     def __getitem__(self, key):
+
+        # first check data
         for d in self.data:
             if d.has_key(key):
                 return d[key]
+
+        # if not found, return func
         return self.funcs[key]
 
 
     def __setitem__(self, key, value):
+
+        # set data
         for d in self.data:
             if d.has_key(key):
                 d[key] = value
 
 
 class CmdCenter(Setter, Animator):
+    ''' The CmdCenter is the central control center for the engine and
+        renderer.  All systems generating signals live here, and the object
+        provides an interface for executing code int the appropriate environment. '''
+
 
     def __init__(self, state, renderer, engine, context):
 
@@ -55,82 +68,115 @@ class CmdCenter(Setter, Animator):
         # init animator
         Animator.__init__(self)
 
+        # create video_renderer
         self.video_renderer = VideoRenderer(self)
+
+        # create input handlers
         mouse_handler = MouseHandler(self, renderer.profile)
         keyboard_handler = KeyboardHandler(self)
+
+        # create_console
         console = Console(self)
+
+        # register callbacks with Renderer
         self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion,
                                          console.render_console, console.console_keyboard)
 
         # start server
         if(self.context.server):
+
             self.server = Server(self)
             self.server.start()
 
         # start midi
         if(self.context.midi):
+
             self.midi = MidiHandler(self)
+
             if(self.context.midi):
+
                 self.state.zn.midi = self.midi
                 self.state.par.midi = self.midi
                 self.midi.start()
+
         else:
+
             self.midi = None
 
         # start video_renderer
         if(self.context.render_video):
+
             self.video_renderer.video_start()
+
         else:
+
             self.server = None
 
-        # generate cmd exec environment
+        # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
                           'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths'] + dir(object) + dir(Setter)
 
+        # extract non-blacklist functions from an object
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
+        # get functions from objects
         funcs = get_funcs(self)
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
-
         funcs.update(default_funcs)
 
+        # generate cmd exec environment
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
-        # init indices
+        # init indices for components
         self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
 
         # animation settings
         self.animating = dict([(data, [None, None, None]) for data in self.datamanager.__dict__.keys()])
 
+        # get new kernel settings
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
+        self.load("state_0")
 
     def __del__(self):
+
+        # kill server
         if(self.server):
             self.server.__del___()
 
+
     def set_new_kernel(self, data, idx, name):
+
+        # compiler callback
         self.new_kernel[data][idx] = name
 
 
-    def inc_data(self, data, idx):
+    def inc_data(self, component, idx):
 
-        idx_idx = self.datamanager.__dict__.keys().index(data)
+        # get components
+        components = getattr(self.datamanager, component)
+
+        # get and update index
+        idx_idx = self.datamanager.__dict__.keys().index(component)
         self.indices[idx_idx] += idx
-        self.indices[idx_idx] %= len(eval("self.datamanager." + data))
-        val = eval("self.datamanager." + data)[self.indices[idx_idx]]
+        self.indices[idx_idx] %= len(components)
 
+        # get component
+        val = components[self.indices[idx_idx]]
+
+        # initialize component
         for line in val[1]:
             exec(line, self.env)
 
-        self.blend_to_data(data, val[0])
+        # switch to component
+        self.blend_to_component(component, val[0])
 
 
-    def blend_to_data(self, data, val):
+    def blend_to_component(self, data, val):
 
         # phase 0
         print "switching %s to: %s" % (data, val)
@@ -186,90 +232,137 @@ class CmdCenter(Setter, Animator):
         print "done switching %s" % data
 
 
-    def grab_image(self):
-        return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
-
-
-    def bindings(self):
-        for i in xrange(len(self.state.par_names)):
-            print self.state.par_names[i], ':', i
-
-
-    def funcs(self):
-        for key in self.env.funcs.keys() : print key
-
-
-    def components(self):
-        keys = self.datamanager.__dict__.keys()
-        keys.sort()
-        for i in xrange(len(keys)) : print i+1, ":", keys[i]
-
-
-    def save(self, name=None):
-        name = ConfigManager().save_state(self.state, name)
-        self.grab_image().save("image/image_%s.png" % name)
-        print "saved state as", name
-
-
-    def load(self, name):
-        new_state = ConfigManager().load_dict(name + ".est")
-
-        for i in xrange(len(new_state.zn)):
-            self.radial_2d(self.state.zn, i, self.context.component_switch_time + COMPILE_TIME, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
-        for i in xrange(len(new_state.par)):
-            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
-
-        del new_state.zn
-        del new_state.par
-
-        updates = {}
-
-        for data in self.datamanager.__dict__.keys():
-            if(getattr(self.state, data) != getattr(new_state, data)):
-                updates[data] = getattr(new_state, data)
-            delattr(new_state, data)
-
-        for data in updates:
-            run_as_thread(lambda : self.blend_to_data(data, updates[data]))
-            time.sleep(0.1)
-
-
-    def manual(self):
-        if(self.context.manual_iter):
-            self.context.next_frame = True
-        self.context.manual_iter = not self.context.manual_iter
-
-    def next(self):
-        self.context.next_frame = True
-
     def cmd(self, code, capture=False):
 
+        # hijack stdout, if requested
         out = StringIO.StringIO()
         sys.stdout = capture and out or sys.stdout
 
         err = ""
 
+        # execute code
         try:
             exec(code, self.env)
         except:
             err = traceback.format_exc().split("\n")[-2]
 
+        # restore stdout
         sys.stdout = sys.__stdout__
 
+        # get result
         res = [out.getvalue(), err]
 
+        # print err if necessary
         if(res[1] != "" and not capture):
             print err
 
+        # close StringIO
         out.close()
 
+        # return result
         return res
 
 
     def do(self):
 
+        # execute animation paths
         self.execute_paths()
 
+        # capture video frames
         if(self.context.render_video):
             self.video_renderer.capture()
+
+
+    def grab_image(self):
+        ''' Gets the framebuffer and binds it to an Image. '''
+
+        return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+
+
+    def pars(self):
+        ''' Prints a list of paramaters, their bindings, and their values. '''
+
+        for i in xrange(len(self.state.par_names)):
+            print self.state.par_names[i], ":", i, "-", self.state.oar[i]
+
+
+    def funcs(self):
+        ''' Prints a list of all functions available in the command environment. '''
+
+        for key in self.env.funcs.keys() : print key
+
+
+    def components(self):
+        ''' Prints a list of all components, their bindings, and their values. '''
+
+        keys = self.datamanager.__dict__.keys()
+        keys.sort()
+
+        for i in xrange(len(keys)) : print i+1, ":", keys[i], "-", self.datamanager.__dict__[keys[i]]
+
+
+    def save(self, name=None):
+        ''' Saves the current state. '''
+
+        name = ConfigManager().save_state(self.state, name)
+        self.grab_image().save("image/image_%s.png" % name)
+
+        print "saved state as", name
+
+
+    def load(self, name):
+        ''' Loads and blends to the given state. '''
+
+        new_state = ConfigManager().load_dict(name + ".est")
+
+        # blend to zns
+        for i in xrange(len(new_state.zn)):
+
+            self.radial_2d(self.state.zn, i, self.context.component_switch_time + COMPILE_TIME, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+
+        # blend to pars
+        for i in xrange(len(new_state.par)):
+
+            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
+
+        # remove zn & par from dict
+        del new_state.zn
+        del new_state.par
+
+        updates = {}
+
+        # update components
+        for name in self.datamanager.__dict__.keys():
+
+            if(getattr(self.state, name) != getattr(new_state, name)):
+
+                updates[name] = getattr(new_state, name)
+
+            delattr(new_state, name)
+
+        # blend to components
+        for data in updates:
+
+            async(lambda : self.blend_to_component(data, updates[data]))
+
+            time.sleep(0.1)
+
+        # update state
+        print self.state.__dict__.update(new_state.__dict__)
+
+
+    def manual(self):
+        ''' Toggles manual iteration. '''
+
+        if(self.context.manual_iter):
+            self.context.next_frame = True
+        self.context.manual_iter = not self.context.manual_iter
+
+
+    def next(self):
+        ''' If manual iteration toggles, andvances frame. '''
+
+        self.context.next_frame = True
+
+
 
