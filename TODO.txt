@@ -1,34 +1,43 @@
 ###################################
 #
-#  aer, after engine completed
+#  aer
 #
 #
 
-
-improve colorfunc
-
-populate/upgrade seed database
 
 populate/upgrade t databasees
 fix T zn[1] interpolation
 
+populate/upgrade seed database
+
+improve colorfunc
 
 
 
 ###################################
 #
-#  some time in the future
+#  v 1.0
 #
 #
 
 logging
-
 add argument lists to doc
 error checking?
-
-kernel optimization
+final cleaning pass
 
 test server
+
+write ffmpeg script
+
+
+###################################
+#
+#  Phase 2
+#
+#
+
+
+kernel optimization
 
 midi smoothing. maybe keyboard smoothing
 
@@ -41,6 +50,16 @@ smoother state load
 
 picture upload
 
+optimize load_kernel
+
+
+
+
+###################################
+#
+#  Phase 3
+#
+#
 
 
 seed impulses
@@ -49,13 +68,25 @@ state recording
 
 camera input
 
-optimize load_kernel
-
-write ffmpeg script
-
-website
-
 animation framework
+
+click point, get value, etc
+
+
+###################################
+#
+#  Sometime in the future
+#
+#
+
+
+fix HSV interpolation
+
+lace?
+
+cull mode glitches
+
+unit tests
 
 windows & mac compatible
 
@@ -63,15 +94,4 @@ compile to binaries
 
 device emulation mode
 
-unit tests
-
-fix HSV interpolation
-
-lace?
-
-click point, get value, etc
-
-print kernel param???
-
-cull mode glitches
-
+website / render video
