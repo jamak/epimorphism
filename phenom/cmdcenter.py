@@ -292,7 +292,7 @@ class CmdCenter(Setter, Animator):
         ''' Prints a list of paramaters, their bindings, and their values. '''
 
         for i in xrange(len(self.state.par_names)):
-            print self.state.par_names[i], ":", i, "-", self.state.par[i]
+            print self.state.par_names[i], ":", i
 
 
     def funcs(self):
