@@ -22,13 +22,14 @@ class MidiList(list):
         if(hasattr(self, "midi")):
 
             # lookup bindings
-            for binding in self.midi.bindings:
+            bindings = self.midi.get_bindings()
+            for binding in bindings:
 
-                if(self.midi.bindings[binding][4] == (self, key)):
+                if(bindings[binding][4] == (self, key)):
 
                     # compute value
-                    f = self.midi.bindings[binding][2]()
-                    f = eval(self.midi.bindings[binding][3])
+                    f = bindings[binding][2]()
+                    f = eval(bindings[binding][3])
 
                     # send value
                     self.midi.writef(binding, f)
