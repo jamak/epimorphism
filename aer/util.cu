@@ -78,6 +78,14 @@ __device__ float3 operator/(const float3 z1, const float m){
   return vec3(z1.x / m, z1.y / m, z1.z / m);
 }
 
+__device__ float3 operator*(float m, const float3 z1){
+  return vec3(z1.x * m, z1.y * m, z1.z * m);
+}
+
+__device__ float3 operator*(const float3 z1, float m){
+  return vec3(z1.x * m, z1.y * m, z1.z * m);
+}
+
 
 // float 4 x m
 __device__ float4 operator*(const float m, const float4 z1){

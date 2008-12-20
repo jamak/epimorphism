@@ -116,6 +116,6 @@
  '_COLOR_DHUE' : 0.1,
  '_SEED_CIRCLE_R' : 0.5,
  '_SEED_GRID_N' : 0.2,
- '_HSLS_RESET_Z' : 0.0,
+ '_HSLS_RESET_Z' : 0.5,
  '_CULL_DEPTH' : 0.0
  }}
