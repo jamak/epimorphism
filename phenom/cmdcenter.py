@@ -249,20 +249,20 @@ class CmdCenter(Setter, Animator):
         err = ""
 
         # execute code
-        try:
+        if(capture):
+            try:
+                exec(code) in self.env
+            except:
+                err = traceback.format_exc().split("\n")[-2]
+        else:
             exec(code) in self.env
-        except:
-            err = traceback.format_exc().split("\n")[-2]
+
 
         # restore stdout
         sys.stdout = sys.__stdout__
 
         # get result
         res = [out.getvalue(), err]
-
-        # print err if necessary
-        if(res[1] != "" and not capture):
-            print err
 
         # close StringIO
         out.close()

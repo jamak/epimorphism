@@ -8,6 +8,7 @@
  'T_SEED': 'zn[8] * (zn[10] * z + zn[11]) + zn[9]',
  'COLOR': 'rotate_hsls(v, z_z)',
  'REDUCE': 'torus_reduce(z)',
+ 'RESET': 'reset_hsls(x, y)',
  'vp_center_x': 0.0,
  'vp_center_y': 0.0,
  'vp_scale': 1.0,

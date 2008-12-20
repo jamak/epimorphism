@@ -145,3 +145,7 @@ class KeyboardHandler(object):
             elif(key == GLUT_KEY_F12):
                 self.cmdcenter.cmd("toggle_fps()")
 
+            # toggle echo
+            elif(key == GLUT_KEY_F11):
+                self.cmdcenter.cmd("toggle_echo()")
+

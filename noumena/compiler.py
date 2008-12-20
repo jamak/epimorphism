@@ -25,7 +25,11 @@ def bind_kernel(name):
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
-    return kernel
+    reset = lib.__device_stub_reset
+    reset.restype = None
+    reset.argtypes = [ c_void_p, c_ulong ]
+
+    return (kernel, reset)
 
 
 class Compiler(threading.Thread):

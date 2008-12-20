@@ -11,6 +11,7 @@ __constant__ float _clock;
 #include "math.cu"
 #include "colorspace.cu"
 
+#include "reset.cu"
 #include "color.cu"
 #include "reduce.cu"
 #include "seed_w.cu"
@@ -22,6 +23,13 @@ __constant__ float _clock;
 texture<float4, 2, cudaReadModeElementType> input_texture;
 
 extern "C" {
+
+  __global__ void reset(float4* out, ulong out_pitch){
+    unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
+    unsigned int y = blockIdx.y * blockDim.y + threadIdx.y;
+    float4 result = %RESET%;
+    out[y * out_pitch + x] = result;
+  }
 
   __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim,
                             float i_kernel_dim, float m_i_kernel_dim, float i_n_sq, float inc)

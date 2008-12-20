@@ -57,6 +57,7 @@ class Engine(object):
 
         # compile kernel
         self.kernel = None
+        self.reset = None
         Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
 
         # register_pbo
@@ -71,10 +72,7 @@ class Engine(object):
         # flag to bind texture
         self.new_kernel = None
 
-
-        self.reset_buf = (float4 * (self.profile.kernel_dim ** 2))()
-        #for i in xrange(len(self.reset_buf)):
-        #    self.reset_buf[i] = float4(0.5, 0.5, 0.5, 0.0)
+        self.do_reset_fb = False
 
     def __del__(self):
 
@@ -137,7 +135,7 @@ class Engine(object):
         if(not self.kernel) : self.t_start = time.clock()
 
         # bind kernel
-        self.kernel = bind_kernel(self.new_kernel)
+        (self.kernel, self.reset) = bind_kernel(self.new_kernel)
         self.new_kernel = None
 
         # create texture reference
@@ -189,9 +187,13 @@ class Engine(object):
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
-        self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr,
-                    self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim,
-                    1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
+        if(self.do_reset_fb):
+            self.reset(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)))
+            self.do_reset_fb = False
+        else:
+            self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr,
+                        self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim,
+                        1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
         self.record_event(1)
 
         # copy data to output_2D
@@ -236,5 +238,4 @@ class Engine(object):
     def reset_fb(self):
         ''' This funcion resets the framebuffer to solid black '''
 
-        # set_fb with empty buffer
-        self.set_fb(self.reset_buf)
+        self.do_reset_fb = True

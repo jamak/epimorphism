@@ -242,6 +242,12 @@ class Renderer(object):
         self.show_fps = not self.show_fps
 
 
+    def toggle_echo(self):
+        ''' This function toggles the echoing '''
+
+        # toggle echo
+        self.context.echo = not self.context.echo
+
 
 
 
