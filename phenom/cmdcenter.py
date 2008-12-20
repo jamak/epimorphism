@@ -240,6 +240,7 @@ class CmdCenter(Setter, Animator):
         print "done switching %s" % data
         self.renderer.echo_string = None
 
+
     def cmd(self, code, capture=False):
 
         # hijack stdout, if requested
@@ -291,7 +292,7 @@ class CmdCenter(Setter, Animator):
         ''' Prints a list of paramaters, their bindings, and their values. '''
 
         for i in xrange(len(self.state.par_names)):
-            print self.state.par_names[i], ":", i, "-", self.state.oar[i]
+            print self.state.par_names[i], ":", i, "-", self.state.par[i]
 
 
     def funcs(self):
@@ -306,7 +307,9 @@ class CmdCenter(Setter, Animator):
         keys = self.datamanager.__dict__.keys()
         keys.sort()
 
-        for i in xrange(len(keys)) : print i+1, ":", keys[i], "-", self.datamanager.__dict__[keys[i]]
+        for i in xrange(len(keys)) :
+            component = getattr(self.state, keys[i])
+            print i+1, ":", keys[i], "-", component, "-", self.datamanager.comment(keys[i], component)
 
 
     def save(self, name=None):

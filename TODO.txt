@@ -20,6 +20,8 @@ improve colorfunc
 #
 
 
+fix help
+
 animate datamanager defaults
 
 general reset_buf mechanism

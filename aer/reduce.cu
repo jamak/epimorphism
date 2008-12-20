@@ -9,7 +9,7 @@ __device__ float2 grid_reduce(float2 z){
 
 
 __device__ float2 torus_reduce(float2 z){
-  // reduction based on the reflective torus  -  possibly optimize using a texture
+  // reduction based on the reflective torus
   z = z + vec2(1.0f, 1.0f);
 
   z = rem(z, 4.0f);

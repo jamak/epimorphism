@@ -99,3 +99,15 @@ class DataManager(object):
 
                         # add component
                         components.append(component)
+
+
+    def comment(self, component_name, component):
+
+        # get list
+        res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == component]
+
+        # return comment
+        if(len(res) != 0):
+            return res[0][2]
+        else:
+            return ""
