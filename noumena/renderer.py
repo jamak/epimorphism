@@ -80,6 +80,10 @@ class Renderer(object):
         self.fps_font_size = 16
         self.fps_font = common.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 
+        self.echo_string = None
+        self.echo_font_size = int(0.0123 * self.profile.viewport_width + 2.666)
+        self.echo_font = common.glFreeType.font_data(FONT_PATH, self.echo_font_size)
+
 
     def __del__(self):
 
@@ -111,6 +115,17 @@ class Renderer(object):
         glColor3ub(0xff, 0xff, 0xff)
         self.fps_font.glPrint(6, self.profile.viewport_height - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
         self.fps_font.glPrint(6, self.profile.viewport_height - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
+
+
+    def echo(self):
+        # if this isn't set font looks terrible
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+
+        # render text into llc
+        glColor3ub(0xff, 0xff, 0xff)
+        self.echo_font.glPrint(6, 6, self.echo_string)
+
+
 
 
     def reshape(self, w, h):
@@ -182,10 +197,13 @@ class Renderer(object):
         if(self.show_fps):
             self.render_fps()
 
+        # messages
+        if(self.context.echo and self.echo_string):
+            self.echo()
+
         # repost
         glutSwapBuffers()
         glutPostRedisplay()
-
 
     def set_inner_loop(self, inner_loop):
 

@@ -188,6 +188,7 @@ class CmdCenter(Setter, Animator):
             val = "zn[8] * %s + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
 
         print "switching %s to: %s" % (data, val)
+        self.renderer.echo_string = "switching %s to: %s" % (data, val)
 
         intrp = "((1.0f - (_clock - internal[%d]) / %ff) * (%s) + (_clock - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
                                                                                                             idx_idx, self.context.component_switch_time, val)
@@ -237,7 +238,7 @@ class CmdCenter(Setter, Animator):
         self.new_kernel[data][1] = None
 
         print "done switching %s" % data
-
+        self.renderer.echo_string = None
 
     def cmd(self, code, capture=False):
 

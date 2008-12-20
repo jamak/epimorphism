@@ -12,5 +12,6 @@
  'video_frame_time': 10,
  'max_video_frames': None,
  'exit' : False,
- 'ptxas_stats' : False
+ 'ptxas_stats' : False,
+ 'echo' : True
 }
