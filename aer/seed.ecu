@@ -20,8 +20,3 @@ __device__ float4 seed_wca(float2 z){
 
   return res;
 }
-
-__device__ float4 seed_solid(float2 z){
-
-  return vec4(1.0, 0.0, 0.0, 0.99);
-}

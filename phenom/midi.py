@@ -11,7 +11,7 @@ def m0(f):
     return f
 
 def m1(f):
-    return 19.0 * f + 1.0
+    return f + 1.0
 
 def m2(f):
     return 4.0 * f + 1.0
