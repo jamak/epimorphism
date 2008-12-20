@@ -10,12 +10,19 @@ from noumena.renderer import *
 
 # initialize state/profile/context
 manager = ConfigManager()
-info_schema = [("context", '~', 'default', 'ctx'), ("state", '%', 'default', 'est'), ("profile", '@', 'box1', 'prf')]
 
-for info in info_schema:
-    var = dict(tuple(map(lambda x: (x[0], eval('"' + x[1] + '"')), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == info[1]))))
-    obj = manager.load_dict(var.setdefault(info[0], info[2]) + "." + info[3], **var)
-    exec(info[0] + " = obj")
+def parse_args(sym):
+    return dict(tuple(map(lambda x: (x[0], eval('"' + x[1] + '"')), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == sym))))
+
+context_vars = parse_args("~")
+
+context_vars.setdefault("context", "default")
+context_vars.setdefault("state", "default")
+context_vars.setdefault("profile", "box1")
+
+context = manager.load_dict(context_vars["context"] + ".ctx", **context_vars)
+state =   manager.load_dict(context_vars["state"] + ".est", **parse_args("%"))
+profile = manager.load_dict(context_vars["profile"] + ".prf", **parse_args("@"))
 
 # initialize components
 renderer   = Renderer(state, profile, context)

@@ -47,7 +47,6 @@ __device__ float4 rotate_hsv(float4 v, float2 z_z){
 
 __device__ float4 rotate_hsls(float4 v, float2 z_z){
   // complex hsls rotation
-  // defaults
   v = RGBtoHSLs(v);
 
   float l = len(z_z);
