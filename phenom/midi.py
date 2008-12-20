@@ -38,7 +38,7 @@ class MidiHandler(threading.Thread, Setter):
         # create sefault zn bindings
         self.bindings0 = {81: [self.zn_set_r_i(0),  "m1(f)", self.zn_get_r_i(0),  "m1_inv(f)", (self.state.zn, 0)],
                           82: [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
-                          83: [self.zn_set_r_i(2),  "m0(f)", self.zn_get_r_i(2),  "m0_inv(f)", (self.state.zn, 2)],
+                          83: [self.zn_set_r_i(2),  "m1(f)", self.zn_get_r_i(2),  "m1_inv(f)", (self.state.zn, 2)],
                           84: [self.zn_set_r_i(3),  "m0(f)", self.zn_get_r_i(3),  "m0_inv(f)", (self.state.zn, 3)],
                           85: [self.zn_set_r_i(4),  "m0(f)", self.zn_get_r_i(4),  "m0_inv(f)", (self.state.zn, 4)],
                           86: [self.zn_set_r_i(5),  "m0(f)", self.zn_get_r_i(5),  "m0_inv(f)", (self.state.zn, 5)],

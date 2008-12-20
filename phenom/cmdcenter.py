@@ -140,7 +140,6 @@ class CmdCenter(Setter, Animator):
         # get new kernel settings
         self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.__dict__.keys()])
 
-        self.load("state_0")
 
     def __del__(self):
 

@@ -20,6 +20,9 @@ improve colorfunc
 #
 #
 
+
+general reset_buf mechanism
+
 logging
 add argument lists to doc
 error checking?
@@ -28,6 +31,7 @@ final cleaning pass
 test server
 
 write ffmpeg script
+
 
 
 ###################################
@@ -51,7 +55,6 @@ smoother state load
 picture upload
 
 optimize load_kernel
-
 
 
 

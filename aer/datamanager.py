@@ -9,7 +9,7 @@ class DataManager(object):
     def __init__(self, state):
 
         # load components from files of form *.epi
-        files = [file for file in os.listdir("aer") if re.search("\.epi$", file)]
+        files = [file for file in os.listdir("aer") if re.search("^[^.#].+?\.epi$", file)]
 
         for file_name in files:
 
@@ -51,7 +51,7 @@ class DataManager(object):
 
 
         # load components from files of form *.cu
-        files = [file for file in os.listdir("aer") if re.search("^[^_][^#]+?cu$", file)]
+        files = [file for file in os.listdir("aer") if re.search("^[^_.#]+?cu$", file)]
 
         for file_name in files:
 

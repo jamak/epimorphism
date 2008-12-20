@@ -55,4 +55,4 @@ class Server(threading.Thread):
             print "connected to: ", details
 
             # spawn thread to handle connection
-            run_as_thread(self.handle_connection(channel))
+            async(self.handle_connection(channel))
