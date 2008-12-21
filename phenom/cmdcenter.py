@@ -115,7 +115,7 @@ class CmdCenter(Setter, Animator):
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
-                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths',
+                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths', 'echo', 'reshape',
                           'set_indices'] + dir(object) + dir(Setter)
 
         # extract non-blacklist functions from an object
@@ -332,7 +332,11 @@ class CmdCenter(Setter, Animator):
     def funcs(self):
         ''' Prints a list of all functions available in the command environment. '''
 
-        for key in self.env.funcs.keys() : print key
+        # sort keys
+        keys = self.env.funcs.keys()
+        keys.sort()
+
+        for key in keys : print key
 
 
     def components(self):
@@ -348,13 +352,12 @@ class CmdCenter(Setter, Animator):
     def save(self, name=None):
         ''' Saves the current state. '''
 
-        self.renderer.echo_string = "saving"
-
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
 
         print "saved state as", name
-        self.renderer.echo_string = None
+
+        self.renderer.flash_message("saved state as %s" % name)
 
 
     def load(self, name):
@@ -369,8 +372,7 @@ class CmdCenter(Setter, Animator):
 
         # blend to pars
         for i in xrange(len(new_state.par)):
-
-            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
+            self.linear_1d(self.state.par, i, self.context.component_switch_time + COMPILE_TIME, self.state.par[i], new_state.par[i])
 
         # remove zn & par from dict
         del new_state.zn
@@ -392,13 +394,19 @@ class CmdCenter(Setter, Animator):
 
             async(lambda : self.blend_to_component(data, updates[data]))
 
-            time.sleep(0.1)
+            time.sleep(0.2)
 
         # update state
         print self.state.__dict__.update(new_state.__dict__)
 
         # set indices
         self.set_indices()
+
+
+    def load_state(self, idx):
+        ''' Loads and blends to the state with the given id. '''
+
+        self.load("state_%d" % idx)
 
 
     def manual(self):

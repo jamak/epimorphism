@@ -15,7 +15,7 @@ class Console(object):
 
         # console parameters
         self.console_font_size = 12
-        self.max_num_status_rows = 30
+        self.max_num_status_rows = 50
         self.status_rows = []
         self.console_width = 600
         self.active_text = ""

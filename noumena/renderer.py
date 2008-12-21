@@ -2,8 +2,12 @@ from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
+import time
+
 from phenom.keyboard import *
 from phenom.mouse import *
+
+from common.runner import *
 
 import common.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
@@ -215,6 +219,17 @@ class Renderer(object):
 
         # start main glut loop
         glutMainLoop()
+
+
+    def flash_message(self, msg, t=3):
+        ''' This function temporarily displays a message on the screen. '''
+        self.echo_string = msg
+
+        def delayed_reset_echo():
+            time.sleep(t)
+            self.echo_string = None
+
+        async(delayed_reset_echo)
 
 
     def toggle_console(self):

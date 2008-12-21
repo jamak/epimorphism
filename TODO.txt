@@ -20,6 +20,11 @@ improve colorfunc
 #
 
 
+
+old state zn bullshit
+
+
+
 unify t & t_seed
 
 fix help

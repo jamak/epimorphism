@@ -6,6 +6,7 @@ from phenom.stdmidi import *
 
 import os.path
 
+default_flag = False
 
 class MidiList(list):
     ''' This is an internal class to add midi synchronization to
@@ -45,8 +46,10 @@ class State(object):
         self.__dict__.update(migrate(vars))
 
         # set par defaults
-        for i in xrange(len(self.par_names)):
-            self.par[i] = float(self.par_defaults[self.par_names[i]])
+        global default_flag
+        if(default_flag):
+            for i in xrange(len(self.par_names)):
+               self.par[i] = float(self.par_defaults[self.par_names[i]])
 
         # create midi_lists
         self.zn = MidiList(self.zn)
@@ -93,6 +96,10 @@ class ConfigManager(object):
         # get vars
         vars = eval(contents.replace("\n", ""))
         vars.update(additional_vars)
+
+        # set default_flag
+        global default_flag
+        default_flag = name[:-4] == "default"
 
         # return correct config object
         return eval(self.extension_names[extension].capitalize())(**vars)

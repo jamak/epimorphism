@@ -38,7 +38,7 @@ __device__ float circle(float2 z){
   float r = len(z);
   float w = nextafterf(0.0f, -1.0f);
   if(r > _SEED_CIRCLE_R - _SEED_W / 2.0f && r  < _SEED_CIRCLE_R + _SEED_W / 2.0f)
-    w = (1.0f - 2.0f * fabsf(r - 0.5f) / _SEED_W);
+    w = (1.0f - 2.0f * fabsf(r - _SEED_CIRCLE_R) / _SEED_W);
   return trans_w(w);
 }
 
