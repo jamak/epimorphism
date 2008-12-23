@@ -5,7 +5,7 @@ def m1(f):
     return 4.0 * f
 
 def m2(f):
-    return 4.0 * f + 1.0
+    return 4.0 * f - 2.0
 
 def m3(f):
     return 5.0 * f
@@ -20,7 +20,7 @@ def m1_inv(f):
     return f / 4.0
 
 def m2_inv(f):
-    return (f - 1.0) / 4.0
+    return (f + 2.0) / 4.0
 
 def m3_inv(f):
     return f / 5.0

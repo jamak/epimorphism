@@ -20,3 +20,16 @@ __device__ float2 torus_reduce(float2 z){
 
   return z - vec2(1.0f, 1.0f);
 }
+
+
+__device__ float2 hex_reduce(float2 z){
+  float2 res = vec2(0.0f, 0.0f);
+  z.y += 0.5f;
+  int n_y = floorf(z.y);
+  if(n_y % 2 == 0)
+    z.y -= n_y;
+  else
+    z.y = 1.0 - (z.y - n_y);
+
+  return res;
+}

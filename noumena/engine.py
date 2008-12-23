@@ -20,7 +20,6 @@ class Engine(object):
         self.cuda_device = c_int()
         cudaGetDevice(byref(self.cuda_device))
 
-        # DEACTIVATED - throws an error on close
         # get/print properties
         self.cuda_properties = cudaDeviceProp()
         cudaGetDeviceProperties(self.cuda_properties, self.cuda_device)

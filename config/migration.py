@@ -21,7 +21,6 @@ def relayout_pars(vars, new_names, new_defaults):
 
 
 def migrate_0_91(vars):
-    print "migrating to 0.091"
 
     new_names = [
         '_SEED_W',
@@ -59,8 +58,15 @@ def migrate_0_91(vars):
     return vars
 
 
+def migrate_0_916(vars):
+
+    vars["par"][vars["par_names"].index("_COLOR_PHI")] *= 2.0
+    vars["par"][vars["par_names"].index("_COLOR_PSI")] *= 2.0
+
+    return vars
+
 # dict of all migrations
-migrations = {0.91 : migrate_0_91}
+migrations = {0.91 : migrate_0_91, 0.916 : migrate_0_916}
 
 
 def migrate(vars):

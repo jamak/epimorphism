@@ -2,6 +2,7 @@ from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 
+from common.runner import *
 import common.glFreeType
 FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
 
@@ -93,16 +94,19 @@ class Console(object):
         elif(key == "\015"): # enter
             self.cursor_pos = 0
             self.cmd_queue.append(self.active_text)
-            response = self.cmdcenter.cmd(self.active_text, True)
-            self.status_rows.append([self.active_text, 0])
-            self.active_text = ""
+            def send_cmd_async(text):
+                response = self.cmdcenter.cmd(text, True)
+                self.status_rows.append([text, 0])
+                for line in response[0].split("\n"):
+                    if(line != ""):
+                        self.status_rows.append([line, 1])
+                for line in response[1].split("\n"):
+                    if(line != ""):
+                        self.status_rows.append([line, 2])
+
+            async(lambda : send_cmd_async(self.active_text))
             self.queue_idx = 0
-            for line in response[0].split("\n"):
-                if(line != ""):
-                    self.status_rows.append([line, 1])
-            for line in response[1].split("\n"):
-                if(line != ""):
-                    self.status_rows.append([line, 2])
+            self.active_text = ""
 
         # cycle up through queue
         elif(key == GLUT_KEY_UP):

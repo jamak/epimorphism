@@ -139,11 +139,16 @@ __device__ float2 floorf(float2 z){
   return vec2(floorf(z.x), floorf(z.y));
 }
 
+__device__ float recover(float x){
+  if(isnan(x) || isinf(x))
+    x = 0.0f;
+  return x;
+}
 
 __device__ float2 recover(float2 z){
-  if(isnan(z.x))
+  if(isnan(z.x) || isinf(z.x))
     z.x = 0.0f;
-  if(isnan(z.y))
+  if(isnan(z.y) || isinf(z.y))
     z.y = 0.0f;
   return z;
 }

@@ -27,6 +27,7 @@ class MidiList(list):
             for binding in bindings:
 
                 if(bindings[binding][4] == (self, key)):
+                    print self[1]
 
                     # compute value
                     f = bindings[binding][2]()

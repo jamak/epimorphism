@@ -42,7 +42,9 @@ extern "C" {
 
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
     float2 z_z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
-    float2 z = vec2(0.0f, 0.0f);
+    float2 z = z_z;
+    float2 z_z2 = recover(%T%);
+    z = vec2(0.0f, 0.0f);
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
       for(z.y = z_z.y - i_kernel_dim; z.y <= z_z.y + m_i_kernel_dim; z.y += inc){
@@ -57,7 +59,8 @@ extern "C" {
         z = %T_SEED%;
         z = recover(%REDUCE%);
 
-        float4 seed = _gamma3(%SEED%, 2.2f);
+        // float4 seed = _gamma3(%SEED%, 2.2f);
+        float4 seed = %SEED%;
 
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
@@ -72,6 +75,8 @@ extern "C" {
         z = z_c;
 
       }
+
+    z_z = z_z2;
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLOR%;

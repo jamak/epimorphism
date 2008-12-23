@@ -215,9 +215,9 @@ class CmdCenter(Setter, Animator):
 
         # cheat if t or t_seed
         if(data == "T"):
-            val = "zn[0] * %s + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
+            val = "zn[0] * (%s) + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
         elif(data == "T_SEED"):
-            val = "zn[8] * %s + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
+            val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
 
         print "switching %s to: %s" % (data, val)
         self.renderer.echo_string = "switching %s to: %s" % (data, val)

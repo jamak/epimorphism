@@ -129,16 +129,15 @@ class MidiHandler(threading.Thread, Setter):
             channel = data[0][0][1]
             val = data[0][0][2]
 
-            # print channel, " ", val
-
             # get f
             f = val / 128.0
             if(val == 127.0) : f = 1.0
 
+            # print "MIDI", channel, " ", val, f
+
             # check bindings
             bindings = self.get_bindings()
             if(bindings.has_key(channel)):
-
                 # process binding
                 binding = bindings[channel]
                 binding[0](eval(binding[1]))

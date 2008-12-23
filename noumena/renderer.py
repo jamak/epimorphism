@@ -80,7 +80,8 @@ class Renderer(object):
 
         # misc variables
         self.show_console = False
-        self.show_fps = False
+        self.show_fps = True
+        self.fps = self.fps_avg = 10
         self.fps_font_size = 16
         self.fps_font = common.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 
@@ -88,6 +89,7 @@ class Renderer(object):
         self.echo_font_size = int(0.0123 * self.profile.viewport_width + 2.666)
         self.echo_font = common.glFreeType.font_data(FONT_PATH, self.echo_font_size)
 
+        self.do_main_toggle_console = False
 
     def __del__(self):
 
@@ -149,6 +151,8 @@ class Renderer(object):
 
     def do(self):
         if(self.context.exit) : return
+
+        if(self.do_main_toggle_console) : self.main_toggle_console()
 
         # compute frame rate
         if(self.d_time == 0):
@@ -234,6 +238,14 @@ class Renderer(object):
 
     def toggle_console(self):
         ''' This function toggles the interactive console '''
+
+        self.do_main_toggle_console = True
+
+
+    # main thread callback to above function
+    def main_toggle_console(self):
+
+        self.do_main_toggle_console = False
 
         # toggle console
         self.show_console = not self.show_console
