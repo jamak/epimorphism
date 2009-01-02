@@ -1,0 +1,163 @@
+	.version 1.1
+	.target compute_11, map_f64_to_f32
+	//  compiled with /home/paehler/CUDA1.1b/cuda/open64/lib//be
+
+	.reg .u32 %ra1,%ra2,%ra3,%ra4,%ra5,%ra6,%ra7,%ra8,%ra9,
+		 %ra10,%ra11,%ra12,%ra13,%ra14,%ra15,%ra16;
+	.reg .u64 %rda1,%rda2,%rda3,%rda4,%rda5,%rda6,%rda7,%rda8,%rda9,
+		 %rda10,%rda11,%rda12,%rda13,%rda14,%rda15,%rda16;
+	.reg .f32 %fa1,%fa2,%fa3,%fa4,%fa5,%fa6,%fa7,%fa8,%fa9,
+		 %fa10,%fa11,%fa12,%fa13,%fa14,%fa15,%fa16;
+	.reg .f64 %fda1,%fda2,%fda3,%fda4,%fda5,%fda6,%fda7,%fda8,%fda9,
+		 %fda10,%fda11,%fda12,%fda13,%fda14,%fda15,%fda16;
+	.reg .u32 %rv1,%rv2,%rv3,%rv4;
+	.reg .u64 %rdv1,%rdv2,%rdv3,%rdv4;
+	.reg .f32 %fv1,%fv2,%fv3,%fv4;
+	.reg .f64 %fdv1,%fdv2,%fdv3,%fdv4;
+
+
+	//-----------------------------------------------------------
+	// Compiling /tmp/tmpxft_00001e5b_00000000-5.i (/tmp/ccI#.HoWwXK)
+	//-----------------------------------------------------------
+
+	//-----------------------------------------------------------
+	// Options:
+	//-----------------------------------------------------------
+	//  Target:ptx, ISA:compute_11, Endian:little, Pointer Size:32
+	//  -O3	(Optimization level)
+	//  -g0	(Debug level)
+	//  -m2	(Report advisories)
+	//-----------------------------------------------------------
+
+	.file	1	"/tmp/tmpxft_00001e5b_00000000-4.gpu"
+	.file	2	"/usr/lib/gcc/i386-redhat-linux/4.1.2/include/stddef.h"
+	.file	3	"/home/paehler/CUDA/cuda/bin/../include/crt/device_runtime.h"
+	.file	4	"/home/paehler/CUDA/cuda/bin/../include/crt/../host_defines.h"
+	.file	5	"/home/paehler/CUDA/cuda/bin/../include/crt/storage_class.h"
+	.file	6	"/home/paehler/CUDA/cuda/bin/../include/crt/../builtin_types.h"
+	.file	7	"/home/paehler/CUDA/cuda/bin/../include/crt/../device_types.h"
+	.file	8	"/home/paehler/CUDA/cuda/bin/../include/crt/../driver_types.h"
+	.file	9	"/home/paehler/CUDA/cuda/bin/../include/crt/../texture_types.h"
+	.file	10	"/home/paehler/CUDA/cuda/bin/../include/crt/../vector_types.h"
+	.file	11	"/home/paehler/CUDA/cuda/bin/../include/crt/../device_launch_parameters.h"
+	.file	12	"simple.cu"
+	.file	13	"/home/paehler/CUDA/cuda/bin/../include/texture_fetch_functions.h"
+	.file	14	"/home/paehler/CUDA/cuda/bin/../include/common_functions.h"
+	.file	15	"/home/paehler/CUDA/cuda/bin/../include/crt/func_macro.h"
+	.file	16	"/home/paehler/CUDA/cuda/bin/../include/math_functions.h"
+	.file	17	"/home/paehler/CUDA/cuda/bin/../include/device_functions.h"
+	.file	18	"/home/paehler/CUDA/cuda/bin/../include/math_constants.h"
+	.file	19	"/home/paehler/CUDA/cuda/bin/../include/sm_11_atomic_functions.h"
+	.file	20	"/home/paehler/CUDA/cuda/bin/../include/math_functions_dbl_ptx1.h"
+
+	.tex .u32 Arg;
+
+	.entry TRIG
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13,$r14,$r15;
+	.reg .f32 $f1,$f2,$f3,$f4;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_TRIG_d_Out1;
+	.param .u32 __cudaparm_TRIG_d_Out2;
+	.param .u32 __cudaparm_TRIG_d_In1;
+	.param .u32 __cudaparm_TRIG_size;
+	.loc	12	9	0
+$LBB1_TRIG:
+	.loc	12	15	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.u32 	$r4, [__cudaparm_TRIG_size];	//  id:40 __cudaparm_TRIG_size+0x0
+	setp.ge.u32 	$p1, $r3, $r4;   	//  
+	@$p1 bra 	$Lt_0_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_TRIG_d_In1];	//  id:42 __cudaparm_TRIG_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_TRIG_d_Out1];	//  id:43 __cudaparm_TRIG_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+	ld.param.u32 	$r14, [__cudaparm_TRIG_d_Out2];	//  id:44 __cudaparm_TRIG_d_Out2+0x0
+	add.u32 	$r15, $r14, $r5;     	//  
+$Lt_0_7:
+ //<loop> Loop body line 15, nesting depth: 1, estimated iterations: unknown
+	.loc	12	17	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:45
+	cos.f32 	$f2, $f1;            	//  
+	st.global.f32 	[$r13+0], $f2; 	//  id:46
+	.loc	12	18	0
+	ld.global.f32 	$f3, [$r9+0];  	//  id:47
+	sin.f32 	$f4, $f3;            	//  
+	st.global.f32 	[$r15+0], $f4; 	//  id:48
+	add.u32 	$r15, $r15, $r10;    	//  
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.u32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_0_7;            	//  
+$Lt_0_5:
+	exit;                         	//  
+	} // TRIG
+
+	.entry TRIGTex
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13,$r14,$r15,$r16;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7;
+	.reg .pred $p0,$p1,$p2;
+	.shared .f32 x;
+	.param .u32 __cudaparm_TRIGTex_d_Out1;
+	.param .u32 __cudaparm_TRIGTex_d_Out2;
+	.param .u32 __cudaparm_TRIGTex_size;
+	.loc	12	23	0
+$LBB1_TRIGTex:
+	.loc	12	30	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	mov.s32 	$r4, $r3;            	//  
+	ld.param.u32 	$r5, [__cudaparm_TRIGTex_size];	//  id:53 __cudaparm_TRIGTex_size+0x0
+	setp.ge.u32 	$p1, $r3, $r5;   	//  
+	@$p1 bra 	$Lt_1_5;            	//  
+	mul.lo.u32 	$r6, $r3, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_TRIGTex_d_Out1];	//  id:55 __cudaparm_TRIGTex_d_Out1+0x0
+	add.u32 	$r9, $r8, $r6;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	ld.param.u32 	$r11, [__cudaparm_TRIGTex_d_Out2];	//  id:56 __cudaparm_TRIGTex_d_Out2+0x0
+	add.u32 	$r12, $r11, $r6;     	//  
+$Lt_1_7:
+ //<loop> Loop body line 30, nesting depth: 1, estimated iterations: unknown
+	mov.s32 	$r13, $r4;           	//  
+	mov.s32 	$r14, 0;             	//  
+	mov.s32 	$r15, 0;             	//  
+	mov.s32 	$r16, 0;             	//  
+	tex.1d.v4.f32.s32 {$f1,$f2,$f3,$f4},Arg,{$r13,$r14,$r15,$r16};
+ //<loop> Part of loop body line 30, head labeled $Lt_1_7
+	.loc	12	32	0
+	mov.f32 	$f5, $f1;            	//  
+	.loc	12	33	0
+	cos.f32 	$f6, $f5;            	//  
+	st.global.f32 	[$r9+0], $f6;  	//  id:58
+	.loc	12	34	0
+	sin.f32 	$f7, $f5;            	//  
+	st.global.f32 	[$r12+0], $f7; 	//  id:59
+	add.u32 	$r4, $r4, $r7;       	//  
+	add.u32 	$r12, $r12, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.u32 	$p2, $r4, $r5;   	//  
+	@$p2 bra 	$Lt_1_7;            	//  
+	st.shared.f32 	[x], $f5;      	//  id:60 x+0x0
+$Lt_1_5:
+	exit;                         	//  
+	} // TRIGTex

@@ -1,5 +1,5 @@
 (z)                                     :
-$I - (z)                                :
+1.0 / tan(z)                            :
 exp(z)                                  :
 sin(z)                                  :
 cos(z)                                  :
@@ -13,7 +13,7 @@ sq(z)                                   :
 1.0 - sq(z)                             :
 sq(1.0 - (z))                           :
 cos(sq(z))                              :
-tanh(1.0 + sq(z)                        :
+tanh(1.0 + sq(z))                       :
 sq($I - sin(z))                         :
 1.0 / (z)                               :
 1.0 / (1.0 - (z))                       :

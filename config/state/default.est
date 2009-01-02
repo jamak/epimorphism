@@ -1,4 +1,4 @@
-{'VERSION': 0.915,
+{'VERSION': 0.916,
  'SEED': 'seed_wca(z)',
  'SEED_A': 'circular_alpha(w)',
  'SEED_C': 'simple_color(z, w)',

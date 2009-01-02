@@ -56,8 +56,7 @@ extern "C" {
 
         float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
 
-        z = %T_SEED%;
-        z = recover(%REDUCE%);
+        z = recover(%T_SEED%);
 
         // float4 seed = _gamma3(%SEED%, 2.2f);
         float4 seed = %SEED%;

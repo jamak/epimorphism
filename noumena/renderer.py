@@ -80,8 +80,8 @@ class Renderer(object):
 
         # misc variables
         self.show_console = False
-        self.show_fps = True
-        self.fps = self.fps_avg = 10
+        self.show_fps = False
+        self.fps = self.fps_avg = 100
         self.fps_font_size = 16
         self.fps_font = common.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 

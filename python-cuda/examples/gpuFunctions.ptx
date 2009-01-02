@@ -1,0 +1,2952 @@
+	.version 1.1
+	.target compute_11, map_f64_to_f32
+	//  compiled with /home/paehler/CUDA/cuda/open64/lib//be
+
+	.reg .u32 %ra1,%ra2,%ra3,%ra4,%ra5,%ra6,%ra7,%ra8,%ra9,
+		 %ra10,%ra11,%ra12,%ra13,%ra14,%ra15,%ra16;
+	.reg .u64 %rda1,%rda2,%rda3,%rda4,%rda5,%rda6,%rda7,%rda8,%rda9,
+		 %rda10,%rda11,%rda12,%rda13,%rda14,%rda15,%rda16;
+	.reg .f32 %fa1,%fa2,%fa3,%fa4,%fa5,%fa6,%fa7,%fa8,%fa9,
+		 %fa10,%fa11,%fa12,%fa13,%fa14,%fa15,%fa16;
+	.reg .f64 %fda1,%fda2,%fda3,%fda4,%fda5,%fda6,%fda7,%fda8,%fda9,
+		 %fda10,%fda11,%fda12,%fda13,%fda14,%fda15,%fda16;
+	.reg .u32 %rv1,%rv2,%rv3,%rv4;
+	.reg .u64 %rdv1,%rdv2,%rdv3,%rdv4;
+	.reg .f32 %fv1,%fv2,%fv3,%fv4;
+	.reg .f64 %fdv1,%fdv2,%fdv3,%fdv4;
+
+
+	//-----------------------------------------------------------
+	// Compiling /tmp/tmpxft_0000170c_00000000-5.i (/tmp/ccI#.yBGz1Q)
+	//-----------------------------------------------------------
+
+	//-----------------------------------------------------------
+	// Options:
+	//-----------------------------------------------------------
+	//  Target:ptx, ISA:compute_11, Endian:little, Pointer Size:32
+	//  -O3	(Optimization level)
+	//  -g0	(Debug level)
+	//  -m2	(Report advisories)
+	//-----------------------------------------------------------
+
+	.file	1	"/tmp/tmpxft_0000170c_00000000-4.gpu"
+	.file	2	"/usr/lib/gcc/i386-redhat-linux/4.1.2/include/stddef.h"
+	.file	3	"/home/paehler/CUDA/cuda/bin/../include/crt/device_runtime.h"
+	.file	4	"/home/paehler/CUDA/cuda/bin/../include/crt/../host_defines.h"
+	.file	5	"/home/paehler/CUDA/cuda/bin/../include/crt/storage_class.h"
+	.file	6	"/home/paehler/CUDA/cuda/bin/../include/crt/../builtin_types.h"
+	.file	7	"/home/paehler/CUDA/cuda/bin/../include/crt/../device_types.h"
+	.file	8	"/home/paehler/CUDA/cuda/bin/../include/crt/../driver_types.h"
+	.file	9	"/home/paehler/CUDA/cuda/bin/../include/crt/../texture_types.h"
+	.file	10	"/home/paehler/CUDA/cuda/bin/../include/crt/../vector_types.h"
+	.file	11	"/home/paehler/CUDA/cuda/bin/../include/crt/../device_launch_parameters.h"
+	.file	12	"gpuFunctions.cu"
+	.file	13	"/home/paehler/CUDA/cuda/bin/../include/common_functions.h"
+	.file	14	"/home/paehler/CUDA/cuda/bin/../include/crt/func_macro.h"
+	.file	15	"/home/paehler/CUDA/cuda/bin/../include/math_functions.h"
+	.file	16	"/home/paehler/CUDA/cuda/bin/../include/device_functions.h"
+	.file	17	"/home/paehler/CUDA/cuda/bin/../include/math_constants.h"
+	.file	18	"/home/paehler/CUDA/cuda/bin/../include/sm_11_atomic_functions.h"
+	.file	19	"/home/paehler/CUDA/cuda/bin/../include/texture_fetch_functions.h"
+	.file	20	"/home/paehler/CUDA/cuda/bin/../include/math_functions_dbl_ptx1.h"
+
+	.shared .align 4 .b8 result[3072];
+
+	.entry gpuGFLOPS
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3;
+	.reg .f32 $f1,$f2,$f3;
+	.reg .pred $p0,$p1;
+	.loc	12	144	0
+$LBB1_gpuGFLOPS:
+	.loc	12	147	0
+	mov.u16 	$rh1, %tid.x;        	//  
+	mul.wide.u16 	$r1, $rh1, 4;   	//  
+	mov.u32 	$r2, result;         	//  
+	add.u32 	$r3, $r1, $r2;       	//  
+	ld.shared.f32 	$f1, [$r3+0];  	//  id:8212 result+0x0
+	mov.s16 	$rh2, 0;             	//  
+	mov.f32 	$f2, 0f3f8147ae;     	//  1.01
+$Lt_0_7:
+ //<loop> Loop body line 147, nesting depth: 1, iterations: 512
+	.loc	12	152	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	153	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	154	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	155	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	156	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	157	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	158	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	159	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	160	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	161	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	162	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	163	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	164	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	165	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	166	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	.loc	12	167	0
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	mad.f32 	$f1, $f1, $f2, $f2;  	//  
+	mad.f32 	$f2, $f1, $f2, $f1;  	//  
+	add.s16 	$rh2, $rh2, 1;       	//  
+	mov.s16 	$rh3, 512;           	//  
+	setp.ne.s16 	$p1, $rh2, $rh3; 	//  
+	@$p1 bra 	$Lt_0_7;            	//  
+	.loc	12	169	0
+	add.f32 	$f3, $f1, $f2;       	//  
+	st.shared.f32 	[$r3+0], $f3;  	//  id:8213 result+0x0
+	exit;                         	//  
+	} // gpuGFLOPS
+
+	.entry gpuBLSC
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13,$r14,$r15,$r16,$r17,$r18,$r19;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9,
+		$f10,$f11,$f12,$f13,$f14,$f15,$f16,$f17,$f18,$f19,
+		$f20,$f21,$f22,$f23,$f24,$f25,$f26,$f27,$f28,$f29,
+		$f30,$f31,$f32,$f33,$f34,$f35,$f36,$f37,$f38,$f39,
+		$f40,$f41,$f42,$f43,$f44,$f45,$f46,$f47,$f48,$f49,
+		$f50,$f51,$f52,$f53,$f54,$f55,$f56,$f57,$f58,$f59,
+		$f60,$f61,$f62,$f63,$f64,$f65,$f66,$f67,$f68,$f69,
+		$f70,$f71,$f72,$f73,$f74,$f75,$f76,$f77,$f78,$f79,
+		$f80,$f81,$f82,$f83,$f84,$f85,$f86,$f87,$f88,$f89,
+		$f90,$f91,$f92,$f93,$f94,$f95,$f96,$f97,$f98,$f99,
+		$f100,$f101;
+	.reg .pred $p0,$p1,$p2,$p3,$p4;
+	.param .u32 __cudaparm_gpuBLSC_d_Calls;
+	.param .u32 __cudaparm_gpuBLSC_d_Puts;
+	.param .u32 __cudaparm_gpuBLSC_d_S;
+	.param .u32 __cudaparm_gpuBLSC_d_X;
+	.param .u32 __cudaparm_gpuBLSC_d_T;
+	.param .f32 __cudaparm_gpuBLSC_R;
+	.param .f32 __cudaparm_gpuBLSC_V;
+	.param .s32 __cudaparm_gpuBLSC_OptN;
+	.loc	12	214	0
+$LBB1_gpuBLSC:
+	.loc	12	218	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuBLSC_OptN];	//  id:146 __cudaparm_gpuBLSC_OptN+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_1_11;           	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	ld.param.f32 	$f1, [__cudaparm_gpuBLSC_V];	//  id:147 __cudaparm_gpuBLSC_V+0x0
+	mov.f32 	$f2, 0f3f000000;     	//  0.5
+	mul.f32 	$f3, $f1, $f2;       	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuBLSC_d_S];	//  id:149 __cudaparm_gpuBLSC_d_S+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuBLSC_d_X];	//  id:150 __cudaparm_gpuBLSC_d_X+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+	ld.param.u32 	$r14, [__cudaparm_gpuBLSC_d_T];	//  id:151 __cudaparm_gpuBLSC_d_T+0x0
+	add.u32 	$r15, $r14, $r5;     	//  
+	ld.param.u32 	$r16, [__cudaparm_gpuBLSC_d_Calls];	//  id:152 __cudaparm_gpuBLSC_d_Calls+0x0
+	add.u32 	$r17, $r16, $r5;     	//  
+	ld.param.u32 	$r18, [__cudaparm_gpuBLSC_d_Puts];	//  id:153 __cudaparm_gpuBLSC_d_Puts+0x0
+	add.u32 	$r19, $r18, $r5;     	//  
+	mul.f32 	$f4, $f3, $f1;       	//  
+	ld.param.f32 	$f5, [__cudaparm_gpuBLSC_R];	//  id:154 __cudaparm_gpuBLSC_R+0x0
+	add.f32 	$f6, $f4, $f5;       	//  
+$Lt_1_13:
+ //<loop> Loop body line 218, nesting depth: 1, estimated iterations: unknown
+	.loc	12	219	0
+	ld.global.f32 	$f7, [$r9+0];  	//  id:155
+	ld.global.f32 	$f8, [$r13+0]; 	//  id:156
+	ld.global.f32 	$f9, [$r15+0]; 	//  id:157
+	.loc	12	207	0
+	div.f32 	$f10, $f7, $f8;      	//  
+	sqrt.f32 	$f11, $f9;          	//  
+	mul.f32 	$f12, $f9, $f5;      	//  
+	lg2.f32 	$f13, $f10;          	//  
+	mul.f32 	$f14, $f11, $f1;     	//  
+	neg.f32 	$f15, $f12;          	//  
+	mov.f32 	$f16, 0f3f317218;    	//  0.693147
+	mul.f32 	$f17, $f13, $f16;    	//  
+	mov.f32 	$f18, 0f3fb8aa3b;    	//  1.4427
+	mul.f32 	$f19, $f15, $f18;    	//  
+	mul.f32 	$f20, $f6, $f9;      	//  
+	ex2.f32 	$f21, $f19;          	//  
+	add.f32 	$f22, $f17, $f20;    	//  
+	mul.f32 	$f23, $f21, $f8;     	//  
+	div.f32 	$f24, $f22, $f14;    	//  
+	mov.f32 	$f25, 0f00000000;    	//  0
+	setp.gt.f32 	$p2, $f24, $f25; 	//  
+	abs.f32 	$f26, $f24;          	//  
+	mov.f32 	$f27, 0fbf000000;    	//  -0.5
+	mul.f32 	$f28, $f24, $f27;    	//  
+	sub.f32 	$f29, $f24, $f14;    	//  
+	mov.f32 	$f30, 0f3e6d3389;    	//  0.231642
+	mul.f32 	$f31, $f26, $f30;    	//  
+	mul.f32 	$f32, $f24, $f28;    	//  
+	mov.f32 	$f33, 0f00000000;    	//  0
+	setp.gt.f32 	$p3, $f29, $f33; 	//  
+	abs.f32 	$f34, $f29;          	//  
+	mov.f32 	$f35, 0fbf000000;    	//  -0.5
+	mul.f32 	$f36, $f29, $f35;    	//  
+	mov.f32 	$f37, 0f3f800000;    	//  1
+	add.f32 	$f38, $f31, $f37;    	//  
+	mov.f32 	$f39, 0f3fb8aa3b;    	//  1.4427
+	mul.f32 	$f40, $f32, $f39;    	//  
+	mov.f32 	$f41, 0f3e6d3389;    	//  0.231642
+	mul.f32 	$f42, $f34, $f41;    	//  
+	mul.f32 	$f43, $f29, $f36;    	//  
+	rcp.f32 	$f44, $f38;          	//  
+	ex2.f32 	$f45, $f40;          	//  
+	mov.f32 	$f46, 0f3f800000;    	//  1
+	add.f32 	$f47, $f42, $f46;    	//  
+	mov.f32 	$f48, 0f3fb8aa3b;    	//  1.4427
+	mul.f32 	$f49, $f43, $f48;    	//  
+	mov.f32 	$f50, 0f3faa466f;    	//  1.33027
+	mul.f32 	$f51, $f44, $f50;    	//  
+	mov.f32 	$f52, 0f3ecc422a;    	//  0.398942
+	mul.f32 	$f53, $f45, $f52;    	//  
+	rcp.f32 	$f54, $f47;          	//  
+	ex2.f32 	$f55, $f49;          	//  
+	mov.f32 	$f56, 0fbfe91eea;    	//  -1.82126
+	add.f32 	$f57, $f51, $f56;    	//  
+	mov.f32 	$f58, 0f3faa466f;    	//  1.33027
+	mul.f32 	$f59, $f54, $f58;    	//  
+	mov.f32 	$f60, 0f3ecc422a;    	//  0.398942
+	mul.f32 	$f61, $f55, $f60;    	//  
+	mul.f32 	$f62, $f44, $f57;    	//  
+	mov.f32 	$f63, 0fbfe91eea;    	//  -1.82126
+	add.f32 	$f64, $f59, $f63;    	//  
+	mov.f32 	$f65, 0f3fe40778;    	//  1.78148
+	add.f32 	$f66, $f62, $f65;    	//  
+	mul.f32 	$f67, $f54, $f64;    	//  
+	mul.f32 	$f68, $f44, $f66;    	//  
+	mov.f32 	$f69, 0f3fe40778;    	//  1.78148
+	add.f32 	$f70, $f67, $f69;    	//  
+	mov.f32 	$f71, 0fbeb68f87;    	//  -0.356564
+	add.f32 	$f72, $f68, $f71;    	//  
+	mul.f32 	$f73, $f54, $f70;    	//  
+	mul.f32 	$f74, $f44, $f72;    	//  
+	mov.f32 	$f75, 0fbeb68f87;    	//  -0.356564
+	add.f32 	$f76, $f73, $f75;    	//  
+	mov.f32 	$f77, 0f3ea385fa;    	//  0.319382
+	add.f32 	$f78, $f74, $f77;    	//  
+	mul.f32 	$f79, $f54, $f76;    	//  
+	mul.f32 	$f80, $f44, $f78;    	//  
+	mov.f32 	$f81, 0f3ea385fa;    	//  0.319382
+	add.f32 	$f82, $f79, $f81;    	//  
+	mul.f32 	$f83, $f53, $f80;    	//  
+	mul.f32 	$f84, $f54, $f82;    	//  
+	mov.f32 	$f85, 0f3f800000;    	//  1
+	sub.f32 	$f86, $f85, $f83;    	//  
+	mul.f32 	$f87, $f61, $f84;    	//  
+	selp.f32 	$f88, $f86, $f83, $p2;	//  
+	mov.f32 	$f89, 0f3f800000;    	//  1
+	sub.f32 	$f90, $f89, $f87;    	//  
+	selp.f32 	$f91, $f90, $f87, $p3;	//  
+	mul.f32 	$f92, $f23, $f91;    	//  
+	mul.f32 	$f93, $f7, $f88;     	//  
+	sub.f32 	$f94, $f93, $f92;    	//  
+	st.global.f32 	[$r17+0], $f94;	//  id:158
+	.loc	12	208	0
+	mov.f32 	$f95, 0f3f800000;    	//  1
+	sub.f32 	$f96, $f95, $f88;    	//  
+	mul.f32 	$f97, $f7, $f96;     	//  
+	mov.f32 	$f98, 0f3f800000;    	//  1
+	sub.f32 	$f99, $f98, $f91;    	//  
+	mul.f32 	$f100, $f23, $f99;   	//  
+	sub.f32 	$f101, $f100, $f97;  	//  
+	st.global.f32 	[$r19+0], $f101;	//  id:159
+	.loc	12	219	0
+	add.u32 	$r19, $r19, $r10;    	//  
+	add.u32 	$r17, $r17, $r10;    	//  
+	add.u32 	$r15, $r15, $r10;    	//  
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p4, $r9, $r11;  	//  
+	@$p4 bra 	$Lt_1_13;           	//  
+$Lt_1_11:
+	exit;                         	//  
+	} // gpuBLSC
+
+	.entry gpuPOLY5
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuPOLY5_d_In1;
+	.param .u32 __cudaparm_gpuPOLY5_d_Out1;
+	.param .s32 __cudaparm_gpuPOLY5_size;
+	.loc	12	224	0
+$LBB1_gpuPOLY5:
+	.loc	12	234	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuPOLY5_size];	//  id:43 __cudaparm_gpuPOLY5_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_2_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuPOLY5_d_In1];	//  id:45 __cudaparm_gpuPOLY5_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuPOLY5_d_Out1];	//  id:46 __cudaparm_gpuPOLY5_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+$Lt_2_7:
+ //<loop> Loop body line 234, nesting depth: 1, estimated iterations: unknown
+	.loc	12	235	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:47
+	.loc	12	237	0
+	mov.f32 	$f2, 0f40a00000;     	//  5
+	mov.f32 	$f3, 0f40800000;     	//  4
+	mov.f32 	$f4, 0f40400000;     	//  3
+	mov.f32 	$f5, 0f40000000;     	//  2
+	add.f32 	$f6, $f1, $f5;       	//  
+	mad.f32 	$f7, $f1, $f6, $f4;  	//  
+	mad.f32 	$f8, $f1, $f7, $f3;  	//  
+	mad.f32 	$f9, $f1, $f8, $f2;  	//  
+	st.global.f32 	[$r13+0], $f9; 	//  id:48
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_2_7;            	//  
+$Lt_2_5:
+	exit;                         	//  
+	} // gpuPOLY5
+
+	.entry gpuPOLY10
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9,
+		$f10,$f11,$f12,$f13,$f14,$f15,$f16,$f17;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuPOLY10_d_In1;
+	.param .u32 __cudaparm_gpuPOLY10_d_Out1;
+	.param .s32 __cudaparm_gpuPOLY10_size;
+	.loc	12	241	0
+$LBB1_gpuPOLY10:
+	.loc	12	251	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuPOLY10_size];	//  id:53 __cudaparm_gpuPOLY10_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_3_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuPOLY10_d_In1];	//  id:55 __cudaparm_gpuPOLY10_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuPOLY10_d_Out1];	//  id:56 __cudaparm_gpuPOLY10_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+$Lt_3_7:
+ //<loop> Loop body line 251, nesting depth: 1, estimated iterations: unknown
+	.loc	12	252	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:57
+	.loc	12	255	0
+	mov.f32 	$f2, 0f40a00000;     	//  5
+	mov.f32 	$f3, 0f40800000;     	//  4
+	mov.f32 	$f4, 0f40400000;     	//  3
+	mov.f32 	$f5, 0f40000000;     	//  2
+	mov.f32 	$f6, 0f40a00000;     	//  5
+	mov.f32 	$f7, 0f40800000;     	//  4
+	mov.f32 	$f8, 0f40400000;     	//  3
+	mov.f32 	$f9, 0f40000000;     	//  2
+	add.f32 	$f10, $f1, $f9;      	//  
+	mad.f32 	$f11, $f1, $f10, $f8;	//  
+	mad.f32 	$f12, $f1, $f11, $f7;	//  
+	mad.f32 	$f13, $f1, $f12, $f6;	//  
+	mad.f32 	$f14, $f1, $f13, $f5;	//  
+	mad.f32 	$f15, $f1, $f14, $f4;	//  
+	mad.f32 	$f16, $f1, $f15, $f3;	//  
+	mad.f32 	$f17, $f1, $f16, $f2;	//  
+	st.global.f32 	[$r13+0], $f17;	//  id:58
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_3_7;            	//  
+$Lt_3_5:
+	exit;                         	//  
+	} // gpuPOLY10
+
+	.entry gpuPOLY20
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9,
+		$f10,$f11,$f12,$f13,$f14,$f15,$f16,$f17,$f18,$f19,
+		$f20,$f21,$f22,$f23,$f24,$f25,$f26,$f27,$f28,$f29,
+		$f30,$f31,$f32,$f33;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuPOLY20_d_In1;
+	.param .u32 __cudaparm_gpuPOLY20_d_Out1;
+	.param .s32 __cudaparm_gpuPOLY20_size;
+	.loc	12	259	0
+$LBB1_gpuPOLY20:
+	.loc	12	269	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuPOLY20_size];	//  id:73 __cudaparm_gpuPOLY20_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_4_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuPOLY20_d_In1];	//  id:75 __cudaparm_gpuPOLY20_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuPOLY20_d_Out1];	//  id:76 __cudaparm_gpuPOLY20_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+$Lt_4_7:
+ //<loop> Loop body line 269, nesting depth: 1, estimated iterations: unknown
+	.loc	12	270	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:77
+	.loc	12	275	0
+	mov.f32 	$f2, 0f40a00000;     	//  5
+	mov.f32 	$f3, 0f40800000;     	//  4
+	mov.f32 	$f4, 0f40400000;     	//  3
+	mov.f32 	$f5, 0f40000000;     	//  2
+	mov.f32 	$f6, 0f40a00000;     	//  5
+	mov.f32 	$f7, 0f40800000;     	//  4
+	mov.f32 	$f8, 0f40400000;     	//  3
+	mov.f32 	$f9, 0f40000000;     	//  2
+	mov.f32 	$f10, 0f40a00000;    	//  5
+	mov.f32 	$f11, 0f40800000;    	//  4
+	mov.f32 	$f12, 0f40400000;    	//  3
+	mov.f32 	$f13, 0f40000000;    	//  2
+	mov.f32 	$f14, 0f40a00000;    	//  5
+	mov.f32 	$f15, 0f40800000;    	//  4
+	mov.f32 	$f16, 0f40400000;    	//  3
+	mov.f32 	$f17, 0f40000000;    	//  2
+	add.f32 	$f18, $f1, $f17;     	//  
+	mad.f32 	$f19, $f1, $f18, $f16;	//  
+	mad.f32 	$f20, $f1, $f19, $f15;	//  
+	mad.f32 	$f21, $f1, $f20, $f14;	//  
+	mad.f32 	$f22, $f1, $f21, $f13;	//  
+	mad.f32 	$f23, $f1, $f22, $f12;	//  
+	mad.f32 	$f24, $f1, $f23, $f11;	//  
+	mad.f32 	$f25, $f1, $f24, $f10;	//  
+	mad.f32 	$f26, $f1, $f25, $f9;	//  
+	mad.f32 	$f27, $f1, $f26, $f8;	//  
+	mad.f32 	$f28, $f1, $f27, $f7;	//  
+	mad.f32 	$f29, $f1, $f28, $f6;	//  
+	mad.f32 	$f30, $f1, $f29, $f5;	//  
+	mad.f32 	$f31, $f1, $f30, $f4;	//  
+	mad.f32 	$f32, $f1, $f31, $f3;	//  
+	mad.f32 	$f33, $f1, $f32, $f2;	//  
+	st.global.f32 	[$r13+0], $f33;	//  id:78
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_4_7;            	//  
+$Lt_4_5:
+	exit;                         	//  
+	} // gpuPOLY20
+
+	.entry gpuPOLY40
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9,
+		$f10,$f11,$f12,$f13,$f14,$f15,$f16,$f17,$f18,$f19,
+		$f20,$f21,$f22,$f23,$f24,$f25,$f26,$f27,$f28,$f29,
+		$f30,$f31,$f32,$f33,$f34,$f35,$f36,$f37,$f38,$f39,
+		$f40,$f41,$f42,$f43,$f44,$f45,$f46,$f47,$f48,$f49,
+		$f50,$f51,$f52,$f53,$f54,$f55,$f56,$f57,$f58,$f59,
+		$f60,$f61,$f62,$f63,$f64,$f65;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuPOLY40_d_In1;
+	.param .u32 __cudaparm_gpuPOLY40_d_Out1;
+	.param .s32 __cudaparm_gpuPOLY40_size;
+	.loc	12	279	0
+$LBB1_gpuPOLY40:
+	.loc	12	289	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuPOLY40_size];	//  id:113 __cudaparm_gpuPOLY40_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_5_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuPOLY40_d_In1];	//  id:115 __cudaparm_gpuPOLY40_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuPOLY40_d_Out1];	//  id:116 __cudaparm_gpuPOLY40_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+$Lt_5_7:
+ //<loop> Loop body line 289, nesting depth: 1, estimated iterations: unknown
+	.loc	12	290	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:117
+	.loc	12	299	0
+	mov.f32 	$f2, 0f40a00000;     	//  5
+	mov.f32 	$f3, 0f40800000;     	//  4
+	mov.f32 	$f4, 0f40400000;     	//  3
+	mov.f32 	$f5, 0f40000000;     	//  2
+	mov.f32 	$f6, 0f40a00000;     	//  5
+	mov.f32 	$f7, 0f40800000;     	//  4
+	mov.f32 	$f8, 0f40400000;     	//  3
+	mov.f32 	$f9, 0f40000000;     	//  2
+	mov.f32 	$f10, 0f40a00000;    	//  5
+	mov.f32 	$f11, 0f40800000;    	//  4
+	mov.f32 	$f12, 0f40400000;    	//  3
+	mov.f32 	$f13, 0f40000000;    	//  2
+	mov.f32 	$f14, 0f40a00000;    	//  5
+	mov.f32 	$f15, 0f40800000;    	//  4
+	mov.f32 	$f16, 0f40400000;    	//  3
+	mov.f32 	$f17, 0f40000000;    	//  2
+	mov.f32 	$f18, 0f40a00000;    	//  5
+	mov.f32 	$f19, 0f40800000;    	//  4
+	mov.f32 	$f20, 0f40400000;    	//  3
+	mov.f32 	$f21, 0f40000000;    	//  2
+	mov.f32 	$f22, 0f40a00000;    	//  5
+	mov.f32 	$f23, 0f40800000;    	//  4
+	mov.f32 	$f24, 0f40400000;    	//  3
+	mov.f32 	$f25, 0f40000000;    	//  2
+	mov.f32 	$f26, 0f40a00000;    	//  5
+	mov.f32 	$f27, 0f40800000;    	//  4
+	mov.f32 	$f28, 0f40400000;    	//  3
+	mov.f32 	$f29, 0f40000000;    	//  2
+	mov.f32 	$f30, 0f40a00000;    	//  5
+	mov.f32 	$f31, 0f40800000;    	//  4
+	mov.f32 	$f32, 0f40400000;    	//  3
+	mov.f32 	$f33, 0f40000000;    	//  2
+	add.f32 	$f34, $f1, $f33;     	//  
+	mad.f32 	$f35, $f1, $f34, $f32;	//  
+	mad.f32 	$f36, $f1, $f35, $f31;	//  
+	mad.f32 	$f37, $f1, $f36, $f30;	//  
+	mad.f32 	$f38, $f1, $f37, $f29;	//  
+	mad.f32 	$f39, $f1, $f38, $f28;	//  
+	mad.f32 	$f40, $f1, $f39, $f27;	//  
+	mad.f32 	$f41, $f1, $f40, $f26;	//  
+	mad.f32 	$f42, $f1, $f41, $f25;	//  
+	mad.f32 	$f43, $f1, $f42, $f24;	//  
+	mad.f32 	$f44, $f1, $f43, $f23;	//  
+	mad.f32 	$f45, $f1, $f44, $f22;	//  
+	mad.f32 	$f46, $f1, $f45, $f21;	//  
+	mad.f32 	$f47, $f1, $f46, $f20;	//  
+	mad.f32 	$f48, $f1, $f47, $f19;	//  
+	mad.f32 	$f49, $f1, $f48, $f18;	//  
+	mad.f32 	$f50, $f1, $f49, $f17;	//  
+	mad.f32 	$f51, $f1, $f50, $f16;	//  
+	mad.f32 	$f52, $f1, $f51, $f15;	//  
+	mad.f32 	$f53, $f1, $f52, $f14;	//  
+	mad.f32 	$f54, $f1, $f53, $f13;	//  
+	mad.f32 	$f55, $f1, $f54, $f12;	//  
+	mad.f32 	$f56, $f1, $f55, $f11;	//  
+	mad.f32 	$f57, $f1, $f56, $f10;	//  
+	mad.f32 	$f58, $f1, $f57, $f9;	//  
+	mad.f32 	$f59, $f1, $f58, $f8;	//  
+	mad.f32 	$f60, $f1, $f59, $f7;	//  
+	mad.f32 	$f61, $f1, $f60, $f6;	//  
+	mad.f32 	$f62, $f1, $f61, $f5;	//  
+	mad.f32 	$f63, $f1, $f62, $f4;	//  
+	mad.f32 	$f64, $f1, $f63, $f3;	//  
+	mad.f32 	$f65, $f1, $f64, $f2;	//  
+	st.global.f32 	[$r13+0], $f65;	//  id:118
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_5_7;            	//  
+$Lt_5_5:
+	exit;                         	//  
+	} // gpuPOLY40
+
+	.entry gpuSAXPY
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3,$f4;
+	.reg .pred $p0,$p1,$p2;
+	.param .f32 __cudaparm_gpuSAXPY_Factor;
+	.param .u32 __cudaparm_gpuSAXPY_d_In1;
+	.param .u32 __cudaparm_gpuSAXPY_d_In2;
+	.param .s32 __cudaparm_gpuSAXPY_size;
+	.loc	12	304	0
+$LBB1_gpuSAXPY:
+	.loc	12	308	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuSAXPY_size];	//  id:30 __cudaparm_gpuSAXPY_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_6_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuSAXPY_d_In2];	//  id:32 __cudaparm_gpuSAXPY_d_In2+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuSAXPY_d_In1];	//  id:33 __cudaparm_gpuSAXPY_d_In1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+	ld.param.f32 	$f1, [__cudaparm_gpuSAXPY_Factor];	//  id:34 __cudaparm_gpuSAXPY_Factor+0x0
+$Lt_6_7:
+ //<loop> Loop body line 308, nesting depth: 1, estimated iterations: unknown
+	.loc	12	309	0
+	ld.global.f32 	$f2, [$r9+0];  	//  id:35
+	ld.global.f32 	$f3, [$r13+0]; 	//  id:36
+	mad.f32 	$f4, $f3, $f1, $f2;  	//  
+	st.global.f32 	[$r9+0], $f4;  	//  id:37
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_6_7;            	//  
+$Lt_6_5:
+	exit;                         	//  
+	} // gpuSAXPY
+
+	.entry gpuSGEMM
+	{
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13,$r14,$r15,$r16,$r17,$r18,$r19,
+		$r20,$r21,$r22,$r23,$r24,$r25,$r26,$r27,$r28,$r29,
+		$r30,$r31,$r32,$r33,$r34,$r35,$r36,$r37,$r38,$r39,
+		$r40,$r41,$r42,$r43,$r44,$r45,$r46,$r47,$r48,$r49,
+		$r50,$r51;
+	.reg .f32 $f1,$f2,$f3,$f4,$f5,$f6,$f7,$f8,$f9,
+		$f10,$f11,$f12,$f13,$f14,$f15,$f16,$f17,$f18,$f19,
+		$f20,$f21,$f22,$f23,$f24,$f25,$f26,$f27,$f28,$f29,
+		$f30,$f31,$f32,$f33,$f34,$f35;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuSGEMM_C;
+	.param .u32 __cudaparm_gpuSGEMM_A;
+	.param .u32 __cudaparm_gpuSGEMM_B;
+	.param .s32 __cudaparm_gpuSGEMM_wA;
+	.param .s32 __cudaparm_gpuSGEMM_wB;
+	.shared .align 4 .b8 __cuda_Bs3188[1024];
+	.shared .align 4 .b8 __cuda_As4212[1024];
+	.loc	12	313	0
+$LBB1_gpuSGEMM:
+	.loc	12	331	0
+	cvt.s32.u16 	$r1, %ctaid.x;   	//  
+	mul24.lo.s32 	$r2, $r1, 16;   	//  
+	cvt.s32.u16 	$r3, %ctaid.y;   	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuSGEMM_wA];	//  id:82 __cudaparm_gpuSGEMM_wA+0x0
+	mul.lo.s32 	$r5, $r3, $r4;    	//  
+	mul.lo.s32 	$r6, $r5, 16;     	//  
+	add.s32 	$r7, $r6, $r4;       	//  
+	sub.s32 	$r8, $r7, 1;         	//  
+	cvt.s32.u16 	$r9, %tid.x;     	//  
+	cvt.s32.u16 	$r10, %tid.y;    	//  
+	ld.param.s32 	$r11, [__cudaparm_gpuSGEMM_wB];	//  id:85 __cudaparm_gpuSGEMM_wB+0x0
+	setp.lt.s32 	$p1, $r8, $r6;   	//  
+	mov.f32 	$f1, 0f00000000;     	//  0
+	@$p1 bra 	$Lt_7_17;           	//  
+	mov.u32 	$r12, __cuda_Bs3188; 	//  
+	mov.u32 	$r13, __cuda_As4212; 	//  
+	add.s32 	$r14, $r4, 15;       	//  
+	div.s32 	$r15, $r14, 16;      	//  
+	mul.lo.s32 	$r16, $r10, $r11; 	//  
+	mul.lo.s32 	$r17, $r10, $r4;  	//  
+	mul24.lo.u32 	$r18, $r10, 16; 	//  
+	mul24.lo.u32 	$r19, $r10, 64; 	//  
+	mul24.lo.u32 	$r20, $r9, 4;   	//  
+	mul.lo.s32 	$r21, $r11, 16;   	//  
+	add.s32 	$r22, $r16, $r2;     	//  
+	add.s32 	$r23, $r17, $r6;     	//  
+	add.u32 	$r24, $r9, $r18;     	//  
+	add.u32 	$r25, $r19, $r13;    	//  
+	add.u32 	$r26, $r20, $r12;    	//  
+	add.s32 	$r27, $r22, $r9;     	//  
+	add.s32 	$r28, $r23, $r9;     	//  
+	mul.lo.u32 	$r29, $r24, 4;    	//  
+	mul.lo.u32 	$r30, $r27, 4;    	//  
+	mul.lo.u32 	$r31, $r21, 4;    	//  
+	mul.lo.u32 	$r32, $r28, 4;    	//  
+	add.u32 	$r33, $r29, $r13;    	//  
+	add.u32 	$r34, $r29, $r12;    	//  
+	add.s32 	$r35, $r17, $r8;     	//  
+	ld.param.u32 	$r36, [__cudaparm_gpuSGEMM_B];	//  id:86 __cudaparm_gpuSGEMM_B+0x0
+	add.u32 	$r37, $r36, $r30;    	//  
+	ld.param.u32 	$r38, [__cudaparm_gpuSGEMM_A];	//  id:87 __cudaparm_gpuSGEMM_A+0x0
+	add.u32 	$r39, $r32, $r38;    	//  
+	add.s32 	$r40, $r35, $r9;     	//  
+	mul.lo.u32 	$r41, $r40, 4;    	//  
+	add.u32 	$r42, $r41, $r38;    	//  
+	mov.s32 	$r43, $r15;          	//  
+$Lt_7_11:
+ //<loop> Loop body line 331, nesting depth: 1, estimated iterations: unknown
+	.loc	12	338	0
+	ld.global.f32 	$f2, [$r39+0]; 	//  id:88
+	st.shared.f32 	[$r33+0], $f2; 	//  id:89 __cuda_As4212+0x0
+	.loc	12	339	0
+	ld.global.f32 	$f3, [$r37+0]; 	//  id:90
+	st.shared.f32 	[$r34+0], $f3; 	//  id:91 __cuda_Bs3188+0x0
+	.loc	12	341	0
+	bar.sync 	0;                  	//  
+	.loc	12	344	0
+	ld.shared.f32 	$f4, [$r25+0]; 	//  id:92 __cuda_As4212+0x0
+	ld.shared.f32 	$f5, [$r26+0]; 	//  id:93 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f4, $f5, $f1;  	//  
+	ld.shared.f32 	$f6, [$r25+4]; 	//  id:94 __cuda_As4212+0x0
+	ld.shared.f32 	$f7, [$r26+64];	//  id:95 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f6, $f7, $f1;  	//  
+	ld.shared.f32 	$f8, [$r25+8]; 	//  id:96 __cuda_As4212+0x0
+	ld.shared.f32 	$f9, [$r26+128];	//  id:97 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f8, $f9, $f1;  	//  
+	ld.shared.f32 	$f10, [$r25+12];	//  id:98 __cuda_As4212+0x0
+	ld.shared.f32 	$f11, [$r26+192];	//  id:99 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f10, $f11, $f1;	//  
+	ld.shared.f32 	$f12, [$r25+16];	//  id:100 __cuda_As4212+0x0
+	ld.shared.f32 	$f13, [$r26+256];	//  id:101 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f12, $f13, $f1;	//  
+	ld.shared.f32 	$f14, [$r25+20];	//  id:102 __cuda_As4212+0x0
+	ld.shared.f32 	$f15, [$r26+320];	//  id:103 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f14, $f15, $f1;	//  
+	ld.shared.f32 	$f16, [$r25+24];	//  id:104 __cuda_As4212+0x0
+	ld.shared.f32 	$f17, [$r26+384];	//  id:105 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f16, $f17, $f1;	//  
+	ld.shared.f32 	$f18, [$r25+28];	//  id:106 __cuda_As4212+0x0
+	ld.shared.f32 	$f19, [$r26+448];	//  id:107 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f18, $f19, $f1;	//  
+	ld.shared.f32 	$f20, [$r25+32];	//  id:108 __cuda_As4212+0x0
+	ld.shared.f32 	$f21, [$r26+512];	//  id:109 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f20, $f21, $f1;	//  
+	ld.shared.f32 	$f22, [$r25+36];	//  id:110 __cuda_As4212+0x0
+	ld.shared.f32 	$f23, [$r26+576];	//  id:111 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f22, $f23, $f1;	//  
+	ld.shared.f32 	$f24, [$r25+40];	//  id:112 __cuda_As4212+0x0
+	ld.shared.f32 	$f25, [$r26+640];	//  id:113 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f24, $f25, $f1;	//  
+	ld.shared.f32 	$f26, [$r25+44];	//  id:114 __cuda_As4212+0x0
+	ld.shared.f32 	$f27, [$r26+704];	//  id:115 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f26, $f27, $f1;	//  
+	ld.shared.f32 	$f28, [$r25+48];	//  id:116 __cuda_As4212+0x0
+	ld.shared.f32 	$f29, [$r26+768];	//  id:117 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f28, $f29, $f1;	//  
+	ld.shared.f32 	$f30, [$r25+52];	//  id:118 __cuda_As4212+0x0
+	ld.shared.f32 	$f31, [$r26+832];	//  id:119 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f30, $f31, $f1;	//  
+	ld.shared.f32 	$f32, [$r25+56];	//  id:120 __cuda_As4212+0x0
+	ld.shared.f32 	$f33, [$r26+896];	//  id:121 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f32, $f33, $f1;	//  
+	ld.shared.f32 	$f34, [$r25+60];	//  id:122 __cuda_As4212+0x0
+	ld.shared.f32 	$f35, [$r26+960];	//  id:123 __cuda_Bs3188+0x0
+	mad.f32 	$f1, $f34, $f35, $f1;	//  
+	.loc	12	346	0
+	bar.sync 	0;                  	//  
+	.loc	12	331	0
+	add.u32 	$r37, $r31, $r37;    	//  
+	add.u32 	$r39, $r39, 64;      	//  
+	setp.le.s32 	$p2, $r39, $r42; 	//  
+	@$p2 bra 	$Lt_7_11;           	//  
+	bra.uni 	$Lt_7_9;             	//  
+$Lt_7_17:
+	mul.lo.s32 	$r16, $r10, $r11; 	//  
+$Lt_7_9:
+	.loc	12	349	0
+	ld.param.u32 	$r44, [__cudaparm_gpuSGEMM_C];	//  id:124 __cudaparm_gpuSGEMM_C+0x0
+	mul.lo.s32 	$r45, $r11, $r3;  	//  
+	add.s32 	$r46, $r1, $r45;     	//  
+	mul.lo.s32 	$r47, $r46, 16;   	//  
+	add.s32 	$r48, $r16, $r47;    	//  
+	add.s32 	$r49, $r9, $r48;     	//  
+	mul.lo.u32 	$r50, $r49, 4;    	//  
+	add.u32 	$r51, $r44, $r50;    	//  
+	st.global.f32 	[$r51+0], $f1; 	//  id:125
+	exit;                         	//  
+	} // gpuSGEMM
+
+	.entry gpuTRIG
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13,$r14,$r15;
+	.reg .f32 $f1,$f2,$f3,$f4;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuTRIG_d_Out1;
+	.param .u32 __cudaparm_gpuTRIG_d_Out2;
+	.param .u32 __cudaparm_gpuTRIG_d_In1;
+	.param .s32 __cudaparm_gpuTRIG_size;
+	.loc	12	353	0
+$LBB1_gpuTRIG:
+	.loc	12	357	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuTRIG_size];	//  id:40 __cudaparm_gpuTRIG_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_8_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuTRIG_d_In1];	//  id:42 __cudaparm_gpuTRIG_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuTRIG_d_Out1];	//  id:43 __cudaparm_gpuTRIG_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+	ld.param.u32 	$r14, [__cudaparm_gpuTRIG_d_Out2];	//  id:44 __cudaparm_gpuTRIG_d_Out2+0x0
+	add.u32 	$r15, $r14, $r5;     	//  
+$Lt_8_7:
+ //<loop> Loop body line 357, nesting depth: 1, estimated iterations: unknown
+	.loc	12	358	0
+	ld.global.f32 	$f1, [$r9+0];  	//  id:45
+	cos.f32 	$f2, $f1;            	//  
+	st.global.f32 	[$r13+0], $f2; 	//  id:46
+	.loc	12	359	0
+	ld.global.f32 	$f3, [$r9+0];  	//  id:47
+	sin.f32 	$f4, $f3;            	//  
+	st.global.f32 	[$r15+0], $f4; 	//  id:48
+	add.u32 	$r15, $r15, $r10;    	//  
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_8_7;            	//  
+$Lt_8_5:
+	exit;                         	//  
+	} // gpuTRIG
+
+	.entry gpuScale
+	{
+	.reg .u16 $rh1,$rh2,$rh3;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8,$r9,
+		$r10,$r11,$r12,$r13;
+	.reg .f32 $f1,$f2,$f3;
+	.reg .pred $p0,$p1,$p2;
+	.param .u32 __cudaparm_gpuScale_d_Out1;
+	.param .u32 __cudaparm_gpuScale_d_In1;
+	.param .f32 __cudaparm_gpuScale_scale;
+	.param .s32 __cudaparm_gpuScale_size;
+	.loc	12	364	0
+$LBB1_gpuScale:
+	.loc	12	368	0
+	mov.u16 	$rh1, %ntid.x;       	//  
+	mov.u16 	$rh2, %ctaid.x;      	//  
+	mul.wide.u16 	$r1, $rh2, $rh1;	//  
+	cvt.u32.u16 	$r2, %tid.x;     	//  
+	add.u32 	$r3, $r2, $r1;       	//  
+	ld.param.s32 	$r4, [__cudaparm_gpuScale_size];	//  id:27 __cudaparm_gpuScale_size+0x0
+	setp.le.s32 	$p1, $r4, $r3;   	//  
+	@$p1 bra 	$Lt_9_5;            	//  
+	mul.lo.u32 	$r5, $r3, 4;      	//  
+	mul.lo.u32 	$r6, $r4, 4;      	//  
+	mov.u16 	$rh3, %nctaid.x;     	//  
+	mul.wide.u16 	$r7, $rh3, $rh1;	//  
+	ld.param.u32 	$r8, [__cudaparm_gpuScale_d_In1];	//  id:29 __cudaparm_gpuScale_d_In1+0x0
+	add.u32 	$r9, $r5, $r8;       	//  
+	mul.lo.u32 	$r10, $r7, 4;     	//  
+	add.u32 	$r11, $r6, $r8;      	//  
+	ld.param.u32 	$r12, [__cudaparm_gpuScale_d_Out1];	//  id:30 __cudaparm_gpuScale_d_Out1+0x0
+	add.u32 	$r13, $r12, $r5;     	//  
+	ld.param.f32 	$f1, [__cudaparm_gpuScale_scale];	//  id:31 __cudaparm_gpuScale_scale+0x0
+$Lt_9_7:
+ //<loop> Loop body line 368, nesting depth: 1, estimated iterations: unknown
+	.loc	12	369	0
+	ld.global.f32 	$f2, [$r9+0];  	//  id:32
+	mul.f32 	$f3, $f2, $f1;       	//  
+	st.global.f32 	[$r13+0], $f3; 	//  id:33
+	add.u32 	$r13, $r13, $r10;    	//  
+	add.u32 	$r9, $r9, $r10;      	//  
+	setp.lt.s32 	$p2, $r9, $r11;  	//  
+	@$p2 bra 	$Lt_9_7;            	//  
+$Lt_9_5:
+	exit;                         	//  
+	} // gpuScale
+
+	.entry init_array
+	{
+	.reg .u16 $rh1,$rh2;
+	.reg .u32 $r1,$r2,$r3,$r4,$r5,$r6,$r7,$r8;
+	.param .u32 __cudaparm_init_array_g_data;
+	.param .u32 __cudaparm_init_array_factor;
+	.loc	12	375	0
+$LBB1_init_array:
+	.loc	12	377	0
+	ld.param.u32 	$r1, [__cudaparm_init_array_factor];	//  id:12 __cudaparm_init_array_factor+0x0
+	ld.global.s32 	$r2, [$r1+0];  	//  id:13
+	ld.param.u32 	$r3, [__cudaparm_init_array_g_data];	//  id:14 __cudaparm_init_array_g_data+0x0
+	cvt.u32.u16 	$r4, %tid.x;     	//  
+	mov.u16 	$rh1, %ctaid.x;      	//  
+	mov.u16 	$rh2, %ntid.x;       	//  
+	mul.wide.u16 	$r5, $rh1, $rh2;	//  
+	add.u32 	$r6, $r4, $r5;       	//  
+	mul.lo.u32 	$r7, $r6, 4;      	//  
+	add.u32 	$r8, $r3, $r7;       	//  
+	st.global.s32 	[$r8+0], $r2;  	//  id:18
+	exit;                         	//  
+	} // init_array
