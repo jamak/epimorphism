@@ -3,7 +3,7 @@
  'SEED_A': 'circular_alpha(w)',
  'SEED_C': 'simple_color(z, w)',
  'SEED_W': 'lines_box(z)',
- 'SEED_WT': 'wt_circular(w)',
+ 'SEED_WT': 'wt_id(w)',
  'T': 'zn[0] * (zn[2] * z + zn[3]) + zn[1]',
  'T_SEED': 'zn[8] * (zn[10] * z + zn[11]) + zn[9]',
  'COLOR': 'rotate_hsls(v, z_z)',
@@ -102,7 +102,7 @@
  ],
  'par_defaults': {
  '_SEED_W' : 0.1,
- '_COLOR_PHI' : 0.0,
+ '_COLOR_PHI' : 1.0,
  '_COLOR_PSI' : 0.0,
  '_COLOR_A' : 1.0,
  '_COLOR_S' : 1.0,
