@@ -32,7 +32,12 @@ class Engine(object):
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
         # initialize frame buffer
-        empty = (c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
+        name = 'geometric.jpg'
+        img  = Image.open("image/image_state_1.png").convert("RGBA")
+        #img.show()
+
+        empty = img.tostring("raw", "RGBA" , 0, -1)#(c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
+        print empty[0]
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # create aux buffer
