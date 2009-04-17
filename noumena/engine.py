@@ -36,23 +36,14 @@ class Engine(object):
 
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
+        name = 'geometric.jpg'
+
+        data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
+
         # create aux buffer
         self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
         self.aux = cudaArray_p()
         cudaMallocArray(byref(self.aux), byref(self.aux_channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
-
-        name = 'geometric.jpg'
-        img = Image.open("image100.png").tostring("raw", "RGBA", 0, -1)
-        #img.show()
-
-
-        empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(0.0)
-
-        for i in range(0, 4 * self.profile.kernel_dim ** 2):
-            empty[i] = c_float(ord(img[i]) / 256.0);
-
-        cudaMemcpyToArray(self.aux, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
-
 
         # create output_2D
         self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
@@ -189,10 +180,7 @@ class Engine(object):
         # bind aux tex_ref to aux_b. # copy output_2D to fb
         cudaBindTextureToArray(self.aux_tex_ref, self.aux, byref(self.aux_channel_desc))
 
-        #data = open("image_state_0.png").tostring("raw", "RGBA", 0, -1)
-        #name = 'geometric.jpg'
-        #data = Image.open("image/input/" + name).tostring("raw", "RGBX", 0, -1)
-        #self.set_fb(data)
+
 
 
     def do(self):
@@ -266,25 +254,41 @@ class Engine(object):
         return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
 
 
-    def set_fb(self, data):
+    def set_fb(self, data, is_char):
         ''' This manually sets the framebuffer.
-            data is a dim ** 2 array of float4 '''
+            data is a dim ** 2 array of [format]4
+            where format = (is_char ? ubyte : float) '''
+        if(is_char):
+            empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(0.0)
+
+            for i in range(0, 4 * self.profile.kernel_dim ** 2):
+                empty[i] = c_float(ord(data[i]) / 256.0);
+
+            data = empty
+
+        cudaMemcpyToArray(self.fb, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # copy data to fb
+
+
+
+    def set_aux(self, data, is_char):
+        ''' This manually sets the auxillary.
+            data is a dim ** 2 array of [format]4
+            where format = (is_char ? ubyte : float) '''
+
+        if(is_char):
+            empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))()
+
+            for i in range(0, 4 * self.profile.kernel_dim ** 2):
+                empty[i] = ord(data[i]) / 256.0);
+
+            data = empty
+
         cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
                             cudaMemcpyHostToDevice)
-
-
-    def set_aux(self, data):
-        ''' This manually sets the auxillary buffer.
-            data is a dim ** 2 array of float4 '''
-
-        # copy data to fb
-        print "set_aux"
-        cudaMemcpy2DToArray(self.aux_b, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
-                            self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
-                            cudaMemcpyHostToDevice)
+#       cudaMemcpyToArray(self.aux, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
 
     def reset_fb(self):

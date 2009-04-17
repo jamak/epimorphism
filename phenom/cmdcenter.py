@@ -320,15 +320,13 @@ class CmdCenter(Setter, Animator):
         ''' Loads and image into the host memory
             and uploads it to a buffer.
               buffer_name can be either fb or aux '''
-        print "load_image"
-        data = Image.open("image/input/" + name).tostring("raw", "RGBA", 0, -1)
 
-        print "got_data"
+        data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
-      #  if(buffer_name == "fb"):
-      #      self.engine.set_fb(data)
-      #  else:
-      #      self.engine.set_aux(data)
+        if(buffer_name == "fb"):
+            self.engine.set_fb(data, True)
+        else:
+            self.engine.set_aux(data, True)
 
 
     def grab_image(self):
