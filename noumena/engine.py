@@ -33,11 +33,17 @@ class Engine(object):
 
         # initialize frame buffer
         name = 'geometric.jpg'
-        img  = Image.open("image/image_state_1.png").convert("RGBA")
+        #img  = Image.open("image/input/" + name).convert("RGBA")
+        img = Image.open("image100.png").convert("RGBA").convert("F")
+        print sizeof(img)
         #img.show()
 
-        empty = img.tostring("raw", "RGBA" , 0, -1)#(c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
-        print empty[0]
+        empty = img.tostring("raw", "F" , 0, -1)# (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
+
+       # for i in range(0, 4 * self.profile.kernel_dim ** 2):
+       #     empty[i] = 255;#c_float(int(data[1]) / 256.0);
+
+        #print empty[0] #
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # create aux buffer
@@ -180,9 +186,9 @@ class Engine(object):
         cudaBindTextureToArray(self.aux_tex_ref, self.aux_b, byref(self.channel_desc))
 
         #data = open("image_state_0.png").tostring("raw", "RGBA", 0, -1)
-        name = 'geometric.jpg'
-        data = Image.open("image/input/" + name).tostring("raw", "RGBX", 0, -1)
-        self.set_fb(data)
+        #name = 'geometric.jpg'
+        #data = Image.open("image/input/" + name).tostring("raw", "RGBX", 0, -1)
+        #self.set_fb(data)
 
 
     def do(self):
