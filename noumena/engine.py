@@ -6,7 +6,7 @@ from noumena.compiler import *
 
 import time
 
-import Image
+from Image import *
 
 class Engine(object):
     ''' The Engine object is the applications interface, via cuda, to the graphics hardware.
@@ -174,7 +174,7 @@ class Engine(object):
         # bind aux tex_ref to aux_b. # copy output_2D to fb
         cudaBindTextureToArray(self.aux_tex_ref, self.aux_b, byref(self.channel_desc))
 
-        data = open("image/input/geometric.jpg").tostring("raw", "RGBA", 0, -1)
+        data = open("image_state_0.png").tostring("raw", "RGBA", 0, -1)
         #data = Image.open("image/input/" + name).tostring("raw", "RGBA", 0, -1)
 
 
