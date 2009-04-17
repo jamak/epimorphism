@@ -94,7 +94,7 @@ class Console(object):
         elif(key == "\015"): # enter
             self.cursor_pos = 0
             self.cmd_queue.append(self.active_text)
-            def send_cmd_async(text):
+            def send_cmd(text):
                 response = self.cmdcenter.cmd(text, True)
                 self.status_rows.append([text, 0])
                 for line in response[0].split("\n"):
@@ -104,7 +104,11 @@ class Console(object):
                     if(line != ""):
                         self.status_rows.append([line, 2])
 
-            async(lambda : send_cmd_async(self.active_text))
+            if(self.active_text[0:1] == "~"):
+                send_cmd(self.active_text[1:])
+            else:
+                async(lambda : send_cmd(self.active_text))
+
             self.queue_idx = 0
             self.active_text = ""
 

@@ -272,23 +272,25 @@ class Engine(object):
 
 
 
-    def set_aux(self, data, is_char):
+    def set_aux(self, data, is_char, is_2D):
         ''' This manually sets the auxillary.
             data is a dim ** 2 array of [format]4
             where format = (is_char ? ubyte : float) '''
 
         if(is_char):
-            empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))()
+            #empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))()
 
             for i in range(0, 4 * self.profile.kernel_dim ** 2):
-                empty[i] = ord(data[i]) / 256.0);
+                self.host_array[i] = c_float(ord(data[i]) / 256.0)
 
-            data = empty
+            data = self.host_array#empty
 
-        cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
-                            self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
-                            cudaMemcpyHostToDevice)
-#       cudaMemcpyToArray(self.aux, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
+        if(is_2D):
+            cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
+                                self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
+                                cudaMemcpyHostToDevice)
+        else:
+            cudaMemcpyToArray(self.aux, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
 
     def reset_fb(self):

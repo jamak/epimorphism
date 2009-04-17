@@ -324,9 +324,9 @@ class CmdCenter(Setter, Animator):
         data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         if(buffer_name == "fb"):
-            self.engine.set_fb(data, True)
+            self.engine.set_fb(data, True, False)
         else:
-            self.engine.set_aux(data, True)
+            self.engine.set_aux(data, True, False)
 
 
     def grab_image(self):
