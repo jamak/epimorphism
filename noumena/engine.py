@@ -32,23 +32,27 @@ class Engine(object):
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
         # initialize frame buffer
-        name = 'geometric.jpg'
-        #img  = Image.open("image/input/" + name).convert("RGBA")
-        img = Image.open("image100.png").convert("RGBA").convert("F")
-        print sizeof(img)
-        #img.show()
+        empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
 
-        empty = img.tostring("raw", "F" , 0, -1)# (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
-
-       # for i in range(0, 4 * self.profile.kernel_dim ** 2):
-       #     empty[i] = 255;#c_float(int(data[1]) / 256.0);
-
-        #print empty[0] #
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # create aux buffer
-        self.aux_b = cudaArray_p()
-        cudaMallocArray(byref(self.aux_b), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
+        self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
+        self.aux = cudaArray_p()
+        cudaMallocArray(byref(self.aux), byref(self.aux_channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
+
+        name = 'geometric.jpg'
+        img = Image.open("image100.png").tostring("raw", "RGBA", 0, -1)
+        #img.show()
+
+
+        empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(0.0)
+
+        for i in range(0, 4 * self.profile.kernel_dim ** 2):
+            empty[i] = c_float(ord(img[i]) / 256.0);
+
+        cudaMemcpyToArray(self.aux, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
+
 
         # create output_2D
         self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
@@ -96,7 +100,7 @@ class Engine(object):
 
         # clear cuda memory
         cudaFreeArray(self.fb)
-        cudaFreeArray(self.aux_b)
+        cudaFreeArray(self.aux)
         cudaFree(self.output_2D)
         cudaFree(self.host_array)
 
@@ -183,7 +187,7 @@ class Engine(object):
         self.aux_tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
         # bind aux tex_ref to aux_b. # copy output_2D to fb
-        cudaBindTextureToArray(self.aux_tex_ref, self.aux_b, byref(self.channel_desc))
+        cudaBindTextureToArray(self.aux_tex_ref, self.aux, byref(self.aux_channel_desc))
 
         #data = open("image_state_0.png").tostring("raw", "RGBA", 0, -1)
         #name = 'geometric.jpg'
