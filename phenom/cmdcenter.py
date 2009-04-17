@@ -316,6 +316,21 @@ class CmdCenter(Setter, Animator):
             self.video_renderer.capture()
 
 
+    def load_image(self, name, buffer_name):
+        ''' Loads and image into the host memory
+            and uploads it to a buffer.
+              buffer_name can be either fb or aux '''
+        print "load_image"
+        data = Image.open("image/input/" + name).tostring("raw", "RGBA", 0, -1)
+
+        print "got_data"
+
+      #  if(buffer_name == "fb"):
+      #      self.engine.set_fb(data)
+      #  else:
+      #      self.engine.set_aux(data)
+
+
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
 

@@ -22,6 +22,7 @@ __constant__ float _clock;
 #include "__seed.cu"
 
 texture<float4, 2, cudaReadModeElementType> input_texture;
+texture<float4, 2, cudaReadModeElementType> aux_texture;
 
 extern "C" {
 

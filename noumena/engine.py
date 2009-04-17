@@ -34,6 +34,10 @@ class Engine(object):
         empty = (c_ubyte * (sizeof(float4) * self.profile.kernel_dim ** 2))()
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
+        # create aux buffer
+        self.aux_b = cudaArray_p()
+        cudaMallocArray(byref(self.aux_b), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
+
         # create output_2D
         self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
         cudaMallocPitch(byref(self.output_2D), byref(self.output_2D_pitch),
@@ -73,10 +77,14 @@ class Engine(object):
 
         self.do_reset_fb = False
 
+        # flag to enable aux_b
+        self.aux_enabled = True
+
     def __del__(self):
 
         # clear cuda memory
         cudaFreeArray(self.fb)
+        cudaFreeArray(self.aux_b)
         cudaFree(self.output_2D)
         cudaFree(self.host_array)
 
@@ -152,6 +160,19 @@ class Engine(object):
         cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
 
+        # create aux texture reference
+        self.aux_tex_ref = textureReference_p()
+        cudaGetTextureReference(byref(self.aux_tex_ref), "aux_texture")
+
+        # set aux texture parameters
+        self.aux_tex_ref.contents.normalized = True
+        self.aux_tex_ref.contents.filterMode = cudaFilterModeLinear
+        self.aux_tex_ref.contents.addressMode[0] = cudaAddressModeClamp
+        self.aux_tex_ref.contents.addressMode[1] = cudaAddressModeClamp
+
+        # bind aux tex_ref to aux_b. # copy output_2D to fb
+        cudaBindTextureToArray(self.aux_tex_ref, self.aux_b, byref(self.channel_desc))
+
 
     def do(self):
 
@@ -195,7 +216,7 @@ class Engine(object):
                         1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
         self.record_event(1)
 
-        # copy data to output_2D
+        # copy data from output_2D
         cudaMemcpy2DToArray(self.fb, 0, 0, self.output_2D, self.output_2D_pitch, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
         self.record_event(2)
@@ -230,6 +251,17 @@ class Engine(object):
 
         # copy data to fb
         cudaMemcpy2DToArray(self.fb, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
+                            self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
+                            cudaMemcpyHostToDevice)
+
+
+    def set_aux(self, data):
+        ''' This manually sets the auxillary buffer.
+            data is a dim ** 2 array of float4 '''
+
+        # copy data to fb
+        print "set_aux"
+        cudaMemcpy2DToArray(self.aux_b, 0, 0, data, self.profile.kernel_dim * sizeof(float4),
                             self.profile.kernel_dim * sizeof(float4), self.profile.kernel_dim,
                             cudaMemcpyHostToDevice)
 
