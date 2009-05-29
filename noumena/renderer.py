@@ -46,7 +46,6 @@ class Renderer(object):
 
         # generate buffer object
         self.pbo = GLuint()
-
         glGenBuffers(1, byref(self.pbo))
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         empty_buffer = (c_float * (sizeof(c_float) * 4 * self.profile.kernel_dim ** 2))()

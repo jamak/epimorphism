@@ -99,11 +99,11 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
-            os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+            #os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
-            for file in files:
-                os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
+            #for file in files:
+            #    os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback
