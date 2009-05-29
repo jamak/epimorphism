@@ -3,11 +3,11 @@
 # GLUT version
 from ctypes import *
 
-from ogl.gl import *
-from OpenGL.GLUT import *
+#from ogl.gl import *
+#from OpenGL.GLUT import *
 
-from cuda.cuda_defs import *
-from cuda.cuda_api import *
+#from cuda.cuda_defs import *
+#from cuda.cuda_api import *
 
 lib = CDLL("./libkernelGL.so")
 

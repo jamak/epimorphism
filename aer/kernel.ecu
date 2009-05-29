@@ -59,11 +59,11 @@ extern "C" {
 
         z = recover(%T_SEED%);
 
-        // float4 seed = _gamma3(%SEED%, 2.2f);
-        float4 seed = %SEED%;
+        float4 seed = _gamma3(%SEED%, 2.2f);
+        //float4 seed = %SEED%;
 
-        //result = result + seed.w * seed + (1.0f - seed.w) * frame;
-        result = frame;
+        result = result + seed.w * seed + (1.0f - seed.w) * frame;
+        //result = frame;
 
         // cull mode
         if(_CULL_DEPTH != 0.0f){
@@ -80,7 +80,7 @@ extern "C" {
     z_z = z_z2;
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
-    //result = %COLOR%;
+    result = %COLOR%;
 
     // set output variables
     out[y * out_pitch + x] = result;

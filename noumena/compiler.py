@@ -14,18 +14,18 @@ def bind_kernel(name):
 
     # attempt to load kernel
     try:
-        lib = CDLL("tmp/" + name, RTLD_LOCAL)
-        os.system("rm tmp/" + name)
+        lib = cdll.LoadLibrary("tmp/" + name)#, RTLD_LOCAL)
+        #os.system("rm tmp/" + name)
     except:
         print "kernel not found.  exiting."
         exit()
 
     # extract function
-    kernel = lib.__device_stub_kernel_fb
+    kernel = lib.__device_stub__Z9kernel_fbP6float4mP6uchar4iffff
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
 
-    reset = lib.__device_stub_reset
+    reset = lib.__device_stub__Z5resetP6float4m
     reset.restype = None
     reset.argtypes = [ c_void_p, c_ulong ]
 
@@ -99,12 +99,12 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
-            #os.system("/usr/local/cuda/bin/nvcc -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             #for file in files:
             #    os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
-            if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
+            #if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback
         self.callback(name)
