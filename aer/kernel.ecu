@@ -55,7 +55,7 @@ extern "C" {
         z = %T%;
         z = recover(%REDUCE%);
 
-        float4 frame = tex2D(aux_texture, 0.5f * z + vec2(0.5f, 0.5f));
+        float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
 
         z = recover(%T_SEED%);
 

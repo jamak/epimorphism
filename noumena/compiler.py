@@ -15,7 +15,7 @@ def bind_kernel(name):
     # attempt to load kernel
     try:
         lib = cdll.LoadLibrary("tmp/" + name)#, RTLD_LOCAL)
-        #os.system("rm tmp/" + name)
+        os.system("rm tmp/" + name)
     except:
         print "kernel not found.  exiting."
         exit()
@@ -102,9 +102,9 @@ class Compiler(threading.Thread):
             os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
-            #for file in files:
-            #    os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
-            #if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
+            for file in files:
+                os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
+            if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback
         self.callback(name)
