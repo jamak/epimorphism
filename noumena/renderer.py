@@ -149,7 +149,7 @@ class Renderer(object):
 
 
     def do(self):
-        if(self.context.exit) : return
+        if(self.context.exit): return
 
         if(self.do_main_toggle_console) : self.main_toggle_console()
 

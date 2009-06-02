@@ -1,5 +1,5 @@
 (z)                                     :
-1.0 / tan(z)                            :
+1.0 / (z)                               :
 exp(z)                                  :
 sin(z)                                  :
 cos(z)                                  :

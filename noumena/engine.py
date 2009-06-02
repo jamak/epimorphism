@@ -87,6 +87,8 @@ class Engine(object):
         # flag to enable aux_b
         self.aux_enabled = True
 
+        self.do_reset_fb = True
+
     def __del__(self):
 
         # clear cuda memory
@@ -186,7 +188,7 @@ class Engine(object):
     def do(self):
 
         # return if necessary
-        if((self.context.manual_iter and not self.context.next_frame) or self.context.exit) : return
+        if((self.context.manual_iter and not self.context.next_frame) or self.context.exit): return
 
         self.context.next_frame = False
 

@@ -207,6 +207,10 @@ class CmdCenter(Setter, Animator):
         self.blend_to_component(component_name, component[0])
 
 
+    def t(self, val):
+        self.blend_to_component("T", val)
+
+
     def blend_to_component(self, data, val):
 
         # phase 0
@@ -331,8 +335,9 @@ class CmdCenter(Setter, Animator):
 
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
-
-        return Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+        img.show()
+        return img
 
 
     def pars(self):

@@ -14,9 +14,9 @@ __device__ float2 torus_reduce(float2 z){
 
   z = rem(z, 4.0f);
   if(z.x >= 2.0f)
-    z.x = 4.0 - z.x;
+    z.x = 4.0f - z.x;
   if(z.y >= 2.0f)
-    z.y = 4.0 - z.y;
+    z.y = 4.0f - z.y;
 
   return z - vec2(1.0f, 1.0f);
 }
