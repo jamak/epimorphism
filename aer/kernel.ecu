@@ -1,6 +1,8 @@
 __constant__ float par[40];
 __constant__ float2 zn[16];
 __constant__ float internal[10];
+__constant__ int component_idx[10][2];
+__constant__ float component_val[10];
 __constant__ float _clock;
 
 %PAR_NAMES%

@@ -1,0 +1,35 @@
+(z)                                     :
+cosh((z)*(1.0-exp(zn[5]-1.0)))          :
+B(cosh(zn[5]*(z)))                      :
+exp(zn[5] + cosh(sq(z)))* cosh(z)       :
+tan(sq(z)+tan(sq(z)+tan(sq(z)+zn[4])))  :
+1.0 / (z)                               :
+exp(z)                                  :
+sin(z)                                  :
+cos(z)                                  :
+tan(z)                                  :
+sinh(z)                                 :
+cosh(z)                                 :
+tanh(z)                                 :
+cos($I - z)                             :
+tanh(tanh(z))                           :
+sq(z)                                   :
+1.0 - sq(z)                             :
+sq(1.0 - (z))                           :
+cos(sq(z))                              :
+tanh(1.0 + sq(z))                       :
+sq($I - sin(z))                         :
+1.0 / (z)                               :
+1.0 / (1.0 - (z))                       :
+1.0 / sinh(z)                           :
+1.0 / cosh(1.0 - (z))                   :
+1.0 / sin(z)                            :
+1.0 / cos(z)                            :
+1.0 / tan(z)                            :
+1.0 / exp(tanh(z))                      :
+1.0 / sq(z)                             :
+1.0 / sq($I - (z))                      :
+sin(1.0 / (z))                          :
+exp(-1.0 * sq(z))                       :
+sin(1.0 / (z))                          :
+(zn[5] / (z) + (1.0 - zn[5]) * cos(z))  :

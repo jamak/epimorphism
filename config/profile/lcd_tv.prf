@@ -1,0 +1,9 @@
+{
+ 'name': 'lcd_tv',
+ 'debug_freq': 125.0,
+ 'full_screen': True,
+ 'viewport_refresh': 60,
+ 'kernel_dim': 1920,
+ 'viewport_height': 1080,
+ 'viewport_width': 1920
+}

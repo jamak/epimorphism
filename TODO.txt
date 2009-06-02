@@ -11,6 +11,7 @@ populate/upgrade seed database
 
 improve colorfunc
 
+generalize w=-1 response
 
 
 ###################################
