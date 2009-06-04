@@ -73,9 +73,11 @@ extern "C" {
           else
             new_w = 0.0f;
 
+        frame.w = new_w;
+
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
-        result.w = new_w;
+        //result.w = new_w;
 
         // cull mode
         if(_CULL_DEPTH != 0.0f){
@@ -92,8 +94,8 @@ extern "C" {
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLOR%;
-    if(result.w < 0.0f)
-      result = vec4(0.3f,0.6f,0.9f,-1.0f);
+    // if(result.w < 0.0f)
+    //  result = vec4(0.3f,0.6f,0.9f,result.w);
 
 
     // set output variables
