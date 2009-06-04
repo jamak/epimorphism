@@ -6,6 +6,7 @@ from phenom.server import *
 from phenom.midi import *
 from phenom.video import *
 from phenom.setter import *
+from phenom.interpolator import *
 
 from aer.datamanager import *
 
@@ -65,6 +66,9 @@ class CmdCenter(Setter, Animator):
         # start datamanager
         self.datamanager = DataManager(self.state)
 
+        # init interpolator
+        self.interpolator = Interpolator(self, self.state, self.renderer, self.engine, self.context)
+
         # init animator
         Animator.__init__(self)
 
@@ -115,8 +119,8 @@ class CmdCenter(Setter, Animator):
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
-                          'video_time', 'set_inner_loop', 'set_new_kernel', 'time', 'cmd', 'execute_paths', 'echo', 'reshape',
-                          'set_indices'] + dir(object) + dir(Setter)
+                          'video_time', 'set_inner_loop', 'time', 'cmd', 'execute_paths', 'echo', 'reshape',
+                          'set_component_indices'] + dir(object) + dir(Setter)
 
         # extract non-blacklist functions from an object
         def get_funcs(obj):
@@ -134,13 +138,10 @@ class CmdCenter(Setter, Animator):
 
         # init indices for components
         self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
-        self.set_indices()
+        self.set_component_indices()
 
-        # animation settings
-        self.animating = dict([(data, [None, None, None]) for data in self.datamanager.components])
 
-        # get new kernel settings
-        self.new_kernel = dict([(data, [None, None]) for data in self.datamanager.components])
+
 
 
     def __del__(self):
@@ -150,13 +151,7 @@ class CmdCenter(Setter, Animator):
             self.server.__del___()
 
 
-    def set_new_kernel(self, data, idx, name):
-
-        # compiler callback
-        self.new_kernel[data][idx] = name
-
-
-    def set_indices(self):
+    def set_component_indices(self):
 
         # set indices
         for component_name in self.datamanager.components:
@@ -223,60 +218,7 @@ class CmdCenter(Setter, Animator):
         elif(data == "T_SEED"):
             val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
 
-        print "switching %s to: %s" % (data, val)
-        self.renderer.echo_string = "switching %s to: %s" % (data, val)
-
-        intrp = "((1.0f - (_clock - internal[%d]) / %ff) * (%s) + (_clock - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, eval("self.state." + data),
-                                                                                                            idx_idx, self.context.component_switch_time, val)
-        setattr(self.state, data, intrp)
-
-        self.new_kernel[data][0] = None
-
-        var = self.state.__dict__
-
-        # check for multi-compile
-        for key in self.datamanager.components:
-            if(self.animating[key][0] and time.clock() + COMPILE_TIME < self.animating[key][0] and key != data):
-                new_var = {}
-                new_var.update(var)
-                new_var.update({key : self.animating[key][1]})
-                var = new_var
-                self.animating[key][2].update({key : self.animating[key][1]})
-
-        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name)), self.context).start()
-
-        while(not self.new_kernel[data][0] and not self.context.exit) : time.sleep(0.1)
-        if(self.context.exit) : exit()
-
-        # phase 1
-        self.animating[data] = [time.clock() + self.context.component_switch_time, getattr(self.state, data), None]
-
-        self.engine.new_kernel = self.new_kernel[data][0]
-
-        self.new_kernel[data][1] = None
-
-        self.state.internal[idx_idx] = time.clock() - self.engine.t_start
-
-        setattr(self.state, data, val)
-
-        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)), self.context)
-
-        self.animating[data][2] = compiler
-
-        compiler.start()
-
-        while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) : time.sleep(0.01)
-        if(self.context.exit) : exit()
-
-        # complete
-        self.animating[data] = [None, None, None]
-        self.engine.new_kernel = self.new_kernel[data][1]
-        self.new_kernel[data][1] = None
-
-        print "done switching %s" % data
-        self.renderer.echo_string = None
-
-        self.set_indices()
+        self.interpolator.interpolate(data, idx_idx, eval("self.state." + data), val, self.set_component_indices)
 
 
     def cmd(self, code, capture=False):
@@ -418,7 +360,7 @@ class CmdCenter(Setter, Animator):
         print self.state.__dict__.update(new_state.__dict__)
 
         # set indices
-        self.set_indices()
+        self.set_component_indices()
 
 
     def load_state(self, idx):
