@@ -202,7 +202,7 @@ class Engine(object):
         self.record_event(0)
         self.frame_count += 1
 
-        # upload par & zn & internal
+        # upload par & zn & internal & components
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
 
@@ -211,6 +211,12 @@ class Engine(object):
 
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
+
+        component_vals = (c_float * len(self.state.component_vals))(*[x for x in self.state.component_vals])
+        cudaMemcpyToSymbol("component_vals", byref(component_vals), sizeof(component_vals), 0, cudaMemcpyHostToDevice)
+
+        component_idx = (c_int * len(self.state.component_idx))(*[x for x in self.state.component_idx])
+        cudaMemcpyToSymbol("component_idx", byref(component_idx), sizeof(component_idx), 0, cudaMemcpyHostToDevice)
 
         # upload clock
         clock = c_float(time.clock() - self.t_start)

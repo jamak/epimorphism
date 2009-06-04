@@ -19,6 +19,19 @@ def relayout_pars(vars, new_names, new_defaults):
 
     vars["par_names"] = new_names
 
+def migrate_0_92(vars):
+
+    vars["component_vals"] = [0 for i in xrange(10)]
+    vars["component_idx"] = [0 for i in xrange(20)]
+
+    return vars
+
+def migrate_0_916(vars):
+
+    vars["par"][vars["par_names"].index("_COLOR_PHI")] *= 2.0
+    vars["par"][vars["par_names"].index("_COLOR_PSI")] *= 2.0
+
+    return vars
 
 def migrate_0_91(vars):
 
@@ -58,15 +71,8 @@ def migrate_0_91(vars):
     return vars
 
 
-def migrate_0_916(vars):
-
-    vars["par"][vars["par_names"].index("_COLOR_PHI")] *= 2.0
-    vars["par"][vars["par_names"].index("_COLOR_PSI")] *= 2.0
-
-    return vars
-
 # dict of all migrations
-migrations = {0.91 : migrate_0_91, 0.916 : migrate_0_916}
+migrations = {0.91 : migrate_0_91, 0.916 : migrate_0_916, 0.92 : migrate_0_92}
 
 
 def migrate(vars):
