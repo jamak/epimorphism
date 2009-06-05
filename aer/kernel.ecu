@@ -31,8 +31,9 @@ extern "C" {
   __global__ void reset(float4* out, ulong out_pitch){
     unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int y = blockIdx.y * blockDim.y + threadIdx.y;
-    float4 result = %RESET%;
-    out[y * out_pitch + x] = result;
+    float4 reset;
+    %RESET%
+    out[y * out_pitch + x] = reset;
   }
 
   __global__ void kernel_fb(float4* out, ulong out_pitch, uchar4* pbo, int kernel_dim,
@@ -46,25 +47,38 @@ extern "C" {
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
     float2 z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
     float2 z_z = z;
-    z = %T%;
-    float2 z_trans = recover(%REDUCE%);
+    float2 t, t_seed, reduce;
+    float4 seed, color;
+    %T%
+    z = t;
+    %REDUCE%
+    float2 z_trans = recover(reduce);
     z = vec2(0.0f, 0.0f);
 
-    float4 frame_z_z = tex2D(input_texture, 0.5f * z_z + vec2(0.5f, 0.5f));
+    float4 frame_z_z = tex2D(input_texture, 0.5f * z_trans + vec2(0.5f, 0.5f));
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
       for(z.y = z_z.y - i_kernel_dim; z.y <= z_z.y + m_i_kernel_dim; z.y += inc){
 
         float2 z_c = z;
 
-        z = %T%;
-        z = recover(%REDUCE%);
+        %T%
+        z = t;
+        %REDUCE%
+        z = recover(reduce);
 
         float4 frame = tex2D(input_texture, 0.5f * z + vec2(0.5f, 0.5f));
 
-        z = recover(%T_SEED%);
 
-        float4 seed = _gamma3(%SEED%, 2.2f);
+        %T_SEED%
+        z = t_seed;
+
+        %REDUCE%
+        z = recover(reduce);
+
+        %SEED%
+
+        seed = _gamma3(seed, 2.2f);
 
         float new_w;
 
@@ -78,9 +92,12 @@ extern "C" {
 
         frame.w = new_w;
 
+        int null = (frame.w < 0.0f || result.w < 0.0f);
+
         result = result + seed.w * seed + (1.0f - seed.w) * frame;
 
-        //result.w = new_w;
+        if(null)
+          result.w = -10000000.0f;
 
         // cull mode
         if(_CULL_DEPTH != 0.0f){
@@ -94,9 +111,10 @@ extern "C" {
       }
 
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
-    result = %COLOR%;
-    if(result.w < 0.0f)
-      result = vec4(0.3f,0.6f,0.9f,result.w);
+    %COLOR%;
+    result = color;
+    //if(result.w < 0.0f)
+    //  result = vec4(0.3f,0.6f,0.9f,frame_z_z.w);
 
 
     // set output variables

@@ -2,7 +2,9 @@ from noumena.compiler import *
 
 import time
 
-class Interpolator:
+COMPILE_TIME = 1.9
+
+class Interpolator(object):
 
     def __init__(self, cmdcenter, state, renderer, engine, context):
         self.cmdcenter, self.state, self.renderer, self.engine, self.context = cmdcenter, state, renderer, engine, context
@@ -36,13 +38,10 @@ class Interpolator:
         # check for multi-compile
         for key in self.cmdcenter.datamanager.components:
             if(self.animating[key][0] and time.clock() + COMPILE_TIME < self.animating[key][0] and key != data):
-                new_var = {}
-                new_var.update(var)
-                new_var.update({key : self.animating[key][1]})
-                var = new_var
+                var.update({key : self.animating[key][1]})
                 self.animating[key][2].update({key : self.animating[key][1]})
 
-        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name)), self.context).start()
+        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name)), self.context).splice_components().start()
 
         while(not self.new_kernel[data][0] and not self.context.exit) : time.sleep(0.1)
         if(self.context.exit) : exit()
@@ -58,7 +57,7 @@ class Interpolator:
 
         setattr(self.state, data, val)
 
-        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)), self.context)
+        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)), self.context).splice_components()
 
         self.animating[data][2] = compiler
 

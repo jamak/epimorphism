@@ -1,3 +1,6 @@
+// EPIMORPH library file
+// reset functions
+
 __device__ float4 reset_black(int x, int y){
   return vec4(0.0f, 0.0f, 0.0f, -10000000.0f);
 }

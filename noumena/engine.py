@@ -68,7 +68,7 @@ class Engine(object):
         # compile kernel
         self.kernel = None
         self.reset = None
-        Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
+        Compiler(self.state.__dict__, self.set_new_kernel, self.context).splice_components().start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()

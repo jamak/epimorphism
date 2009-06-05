@@ -1,3 +1,5 @@
+from aer.datamanager import *
+
 import os
 import re
 import sys
@@ -46,6 +48,27 @@ class Compiler(threading.Thread):
 
         # init thread
         threading.Thread.__init__(self)
+
+
+    def splice_components(self):
+        # start datamanager
+        self.datamanager = DataManager()
+
+        var = self.data
+        for component_name in self.datamanager.components:
+            component_list = getattr(self.datamanager, component_name)
+            val = "switch(component_idx[%d][0]){\n" % self.datamanager.components.index(component_name)
+            for component in component_list:
+                name = component[0]
+                if(component_name == "T"):
+                    name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
+                elif(component_name == "T_SEED"):
+                    name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
+                val += "case %d: %s = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+            val += "}\n"
+            self.data[component_name] = val
+
+        return self
 
 
     def update(self, new_vars):

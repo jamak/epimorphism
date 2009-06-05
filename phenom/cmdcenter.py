@@ -22,8 +22,6 @@ import time
 
 import Image
 
-COMPILE_TIME = 1.9
-
 
 class CmdEnv(dict):
     ''' The CmdEnv object is a subclass of dict used as the execution
@@ -64,7 +62,7 @@ class CmdCenter(Setter, Animator):
         self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
 
         # start datamanager
-        self.datamanager = DataManager(self.state)
+        self.datamanager = DataManager()
 
         # init interpolator
         self.interpolator = Interpolator(self, self.state, self.renderer, self.engine, self.context)
@@ -213,10 +211,15 @@ class CmdCenter(Setter, Animator):
             idx_idx = self.datamanager.components.index(component_name)
 
             # set index
-            try:
-                self.indices[idx_idx] = components.index(component)
-            except:
-                pass
+
+            #try:
+            #print components
+            #if(component in components):
+            #    self.indices[idx_idx] = components.index(component[0])
+            #    self.state.component_idx[2 * idx_idx] = components.index(component[0])
+            #    print component_name, components.index(component)
+            #except:
+            #    pass
 
 
     def inc_data(self, component_name, idx):
@@ -228,6 +231,7 @@ class CmdCenter(Setter, Animator):
         idx_idx = self.datamanager.components.index(component_name)
         self.indices[idx_idx] += idx
         self.indices[idx_idx] %= len(components)
+        self.state.component_idx[2 * idx_idx] = self.indices[idx_idx]
 
         # get component
         component = components[self.indices[idx_idx]]
@@ -237,7 +241,7 @@ class CmdCenter(Setter, Animator):
             exec(line) in self.env
 
         # switch to component
-        self.blend_to_component(component_name, component[0])
+        # self.blend_to_component(component_name, component[0])
 
 
     def t(self, val):

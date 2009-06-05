@@ -6,7 +6,7 @@ class DataManager(object):
     ''' The DataManager object is resonsible for loading components from
         .epi and .cu library files in the aer directory '''
 
-    def __init__(self, state):
+    def __init__(self):
 
         # load components from files of form *.epi
         files = [file for file in os.listdir("aer") if re.search("^[^_\.][^#]*?.epi$", file)]

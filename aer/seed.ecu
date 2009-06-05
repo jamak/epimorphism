@@ -4,16 +4,23 @@
 __device__ float4 seed_wca(float2 z){
   // width, color, alpha, width_trans templated seed family
 
+
   float4 res;
   float ep = nextafterf(0.0f, -1.0f);
-  float w = %SEED_W%;
+  float4 seed_c;
+  float seed_w, seed_wt, seed_a;
+  %SEED_W%
+  float w = seed_w;
 
   w = fmaxf(fminf(w, 1.0f), ep);
 
   if(w > 0.0f){
-    w = %SEED_WT%;
-    res = %SEED_C%;
-    res.w = %SEED_A%;
+    %SEED_WT%
+    w = seed_wt;
+    %SEED_C%
+    res = seed_c;
+    %SEED_A%
+    res.w = seed_a;
   }else{
     res = vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
