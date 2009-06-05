@@ -44,10 +44,13 @@ extern "C" {
     float4 result = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
-    float2 z_z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
-    float2 z = z_z;
-    float2 z_z2 = recover(%T%);
+    float2 z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
+    float2 z_z = z;
+    z = %T%;
+    float2 z_trans = recover(%REDUCE%);
     z = vec2(0.0f, 0.0f);
+
+    float4 frame_z_z = tex2D(input_texture, 0.5f * z_z + vec2(0.5f, 0.5f));
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
       for(z.y = z_z.y - i_kernel_dim; z.y <= z_z.y + m_i_kernel_dim; z.y += inc){
@@ -83,19 +86,17 @@ extern "C" {
         if(_CULL_DEPTH != 0.0f){
 
           if(result.w > 20 * _CULL_DEPTH - 0.000001)
-            result = vec4(0.0f, 0.0f, 0.0f, -1.0f);
-        }
+            result = vec4(0.0f, 0.0f, 0.0f, -10000000.0f);
+       }
 
         z = z_c;
 
       }
 
-    z_z = z_z2;
-
     float4 v = vec4(i_n_sq * result.x, i_n_sq * result.y, i_n_sq * result.z, result.w);
     result = %COLOR%;
-    // if(result.w < 0.0f)
-    //  result = vec4(0.3f,0.6f,0.9f,result.w);
+    if(result.w < 0.0f)
+      result = vec4(0.3f,0.6f,0.9f,result.w);
 
 
     // set output variables

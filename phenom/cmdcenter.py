@@ -141,14 +141,52 @@ class CmdCenter(Setter, Animator):
         self.set_component_indices()
 
 
-
-
-
     def __del__(self):
 
         # kill server
         if(self.server):
             self.server.__del___()
+
+
+    def cmd(self, code, capture=False):
+
+        # hijack stdout, if requested
+        out = StringIO.StringIO()
+        sys.stdout = capture and out or sys.stdout
+
+        err = ""
+
+        # execute code
+        if(capture):
+            try:
+                exec(code) in self.env
+            except:
+                err = traceback.format_exc().split("\n")[-2]
+        else:
+            exec(code) in self.env
+
+
+        # restore stdout
+        sys.stdout = sys.__stdout__
+
+        # get result
+        res = [out.getvalue(), err]
+
+        # close StringIO
+        out.close()
+
+        # return result
+        return res
+
+
+    def do(self):
+
+        # execute animation paths
+        self.execute_paths()
+
+        # capture video frames
+        if(self.context.render_video):
+            self.video_renderer.capture()
 
 
     def set_component_indices(self):
@@ -208,8 +246,6 @@ class CmdCenter(Setter, Animator):
 
     def blend_to_component(self, data, val):
 
-        # phase 0
-
         idx_idx = self.datamanager.components.index(data)
 
         # cheat if t or t_seed
@@ -219,47 +255,6 @@ class CmdCenter(Setter, Animator):
             val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
 
         self.interpolator.interpolate(data, idx_idx, eval("self.state." + data), val, self.set_component_indices)
-
-
-    def cmd(self, code, capture=False):
-
-        # hijack stdout, if requested
-        out = StringIO.StringIO()
-        sys.stdout = capture and out or sys.stdout
-
-        err = ""
-
-        # execute code
-        if(capture):
-            try:
-                exec(code) in self.env
-            except:
-                err = traceback.format_exc().split("\n")[-2]
-        else:
-            exec(code) in self.env
-
-
-        # restore stdout
-        sys.stdout = sys.__stdout__
-
-        # get result
-        res = [out.getvalue(), err]
-
-        # close StringIO
-        out.close()
-
-        # return result
-        return res
-
-
-    def do(self):
-
-        # execute animation paths
-        self.execute_paths()
-
-        # capture video frames
-        if(self.context.render_video):
-            self.video_renderer.capture()
 
 
     def load_image(self, name, buffer_name):

@@ -1,5 +1,7 @@
 from noumena.compiler import *
 
+import time
+
 class Interpolator:
 
     def __init__(self, cmdcenter, state, renderer, engine, context):
@@ -21,8 +23,10 @@ class Interpolator:
     def interpolate(self, data, idx_idx, o_val, val, callback):
         self.renderer.echo_string = "switching %s to: %s" % (data, val)
 
-        intrp = "((1.0f - (_clock - internal[%d]) / %ff) * (%s) + (_clock - internal[%d]) / %ff * (%s))" % (idx_idx, self.context.component_switch_time, o_val,
-                                                                                                            idx_idx, self.context.component_switch_time, val)
+        sub = "min((_clock - internal[%d]) / %ff, 1.0f)" % (idx_idx, self.context.component_switch_time)
+
+        intrp = "((1.0f - %s) * (%s) + %s * (%s))" % (sub, o_val, sub, val)
+
         setattr(self.state, data, intrp)
 
         self.new_kernel[data][0] = None
