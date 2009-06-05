@@ -41,7 +41,7 @@ class Interpolator(object):
                 var.update({key : self.animating[key][1]})
                 self.animating[key][2].update({key : self.animating[key][1]})
 
-        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name)), self.context).splice_components().start()
+        Compiler(var, (lambda name: self.set_new_kernel(data, 0, name)), self.context).start()
 
         while(not self.new_kernel[data][0] and not self.context.exit) : time.sleep(0.1)
         if(self.context.exit) : exit()
@@ -57,11 +57,11 @@ class Interpolator(object):
 
         setattr(self.state, data, val)
 
-        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)), self.context).splice_components()
+        compiler = Compiler(self.state.__dict__, (lambda name: self.set_new_kernel(data, 1, name)), self.context)
 
         self.animating[data][2] = compiler
 
-        compiler.start()
+        # compiler.start()
 
         while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) : time.sleep(0.01)
         if(self.context.exit) : exit()

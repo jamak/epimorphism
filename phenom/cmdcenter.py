@@ -18,7 +18,6 @@ from config.configmanager import *
 
 import StringIO
 import sys
-import time
 
 import Image
 
@@ -189,6 +188,7 @@ class CmdCenter(Setter, Animator):
 
     def set_component_indices(self):
 
+
         # set indices
         for component_name in self.datamanager.components:
 
@@ -241,7 +241,8 @@ class CmdCenter(Setter, Animator):
             exec(line) in self.env
 
         # switch to component
-        # self.blend_to_component(component_name, component[0])
+        if(not self.context.splice_components):
+            self.blend_to_component(component_name, component[0])
 
 
     def t(self, val):

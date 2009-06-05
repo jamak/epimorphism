@@ -78,14 +78,14 @@ class KeyboardHandler(object):
                     self.cmdcenter.cmd("reset_fb()")
 
                 # increment component
-                elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]):
-                    i = ["1", "2", "3", "4", "5", "6", "7", "8", "9"].index(key)
+                elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]):
+                    i = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].index(key)
 
                     self.cmdcenter.cmd("inc_data('%s', 1)" % self.components[i])
 
                 # decrement component
-                elif(key in ["q", "w", "e", "r", "t", "y", "u", "i", "o"]):
-                    i = ["q", "w", "e", "r", "t", "y", "u", "i", "o"].index(key)
+                elif(key in ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"]):
+                    i = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"].index(key)
                     self.cmdcenter.cmd("inc_data('%s', -1)" % self.components[i])
 
                 # increment zn_r

@@ -49,13 +49,14 @@ extern "C" {
     float2 z_z = z;
     float2 t, t_seed, reduce;
     float4 seed, color;
+    /*
     %T%
     z = t;
     %REDUCE%
     float2 z_trans = recover(reduce);
-    z = vec2(0.0f, 0.0f);
 
     float4 frame_z_z = tex2D(input_texture, 0.5f * z_trans + vec2(0.5f, 0.5f));
+    */
 
     for(z.x = z_z.x - i_kernel_dim; z.x <= z_z.x + m_i_kernel_dim; z.x += inc)
       for(z.y = z_z.y - i_kernel_dim; z.y <= z_z.y + m_i_kernel_dim; z.y += inc){

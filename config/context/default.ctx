@@ -13,5 +13,6 @@
  'max_video_frames': None,
  'exit' : False,
  'ptxas_stats' : False,
- 'echo' : True
+ 'echo' : True,
+ 'splice_components' : True
 }

@@ -68,7 +68,7 @@ class Engine(object):
         # compile kernel
         self.kernel = None
         self.reset = None
-        Compiler(self.state.__dict__, self.set_new_kernel, self.context).splice_components().start()
+        Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -181,8 +181,6 @@ class Engine(object):
 
         # bind aux tex_ref to aux_b. # copy output_2D to fb
         cudaBindTextureToArray(self.aux_tex_ref, self.aux, byref(self.aux_channel_desc))
-
-
 
 
     def do(self):

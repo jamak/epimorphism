@@ -40,19 +40,28 @@ class Compiler(threading.Thread):
 
     def __init__(self, data, callback, context):
 
-        self.data, self.callback, self.context = data, callback, context
+        self.callback, self.context = callback, context
+
+        self.data = data.copy()
 
         # init update_vars
         self.update_vars = {}
         self.update_vars.update(data)
+
+        # start datamanager & manage components
+        self.datamanager = DataManager()
+
+        if(self.context.splice_components):
+            self.splice_components()
+        else:
+            for component_name in self.datamanager.components:
+                self.data[component_name] = "%s = %s;" % (component_name.lower(), self.data[component_name])
 
         # init thread
         threading.Thread.__init__(self)
 
 
     def splice_components(self):
-        # start datamanager
-        self.datamanager = DataManager()
 
         var = self.data
         for component_name in self.datamanager.components:
@@ -96,6 +105,8 @@ class Compiler(threading.Thread):
         # replace variables
         for key in self.update_vars:
             contents = re.compile("\%" + key + "\%").sub(str(self.data[key]), contents)
+
+        # print contents
 
         # write file contents
         file = open("aer/__%s" % (name.replace(".ecu", ".cu")), 'w')
