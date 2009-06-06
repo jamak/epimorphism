@@ -134,6 +134,7 @@ class CmdCenter(Setter, Animator):
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
         # init indices for components
+        self.indices = [0 for i in xrange(len(self.datamanager.__dict__))]
         self.set_component_indices()
 
 
@@ -186,20 +187,39 @@ class CmdCenter(Setter, Animator):
 
 
     def set_component_indices(self):
-        self.state.component_idx = [0 for i in xrange(20)]
 
-        component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.components]
 
+        # set indices
         for component_name in self.datamanager.components:
-            idx = self.datamanager.components.index(component_name)
-            val =  getattr(self.state, component_name.upper())
 
+            # get components
+            components = getattr(self.datamanager, component_name)
+
+            # get current component value
+            val = getattr(self.state, component_name)
+
+            # invert if T or T_SEED - should be replaced by surface
             if(component_name == "T"):
                 val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * ", "").replace(" + zn[1]", "")
             elif(component_name == "T_SEED"):
                 val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * ", "").replace(" + zn[9]", "")
 
-            self.state.component_idx[2 * idx] = component_vals[idx].index(val)
+            # get component
+            component = self.datamanager.get_component_for_val(component_name, val)
+
+            # get idx_idx
+            idx_idx = self.datamanager.components.index(component_name)
+
+            # set index
+
+            #try:
+            #print components
+            #if(component in components):
+            #    self.indices[idx_idx] = components.index(component[0])
+            #    self.state.component_idx[2 * idx_idx] = components.index(component[0])
+            #    print component_name, components.index(component)
+            #except:
+            #    pass
 
 
     def inc_data(self, component_name, idx):
@@ -209,11 +229,12 @@ class CmdCenter(Setter, Animator):
 
         # get and update index
         idx_idx = self.datamanager.components.index(component_name)
-        self.state.component_idx[2 * idx_idx] += idx
-        self.state.component_idx[2 * idx_idx] %= len(components)
+        self.indices[idx_idx] += idx
+        self.indices[idx_idx] %= len(components)
+        self.state.component_idx[2 * idx_idx] = self.indices[idx_idx]
 
         # get component
-        component = components[self.state.component_idx[2 * idx_idx]]
+        component = components[self.indices[idx_idx]]
 
         # initialize component
         for line in component[1]:

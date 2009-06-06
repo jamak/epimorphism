@@ -26,6 +26,17 @@ def migrate_0_92(vars):
 
     vars["component_vals"] = [0 for i in xrange(10)]
 
+    vars["component_idx"] = [0 for i in xrange(20)]
+    component_vals = [[items[0] for items in getattr(datamanager, component)] for component in datamanager.components]
+    for component_name in datamanager.components:
+        idx = datamanager.components.index(component_name)
+        val =  vars[component_name.upper()]
+        if(component_name == "T"):
+            val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * ", "").replace(" + zn[1]", "")
+        elif(component_name == "T_SEED"):
+            val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * ", "").replace(" + zn[9]", "")
+        vars["component_idx"][2 * idx] = component_vals[idx].index(val)
+
     return vars
 
 def migrate_0_916(vars):
