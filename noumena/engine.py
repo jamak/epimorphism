@@ -190,6 +190,8 @@ class Engine(object):
 
         self.context.next_frame = False
 
+        print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
+
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
 
@@ -244,6 +246,14 @@ class Engine(object):
         self.print_timings()
 
 
+        # utility
+        #fb = self.get_fb()
+        #r = self.profile.kernel_dim - 5
+        #c = self.profile.kernel_dim - 5
+        #if(self.frame_count % 20 == 0):
+        #    print fb[4 * (r * self.profile.kernel_dim + c) + 0], fb[4 * (r * self.profile.kernel_dim + c) + 1], fb[4 * (r * self.profile.kernel_dim + c) + 2], fb[4 * (r * self.profile.kernel_dim + c) + 3]
+
+
     def get_fb(self):
         ''' This function returns an copy of the the current pbo.
             The return value is a dim ** 2 array of 4 * c_ubyte '''
@@ -256,8 +266,16 @@ class Engine(object):
                            self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
+        #cudaGLUnmapBufferObject(self.pbo)
+
         # return c_ubyte array
         return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
+
+
+    def pixel_at(self, x, y):
+        i = 4 * (y * self.profile.kernel_dim + x)
+        buf = self.get_fb()
+        return [buf[i], buf[i + 1], buf[i + 2], buf[i + 3]]
 
 
     def set_fb(self, data, is_char):

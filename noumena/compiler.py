@@ -1,4 +1,4 @@
-from aer.datamanager import *
+from phenom.datamanager import *
 
 import os
 import re
@@ -90,7 +90,7 @@ class Compiler(threading.Thread):
     def render_file(self, name):
 
         # open file & read contents
-        file = open("aer/" + name)
+        file = open("aeon/" + name)
         contents = file.read()
         file.close()
 
@@ -109,7 +109,7 @@ class Compiler(threading.Thread):
         # print contents
 
         # write file contents
-        file = open("aer/__%s" % (name.replace(".ecu", ".cu")), 'w')
+        file = open("aeon/__%s" % (name.replace(".ecu", ".cu")), 'w')
         file.write(contents)
         file.close()
 
@@ -124,7 +124,7 @@ class Compiler(threading.Thread):
             self.do_update = False
 
             # render ecu files
-            files = [file for file in os.listdir("aer") if re.search("\.ecu$", file)]
+            files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
             for file in files:
                 self.render_file(file)
 
@@ -133,11 +133,11 @@ class Compiler(threading.Thread):
             libnum += 1
 
             # compile
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aer/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             for file in files:
-                os.system("rm aer/__%s" % (file.replace(".ecu", ".cu")))
+                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback

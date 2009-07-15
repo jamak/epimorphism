@@ -112,7 +112,6 @@ class Renderer(object):
 
 
     def render_fps(self):
-
         # if this isn't set font looks terrible
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
 

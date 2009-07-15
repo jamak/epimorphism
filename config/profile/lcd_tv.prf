@@ -1,6 +1,6 @@
 {
  'name': 'lcd_tv',
- 'debug_freq': 125.0,
+ 'debug_freq': 15.0,
  'full_screen': True,
  'viewport_refresh': 60,
  'kernel_dim': 1920,

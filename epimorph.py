@@ -8,8 +8,7 @@ from phenom.cmdcenter import *
 from noumena.engine import *
 from noumena.renderer import *
 
-# run unclutter to hide mouse
-
+# TODO: run unclutter to hide mouse
 
 # initialize state/profile/context
 manager = ConfigManager()

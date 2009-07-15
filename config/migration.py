@@ -3,7 +3,7 @@ import common.default
 
 import copy
 
-from aer.datamanager import *
+from phenom.datamanager import *
 
 def relayout_pars(vars, new_names, new_defaults):
     old_par = copy.copy(vars["par"])

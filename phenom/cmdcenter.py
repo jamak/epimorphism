@@ -8,7 +8,7 @@ from phenom.video import *
 from phenom.setter import *
 from phenom.interpolator import *
 
-from aer.datamanager import *
+from phenom.datamanager import *
 
 from common.default import *
 from common.complex import *
@@ -256,8 +256,11 @@ class CmdCenter(Setter, Animator):
 
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
+
         img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
-        img.show()
+
+        # img.show()
+
         return img
 
 

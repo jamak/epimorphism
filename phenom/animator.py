@@ -1,6 +1,6 @@
 import time
 
-from aer.datapath import *
+from aeon.datapath import *
 
 
 class Animator(object):

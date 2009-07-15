@@ -1,18 +1,38 @@
+
 ###################################
 #
-#  v 0.9 - aer
+#  v 0.9
 #
 #
 
+check if files have changed before recompiling
 
-populate T & T_SEED databasees
+interpolate spliced components
 
-populate/upgrade seed database
+fix screenshot
+
+unify t & t_seed
+
+fix help
+
+
+logging
+add argument lists to doc
+error checking?
+final cleaning pass
+
+picture upload
+
+
+kernel optimization
 
 improve colorfunc
 
 generalize w=-1 response
 
+post processing - possible multi-gpu
+
+animation framework
 
 ###################################
 #
@@ -21,23 +41,15 @@ generalize w=-1 response
 #
 
 
+populate T & T_SEED databasees
+
+populate/upgrade seed database
 
 old state zn bullshit
-
-
-
-unify t & t_seed
-
-fix help
 
 animate datamanager defaults
 
 general reset_buf mechanism
-
-logging
-add argument lists to doc
-error checking?
-final cleaning pass
 
 test server
 
@@ -62,8 +74,6 @@ quantize angles, etc
 
 forced synchronous compilation(video)
 
-kernel optimization
-
 midi smoothing. maybe keyboard smoothing
 
 smooth repat switching of same func
@@ -72,8 +82,6 @@ identical change time problem
 multiswitching
 
 smoother state load
-
-picture upload
 
 optimize load_kernel
 

@@ -4,12 +4,12 @@ import re
 
 class DataManager(object):
     ''' The DataManager object is resonsible for loading components from
-        .epi and .cu library files in the aer directory '''
+        .epi and .cu library files in the aeon directory '''
 
     def __init__(self):
 
         # load components from files of form *.epi
-        files = [file for file in os.listdir("aer") if re.search("^[^_\.][^#]*?.epi$", file)]
+        files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?.epi$", file)]
 
         for file_name in files:
 
@@ -17,7 +17,7 @@ class DataManager(object):
             component_name = file_name.split('.')[0]
 
             # open file & read contents
-            file = open("aer/" + file_name)
+            file = open("aeon/" + file_name)
             contents = file.read()
             file.close()
 
@@ -50,13 +50,13 @@ class DataManager(object):
                 components.append(component)
 
         # load components from files of form *.cu
-        files = [file for file in os.listdir("aer") if re.search("^[^_\.][^#]*?cu$", file)]
+        files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?cu$", file)]
 
         for file_name in files:
 
             # get component name
             component_name = file_name.split('.')[0].upper()
-            file = open("aer/" + file_name)
+            file = open("aeon/" + file_name)
             contents = file.read()
             file.close()
 
