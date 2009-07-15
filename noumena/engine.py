@@ -190,7 +190,7 @@ class Engine(object):
 
         self.context.next_frame = False
 
-        print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
+        # print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
 
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
@@ -266,7 +266,7 @@ class Engine(object):
                            self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
-        #cudaGLUnmapBufferObject(self.pbo)
+        # cudaGLUnmapBufferObject(self.pbo)
 
         # return c_ubyte array
         return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)

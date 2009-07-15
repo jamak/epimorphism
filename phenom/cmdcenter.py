@@ -259,7 +259,7 @@ class CmdCenter(Setter, Animator):
 
         img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
-        # img.show()
+        img.show()
 
         return img
 
