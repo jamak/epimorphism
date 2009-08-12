@@ -41,9 +41,9 @@ class Engine(object):
         data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         # create aux buffer
-        #self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
-        #self.aux = cudaArray_p()
-        #cudaMallocArray(byref(self.aux), byref(self.aux_channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
+        self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
+        self.aux = cudaArray_p()
+        cudaMallocArray(byref(self.aux), byref(self.aux_channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
         # create output_2D
         self.output_2D, self.output_2D_pitch = c_void_p(), c_uint()
@@ -170,17 +170,17 @@ class Engine(object):
                             self.profile.kernel_dim, cudaMemcpyDeviceToDevice)
 
         # create aux texture reference
-        #self.aux_tex_ref = textureReference_p()
-        #cudaGetTextureReference(byref(self.aux_tex_ref), "aux_texture")
+        self.aux_tex_ref = textureReference_p()
+        cudaGetTextureReference(byref(self.aux_tex_ref), "aux_texture")
 
         # set aux texture parameters
-        #self.aux_tex_ref.contents.normalized = True
-        #self.aux_tex_ref.contents.filterMode = cudaFilterModeLinear
-        #self.aux_tex_ref.contents.addressMode[0] = cudaAddressModeClamp
-        #self.aux_tex_ref.contents.addressMode[1] = cudaAddressModeClamp
+        self.aux_tex_ref.contents.normalized = True
+        self.aux_tex_ref.contents.filterMode = cudaFilterModeLinear
+        self.aux_tex_ref.contents.addressMode[0] = cudaAddressModeClamp
+        self.aux_tex_ref.contents.addressMode[1] = cudaAddressModeClamp
 
         # bind aux tex_ref to aux_b. # copy output_2D to fb
-        #cudaBindTextureToArray(self.aux_tex_ref, self.aux, byref(self.aux_channel_desc))
+        cudaBindTextureToArray(self.aux_tex_ref, self.aux, byref(self.aux_channel_desc))
 
 
     def do(self):
@@ -201,6 +201,12 @@ class Engine(object):
         # begin
         self.record_event(0)
         self.frame_count += 1
+
+
+#        if(self.frame_count % 500 == 0):
+#            img = Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), self.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+#            img.show()
+
 
         # upload par & zn & internal & components
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])

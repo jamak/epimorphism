@@ -9,8 +9,8 @@ from phenom.stdmidi import *
 from phenom.setter import *
 
 class MidiHandler(threading.Thread, Setter):
-    ''' The MidiHandler object is a threaded object to handle midi input
-        events and to send midi output information '''
+    ''' The MidiHandler object is a threaded object that handles midi input
+        events and that sends midi output information '''
 
     def __init__(self, cmdcenter):
 
@@ -20,17 +20,25 @@ class MidiHandler(threading.Thread, Setter):
         for loop in range(pypm.CountDevices()):\
 
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(loop)
+            print name
 
-            if(re.compile("BCF2000").search(name) and inp == 1):
+            #if(re.compile("BCF2000").search(name) and inp == 1):
+            #    self.input_device = loop
+
+            #if(re.compile("BCF2000").search(name) and outp == 1):
+            #    self.output_device = loop
+
+            if(re.compile("UC-33").search(name) and inp == 1):
                 self.input_device = loop
 
-            if(re.compile("BCF2000").search(name) and outp == 1):
+            if(re.compile("UC-33").search(name) and outp == 1):
                 self.output_device = loop
 
         # open devices
         try:
             self.midi_in = pypm.Input(self.input_device)
             self.midi_out = pypm.Output(self.output_device, 10)
+            print "Found MIDI device"
         except:
             self.midi_in = None
             self.midi_out = None
@@ -133,7 +141,7 @@ class MidiHandler(threading.Thread, Setter):
             f = val / 128.0
             if(val == 127.0) : f = 1.0
 
-            # print "MIDI", channel, " ", val, f
+            print "MIDI", channel, " ", val, f
 
             # check bindings
             bindings = self.get_bindings()

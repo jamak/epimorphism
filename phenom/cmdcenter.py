@@ -199,7 +199,9 @@ class CmdCenter(Setter, Animator):
             elif(component_name == "T_SEED"):
                 val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * ", "").replace(" + zn[9]", "")
 
-            self.state.component_idx[2 * idx] = component_vals[idx].index(val)
+            print component_name, ":", val
+
+            # self.state.component_idx[2 * idx] = component_vals[idx].index(val)
 
 
     def inc_data(self, component_name, idx):
@@ -257,11 +259,14 @@ class CmdCenter(Setter, Animator):
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
 
-        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
-        img.show()
+        self.load_state(90)
 
-        return img
+        #img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+
+        #img.show()
+
+        #return img
 
 
     def pars(self):
