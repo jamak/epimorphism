@@ -16,28 +16,33 @@ class MidiHandler(threading.Thread, Setter):
 
         self.cmdcenter, self.state = cmdcenter, cmdcenter.state
 
+
+        #i = 0
         # find devices
-        for loop in range(pypm.CountDevices()):\
+        for loop in range(pypm.CountDevices()):
 
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(loop)
-            print name
+            #print i, interf, name, inp, outp, opened
 
-            #if(re.compile("BCF2000").search(name) and inp == 1):
-            #    self.input_device = loop
-
-            #if(re.compile("BCF2000").search(name) and outp == 1):
-            #    self.output_device = loop
-
-            if(re.compile("UC-33").search(name) and inp == 1):
+            if(re.compile("BCF2000").search(name) and inp == 1):
                 self.input_device = loop
 
-            if(re.compile("UC-33").search(name) and outp == 1):
+            if(re.compile("BCF2000").search(name) and outp == 1):
                 self.output_device = loop
+
+            #if(re.compile("UC-33").search(name) and inp == 1):
+            #    self.input_device = loop
+            #    break
+
+            #i += 1
+
+            #if(re.compile("UC-33").search(name) and outp == 1):
+            #    self.output_device = loop
 
         # open devices
         try:
             self.midi_in = pypm.Input(self.input_device)
-            self.midi_out = pypm.Output(self.output_device, 10)
+            #self.midi_out = pypm.Output(self.output_device, 10)
             print "Found MIDI device"
         except:
             self.midi_in = None
@@ -129,6 +134,9 @@ class MidiHandler(threading.Thread, Setter):
             # sleep / exit
             while(not self.midi_in.Poll() and not self.cmdcenter.context.exit) : time.sleep(0.01)
             if(self.cmdcenter.context.exit) : exit()
+
+
+            # print "found something?"
 
             # read
             data = self.midi_in.Read(1)

@@ -38,7 +38,7 @@ class Engine(object):
 
         name = 'geometric.jpg'
 
-        data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
+       # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         # create aux buffer
         self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
