@@ -17,32 +17,33 @@ class MidiHandler(threading.Thread, Setter):
         self.cmdcenter, self.state = cmdcenter, cmdcenter.state
 
 
-        #i = 0
         # find devices
-        for loop in range(pypm.CountDevices()):
+        for i in range(pypm.CountDevices()):
 
-            interf,name,inp,outp,opened = pypm.GetDeviceInfo(loop)
-            #print i, interf, name, inp, outp, opened
+            interf,name,inp,outp,opened = pypm.GetDeviceInfo(i)
+            print "ID:", i, "INTERFACE:", interf, "NAME:", name, (inp == 1 and "INPUT" or "OUTPUT"), "OPENED?", opened
 
-            if(re.compile("BCF2000").search(name) and inp == 1):
-                self.input_device = loop
-
-            if(re.compile("BCF2000").search(name) and outp == 1):
-                self.output_device = loop
-
-            #if(re.compile("UC-33").search(name) and inp == 1):
+            #if(re.compile("BCF2000").search(name) and inp == 1):
             #    self.input_device = loop
-            #    break
 
-            #i += 1
-
-            #if(re.compile("UC-33").search(name) and outp == 1):
+            #if(re.compile("BCF2000").search(name) and outp == 1):
             #    self.output_device = loop
+
+            if(re.compile("UC-33").search(name) and outp == 1):
+                self.output_device = i
+
+            if(re.compile("UC-33").search(name) and inp == 1):
+                self.input_device = i
+                break
+
+            i += 1
+
+        # self.input_device = self.output_device = int(raw_input("MIDI INPUT number: "))
 
         # open devices
         try:
             self.midi_in = pypm.Input(self.input_device)
-            #self.midi_out = pypm.Output(self.output_device, 10)
+            self.midi_out = pypm.Output(self.output_device, 10)
             print "Found MIDI device"
         except:
             self.midi_in = None
@@ -142,6 +143,7 @@ class MidiHandler(threading.Thread, Setter):
             data = self.midi_in.Read(1)
 
             # set vars
+            bank = data[0][0][0] % 16
             channel = data[0][0][1]
             val = data[0][0][2]
 
@@ -149,7 +151,7 @@ class MidiHandler(threading.Thread, Setter):
             f = val / 128.0
             if(val == 127.0) : f = 1.0
 
-            print "MIDI", channel, " ", val, f
+            print "MIDI", bank, channel, val, f
 
             # check bindings
             bindings = self.get_bindings()
