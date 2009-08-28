@@ -201,7 +201,7 @@ class CmdCenter(Setter, Animator):
 
             print component_name, ":", val
 
-            # self.state.component_idx[2 * idx] = component_vals[idx].index(val)
+            self.state.component_idx[2 * idx] = component_vals[idx].index(val)
 
 
     def inc_data(self, component_name, idx):

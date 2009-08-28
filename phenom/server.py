@@ -29,7 +29,7 @@ class Server(threading.Thread):
     def handle_connection(self, channel):
 
         # get packets
-        while(not cmdcenter.context.exit):
+        while(not self.cmdcenter.context.exit):
 
             # receive data
             cmd = channel.recv ( 100 )
@@ -48,7 +48,7 @@ class Server(threading.Thread):
     def run(self):
 
         # accept connections
-        while(not cmdcenter.context.exit):
+        while(not self.cmdcenter.context.exit):
 
             # accept connection
             channel, details = self.com.accept()

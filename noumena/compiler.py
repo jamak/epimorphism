@@ -66,16 +66,34 @@ class Compiler(threading.Thread):
         var = self.data
         for component_name in self.datamanager.components:
             component_list = getattr(self.datamanager, component_name)
-            val = "switch(component_idx[%d][0]){\n" % self.datamanager.components.index(component_name)
+            clause1 = "switch(component_idx[%d][0]){\n" % self.datamanager.components.index(component_name)
             for component in component_list:
                 name = component[0]
                 if(component_name == "T"):
                     name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
                 elif(component_name == "T_SEED"):
                     name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
-                val += "case %d: %s = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
-            val += "}\n"
-            self.data[component_name] = val
+                clause1 += "case %d: %s = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+            clause1 += "}\n"
+
+
+            #clause2 = "switch(component_idx[%d][1]){\n" % self.datamanager.components.index(component_name)
+            #for component in component_list:
+            #    name = component[0]
+            #    if(component_name == "T"):
+            #        name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
+            #    elif(component_name == "T_SEED"):
+            #        name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
+            #    clause2 += "case %d: %s = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+            #clause2 += "}\n"
+
+
+            #sub = "min((_clock - internal[%d]) / %ff, 1.0f)" % (idx_idx, self.context.component_switch_time)
+
+        #intrp = "((1.0f - %s) * (%s) + %s * (%s))" % (sub, o_val, sub, val)
+
+
+            self.data[component_name] = clause1
 
         return self
 
@@ -136,8 +154,8 @@ class Compiler(threading.Thread):
             os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
-            for file in files:
-                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            #for file in files:
+            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback
