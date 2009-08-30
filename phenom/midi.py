@@ -23,20 +23,12 @@ class MidiHandler(threading.Thread, Setter):
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(i)
             print "ID:", i, "INTERFACE:", interf, "NAME:", name, (inp == 1 and "INPUT" or "OUTPUT"), "OPENED?", opened
 
-            #if(re.compile("BCF2000").search(name) and inp == 1):
-            #    self.input_device = loop
-
-            #if(re.compile("BCF2000").search(name) and outp == 1):
-            #    self.output_device = loop
-
-            if(re.compile("UC-33").search(name) and outp == 1):
-                self.output_device = i
-
-            if(re.compile("UC-33").search(name) and inp == 1):
+            if(re.compile(self.cmdcenter.context.midi_controller).search(name) and inp == 1):
                 self.input_device = i
                 break
 
-            i += 1
+            if(re.compile(self.cmdcenter.context.midi_controller).search(name) and outp == 1):
+                self.output_device = i
 
         # self.input_device = self.output_device = int(raw_input("MIDI INPUT number: "))
 

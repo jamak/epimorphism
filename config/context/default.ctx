@@ -14,5 +14,7 @@
  'exit' : False,
  'ptxas_stats' : False,
  'echo' : True,
- 'splice_components' : False
+ 'splice_components' : False,
+ 'recompile_kernel' : False,
+ 'midi_controller' : 'BCF2000'
 }

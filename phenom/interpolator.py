@@ -22,6 +22,21 @@ class Interpolator(object):
         self.new_kernel[data][idx] = name
 
 
+    def interpolate_splice(self, idx_idx, val_idx, callback):
+
+        self.state.component_idx[2 * idx_idx + 1] = val_idx
+        self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+
+        while(time.clock() - self.engine.t_start - self.state.internal[idx_idx] < self.context.component_switch_time):
+            #print time.clock() - self.engine.t_start - self.state.internal[idx_idx], self.context.component_switch_time, time.clock(), self.engine.t_start, self.state.internal[idx_idx]
+            time.sleep(0.1)
+        self.state.internal[idx_idx] = 0
+        self.state.component_idx[2 * idx_idx] = val_idx
+       # callback()
+
+
+
+
     def interpolate(self, data, idx_idx, o_val, val, callback):
         self.renderer.echo_string = "switching %s to: %s" % (data, val)
 

@@ -8,6 +8,8 @@ from phenom.video import *
 from phenom.setter import *
 from phenom.interpolator import *
 
+from phenom.BM2009 import *
+
 from phenom.datamanager import *
 
 from common.default import *
@@ -62,6 +64,9 @@ class CmdCenter(Setter, Animator):
 
         # start datamanager
         self.datamanager = DataManager()
+
+        # start BM2009 code
+        self.bm2009 = BM2009(self)
 
         # init interpolator
         self.interpolator = Interpolator(self, self.state, self.renderer, self.engine, self.context)
@@ -137,11 +142,15 @@ class CmdCenter(Setter, Animator):
         self.set_component_indices()
 
 
+        self.frame_cnt = 0
+
+
     def __del__(self):
+        pass
 
         # kill server
-        if(self.server):
-            self.server.__del___()
+        #if(self.server):
+        #    self.server.__del___()
 
 
     def cmd(self, code, capture=False):
@@ -177,6 +186,9 @@ class CmdCenter(Setter, Animator):
 
     def do(self):
 
+        if(self.frame_cnt == 10):
+            self.test_bm2009()
+
         # execute animation paths
         self.execute_paths()
 
@@ -184,6 +196,8 @@ class CmdCenter(Setter, Animator):
         if(self.context.render_video):
             self.video_renderer.capture()
 
+
+        self.frame_cnt += 1
 
     def set_component_indices(self):
         self.state.component_idx = [0 for i in xrange(20)]
@@ -211,19 +225,39 @@ class CmdCenter(Setter, Animator):
 
         # get and update index
         idx_idx = self.datamanager.components.index(component_name)
-        self.state.component_idx[2 * idx_idx] += idx
-        self.state.component_idx[2 * idx_idx] %= len(components)
 
-        # get component
-        component = components[self.state.component_idx[2 * idx_idx]]
-
-        # initialize component
-        for line in component[1]:
-            exec(line) in self.env
+        val_idx = self.state.component_idx[2 * idx_idx]
+        val_idx += idx
+        val_idx %= len(components)
 
         # switch to component
         if(not self.context.splice_components):
+
+            self.state.component_idx[2 * idx_idx] = val_idx
+
+            # get component
+            component = components[self.state.component_idx[2 * idx_idx]]
+
+            # initialize component
+            for line in component[1]:
+                exec(line) in self.env
+
             self.blend_to_component(component_name, component[0])
+        else:
+            self.interpolator.interpolate_splice(idx_idx, val_idx, self.set_component_indices)
+
+
+    def test_bm2009(self):
+        self.moduleCmd('bm2009', 'set_var', {'var':'volume', 'val':1.0})
+        self.moduleCmd('bm2009', 'set_var', {'var':'tempo', 'val':100})
+        self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
+        #self.bm2009.impulse(1.0, 0.2)
+
+
+    def moduleCmd(self, module, cmd, vars):
+        cmd = "self.%s.%s(**%s)" % (module, cmd, vars)
+        print "cmd string", cmd
+        exec(cmd)
 
 
     def t(self, val):
