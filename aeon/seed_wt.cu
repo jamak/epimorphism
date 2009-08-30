@@ -8,12 +8,6 @@ __device__ float wt_id(float w){
 }
 
 
-__device__ float wt_solid(float w){
-  // solid transform
-  return 1;
-}
-
-
 __device__ float wt_inv(float w){
   // identity transform
   return 1.0f - w;

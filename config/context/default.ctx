@@ -3,7 +3,7 @@
  'par_scale': 1,
  'midi': True,
  'manual_iter': False,
- 'server': True,
+ 'server': False,
  'render_video': False,
  'component_switch_time' : 2.0,
  'kbd_switch_spd' : 0.2,

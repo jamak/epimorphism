@@ -33,7 +33,7 @@ class MidiList(list):
                     f = eval(bindings[binding][3])
 
                     # send value
-                    self.midi.writef(binding, f)
+                    self.midi.writef(binding[0], binding[1], f)
 
 
 class State(object):

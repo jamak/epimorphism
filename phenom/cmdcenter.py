@@ -186,8 +186,8 @@ class CmdCenter(Setter, Animator):
 
     def do(self):
 
-        if(self.frame_cnt == 10):
-            self.test_bm2009()
+#        if(self.frame_cnt == 10):
+#            self.test_bm2009()
 
         # execute animation paths
         self.execute_paths()
