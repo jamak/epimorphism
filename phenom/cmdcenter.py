@@ -141,8 +141,10 @@ class CmdCenter(Setter, Animator):
         # init indices for components
         self.set_component_indices()
 
-
         self.frame_cnt = 0
+
+
+        self.last_update_time = time.clock()
 
 
     def __del__(self):
@@ -188,6 +190,12 @@ class CmdCenter(Setter, Animator):
 
 #        if(self.frame_cnt == 10):
 #            self.test_bm2009()
+
+
+        # bm2009 manual automation
+        if(time.clock() - self.last_update_time > 10000):
+            print "manual bm2009 command"
+
 
         # execute animation paths
         self.execute_paths()
