@@ -193,9 +193,10 @@ class CmdCenter(Setter, Animator):
 
 
         # bm2009 manual automation
-        if(time.clock() - self.last_update_time > 10000):
+        if(time.clock() - self.last_update_time > 5):
+            self.last_update_time = time.clock()
             print "manual bm2009 command"
-
+            self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
 
         # execute animation paths
         self.execute_paths()
