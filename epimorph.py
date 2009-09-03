@@ -20,7 +20,7 @@ context_vars = parse_args("~")
 
 context_vars.setdefault("context", "default")
 context_vars.setdefault("state", "default")
-context_vars.setdefault("profile", "box1")
+context_vars.setdefault("profile", "projector1")
 
 context = manager.load_dict(context_vars["context"] + ".ctx", **context_vars)
 state =   manager.load_dict(context_vars["state"] + ".est", **parse_args("%"))

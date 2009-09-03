@@ -17,7 +17,7 @@ class BM2009(object):
         self.impulse_freq = 0
         random.seed()
 
-        self.events = [["switch_t", "T"], ["switch_t_seed", "T_SEED"], ["switch_seed_w", "SEED_W"], ["switch_seed_wt", "SEED_WT"], ["switch_seed_w", "SEED_W"], ["switch_seed_a", "SEED_A"], ["switch_reduce", "REDUCE"]]
+        self.events = [["switch_t", "T"], ["switch_t_seed", "T_SEED"], ["switch_seed_w", "SEED_W"], ["switch_seed_wt", "SEED_WT"], ["switch_seed_w", "SEED_W"], ["switch_seed_a", "SEED_A"]]
 
         self.locked_events = {}
 

@@ -14,6 +14,11 @@ __constant__ float _clock;
 #include "math.cu"
 #include "colorspace.cu"
 
+__device__ float2 grid_reduce(float2 z){
+  // standard reduction based on the cartesian grid
+  return rem(z + vec2(1.0f, 1.0f), 2.0f) - vec2(1.0f, 1.0f);
+}
+
 #include "reset.cu"
 #include "color.cu"
 #include "reduce.cu"

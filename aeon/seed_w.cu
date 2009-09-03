@@ -61,16 +61,6 @@ __device__ float lines_lr(float2 z){
 }
 
 
-__device__ float square_fade(float2 z){
-  // radially fading square
-  z = grid_reduce(z);
-  float w = nextafterf(0.0f, -1.0f);
-  if(z.x < _SEED_W && z.x > -1.0f * _SEED_W && z.y < _SEED_W && z.y > -1.0f * _SEED_W)
-    w = fminf((1.0f - fabsf(z.x) / _SEED_W), (1.0f - fabsf(z.y) / _SEED_W));
-  return trans_w(w);
-}
-
-
 __device__ float lines_box(float2 z){
   // 4 lines in a box
   z = grid_reduce(z);
@@ -185,16 +175,5 @@ __device__ float grid_fade(float2 z){
     w = (1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W);
   if((z.y < 0.5f * (1.0f + _SEED_W) && z.y > 0.5f * (1.0f - _SEED_W)))
     w = fmaxf((1.0f - 2.0f * fabsf(z.x - 0.5f) / _SEED_W), (1.0f - 2.0f * fabsf(z.y - 0.5f) / _SEED_W));
-  return trans_w(w);
-}
-
-
-__device__ float ball(float2 z){
-  // ball, radially shaded
-  z = grid_reduce(z);
-  float w = nextafterf(0.0f, -1.0f);
-  float r = len(z);
-  if(r < _SEED_W)
-    w = 1.0f - r / _SEED_W;
   return trans_w(w);
 }
