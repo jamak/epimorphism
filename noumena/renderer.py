@@ -10,7 +10,7 @@ from phenom.mouse import *
 from common.runner import *
 
 import common.glFreeType
-FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
+FONT_PATH = "common/FreeSansBold.ttf"
 
 
 class Renderer(object):
