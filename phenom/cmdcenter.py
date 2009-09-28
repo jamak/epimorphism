@@ -57,9 +57,6 @@ class CmdCenter(Setter, Animator):
 
         self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
 
-        # start BM2009 code
-        self.bm2009 = BM2009(self)
-
         # init componentmanager
         self.componentmanager = ComponentManager(self, self.state, self.renderer, self.engine, self.context)
 
@@ -82,21 +79,17 @@ class CmdCenter(Setter, Animator):
 
         # start server
         if(self.context.server):
-
             self.server = Server(self)
             self.server.start()
 
         else:
-
             self.server = None
 
         # start midi
         if(self.context.midi):
-
             self.midi = MidiHandler(self)
 
             if(self.context.midi):
-
                 self.state.zn.midi = self.midi
                 self.state.par.midi = self.midi
                 self.midi.start()
@@ -107,7 +100,6 @@ class CmdCenter(Setter, Animator):
 
         # start video_renderer
         if(self.context.render_video):
-
             self.video_renderer.video_start()
 
         # create cmd_env function blacklist
@@ -145,7 +137,6 @@ class CmdCenter(Setter, Animator):
 
 
     def cmd(self, code, capture=False):
-
         # hijack stdout, if requested
         out = StringIO.StringIO()
         sys.stdout = capture and out or sys.stdout
@@ -176,12 +167,6 @@ class CmdCenter(Setter, Animator):
 
 
     def do(self):
-        # bm2009 manual automation
-#        if(time.clock() - self.last_update_time > 20):
-#            self.last_update_time = time.clock()
-#            print "manual bm2009 command"
-#            self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
-
         # execute animation paths
         self.execute_paths()
 
@@ -197,6 +182,8 @@ class CmdCenter(Setter, Animator):
         print "cmd string", cmd
         exec(cmd)
 
+
+    # UTILITY FUNCTIONS
 
     def t(self, val):
         self.blend_to_component("T", val)
@@ -217,7 +204,6 @@ class CmdCenter(Setter, Animator):
 
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
-
 
         #self.load_state(90)
 
@@ -248,7 +234,6 @@ class CmdCenter(Setter, Animator):
     def components(self):
         ''' Prints a list of all components, their bindings, and their values. '''
 
-        print "asdasdfadsf"
         self.componentmanager.print_components()
 
 
@@ -292,18 +277,11 @@ class CmdCenter(Setter, Animator):
 
             delattr(new_state, name)
 
-        # blend to components
-        for data in updates:
 
-            async(lambda : self.blend_to_component(data, updates[data]))
-
-            time.sleep(0.2)
+        self.component_manager.switch_components(updates)
 
         # update state
         print self.state.__dict__.update(new_state.__dict__)
-
-        # set indices
-        self.set_component_indices()
 
 
     def load_state(self, idx):

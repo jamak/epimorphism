@@ -72,30 +72,43 @@ class ComponentManager(object):
         # get component
         component = components[val_idx]
 
-        val = component[0]
+        self.switch_components({component_name: component[0]})
+
+
+    def switch_components(self, data):
+
+        updates = {}
+        for component_name, val in data.items():
+            idx_idx = self.datamanager.components.index(component_name)
+            components = getattr(self.datamanager, component_name)
+            component = [c for c in components if c[0] == val][0]
+            val_idx = components.index(component)
+            updates[component_name] = {"val":val, "component":component, "val_idx":val_idx, "idx_idx":idx_idx}
 
         # switch to component
         if(not self.context.splice_components):
 
-            # initialize component
-            for line in component[1]:
-                exec(line) in self.cmdcenter.env
-
             self.switching_component = True
 
-            # cheat if t or t_seed
-            if(component_name == "T"):
-                val = "zn[0] * %s + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
-            elif(component_name == "T_SEED"):
-                val = "zn[8] * %s + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
+            for component_name, update in updates.items():
+                component = update["component"]
+                val = update["val"]
 
-            self.renderer.echo_string = "switching %s to: %s" % (component_name, val)
+                # initialize component
+                for line in component[1]:
+                    exec(line) in self.cmdcenter.env
 
-            idx_idx = self.datamanager.components.index(component_name)
+                # cheat if t or t_seed
+                if(component_name == "T"):
+                    val = "zn[0] * %s + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
+                elif(component_name == "T_SEED"):
+                    val = "zn[8] * %s + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
 
-            print "start switching %s" % component_name
+                self.renderer.echo_string = "switching %s to: %s" % (component_name, val)
 
-            setattr(self.state, component_name, val)
+                setattr(self.state, component_name, val)
+
+                print "switching %s" % component_name
 
             self.new_kernel = False
             Compiler(self.state.__dict__, self.set_kernel, self.context).start()
@@ -105,7 +118,7 @@ class ComponentManager(object):
 
             self.new_kernel = False
 
-            print "done switching %s" % component_name
+            print "done switching"
 
             self.switching_component = False
 
@@ -114,15 +127,32 @@ class ComponentManager(object):
             self.renderer.echo_string = None
 
         else:
-            self.renderer.flash_message("switching %s to: %s" % (component_name, val))
-            self.state.component_idx[2 * idx_idx + 1] = val_idx
-            self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+            if(len(updates) == 1):
+                self.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
-            while(time.clock() - self.engine.t_start - self.state.internal[idx_idx] < self.context.component_switch_time):
-                #print time.clock() - self.engine.t_start - self.state.internal[idx_idx], self.context.component_switch_time, time.clock(), self.engine.t_start, self.state.internal[idx_idx]
+            first_idx = None
+
+            for component_name, update in updates.items():
+                val_idx = update["val_idx"]
+                idx_idx = update["idx_idx"]
+
+                if(not first_idx):
+                    first_idx = idx_idx
+
+                self.state.component_idx[2 * idx_idx + 1] = val_idx
+                self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+
+            while(time.clock() - self.engine.t_start - self.state.internal[first_idx] < self.context.component_switch_time):
                 time.sleep(0.1)
-            self.state.internal[idx_idx] = 0
-            self.state.component_idx[2 * idx_idx] = val_idx
+
+            for component_name, update in updates.items():
+                val_idx = update["val_idx"]
+                idx_idx = update["idx_idx"]
+                val = update["val"]
+
+                setattr(self.state, component_name, val)
+                self.state.internal[idx_idx] = 0
+                self.state.component_idx[2 * idx_idx] = val_idx
 
 
 
