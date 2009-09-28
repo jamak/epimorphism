@@ -3,20 +3,18 @@ from phenom.datamanager import *
 import os
 import re
 import sys
-from ctypes import *
-
+import hashlib
 import threading
 import StringIO
-
 import time
 
-libnum = 0
+from ctypes import *
 
 def bind_kernel(name):
 
     # attempt to load kernel
     try:
-        lib = cdll.LoadLibrary("tmp/" + name)#, RTLD_LOCAL)
+        lib = cdll.LoadLibrary("tmp/%s.so" % name)#, RTLD_LOCAL)
         # os.system("rm tmp/" + name)
     except:
         print "kernel not found.  exiting."
@@ -150,26 +148,37 @@ class Compiler(threading.Thread):
 
             # render ecu files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
+
             for file in files:
                 self.render_file(file)
 
+            # hash files
+            files = [file for file in os.listdir("aeon") if re.search("\.cu$", file)]
+
+            contents = ""
+
+            for file in files:
+                contents += open("aeon/" + file).read()
+
+            hash = hashlib.sha1(contents).hexdigest()
+
             # get name
-            name = "kernel%d.so" % libnum
-            libnum += 1
+            name = "%s-%s" % ((self.context.splice_components and "spliced" or "uniq"), hash)
 
-            print "compile kernel ", name
-
-            # compile
-            if(self.context.recompile_kernel or not os.path.exists("tmp/%s" % name)):
+            # if library doesn't exist
+            if(not os.path.exists("tmp/%s.so" % name)):
+                print "compile kernel ", name
                 print "recompiling kernel"
-                os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
-            else:
-                time.sleep(2)
+                os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
-            # remove tmp files
-            #for file in files:
-            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
-            if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
+                # remove tmp files
+                files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
+                for file in files:
+                    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+                if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
+
+            else:
+                time.sleep(1)
 
         # execute callback
         self.callback(name)

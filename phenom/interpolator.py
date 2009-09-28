@@ -17,9 +17,9 @@ class Interpolator(object):
 
 
     def set_new_kernel(self, data, idx, name):
-
         # compiler callback
         self.new_kernel[data][idx] = name
+
 
 
     def interpolate_splice(self, idx_idx, val_idx, callback):
@@ -35,9 +35,10 @@ class Interpolator(object):
        # callback()
 
 
-
-
     def interpolate(self, data, idx_idx, o_val, val, callback):
+
+        print "start switching %s" % data
+
         self.renderer.echo_string = "switching %s to: %s" % (data, val)
 
         sub = "min((_clock - internal[%d]) / %ff, 1.0f)" % (idx_idx, self.context.component_switch_time)
@@ -76,9 +77,11 @@ class Interpolator(object):
 
         self.animating[data][2] = compiler
 
-        # compiler.start()
+        compiler.start()
 
-        while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) : time.sleep(0.01)
+        while((time.clock() < self.animating[data][0] or not self.new_kernel[data][1]) and not self.context.exit) :
+            time.sleep(0.01)
+
         if(self.context.exit) : exit()
 
         # complete

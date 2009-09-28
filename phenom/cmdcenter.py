@@ -215,9 +215,9 @@ class CmdCenter(Setter, Animator):
             val =  getattr(self.state, component_name.upper())
 
             if(component_name == "T"):
-                val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * ", "").replace(" + zn[1]", "")
+                val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * (", "").replace(") + zn[1]", "")
             elif(component_name == "T_SEED"):
-                val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * ", "").replace(" + zn[9]", "")
+                val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * (", "").replace(") + zn[9]", "")
 
             print component_name, ":", val
 
