@@ -188,15 +188,12 @@ class CmdCenter(Setter, Animator):
 
     def do(self):
 
-#        if(self.frame_cnt == 10):
-#            self.test_bm2009()
-
 
         # bm2009 manual automation
-        if(time.clock() - self.last_update_time > 20):
-            self.last_update_time = time.clock()
-            print "manual bm2009 command"
-            self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
+#        if(time.clock() - self.last_update_time > 20):
+#            self.last_update_time = time.clock()
+#            print "manual bm2009 command"
+#            self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
 
         # execute animation paths
         self.execute_paths()
@@ -205,8 +202,8 @@ class CmdCenter(Setter, Animator):
         if(self.context.render_video):
             self.video_renderer.capture()
 
-
         self.frame_cnt += 1
+
 
     def set_component_indices(self):
         self.state.component_idx = [0 for i in xrange(20)]
@@ -239,13 +236,15 @@ class CmdCenter(Setter, Animator):
         val_idx += idx
         val_idx %= len(components)
 
+        # get component
+        component = components[val_idx]
+
+        self.renderer.echo_string = "switching %s to: %s" % (component_name, component[0])
+
         # switch to component
         if(not self.context.splice_components):
 
             self.state.component_idx[2 * idx_idx] = val_idx
-
-            # get component
-            component = components[self.state.component_idx[2 * idx_idx]]
 
             # initialize component
             for line in component[1]:
@@ -255,12 +254,7 @@ class CmdCenter(Setter, Animator):
         else:
             self.interpolator.interpolate_splice(idx_idx, val_idx, self.set_component_indices)
 
-
-    def test_bm2009(self):
-        self.moduleCmd('bm2009', 'set_var', {'var':'volume', 'val':1.0})
-        self.moduleCmd('bm2009', 'set_var', {'var':'tempo', 'val':100})
-        self.moduleCmd('bm2009', 'impulse', {'intensity':1.0, 'freq':0.2})
-        #self.bm2009.impulse(1.0, 0.2)
+        self.renderer.echo_string = None
 
 
     def moduleCmd(self, module, cmd, vars):
@@ -303,11 +297,11 @@ class CmdCenter(Setter, Animator):
         ''' Gets the framebuffer and binds it to an Image. '''
 
 
-        self.load_state(90)
+        #self.load_state(90)
 
-        #img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
-        #img.show()
+        img.show()
 
         #return img
 

@@ -96,7 +96,7 @@ class ConfigManager(object):
 
         # set default_flag
         global default_flag
-        default_flag = name[:-4] == "default"
+        default_flag = name == "default"
 
         # return correct config object
         return eval(type.capitalize())(**vars)

@@ -1,4 +1,5 @@
 {
+ 'keyboard_func':'standard',
  'autostart': True,
  'profile': 'box1',
  'par_scale': 1,

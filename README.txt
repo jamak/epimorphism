@@ -3,7 +3,7 @@
 #  The project is structured into 4 branches:
 #    noumena - the parametric engine which creates & displays
 #    phenom  - the control system for noumena
-#    aer     - the banks of data/libraries phenom uses to control noumena
+#    aeon    - the banks of data/libraries phenom uses to control noumena
 #    common  - common functionality across packages & utility libraries
 #
 #  The project uses 3 data structures for configuration - state/profile/context

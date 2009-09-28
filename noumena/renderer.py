@@ -127,9 +127,7 @@ class Renderer(object):
 
         # render text into llc
         glColor3ub(0xff, 0xff, 0xff)
-        #self.echo_font.glPrint(6, 6, self.echo_string)
-
-
+        self.echo_font.glPrint(6, 6, self.echo_string)
 
 
     def reshape(self, w, h):

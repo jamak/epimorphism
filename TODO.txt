@@ -5,40 +5,43 @@
 #
 #
 
-check if files have changed before recompiling
-
-interpolate spliced components
+hash .ecu files check for recompilation
 
 fix screenshot
 
-unify t & t_seed
+fix state load
 
-fix help
-
-
-logging
-add argument lists to doc
-error checking?
 final cleaning pass
 
-picture upload
-
+finish picture upload
 
 kernel optimization
 
-improve colorfunc
-
-generalize w=-1 response
-
-post processing - possible multi-gpu
-
-animation framework
+rework phenom
 
 ###################################
 #
 #  v 1.0
 #
 #
+
+integrate ipython into console
+
+autorun migrations option
+
+improve colorfunc
+
+generalize w=-1 response
+
+
+fix help
+
+logging
+add argument lists to doc
+error checking?
+
+
+animation framework
 
 
 populate T & T_SEED databasees
@@ -63,6 +66,8 @@ improve console
 #  Phase 2
 #
 #
+
+post processing - possible multi-gpu
 
 t_surface
 

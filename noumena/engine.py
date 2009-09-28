@@ -36,9 +36,8 @@ class Engine(object):
 
         cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
-        name = 'geometric.jpg'
-
-       # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
+        # name = 'geometric.jpg'
+        # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         # create aux buffer
         self.aux_channel_desc = cudaCreateChannelDesc(32, 32, 32, 32, cudaChannelFormatKindFloat)
@@ -88,6 +87,9 @@ class Engine(object):
         self.aux_enabled = True
 
         self.do_reset_fb = True
+
+        self.do_get_fb = False
+        self.fb_contents = None
 
     def __del__(self):
 
@@ -190,7 +192,11 @@ class Engine(object):
 
         self.context.next_frame = False
 
-        # print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
+
+        # get frame buffer if necessary
+        if(self.do_get_fb):
+            self.do_get_fb = False
+            self.get_fb_internal()
 
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
@@ -202,11 +208,10 @@ class Engine(object):
         self.record_event(0)
         self.frame_count += 1
 
-
+#        print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
 #        if(self.frame_count % 500 == 0):
 #            img = Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), self.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 #            img.show()
-
 
         # upload par & zn & internal & components
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
@@ -256,19 +261,31 @@ class Engine(object):
         self.print_timings()
 
 
-        # utility
+        # utility - DON'T REMOVE
         #fb = self.get_fb()
         #r = self.profile.kernel_dim - 5
         #c = self.profile.kernel_dim - 5
         #if(self.frame_count % 20 == 0):
         #    print fb[4 * (r * self.profile.kernel_dim + c) + 0], fb[4 * (r * self.profile.kernel_dim + c) + 1], fb[4 * (r * self.profile.kernel_dim + c) + 2], fb[4 * (r * self.profile.kernel_dim + c) + 3]
 
+
     def get_fb(self):
+        print "get_fb 1"
+        self.do_get_fb = True
+        while(not self.fb_contents): time.sleep(0.01)
+        tmp = self.fb_contents
+        self.fb_contents = None
+        print "get_fb 2"
+        return tmp
+
+
+    def get_fb_internal(self):
+        print "get_fb_internal"
         ''' This function returns an copy of the the current pbo.
             The return value is a dim ** 2 array of 4 * c_ubyte '''
 
         # map buffer
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
+       # cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
 
         # copy pbo to host
         res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr,
@@ -278,7 +295,7 @@ class Engine(object):
         # cudaGLUnmapBufferObject(self.pbo)
 
         # return c_ubyte array
-        return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
+        self.fb_contents = (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
 
 
     def pixel_at(self, x, y):
