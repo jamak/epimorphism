@@ -31,6 +31,9 @@ def m4(f):
 def m5(f):
     return f + 1.0
 
+def m6(f):
+    return 3.14159 * f
+
 def m0_inv(f):
     return f
 
@@ -63,3 +66,6 @@ def m4_inv(f):
 
 def m5_inv(f):
     return f - 1.0
+
+def m6_inv(f):
+    return f / 3.14159

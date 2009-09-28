@@ -15,13 +15,6 @@ __device__ float trans_w(float w){
 }
 
 
-__device__ float solid(float2 z){
-  // solid
-  z = grid_reduce(z);
-  return trans_w(1.0f);
-}
-
-
 __device__ float fade(float2 z){
   // linear l-r gradient
   z = grid_reduce(z);

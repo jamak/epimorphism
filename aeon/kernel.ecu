@@ -5,6 +5,8 @@ __constant__ int component_idx[10][2];
 __constant__ float component_val[10];
 __constant__ float _clock;
 
+__constant__ float switch_time;
+
 %PAR_NAMES%
 
 #define PI 3.1415926535f

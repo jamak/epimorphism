@@ -91,7 +91,7 @@ class Compiler(threading.Thread):
             clause2 += "}\n"
 
             interp = "if(internal[%d] != 0){" % idx
-            sub = "min((_clock - internal[%d]) / %ff, 1.0f)" % (idx, self.context.component_switch_time)
+            sub = "min((_clock - internal[%d]) / switch_time, 1.0f)" % (idx)
             interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
             interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
 

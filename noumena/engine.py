@@ -228,6 +228,10 @@ class Engine(object):
         clock = c_float(time.clock() - self.t_start)
         cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
+        # upload switch_time
+        switch_time = c_float(self.context.component_switch_time)
+        cudaMemcpyToSymbol("switch_time", byref(switch_time), sizeof(switch_time), 0, cudaMemcpyHostToDevice)
+
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
         if(self.do_reset_fb):
