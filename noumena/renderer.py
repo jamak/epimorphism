@@ -130,8 +130,6 @@ class Renderer(object):
         self.echo_font.glPrint(6, 6, self.echo_string)
 
 
-
-
     def reshape(self, w, h):
 
         # set viewport
@@ -210,6 +208,7 @@ class Renderer(object):
         # repost
         glutSwapBuffers()
         glutPostRedisplay()
+
 
     def set_inner_loop(self, inner_loop):
 

@@ -19,12 +19,10 @@ def parse_args(sym):
 context_vars = parse_args("~")
 
 context_vars.setdefault("context", "default")
-context_vars.setdefault("state", "default")
-context_vars.setdefault("profile", "box1")
 
-context = manager.load_dict(context_vars["context"] + ".ctx", **context_vars)
-state =   manager.load_dict(context_vars["state"] + ".est", **parse_args("%"))
-profile = manager.load_dict(context_vars["profile"] + ".prf", **parse_args("@"))
+context = manager.load_dict("context", context_vars["context"], **context_vars)
+state =   manager.load_dict("state", context.state, **parse_args("%"))
+profile = manager.load_dict("profile", context.profile, **parse_args("@"))
 
 # initialize components
 renderer   = Renderer(state, profile, context)
@@ -47,5 +45,10 @@ def inner_loop():
 # set execution loop
 renderer.set_inner_loop(inner_loop)
 
+# define start function
+def start():
+    renderer.start()
+
 # start
-renderer.start()
+if(context.auto_start):
+    start()

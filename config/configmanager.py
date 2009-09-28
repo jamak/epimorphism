@@ -80,16 +80,13 @@ class ConfigManager(object):
         the various config settings. '''
 
     # mappings from config extensions to classes/names
-    extension_names = {"est" : "state", "prf" : "profile", "ctx" : "context"}
+    extension_names = {"state" : "est", "profile" : "prf", "context" : "ctx"}
 
 
-    def load_dict(self, name, **additional_vars):
-
-        # get extension
-        extension = name.split(".")[1]
+    def load_dict(self, type, name, **additional_vars):
 
         # open file & extract contents
-        file = open("config/" + self.extension_names[extension] + "/" + name)
+        file = open("config/" + type + "/" + name + "." + self.extension_names[type])
         contents = file.read()
         file.close()
 
@@ -102,7 +99,7 @@ class ConfigManager(object):
         default_flag = name[:-4] == "default"
 
         # return correct config object
-        return eval(self.extension_names[extension].capitalize())(**vars)
+        return eval(type.capitalize())(**vars)
 
 
     def outp_dict(self, name, obj):
