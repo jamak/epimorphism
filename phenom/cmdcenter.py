@@ -143,9 +143,9 @@ class CmdCenter(Setter, Animator):
 
         self.frame_cnt = 0
 
-
         self.last_update_time = time.clock()
 
+        self.switching_component = False
 
     def __del__(self):
         pass
@@ -204,27 +204,9 @@ class CmdCenter(Setter, Animator):
 
         self.frame_cnt += 1
 
-
-    def set_component_indices(self):
-        self.state.component_idx = [0 for i in xrange(20)]
-
-        component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.components]
-
-        for component_name in self.datamanager.components:
-            idx = self.datamanager.components.index(component_name)
-            val =  getattr(self.state, component_name.upper())
-
-            if(component_name == "T"):
-                val = val.replace("(zn[2] * z + zn[3])", "(z)").replace("zn[0] * (", "").replace(") + zn[1]", "")
-            elif(component_name == "T_SEED"):
-                val = val.replace("(zn[10] * z + zn[11])", "(z)").replace("zn[8] * (", "").replace(") + zn[9]", "")
-
-            print component_name, ":", val
-
-            self.state.component_idx[2 * idx] = component_vals[idx].index(val)
-
-
     def inc_data(self, component_name, idx):
+        if(self.switching_component):
+            return
 
         # get components
         components = getattr(self.datamanager, component_name)
@@ -239,18 +221,31 @@ class CmdCenter(Setter, Animator):
         # get component
         component = components[val_idx]
 
-        self.renderer.echo_string = "switching %s to: %s" % (component_name, component[0])
-
         # switch to component
         if(not self.context.splice_components):
-
-            self.state.component_idx[2 * idx_idx] = val_idx
 
             # initialize component
             for line in component[1]:
                 exec(line) in self.env
 
-            self.blend_to_component(component_name, component[0])
+            self.switching_component = True
+
+            val = component[0]
+
+            # cheat if t or t_seed
+            if(component_name == "T"):
+                val = "zn[0] * (%s) + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
+            elif(component_name == "T_SEED"):
+                val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
+
+            idx_idx = self.datamanager.components.index(component_name)
+
+            self.interpolator.interpolate(component_name, idx_idx, val, None)
+
+            self.switching_component = False
+
+            self.state.component_idx[2 * idx_idx] = val_idx
+
         else:
             self.interpolator.interpolate_splice(idx_idx, val_idx, self.set_component_indices)
 
@@ -265,19 +260,6 @@ class CmdCenter(Setter, Animator):
 
     def t(self, val):
         self.blend_to_component("T", val)
-
-
-    def blend_to_component(self, data, val):
-
-        idx_idx = self.datamanager.components.index(data)
-
-        # cheat if t or t_seed
-        if(data == "T"):
-            val = "zn[0] * (%s) + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
-        elif(data == "T_SEED"):
-            val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
-
-        self.interpolator.interpolate(data, idx_idx, eval("self.state." + data), val, self.set_component_indices)
 
 
     def load_image(self, name, buffer_name):
