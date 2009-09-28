@@ -6,16 +6,11 @@ from phenom.server import *
 from phenom.midi import *
 from phenom.video import *
 from phenom.setter import *
-from phenom.interpolator import *
-
+from phenom.componentmanager import *
 from phenom.BM2009 import *
-
-from phenom.datamanager import *
-
 from common.default import *
 from common.complex import *
 from noumena.compiler import *
-
 from config.configmanager import *
 
 import StringIO
@@ -62,14 +57,11 @@ class CmdCenter(Setter, Animator):
 
         self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
 
-        # start datamanager
-        self.datamanager = DataManager()
-
         # start BM2009 code
         self.bm2009 = BM2009(self)
 
-        # init interpolator
-        self.interpolator = Interpolator(self, self.state, self.renderer, self.engine, self.context)
+        # init componentmanager
+        self.componentmanager = ComponentManager(self, self.state, self.renderer, self.engine, self.context)
 
         # init animator
         Animator.__init__(self)
@@ -133,19 +125,16 @@ class CmdCenter(Setter, Animator):
         funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
+        funcs.update(get_funcs(self.componentmanager))
         funcs.update(default_funcs)
 
         # generate cmd exec environment
         self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
 
-        # init indices for components
-        self.set_component_indices()
-
         self.frame_cnt = 0
 
         self.last_update_time = time.clock()
 
-        self.switching_component = False
 
     def __del__(self):
         pass
@@ -187,8 +176,6 @@ class CmdCenter(Setter, Animator):
 
 
     def do(self):
-
-
         # bm2009 manual automation
 #        if(time.clock() - self.last_update_time > 20):
 #            self.last_update_time = time.clock()
@@ -203,53 +190,6 @@ class CmdCenter(Setter, Animator):
             self.video_renderer.capture()
 
         self.frame_cnt += 1
-
-    def inc_data(self, component_name, idx):
-        if(self.switching_component):
-            return
-
-        # get components
-        components = getattr(self.datamanager, component_name)
-
-        # get and update index
-        idx_idx = self.datamanager.components.index(component_name)
-
-        val_idx = self.state.component_idx[2 * idx_idx]
-        val_idx += idx
-        val_idx %= len(components)
-
-        # get component
-        component = components[val_idx]
-
-        # switch to component
-        if(not self.context.splice_components):
-
-            # initialize component
-            for line in component[1]:
-                exec(line) in self.env
-
-            self.switching_component = True
-
-            val = component[0]
-
-            # cheat if t or t_seed
-            if(component_name == "T"):
-                val = "zn[0] * (%s) + zn[1]" % val.replace("(z)", "(zn[2] * z + zn[3])")
-            elif(component_name == "T_SEED"):
-                val = "zn[8] * (%s) + zn[9]" % val.replace("(z)", "(zn[10] * z + zn[11])")
-
-            idx_idx = self.datamanager.components.index(component_name)
-
-            self.interpolator.interpolate(component_name, idx_idx, val, None)
-
-            self.switching_component = False
-
-            self.state.component_idx[2 * idx_idx] = val_idx
-
-        else:
-            self.interpolator.interpolate_splice(idx_idx, val_idx, self.set_component_indices)
-
-        self.renderer.echo_string = None
 
 
     def moduleCmd(self, module, cmd, vars):
@@ -308,11 +248,8 @@ class CmdCenter(Setter, Animator):
     def components(self):
         ''' Prints a list of all components, their bindings, and their values. '''
 
-        keys = self.datamanager.components
-
-        for i in xrange(len(keys)) :
-            component = getattr(self.state, keys[i])
-            print i+1, ":", keys[i], "-", component, "-", self.datamanager.comment(keys[i], component)
+        print "asdasdfadsf"
+        self.componentmanager.print_components()
 
 
     def save(self, name=None):

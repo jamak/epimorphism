@@ -93,21 +93,9 @@ class Compiler(threading.Thread):
             interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
             interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
 
-            #sub = "min((_clock - internal[%d]) / %ff, 1.0f)" % (idx_idx, self.context.component_switch_time)
-
-        #intrp = "((1.0f - %s) * (%s) + %s * (%s))" % (sub, o_val, sub, val)
-
-
             self.data[component_name] = clause1 + interp
 
         return self
-
-
-    def update(self, new_vars):
-
-        # set update info
-        self.update_vars.update(new_vars)
-        self.do_update = True
 
 
     def render_file(self, name):
@@ -139,46 +127,37 @@ class Compiler(threading.Thread):
 
     def run(self):
 
-        global libnum
+        # render ecu files
+        files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
 
-        # begin update loop
-        self.do_update = True
-        while(self.do_update):
-            self.do_update = False
+        for file in files:
+            self.render_file(file)
 
-            # render ecu files
+        # hash files
+        files = [file for file in os.listdir("aeon") if re.search("\.cu$", file)]
+
+        contents = ""
+        for file in files:
+            contents += open("aeon/" + file).read()
+
+        hash = hashlib.sha1(contents).hexdigest()
+
+        # make name
+        name = "%s-%s" % ((self.context.splice_components and "spliced" or "uniq"), hash)
+
+        # compile if library doesn't exist
+        if(not os.path.exists("tmp/%s.so" % name)):
+            print "compile kernel ", name
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+
+            # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-
             for file in files:
-                self.render_file(file)
+                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
-            # hash files
-            files = [file for file in os.listdir("aeon") if re.search("\.cu$", file)]
-
-            contents = ""
-
-            for file in files:
-                contents += open("aeon/" + file).read()
-
-            hash = hashlib.sha1(contents).hexdigest()
-
-            # get name
-            name = "%s-%s" % ((self.context.splice_components and "spliced" or "uniq"), hash)
-
-            # if library doesn't exist
-            if(not os.path.exists("tmp/%s.so" % name)):
-                print "compile kernel ", name
-                print "recompiling kernel"
-                os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
-
-                # remove tmp files
-                files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-                for file in files:
-                    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
-                if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
-
-            else:
-                time.sleep(1)
+        else:
+            time.sleep(1)
 
         # execute callback
         self.callback(name)
