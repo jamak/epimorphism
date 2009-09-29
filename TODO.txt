@@ -10,12 +10,6 @@ autorun migrations option
 
 make datamanager singleton
 
-fix screenshot
-
-fix state load
-
-final cleaning pass
-
 finish picture upload
 
 kernel optimization
@@ -28,13 +22,18 @@ states save clock time
 
 absolute time for kernel speeds
 
+remove component_vals * component_idx from existing states via migration
+
+build state machine for T
+
+final cleaning pass/logging/error checking
+
+
 ###################################
 #
 #  v 1.0
 #
 #
-
-build state machine for T
 
 integrate ipython into console
 
@@ -44,11 +43,7 @@ generalize w=-1 response
 
 
 fix help
-
-logging
 add argument lists to doc
-error checking?
-
 
 animation framework
 

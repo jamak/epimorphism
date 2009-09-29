@@ -20,7 +20,7 @@ class ComponentManager(object):
 
 
     def set_component_indices(self):
-        self.state.component_idx = [0 for i in xrange(20)]
+        self.engine.component_idx = [0 for i in xrange(20)]
 
         component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.components]
 
@@ -31,10 +31,10 @@ class ComponentManager(object):
             print component_name, ":", val
 
             try:
-                self.state.component_idx[2 * idx] = component_vals[idx].index(val)
+                self.engine.component_idx[2 * idx] = component_vals[idx].index(val)
             except:
                 print "couldn't find index for:", component_name, "-", val
-                self.state.component_idx[2 * idx] = 0
+                self.engine.component_idx[2 * idx] = 0
 
 
     def component_list(self):
@@ -59,7 +59,7 @@ class ComponentManager(object):
         # get and update index
         idx_idx = self.datamanager.components.index(component_name)
 
-        val_idx = self.state.component_idx[2 * idx_idx]
+        val_idx = self.engine.component_idx[2 * idx_idx]
         val_idx += idx
         val_idx %= len(components)
 
@@ -106,7 +106,7 @@ class ComponentManager(object):
             if(not first_idx):
                 first_idx = idx_idx
 
-            self.state.component_idx[2 * idx_idx + 1] = val_idx
+            self.engine.component_idx[2 * idx_idx + 1] = val_idx
             self.state.internal[idx_idx] = time.clock() - self.engine.t_start
 
         if(len(updates) == 1):
@@ -122,7 +122,7 @@ class ComponentManager(object):
 
             setattr(self.state, component_name, val)
             self.state.internal[idx_idx] = 0
-            self.state.component_idx[2 * idx_idx] = val_idx
+            self.engine.component_idx[2 * idx_idx] = val_idx
 
 
 
