@@ -271,16 +271,11 @@ class CmdCenter(Setter, Animator):
 
         # blend to zns
         for i in xrange(len(new_state.zn)):
-
             self.radial_2d(self.state.zn, i, self.context.component_switch_time, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
 
         # blend to pars
         for i in xrange(len(new_state.par)):
             self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
-
-        # remove zn & par from dict
-        del new_state.zn
-        del new_state.par
 
         self.componentmanager.switch_components(updates)
 
@@ -296,6 +291,7 @@ class CmdCenter(Setter, Animator):
 
         if(self.context.manual_iter):
             self.context.next_frame = True
+
         self.context.manual_iter = not self.context.manual_iter
 
 

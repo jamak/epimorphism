@@ -1,12 +1,12 @@
-clean states
-
-
-
 ###################################
 #
 #  v 0.9
 #
 #
+
+clean up states
+
+autorun migrations option
 
 make datamanager singleton
 
@@ -24,15 +24,19 @@ rework phenom
 
 clean component_manager
 
+states save clock time
+
+absolute time for kernel speeds
+
 ###################################
 #
 #  v 1.0
 #
 #
 
-integrate ipython into console
+build state machine for T
 
-autorun migrations option
+integrate ipython into console
 
 improve colorfunc
 

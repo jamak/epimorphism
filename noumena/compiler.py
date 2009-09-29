@@ -49,11 +49,7 @@ class Compiler(threading.Thread):
         # start datamanager & manage components
         self.datamanager = DataManager()
 
-        if(self.context.splice_components):
-            self.splice_components()
-        else:
-            for component_name in self.datamanager.components:
-                self.data[component_name] = "%s = %s;" % (component_name.lower(), self.data[component_name])
+        self.splice_components()
 
         # init thread
         threading.Thread.__init__(self)
@@ -109,8 +105,6 @@ class Compiler(threading.Thread):
         for key in self.update_vars:
             contents = re.compile("\%" + key + "\%").sub(str(self.data[key]), contents)
 
-        # print contents
-
         # write file contents
         file = open("aeon/__%s" % (name.replace(".ecu", ".cu")), 'w')
         file.write(contents)
@@ -135,7 +129,7 @@ class Compiler(threading.Thread):
         hash = hashlib.sha1(contents).hexdigest()
 
         # make name
-        name = "%s-%s" % ((self.context.splice_components and "spliced" or "uniq"), hash)
+        name = "kernel-%s" % hash
 
         # compile if library doesn't exist
         if(not os.path.exists("tmp/%s.so" % name)):
