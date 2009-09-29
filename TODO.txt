@@ -1,3 +1,6 @@
+clean states
+
+
 
 ###################################
 #
@@ -5,7 +8,7 @@
 #
 #
 
-hash .ecu files check for recompilation
+make datamanager singleton
 
 fix screenshot
 
@@ -18,6 +21,8 @@ finish picture upload
 kernel optimization
 
 rework phenom
+
+clean component_manager
 
 ###################################
 #

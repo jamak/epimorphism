@@ -205,11 +205,9 @@ class CmdCenter(Setter, Animator):
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
 
-        #self.load_state(90)
+        #img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
-        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
-
-        img.show()
+        #img.show()
 
         #return img
 
@@ -241,7 +239,7 @@ class CmdCenter(Setter, Animator):
         ''' Saves the current state. '''
 
         name = ConfigManager().save_state(self.state, name)
-        self.grab_image().save("image/image_%s.png" % name)
+        #self.grab_image().save("image/image_%s.png" % name)
 
         print "saved state as", name
 
@@ -251,37 +249,40 @@ class CmdCenter(Setter, Animator):
     def load(self, name):
         ''' Loads and blends to the given state. '''
 
-        new_state = ConfigManager().load_dict(name + ".est")
+        if(isinstance(name, int)):
+            name = "state_%d" % name
+
+        new_state = ConfigManager().load_dict("state", name)
+
+        updates = {}
+
+        # get update components
+        for name in self.componentmanager.component_list():
+            if(getattr(self.state, name) != getattr(new_state, name)):
+                updates[name] = getattr(new_state, name)
+
+            delattr(new_state, name)
+
+        if(not self.componentmanager.can_switch_to_components(updates)):
+            print "Can't load updates - ", updates
+            return False
+
+        print "LOAD: updating components - ", updates
 
         # blend to zns
         for i in xrange(len(new_state.zn)):
 
-            self.radial_2d(self.state.zn, i, self.context.component_switch_time + COMPILE_TIME, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+            self.radial_2d(self.state.zn, i, self.context.component_switch_time, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
 
         # blend to pars
         for i in xrange(len(new_state.par)):
-            self.linear_1d(self.state.par, i, self.context.component_switch_time + COMPILE_TIME, self.state.par[i], new_state.par[i])
+            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
 
         # remove zn & par from dict
         del new_state.zn
         del new_state.par
 
-        updates = {}
-
-        # update components
-        for name in self.datamanager.components:
-
-            if(getattr(self.state, name) != getattr(new_state, name)):
-
-                updates[name] = getattr(new_state, name)
-
-            delattr(new_state, name)
-
-
-        self.component_manager.switch_components(updates)
-
-        # update state
-        print self.state.__dict__.update(new_state.__dict__)
+        self.componentmanager.switch_components(updates)
 
 
     def load_state(self, idx):

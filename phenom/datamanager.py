@@ -37,6 +37,14 @@ class DataManager(object):
                 # get component
                 component[0] = component[0].strip()
 
+                # HACK for certain types of components
+                if(component_name == "t"):
+                    component[0] = "zn[0] * (%s) + zn[1]" % component[0].replace("(z)", "(zn[2] * z + zn[3])")
+                elif(component_name == "t_seed"):
+                    component[0] = "zn[8] * (%s) + zn[9]" % component[0].replace("(z)", "(zn[10] * z + zn[11])")
+
+                # print component_name, component[0]
+
                 # get defaults
                 if(len(component) == 2):
                     component[1] = [cmd.strip() for cmd in component[1].strip().split('#')]
@@ -105,6 +113,7 @@ class DataManager(object):
 
 
     def get_component_for_val(self, component_name, val):
+        ''' This function returns the component object given its name and value '''
         # get list
         res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == val]
 
@@ -116,7 +125,7 @@ class DataManager(object):
 
 
     def comment(self, component_name, val):
-
+        ''' This function returns the comment for a given component_name with a given value '''
         # get component
         component = self.get_component_for_val(component_name, val)
 

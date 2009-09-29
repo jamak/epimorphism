@@ -2,7 +2,7 @@
 
 from cuda_defs import *
 
-CUDART = "/usr/local/cuda/lib/libcudart.so"
+CUDART = "/usr/local/cuda/lib64/libcudart.so"
 cudart = CDLL(CUDART)
 
 class cudaException(Exception):

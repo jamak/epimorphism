@@ -70,10 +70,6 @@ class Compiler(threading.Thread):
             clause1 = "switch(component_idx[%d][0]){\n" % idx
             for component in component_list:
                 name = component[0]
-                if(component_name == "T"):
-                    name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
-                elif(component_name == "T_SEED"):
-                    name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
                 clause1 += "case %d: %s0 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
             clause1 += "}\n"
 
@@ -81,10 +77,6 @@ class Compiler(threading.Thread):
             clause2 = "switch(component_idx[%d][1]){\n" % idx
             for component in component_list:
                 name = component[0]
-                if(component_name == "T"):
-                    name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
-                elif(component_name == "T_SEED"):
-                    name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
                 clause2 += "case %d: %s1 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
             clause2 += "}\n"
 

@@ -87,6 +87,9 @@ class ConfigManager(object):
 
         # open file & extract contents
         file = open("config/" + type + "/" + name + "." + self.extension_names[type])
+
+        print "loading file: ", file
+
         contents = file.read()
         file.close()
 
