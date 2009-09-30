@@ -21,7 +21,8 @@ class MidiHandler(threading.Thread, Setter):
         for i in range(pypm.CountDevices()):
 
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(i)
-            print "ID:", i, "INTERFACE:", interf, "NAME:", name, (inp == 1 and "INPUT" or "OUTPUT"), "OPENED?", opened
+            if(not re.compile("Midi Through Port|TiMidity").search(name)):
+                print "ID:", i, "INTERFACE:", interf, "NAME:", name, (inp == 1 and "INPUT" or "OUTPUT"), "OPENED?", opened
 
             if(re.compile(self.cmdcenter.context.midi_controller).search(name) and inp == 1):
                 self.input_device = i

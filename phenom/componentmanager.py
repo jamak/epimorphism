@@ -70,15 +70,17 @@ class ComponentManager(object):
 
 
     def can_switch_to_components(self, data):
+        can_switch = True
         for component_name, val in data.items():
             idx_idx = self.datamanager.components.index(component_name)
             components = getattr(self.datamanager, component_name)
             try:
                 component = [c for c in components if c[0] == val][0]
             except:
-                return False
+                print "Can't load component:", component_name, "-", val
+                can_switch = False
 
-        return True
+        return can_switch
 
 
     def set_kernel(self, name):

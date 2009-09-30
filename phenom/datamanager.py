@@ -3,11 +3,16 @@ import re
 
 
 class DataManager(object):
-    ''' The DataManager object is resonsible for loading components from
+    ''' The DataManager singleton object is resonsible for loading components from
         .epi and .cu library files in the aeon directory '''
 
-    def __init__(self):
 
+    # for singleton implementation
+    def __call__(self):
+        return self
+
+
+    def __init__(self):
         # load components from files of form *.epi
         files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?.epi$", file)]
 
@@ -136,3 +141,5 @@ class DataManager(object):
             return ""
 
 
+# for singleton implementation
+DataManager = DataManager()

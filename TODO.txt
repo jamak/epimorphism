@@ -1,117 +1,88 @@
 ###################################
 #
-#  v 0.9
-#
-#
-
-clean up states
-
-autorun migrations option
-
-make datamanager singleton
-
-finish picture upload
-
-kernel optimization
-
-rework phenom
-
-clean component_manager
-
-states save clock time
-
-absolute time for kernel speeds
-
-remove component_vals * component_idx from existing states via migration
-
-build state machine for T
-
-final cleaning pass/logging/error checking
-
-
-###################################
-#
 #  v 1.0
 #
 #
 
-integrate ipython into console
+
+maintain phase in speed changes
+
+states save clock time
+
+
+final cleaning pass/logging/error checking/argument lists
+clean component_manager
+rework phenom
+
+
+kernel optimization
+
+
+
+###################################
+#
+#  v 1.25
+#
+#
+
+finish/test picture upload
+
+build state machine for T
+
+video stuff/write ffmpeg script
+
+animation framework, etc
+
+populate T & T_SEED databasees
+
+populate/upgrade seed database
 
 improve colorfunc
 
 generalize w=-1 response
 
 
-fix help
-add argument lists to doc
-
-animation framework
+clean up states
+autorun all migrations option
 
 
-populate T & T_SEED databasees
+deal with state dumps that occur while blending
+when loading state, upload image too?
 
-populate/upgrade seed database
 
-old state zn bullshit
+? animate datamanager defaults
 
-animate datamanager defaults
+? general reset_buf mechanism
 
-general reset_buf mechanism
-
-test server
-
-write ffmpeg script
-
-improve console
 
 
 ###################################
 #
-#  Phase 2
+#  Additional Features
 #
 #
+
+integrate ipython into console
 
 post processing - possible multi-gpu
 
-t_surface
-
-interesting way to explore t's
-
-maintain phase in speed changes
+t_surface / interesting way to explore t's
 
 quantize angles, etc
 
-forced synchronous compilation(video)
-
 midi smoothing. maybe keyboard smoothing
 
-smooth repat switching of same func
-fix recursive readjust
-identical change time problem
-multiswitching
-
-smoother state load
-
-optimize load_kernel
-
-
-
-###################################
-#
-#  Phase 3
-#
-#
-
-
-seed impulses
-
-state recording
+smooth repeat switching of same func - is this possible?
 
 camera input
 
-animation framework
+seed impulses
+
+? state recording
+
 
 click point, get value, etc
+
 
 
 ###################################
@@ -135,4 +106,4 @@ compile to binaries
 
 device emulation mode
 
-website / render video
+website / youtube vie demo

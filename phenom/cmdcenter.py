@@ -128,6 +128,10 @@ class CmdCenter(Setter, Animator):
         self.last_update_time = time.clock()
 
 
+        # for cycling through existing states
+        self.current_state_idx = -1
+
+
     def __del__(self):
         pass
 
@@ -184,6 +188,11 @@ class CmdCenter(Setter, Animator):
 
 
     # UTILITY FUNCTIONS
+
+    def update_current_state_idx(self, idx):
+        self.current_state_idx += idx
+        self.load(self.current_state_idx)
+
 
     def t(self, val):
         self.blend_to_component("T", val)
@@ -252,6 +261,8 @@ class CmdCenter(Setter, Animator):
         if(isinstance(name, int)):
             name = "state_%d" % name
 
+        print "loading state -", name
+
         new_state = ConfigManager().load_dict("state", name)
 
         updates = {}
@@ -264,7 +275,7 @@ class CmdCenter(Setter, Animator):
             delattr(new_state, name)
 
         if(not self.componentmanager.can_switch_to_components(updates)):
-            print "Can't load updates - ", updates
+            print "Failed to load state"
             return False
 
         print "LOAD: updating components - ", updates

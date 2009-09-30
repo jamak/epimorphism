@@ -88,8 +88,6 @@ class ConfigManager(object):
         # open file & extract contents
         file = open("config/" + type + "/" + name + "." + self.extension_names[type])
 
-        print "loading file: ", file
-
         contents = file.read()
         file.close()
 
@@ -102,7 +100,10 @@ class ConfigManager(object):
         default_flag = name == "default"
 
         # return correct config object
-        return eval(type.capitalize())(**vars)
+        obj = eval(type.capitalize())(**vars)
+        obj.name = name
+
+        return obj
 
 
     def outp_dict(self, name, obj):
@@ -123,6 +124,8 @@ class ConfigManager(object):
             i = 0
             while(os.path.exists("config/state/state_%d.est" % i)) : i += 1
             name = "state_" + str(i)
+
+        state.name = name
 
         # output dict
         self.outp_dict("config/state/%s.est" % name, state)

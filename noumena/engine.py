@@ -30,11 +30,6 @@ class Engine(object):
         self.fb = cudaArray_p()
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
-        # initialize frame buffer
-        empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
-
-        cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
-
         # name = 'geometric.jpg'
         # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
@@ -80,15 +75,16 @@ class Engine(object):
         # flag to bind texture
         self.new_kernel = None
 
-        self.do_reset_fb = False
-
         # flag to enable aux_b
         self.aux_enabled = True
 
+        # flag to main thread fb reset(reset on startup)
         self.do_reset_fb = True
 
+        # data for main thread fb download
         self.do_get_fb = False
         self.fb_contents = None
+
 
     def __del__(self):
         # clear cuda memory

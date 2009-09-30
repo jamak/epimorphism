@@ -80,10 +80,12 @@ class KeyboardHandler(object):
             elif(key == "\\"):
                 self.cmdcenter.cmd("reset_fb()")
 
+            # update idx
+            elif(key == "="):
+                self.cmdcenter.update_current_state_idx(1)
 
-            # for testing
-            elif(key == "}"):
-                self.cmdcenter.load(0)
+            elif(key == "-"):
+                self.cmdcenter.update_current_state_idx(-1)
 
             # increment component
             elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]):

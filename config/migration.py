@@ -20,6 +20,7 @@ def relayout_pars(vars, new_names, new_defaults):
 
     vars["par_names"] = new_names
 
+
 def migrate_0_93(vars):
     print "executing migration 0.93"
 
@@ -29,14 +30,13 @@ def migrate_0_93(vars):
     if(vars["T_SEED"] == "zn[8] * (zn[10] * z + zn[11]) + zn[9]"):
         vars["T_SEED"] = "zn[8] * ((zn[10] * z + zn[11])) + zn[9]"
 
+    if(vars.has_key("component_vals")):
+        del vars["component_vals"]
+
+    if(vars.has_key("component_idx")):
+        del vars["component_idx"]
+
     #print vars
-
-def migrate_0_92(vars):
-    print "executing migration 0.92"
-
-    datamanager = DataManager()
-
-    vars["component_vals"] = [0 for i in xrange(10)]
 
 
 def migrate_0_916(vars):
@@ -84,7 +84,7 @@ def migrate_0_91(vars):
 
 
 # dict of all migrations
-all_migrations = {0.91: migrate_0_91, 0.916: migrate_0_916, 0.92: migrate_0_92, 0.93: migrate_0_93}
+all_migrations = {0.91: migrate_0_91, 0.916: migrate_0_916, 0.93: migrate_0_93}
 
 
 def migrate(vars):
