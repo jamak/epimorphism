@@ -50,9 +50,5 @@ def start():
     renderer.start()
 
 # start
-<<<<<<< HEAD:epimorph.py
-if(context.auto_start):
-=======
 if(context.autostart):
->>>>>>> 127da883db27c9a2ddd6d3c85eba550a32b1acac:epimorph.py
     start()

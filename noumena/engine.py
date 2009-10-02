@@ -30,17 +30,6 @@ class Engine(object):
         self.fb = cudaArray_p()
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
-<<<<<<< HEAD:noumena/engine.py
-        # initialize frame buffer
-        empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
-
-        cudaMemcpyToArray(self.fb, 0, 0, empty, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
-
-        name = 'geometric.jpg'
-
-=======
-        # name = 'geometric.jpg'
->>>>>>> 127da883db27c9a2ddd6d3c85eba550a32b1acac:noumena/engine.py
         # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         # create aux buffer
