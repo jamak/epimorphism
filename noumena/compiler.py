@@ -3,21 +3,19 @@ from phenom.datamanager import *
 import os
 import re
 import sys
-from ctypes import *
-
+import hashlib
 import threading
 import StringIO
-
 import time
 
-libnum = 0
+from ctypes import *
 
 def bind_kernel(name):
 
     # attempt to load kernel
     try:
-        lib = cdll.LoadLibrary("tmp/" + name)#, RTLD_LOCAL)
-        os.system("rm tmp/" + name)
+        lib = cdll.LoadLibrary("tmp/%s.so" % name)#, RTLD_LOCAL)
+        # os.system("rm tmp/" + name)
     except:
         print "kernel not found.  exiting."
         exit()
@@ -51,11 +49,7 @@ class Compiler(threading.Thread):
         # start datamanager & manage components
         self.datamanager = DataManager()
 
-        if(self.context.splice_components):
-            self.splice_components()
-        else:
-            for component_name in self.datamanager.components:
-                self.data[component_name] = "%s = %s;" % (component_name.lower(), self.data[component_name])
+        self.splice_components()
 
         # init thread
         threading.Thread.__init__(self)
@@ -66,25 +60,30 @@ class Compiler(threading.Thread):
         var = self.data
         for component_name in self.datamanager.components:
             component_list = getattr(self.datamanager, component_name)
-            val = "switch(component_idx[%d][0]){\n" % self.datamanager.components.index(component_name)
+
+            idx = self.datamanager.components.index(component_name)
+
+            clause1 = "switch(component_idx[%d][0]){\n" % idx
             for component in component_list:
                 name = component[0]
-                if(component_name == "T"):
-                    name = "zn[0] * (%s) + zn[1]" % name.replace("(z)", "(zn[2] * z + zn[3])")
-                elif(component_name == "T_SEED"):
-                    name = "zn[8] * (%s) + zn[9]" % name.replace("(z)", "(zn[10] * z + zn[11])")
-                val += "case %d: %s = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
-            val += "}\n"
-            self.data[component_name] = val
+                clause1 += "case %d: %s0 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+            clause1 += "}\n"
+
+
+            clause2 = "switch(component_idx[%d][1]){\n" % idx
+            for component in component_list:
+                name = component[0]
+                clause2 += "case %d: %s1 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+            clause2 += "}\n"
+
+            interp = "if(internal[%d] != 0){" % idx
+            sub = "min((_clock - internal[%d]) / switch_time, 1.0f)" % (idx)
+            interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
+            interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
+
+            self.data[component_name] = clause1 + interp
 
         return self
-
-
-    def update(self, new_vars):
-
-        # set update info
-        self.update_vars.update(new_vars)
-        self.do_update = True
 
 
     def render_file(self, name):
@@ -106,8 +105,6 @@ class Compiler(threading.Thread):
         for key in self.update_vars:
             contents = re.compile("\%" + key + "\%").sub(str(self.data[key]), contents)
 
-        # print contents
-
         # write file contents
         file = open("aeon/__%s" % (name.replace(".ecu", ".cu")), 'w')
         file.write(contents)
@@ -116,29 +113,37 @@ class Compiler(threading.Thread):
 
     def run(self):
 
-        global libnum
+        # render ecu files
+        files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
 
-        # begin update loop
-        self.do_update = True
-        while(self.do_update):
-            self.do_update = False
+        for file in files:
+            self.render_file(file)
 
-            # render ecu files
-            files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            for file in files:
-                self.render_file(file)
+        # hash files
+        files = [file for file in os.listdir("aeon") if re.search("\.cu$", file)]
 
-            # get name
-            name = "kernel%d.so" % libnum
-            libnum += 1
+        contents = ""
+        for file in files:
+            contents += open("aeon/" + file).read()
 
-            # compile
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+        hash = hashlib.sha1(contents).hexdigest()
+
+        # make name
+        name = "kernel-%s" % hash
+
+        # compile if library doesn't exist
+        if(not os.path.exists("tmp/%s.so" % name)):
+            print "compile kernel ", name
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
+            files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
             for file in files:
                 os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
+
+        else:
+            time.sleep(1)
 
         # execute callback
         self.callback(name)

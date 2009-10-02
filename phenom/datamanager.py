@@ -3,11 +3,16 @@ import re
 
 
 class DataManager(object):
-    ''' The DataManager object is resonsible for loading components from
+    ''' The DataManager singleton object is resonsible for loading components from
         .epi and .cu library files in the aeon directory '''
 
-    def __init__(self):
 
+    # for singleton implementation
+    def __call__(self):
+        return self
+
+
+    def __init__(self):
         # load components from files of form *.epi
         files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?.epi$", file)]
 
@@ -36,6 +41,14 @@ class DataManager(object):
 
                 # get component
                 component[0] = component[0].strip()
+
+                # HACK for certain types of components
+                if(component_name == "t"):
+                    component[0] = "zn[0] * (%s) + zn[1]" % component[0].replace("(z)", "(zn[2] * z + zn[3])")
+                elif(component_name == "t_seed"):
+                    component[0] = "zn[8] * (%s) + zn[9]" % component[0].replace("(z)", "(zn[10] * z + zn[11])")
+
+                # print component_name, component[0]
 
                 # get defaults
                 if(len(component) == 2):
@@ -105,6 +118,7 @@ class DataManager(object):
 
 
     def get_component_for_val(self, component_name, val):
+        ''' This function returns the component object given its name and value '''
         # get list
         res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == val]
 
@@ -116,7 +130,7 @@ class DataManager(object):
 
 
     def comment(self, component_name, val):
-
+        ''' This function returns the comment for a given component_name with a given value '''
         # get component
         component = self.get_component_for_val(component_name, val)
 
@@ -127,3 +141,5 @@ class DataManager(object):
             return ""
 
 
+# for singleton implementation
+DataManager = DataManager()

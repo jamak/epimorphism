@@ -1,4 +1,6 @@
 {
+ 'keyboard_func':'standard',
+ 'autostart': True,
  'profile': 'box1',
  'par_scale': 1,
  'midi': True,
@@ -14,5 +16,5 @@
  'exit' : False,
  'ptxas_stats' : False,
  'echo' : True,
- 'splice_components' : False
+ 'midi_controller' : 'BCF2000'
 }

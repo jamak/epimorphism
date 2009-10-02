@@ -14,7 +14,6 @@ class Engine(object):
         It communicates to the renderer via pbo  '''
 
     def __init__(self, state, profile, context, pbo):
-
         self.state, self.profile, self.context = state, profile, context
 
         # get device
@@ -31,6 +30,7 @@ class Engine(object):
         self.fb = cudaArray_p()
         cudaMallocArray(byref(self.fb), byref(self.channel_desc), self.profile.kernel_dim, self.profile.kernel_dim)
 
+<<<<<<< HEAD:noumena/engine.py
         # initialize frame buffer
         empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(1.0)
 
@@ -38,6 +38,9 @@ class Engine(object):
 
         name = 'geometric.jpg'
 
+=======
+        # name = 'geometric.jpg'
+>>>>>>> 127da883db27c9a2ddd6d3c85eba550a32b1acac:noumena/engine.py
         # data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
         # create aux buffer
@@ -82,15 +85,18 @@ class Engine(object):
         # flag to bind texture
         self.new_kernel = None
 
-        self.do_reset_fb = False
-
         # flag to enable aux_b
         self.aux_enabled = True
 
+        # flag to main thread fb reset(reset on startup)
         self.do_reset_fb = True
 
-    def __del__(self):
+        # data for main thread fb download
+        self.do_get_fb = False
+        self.fb_contents = None
 
+
+    def __del__(self):
         # clear cuda memory
         cudaFreeArray(self.fb)
         cudaFreeArray(self.aux)
@@ -105,16 +111,13 @@ class Engine(object):
 
 
     def record_event(self, idx):
-
         # record an event
         if(self.time_events):
             cudaEventRecord(self.events[idx], 0)
 
 
     def print_timings(self):
-
-        if(self.time_events):
-
+       if(self.time_events):
             # synchronize
             cudaEventSynchronize(self.events[-1])
 
@@ -127,7 +130,6 @@ class Engine(object):
             self.event_accum = [self.event_accum[i] + times[i].value for i in range(len(times))]
 
             if(self.frame_count % self.profile.debug_freq == 0):
-
                 # print times
                 for i in range(len(times)):
 
@@ -184,13 +186,15 @@ class Engine(object):
 
 
     def do(self):
+        # grab frame buffer
+        if(self.do_get_fb):
+            self.do_get_fb = False
+            self.__get_fb_internal()
 
         # return if necessary
         if((self.context.manual_iter and not self.context.next_frame) or self.context.exit): return
 
         self.context.next_frame = False
-
-        # print self.pixel_at(self.profile.kernel_dim / 2, self.profile.kernel_dim / 2 + 5)
 
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
@@ -202,12 +206,6 @@ class Engine(object):
         self.record_event(0)
         self.frame_count += 1
 
-
-#        if(self.frame_count % 500 == 0):
-#            img = Image.frombuffer("RGBA", (self.profile.kernel_dim, self.profile.kernel_dim), self.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
-#            img.show()
-
-
         # upload par & zn & internal & components
         par = (c_float * len(self.state.par))(*[p for p in self.state.par])
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
@@ -218,25 +216,30 @@ class Engine(object):
         zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 
-        component_vals = (c_float * len(self.state.component_vals))(*[x for x in self.state.component_vals])
-        cudaMemcpyToSymbol("component_vals", byref(component_vals), sizeof(component_vals), 0, cudaMemcpyHostToDevice)
-
-        component_idx = (c_int * len(self.state.component_idx))(*[x for x in self.state.component_idx])
-        cudaMemcpyToSymbol("component_idx", byref(component_idx), sizeof(component_idx), 0, cudaMemcpyHostToDevice)
+        if(self.component_idx):
+            component_idx = (c_int * len(self.component_idx))(*[x for x in self.component_idx])
+            cudaMemcpyToSymbol("component_idx", byref(component_idx), sizeof(component_idx), 0, cudaMemcpyHostToDevice)
 
         # upload clock
         clock = c_float(time.clock() - self.t_start)
         cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
+        # upload switch_time
+        switch_time = c_float(self.context.component_switch_time)
+        cudaMemcpyToSymbol("switch_time", byref(switch_time), sizeof(switch_time), 0, cudaMemcpyHostToDevice)
+
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)
+
         if(self.do_reset_fb):
             self.reset(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)))
             self.do_reset_fb = False
+
         else:
             self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr,
                         self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim,
                         1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
+
         self.record_event(1)
 
         # copy data from output_2D
@@ -251,17 +254,30 @@ class Engine(object):
         # compute and print timings
         self.print_timings()
 
-
-        # utility
+        # utility - DON'T REMOVE
         #fb = self.get_fb()
         #r = self.profile.kernel_dim - 5
         #c = self.profile.kernel_dim - 5
         #if(self.frame_count % 20 == 0):
         #    print fb[4 * (r * self.profile.kernel_dim + c) + 0], fb[4 * (r * self.profile.kernel_dim + c) + 1], fb[4 * (r * self.profile.kernel_dim + c) + 2], fb[4 * (r * self.profile.kernel_dim + c) + 3]
 
+
     def get_fb(self):
         ''' This function returns an copy of the the current pbo.
             The return value is a dim ** 2 array of 4 * c_ubyte '''
+
+        # set flag and wait
+        self.do_get_fb = True
+        while(not self.fb_contents): time.sleep(0.01)\
+
+        # return & clear contents
+        tmp = self.fb_contents
+        self.fb_contents = None
+        return tmp
+
+
+    def __get_fb_internal(self):
+        ''' This is the internal function called by the main thread to grab the frame buffer '''
 
         # map buffer
         cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
@@ -271,13 +287,13 @@ class Engine(object):
                            self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
                            self.profile.kernel_dim, cudaMemcpyDeviceToHost)
 
-        # cudaGLUnmapBufferObject(self.pbo)
-
         # return c_ubyte array
-        return (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
+        self.fb_contents = (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
 
 
     def pixel_at(self, x, y):
+        ''' Utility function which returns the pixel currently at coordinates (x,y) in fb '''
+
         i = 4 * (y * self.profile.kernel_dim + x)
         buf = self.get_fb()
         return [buf[i], buf[i + 1], buf[i + 2], buf[i + 3]]
@@ -287,6 +303,7 @@ class Engine(object):
         ''' This manually sets the framebuffer.
             data is a dim ** 2 array of [format]4
             where format = (is_char ? ubyte : float) '''
+
         if(is_char):
             empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(0.0)
 
@@ -298,7 +315,6 @@ class Engine(object):
         cudaMemcpyToArray(self.fb, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
 
         # copy data to fb
-
 
 
     def set_aux(self, data, is_char, is_2D):

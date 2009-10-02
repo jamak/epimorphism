@@ -2,8 +2,9 @@ __constant__ float par[40];
 __constant__ float2 zn[16];
 __constant__ float internal[10];
 __constant__ int component_idx[10][2];
-__constant__ float component_val[10];
 __constant__ float _clock;
+
+__constant__ float switch_time;
 
 %PAR_NAMES%
 
@@ -13,6 +14,11 @@ __constant__ float _clock;
 #include "util.cu"
 #include "math.cu"
 #include "colorspace.cu"
+
+__device__ float2 grid_reduce(float2 z){
+  // standard reduction based on the cartesian grid
+  return rem(z + vec2(1.0f, 1.0f), 2.0f) - vec2(1.0f, 1.0f);
+}
 
 #include "reset.cu"
 #include "color.cu"
@@ -31,7 +37,7 @@ extern "C" {
   __global__ void reset(float4* out, ulong out_pitch){
     unsigned int x = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int y = blockIdx.y * blockDim.y + threadIdx.y;
-    float4 reset;
+    float4 reset, reset0, reset1;
     %RESET%
     out[y * out_pitch + x] = reset;
   }
@@ -47,8 +53,8 @@ extern "C" {
     // [0, kernel_dim) x [0, kernel_dim) -> [-1, 1] x [-1, 1]
     float2 z = (2.0f * i_kernel_dim) * vec2(x, y) + vec2(i_kernel_dim - 1.0f, i_kernel_dim - 1.0f);
     float2 z_z = z;
-    float2 t, t_seed, reduce;
-    float4 seed, color;
+    float2 t, t0, t1, t_seed, t_seed0, t_seed1, reduce, reduce0, reduce1;
+    float4 seed, seed0, seed1, color, color0, color1;
     /*
     %T%
     z = t;

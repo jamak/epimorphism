@@ -4,7 +4,7 @@ from OpenGL.GLUT import *
 
 from common.runner import *
 import common.glFreeType
-FONT_PATH = "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf"
+FONT_PATH = "common/FreeSansBold.ttf"
 
 class Console(object):
     ''' The Console object is responsible for rendering the console in the

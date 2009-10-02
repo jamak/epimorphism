@@ -55,10 +55,10 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
   // RESET = "reset_hsls(x,y)"
   v = RGBtoHSLs(v);
 
-  float l = recover(2.0 * logf(5.0 * len(z_z) / (len(z_z) + 1.0)));
+  //float l = recover(2.0 * logf(5.0 * len(z_z) / (len(z_z) + 1.0)));
 
-  //float l = len(z_z);
-  //l = (4.0f * _COLOR_LEN_SC + 1.0f) * l / (l + 4.0f * _COLOR_LEN_SC);
+  float l = len(z_z);
+  l = (4.0f * _COLOR_LEN_SC + 1.0f) * l / (l + 4.0f * _COLOR_LEN_SC);
 
   float a = 0.0f;
   if(_COLOR_TH_EFF != 0 && (z_z.y != 0.0f || z_z.x != 0.0f)){

@@ -20,22 +20,34 @@ def relayout_pars(vars, new_names, new_defaults):
 
     vars["par_names"] = new_names
 
-def migrate_0_92(vars):
 
-    datamanager = DataManager()
+def migrate_0_93(vars):
+    print "executing migration 0.93"
 
-    vars["component_vals"] = [0 for i in xrange(10)]
+    if(vars["T"] == "zn[0] * (zn[2] * z + zn[3]) + zn[1]"):
+        vars["T"] = "zn[0] * ((zn[2] * z + zn[3])) + zn[1]"
 
-    return vars
+    if(vars["T_SEED"] == "zn[8] * (zn[10] * z + zn[11]) + zn[9]"):
+        vars["T_SEED"] = "zn[8] * ((zn[10] * z + zn[11])) + zn[9]"
+
+    if(vars.has_key("component_vals")):
+        del vars["component_vals"]
+
+    if(vars.has_key("component_idx")):
+        del vars["component_idx"]
+
+    #print vars
+
 
 def migrate_0_916(vars):
+    print "executing migration 0.916"
 
     vars["par"][vars["par_names"].index("_COLOR_PHI")] *= 2.0
     vars["par"][vars["par_names"].index("_COLOR_PSI")] *= 2.0
 
-    return vars
 
 def migrate_0_91(vars):
+    print "executing migration 0.91"
 
     new_names = [
         '_SEED_W',
@@ -70,27 +82,26 @@ def migrate_0_91(vars):
 
     vars["zn"] += [0j for i in xrange(6)]
 
-    return vars
-
 
 # dict of all migrations
-migrations = {0.91 : migrate_0_91, 0.916 : migrate_0_916, 0.92 : migrate_0_92}
+all_migrations = {0.91: migrate_0_91, 0.916: migrate_0_916, 0.93: migrate_0_93}
 
 
 def migrate(vars):
 
     # test if update necessary
     old_version = vars["VERSION"]
-    if(old_version != noumena.VERSION):
+    if(old_version < noumena.VERSION):
 
-        # update
 
-        versions = migrations.keys()
-        versions.sort()
-        versions = [version for version in versions if version > old_version]
+        # get necessary migrations
+        migrations = all_migrations.keys()
+        migrations = [version for version in migrations if version > old_version]
+        migrations.sort()
 
-        for version in versions:
-            vars = migrations[version](vars)
+        # run migrations
+        for version in migrations:
+            all_migrations[version](vars)
 
         # update VERSION
         vars["VERSION"] = noumena.VERSION
