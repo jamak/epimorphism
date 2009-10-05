@@ -8,6 +8,7 @@
 *.png
 __*.cu
 *log.txt
+log.txt*
 *.linkinfo
 ptx
 est
