@@ -87,10 +87,6 @@ class ConfigManager(object):
 
         # open file & extract contents
         file = open("config/" + type + "/" + name + "." + self.extension_names[type])
-<<<<<<< HEAD:config/configmanager.py
-=======
-
->>>>>>> 127da883db27c9a2ddd6d3c85eba550a32b1acac:config/configmanager.py
         contents = file.read()
         file.close()
 
@@ -103,14 +99,10 @@ class ConfigManager(object):
         default_flag = name == "default"
 
         # return correct config object
-<<<<<<< HEAD:config/configmanager.py
-        return eval(type.capitalize())(**vars)
-=======
         obj = eval(type.capitalize())(**vars)
         obj.name = name
 
         return obj
->>>>>>> 127da883db27c9a2ddd6d3c85eba550a32b1acac:config/configmanager.py
 
 
     def outp_dict(self, name, obj):

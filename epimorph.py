@@ -8,6 +8,9 @@ from phenom.cmdcenter import *
 from noumena.engine import *
 from noumena.renderer import *
 
+from common.log import *
+set_log("ROOT")
+
 # TODO: run unclutter to hide mouse
 
 # initialize state/profile/context
@@ -50,5 +53,5 @@ def start():
     renderer.start()
 
 # start
-if(context.autostart):
-    start()
+#if(context.autostart):
+ #   start()

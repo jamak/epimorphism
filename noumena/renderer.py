@@ -12,11 +12,16 @@ from common.runner import *
 import common.glFreeType
 FONT_PATH = "common/FreeSansBold.ttf"
 
+from common.log import *
+set_log("RENDERER")
+
 
 class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
     def __init__(self, state, profile, context):
+
+        debug("from renderer")
 
         # set variables
         self.state, self.profile, self.context = state, profile, context
