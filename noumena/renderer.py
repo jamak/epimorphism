@@ -20,8 +20,7 @@ class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
     def __init__(self, state, profile, context):
-
-        debug("from renderer")
+        debug("init renderer")
 
         # set variables
         self.state, self.profile, self.context = state, profile, context
@@ -103,7 +102,6 @@ class Renderer(object):
 
 
     def register_callbacks(self, keyboard, mouse, motion, render_console, console_keyboard):
-
         # set all standard handlers
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
