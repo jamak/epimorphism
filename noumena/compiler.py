@@ -13,7 +13,7 @@ set_log("COMPILER")
 
 def get_functions(name):
     ''' Creates & returns ctypes interfaces to the kernel .so '''
-    debug("Binding kernel: %s" % name)
+    debug("Getting functions from: %s" % name)
 
     # attempt to load kernel
     try:

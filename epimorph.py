@@ -15,7 +15,7 @@ info("starting epimorphism")
 
 # define & register exit handler
 def exit():
-    debug("program exiting")
+    debug("Exiting program")
 
     # remove unclutter
     os.system("killall unclutter")
@@ -26,7 +26,7 @@ atexit.register(exit)
 os.system("unclutter -idle 0.25 -jitter 1 -root&")
 
 # initialize state/profile/context
-debug("initializing state/profile/context")
+debug("Initializing state/profile/context")
 
 manager = ConfigManager()
 
@@ -44,7 +44,7 @@ state   = manager.load_dict("state", context.state, **parse_args("%"))
 profile = manager.load_dict("profile", context.profile, **parse_args("@"))
 
 # initialize modules
-debug("initializing modules")
+debug("Initializing modules")
 
 renderer  = Renderer(state, profile, context)
 engine    = Engine(state, profile, context, renderer.pbo)
@@ -68,10 +68,10 @@ renderer.set_inner_loop(inner_loop)
 
 # define start function
 def start():
-    debug("starting")
+    debug("Starting")
     renderer.start()
 
-    debug("main loop completed")
+    debug("Main loop completed")
 
 # start
 if(context.autostart):

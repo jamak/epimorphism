@@ -28,7 +28,7 @@ class Renderer(object):
         glutInit(1, [])
 
         # create window
-        debug("creating window")
+        debug("Creating window")
 
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
 
@@ -44,7 +44,7 @@ class Renderer(object):
                 glutInitWindowPosition(10, 10)
                 glutCreateWindow("Epimorphism")
         except:
-            exception("failed to create window")
+            exception("Failed to create window")
             sys.exit()
 
         # reshape
@@ -54,7 +54,7 @@ class Renderer(object):
         glutReshapeFunc(self.reshape)
 
         # generate buffer object
-        debug("initializing GL, buffers & textures")
+        debug("Initializing GL, buffers & textures")
 
         self.pbo = GLuint()
         glGenBuffers(1, byref(self.pbo))
@@ -103,7 +103,7 @@ class Renderer(object):
 
 
     def __del__(self):
-        debug("deleting")
+        debug("Deleting Renderer")
 
         # bind & delete pbo
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
@@ -111,7 +111,7 @@ class Renderer(object):
 
 
     def reshape(self, w, h):
-        debug("reshapd %dx%d" % (w, h))
+        debug("Reshape %dx%d" % (w, h))
 
         # set viewport
         self.profile.viewport_width = w
@@ -144,6 +144,21 @@ class Renderer(object):
         glColor3ub(0xff, 0xff, 0xff)
         self.echo_font.glPrint(6, 6, self.echo_string)
 
+    def main_toggle_console(self):
+        ''' Main thread callback to toggle console '''
+
+        self.do_main_toggle_console = False
+
+        # toggle console
+        self.show_console = not self.show_console
+
+        # juggle keyboard handlers
+        if(self.show_console):
+            glutKeyboardFunc(self.console_keyboard)
+            glutSpecialFunc(self.console_keyboard)
+        else:
+            glutSpecialFunc(self.keyboard)
+            glutKeyboardFunc(self.keyboard)
 
     def do(self):
         if(self.context.exit): return
@@ -210,24 +225,26 @@ class Renderer(object):
         glutPostRedisplay()
 
 
-    ######################################### PUBLIC ####################################################3
+    ######################################### PUBLIC ##################################################
 
 
     def set_inner_loop(self, inner_loop):
-        ''' set the display function to be inner_loop
+        ''' Set the display function to be inner_loop
             this is the main thread of the application '''
 
         glutDisplayFunc(inner_loop)
 
 
     def start(self):
-        ''' starts the main glut loop '''
+        ''' Starts the main glut loop '''
+        debug("Start GLUT main loop")
 
         glutMainLoop()
 
 
     def register_callbacks(self, keyboard, mouse, motion):
-        ''' registers input & console callbacks with openGL '''
+        ''' Registers input & console callbacks with openGL '''
+        debug("Registering input callbacks")
 
         self.keyboard = keyboard
         glutKeyboardFunc(keyboard)
@@ -237,14 +254,15 @@ class Renderer(object):
 
 
     def register_console_callbacks(self, render_console, console_keyboard):
-        ''' registers console callbacks '''
+        ''' Registers console callbacks '''
+        debug("Registering console callbacks")
 
         self.render_console = render_console
         self.console_keyboard = console_keyboard
 
 
     def flash_message(self, msg, t=3):
-        ''' This function temporarily displays a message on the screen. '''
+        ''' Temporarily displays a message on the screen. '''
 
         self.echo_string = msg
 
@@ -256,29 +274,15 @@ class Renderer(object):
 
 
     def toggle_console(self):
-        ''' This function toggles the interactive console '''
+        ''' Toggles the interactive console '''
+        debug("Toggle console")
 
         self.do_main_toggle_console = True
 
 
-    # main thread callback to above function
-    def main_toggle_console(self):
-        self.do_main_toggle_console = False
-
-        # toggle console
-        self.show_console = not self.show_console
-
-        # juggle keyboard handlers
-        if(self.show_console):
-            glutKeyboardFunc(self.console_keyboard)
-            glutSpecialFunc(self.console_keyboard)
-        else:
-            glutSpecialFunc(self.keyboard)
-            glutKeyboardFunc(self.keyboard)
-
-
     def toggle_fps(self):
-        ''' This function toggles the fps display '''
+        ''' Toggles the fps display '''
+        debug("Toggle FPS")
 
         # reset debug information
         self.d_time = 0
@@ -288,7 +292,8 @@ class Renderer(object):
 
 
     def toggle_echo(self):
-        ''' This function toggles echoing '''
+        ''' Toggles echoing '''
+        debug("Toggle echo")
 
         # toggle echo
         self.context.echo = not self.context.echo

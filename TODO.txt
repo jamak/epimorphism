@@ -18,6 +18,8 @@ rework phenom
 kernel optimization
 
 
+fix library load location across 32 & 64 bit platforms in cuda_api.py
+
 
 ###################################
 #

@@ -3,6 +3,7 @@ from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
 from noumena import compiler
+from noumena.compiler import Compiler
 
 import time
 
@@ -68,7 +69,7 @@ class Engine(object):
         debug("Compiling Kernel")
         self.kernel = None
         self.reset = None
-        Compiler(self.state.__dict__, self._set_new_kernel, self.context).start()
+        Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -143,13 +144,29 @@ class Engine(object):
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
-    def _set_new_kernel(self, name):
+    def set_new_kernel(self, name):
         ''' Compiler callback '''
+        debug("Setting new kernel: %s" % name)
 
         self.new_kernel = name
 
 
-    def _switch_kernel(self):
+    def get_fb_internal(self):
+        ''' This is the internal function called by the main thread to grab the frame buffer '''
+
+        # map buffer
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
+
+        # copy pbo to host
+        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr,
+                           self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
+                           self.profile.kernel_dim, cudaMemcpyDeviceToHost)
+
+        # return c_ubyte array
+        self.fb_contents = (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
+
+
+    def switch_kernel(self):
         ''' Main thread callback to interface with a new kernel '''
 
         debug("Switching to kernel: %s", self.new_kernel)
@@ -196,7 +213,7 @@ class Engine(object):
         # grab frame buffer
         if(self.do_get_fb):
             self.do_get_fb = False
-            self._get_fb_internal()
+            self.get_fb_internal()
 
         # return if necessary
         if((self.context.manual_iter and not self.context.next_frame) or self.context.exit): return
@@ -269,6 +286,9 @@ class Engine(object):
         #    print fb[4 * (r * self.profile.kernel_dim + c) + 0], fb[4 * (r * self.profile.kernel_dim + c) + 1], fb[4 * (r * self.profile.kernel_dim + c) + 2], fb[4 * (r * self.profile.kernel_dim + c) + 3]
 
 
+    ######################################### PUBLIC ##################################################
+
+
     def get_fb(self):
         ''' This function returns an copy of the the current pbo.
             The return value is a dim ** 2 array of 4 * c_ubyte '''
@@ -282,21 +302,6 @@ class Engine(object):
         tmp = self.fb_contents
         self.fb_contents = None
         return tmp
-
-
-    def _get_fb_internal(self):
-        ''' This is the internal function called by the main thread to grab the frame buffer '''
-
-        # map buffer
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
-
-        # copy pbo to host
-        res = cudaMemcpy2D(self.host_array, self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.pbo_ptr,
-                           self.profile.kernel_dim * sizeof(c_ubyte) * 4, self.profile.kernel_dim * sizeof(c_ubyte) * 4,
-                           self.profile.kernel_dim, cudaMemcpyDeviceToHost)
-
-        # return c_ubyte array
-        self.fb_contents = (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
 
 
     def pixel_at(self, x, y):
