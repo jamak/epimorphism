@@ -1,0 +1,13 @@
+Metadata-Version: 1.0
+Name: pyPortMidi
+Version: 0.0.3
+Summary: Python Wrappings for PortMidi
+Home-page: http://sound.media.mit.edu/~harrison/pyportmidi/
+Author: John Harrison
+Author-email: harrison@media.mit.edu
+License: UNKNOWN
+Description: 
+        pyPortMidi: support streaming realtime audio from Python
+        using the cross-platform PortMidi C library
+        
+Platform: UNKNOWN

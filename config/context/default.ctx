@@ -15,6 +15,6 @@
  'max_video_frames': None,
  'exit' : False,
  'ptxas_stats' : False,
- 'echo' : True,
+ 'echo' : False,
  'midi_controller' : 'BCF2000'
 }
