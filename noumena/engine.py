@@ -2,11 +2,14 @@ from ctypes import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from noumena.compiler import *
+from noumena import compiler
 
 import time
 
 import Image
+
+from common.log import *
+set_log("ENGINE")
 
 class Engine(object):
     ''' The Engine object is the applications interface, via cuda, to the graphics hardware.
@@ -14,7 +17,11 @@ class Engine(object):
         It communicates to the renderer via pbo  '''
 
     def __init__(self, state, profile, context, pbo):
+        debug("Initializing Engine")
+
         self.state, self.profile, self.context = state, profile, context
+
+        debug("Setting up CUDA")
 
         # get device
         self.cuda_device = c_int()
@@ -58,9 +65,10 @@ class Engine(object):
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
         # compile kernel
+        debug("Compiling Kernel")
         self.kernel = None
         self.reset = None
-        Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
+        Compiler(self.state.__dict__, self._set_new_kernel, self.context).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -86,6 +94,8 @@ class Engine(object):
 
 
     def __del__(self):
+        debug("Deleting Engine")
+
         # clear cuda memory
         cudaFreeArray(self.fb)
         cudaFreeArray(self.aux)
@@ -133,16 +143,22 @@ class Engine(object):
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
 
 
-    def set_new_kernel(self, name):
+    def _set_new_kernel(self, name):
+        ''' Compiler callback '''
+
         self.new_kernel = name
 
 
-    def switch_kernel(self):
+    def _switch_kernel(self):
+        ''' Main thread callback to interface with a new kernel '''
+
+        debug("Switching to kernel: %s", self.new_kernel)
+
         # start clock if necessary
         if(not self.kernel) : self.t_start = time.clock()
 
-        # bind kernel
-        (self.kernel, self.reset) = bind_kernel(self.new_kernel)
+        # get functions from kernel library
+        (self.kernel, self.reset) = compiler.get_functions(self.new_kernel)
         self.new_kernel = None
 
         # create texture reference
@@ -175,10 +191,12 @@ class Engine(object):
 
 
     def do(self):
+        ''' Main event loop '''
+
         # grab frame buffer
         if(self.do_get_fb):
             self.do_get_fb = False
-            self.__get_fb_internal()
+            self._get_fb_internal()
 
         # return if necessary
         if((self.context.manual_iter and not self.context.next_frame) or self.context.exit): return
@@ -254,6 +272,7 @@ class Engine(object):
     def get_fb(self):
         ''' This function returns an copy of the the current pbo.
             The return value is a dim ** 2 array of 4 * c_ubyte '''
+        debug("Retreiving frame buffer")
 
         # set flag and wait
         self.do_get_fb = True
@@ -265,7 +284,7 @@ class Engine(object):
         return tmp
 
 
-    def __get_fb_internal(self):
+    def _get_fb_internal(self):
         ''' This is the internal function called by the main thread to grab the frame buffer '''
 
         # map buffer
@@ -292,6 +311,7 @@ class Engine(object):
         ''' This manually sets the framebuffer.
             data is a dim ** 2 array of [format]4
             where format = (is_char ? ubyte : float) '''
+        debug("Uploading frame buffer")
 
         if(is_char):
             empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))(0.0)
@@ -302,14 +322,14 @@ class Engine(object):
             data = empty
 
         cudaMemcpyToArray(self.fb, 0, 0, data, sizeof(float4) * self.profile.kernel_dim ** 2, cudaMemcpyHostToDevice)
-
-        # copy data to fb
+        # ???copy data to fb???
 
 
     def set_aux(self, data, is_char, is_2D):
         ''' This manually sets the auxillary.
             data is a dim ** 2 array of [format]4
             where format = (is_char ? ubyte : float) '''
+        debug("Uploading aux buffer")
 
         if(is_char):
             #empty = (c_float * (sizeof(float4) * self.profile.kernel_dim ** 2))()
@@ -329,5 +349,6 @@ class Engine(object):
 
     def reset_fb(self):
         ''' This funcion resets the framebuffer to solid black '''
+        debug("Resetting frame buffer")
 
         self.do_reset_fb = True

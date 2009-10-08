@@ -8,15 +8,13 @@ from phenom.datamanager import *
 def relayout_pars(vars, new_names, new_defaults):
     old_par = copy.copy(vars["par"])
 
-    vars["par_defaults"].update(new_defaults)
-
     for i in xrange(len(new_names)):
         name = new_names[i]
-        try:
+        if(new_defaults.has_key(name)):
+            vars["par"][i] = new_defaults[name]
+        else:
             idx = vars["par_names"].index(name)
             vars["par"][i] = old_par[idx]
-        except:
-            vars["par"][i] = vars["par_defaults"][name]
 
     vars["par_names"] = new_names
 

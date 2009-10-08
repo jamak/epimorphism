@@ -19,7 +19,7 @@ class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
     def __init__(self, state, profile, context):
-        debug("init renderer")
+        debug("Initializing Renderer")
 
         # set variables
         self.state, self.profile, self.context = state, profile, context
@@ -103,12 +103,16 @@ class Renderer(object):
 
 
     def __del__(self):
+        debug("deleting")
+
         # bind & delete pbo
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
 
 
     def reshape(self, w, h):
+        debug("reshapd %dx%d" % (w, h))
+
         # set viewport
         self.profile.viewport_width = w
         self.profile.viewport_height = h
@@ -207,6 +211,7 @@ class Renderer(object):
 
 
     ######################################### PUBLIC ####################################################3
+
 
     def set_inner_loop(self, inner_loop):
         ''' set the display function to be inner_loop
