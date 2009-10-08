@@ -73,9 +73,9 @@ class CmdCenter(Setter, Animator):
         # create_console
         console = Console(self)
 
-        # register callbacks with Renderer
-        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion,
-                                         console.render_console, console.console_keyboard)
+        # register callbacks & console with Renderer
+        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion)
+        self.renderer.register_console_callbacks(console.render_console, console.console_keyboard)
 
         # start server
         if(self.context.server):

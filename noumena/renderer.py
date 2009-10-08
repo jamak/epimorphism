@@ -6,17 +6,20 @@ import time
 
 from phenom.keyboard import *
 from phenom.mouse import *
-
 from common.runner import *
 
 import common.glFreeType
 FONT_PATH = "common/FreeSansBold.ttf"
+
+from common.log import *
+set_log("RENDERER")
 
 
 class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
     def __init__(self, state, profile, context):
+        debug("Initializing Renderer")
 
         # set variables
         self.state, self.profile, self.context = state, profile, context
@@ -25,18 +28,24 @@ class Renderer(object):
         glutInit(1, [])
 
         # create window
+        debug("creating window")
+
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
 
-        if(self.profile.full_screen):
-            glutGameModeString(str(self.profile.viewport_width) + "x" +
-                               str(self.profile.viewport_height) + ":24@" +
-                               str(self.profile.viewport_refresh))
-            glutEnterGameMode()
+        try:
+            if(self.profile.full_screen):
+                glutGameModeString(str(self.profile.viewport_width) + "x" +
+                                   str(self.profile.viewport_height) + ":24@" +
+                                   str(self.profile.viewport_refresh))
+                glutEnterGameMode()
 
-        else:
-            glutInitWindowSize(self.profile.viewport_width, self.profile.viewport_height)
-            glutInitWindowPosition(10, 10)
-            glutCreateWindow("Epimorphism")
+            else:
+                glutInitWindowSize(self.profile.viewport_width, self.profile.viewport_height)
+                glutInitWindowPosition(10, 10)
+                glutCreateWindow("Epimorphism")
+        except:
+            exception("failed to create window")
+            sys.exit()
 
         # reshape
         self.reshape(self.profile.viewport_width, self.profile.viewport_height)
@@ -45,6 +54,8 @@ class Renderer(object):
         glutReshapeFunc(self.reshape)
 
         # generate buffer object
+        debug("initializing GL, buffers & textures")
+
         self.pbo = GLuint()
         glGenBuffers(1, byref(self.pbo))
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
@@ -90,25 +101,29 @@ class Renderer(object):
 
         self.do_main_toggle_console = False
 
+
     def __del__(self):
+        debug("deleting")
 
         # bind & delete pbo
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
 
 
-    def register_callbacks(self, keyboard, mouse, motion, render_console, console_keyboard):
+    def reshape(self, w, h):
+        debug("reshapd %dx%d" % (w, h))
 
-        # set all standard handlers
-        self.keyboard = keyboard
-        glutKeyboardFunc(keyboard)
-        glutSpecialFunc(keyboard)
-        glutMouseFunc(mouse)
-        glutMotionFunc(motion)
+        # set viewport
+        self.profile.viewport_width = w
+        self.profile.viewport_height = h
+        self.aspect = float(w) / float(h)
+        glViewport(0, 0, self.profile.viewport_width, self.profile.viewport_height)
 
-        # set console handers
-        self.render_console = render_console
-        self.console_keyboard = console_keyboard
+        # configure projection matrix
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+        glMatrixMode(GL_MODELVIEW)
 
 
     def render_fps(self):
@@ -130,24 +145,10 @@ class Renderer(object):
         self.echo_font.glPrint(6, 6, self.echo_string)
 
 
-    def reshape(self, w, h):
-
-        # set viewport
-        self.profile.viewport_width = w
-        self.profile.viewport_height = h
-        self.aspect = float(w) / float(h)
-        glViewport(0, 0, self.profile.viewport_width, self.profile.viewport_height)
-
-        # configure projection matrix
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
-        glMatrixMode(GL_MODELVIEW)
-
-
     def do(self):
         if(self.context.exit): return
 
+        # main thread toggle_console
         if(self.do_main_toggle_console) : self.main_toggle_console()
 
         # compute frame rate
@@ -175,7 +176,6 @@ class Renderer(object):
         x1 = .5 + self.state.vp_scale / 2 - self.state.vp_center_x * self.aspect
         y0 = .5 - self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
         y1 = .5 + self.state.vp_scale / (2 * self.aspect) + self.state.vp_center_y
-
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
@@ -209,20 +209,43 @@ class Renderer(object):
         glutSwapBuffers()
         glutPostRedisplay()
 
-    def set_inner_loop(self, inner_loop):
 
-        # set the display function to be the inner loop of the application
+    ######################################### PUBLIC ####################################################3
+
+
+    def set_inner_loop(self, inner_loop):
+        ''' set the display function to be inner_loop
+            this is the main thread of the application '''
+
         glutDisplayFunc(inner_loop)
 
 
     def start(self):
+        ''' starts the main glut loop '''
 
-        # start main glut loop
         glutMainLoop()
+
+
+    def register_callbacks(self, keyboard, mouse, motion):
+        ''' registers input & console callbacks with openGL '''
+
+        self.keyboard = keyboard
+        glutKeyboardFunc(keyboard)
+        glutSpecialFunc(keyboard)
+        glutMouseFunc(mouse)
+        glutMotionFunc(motion)
+
+
+    def register_console_callbacks(self, render_console, console_keyboard):
+        ''' registers console callbacks '''
+
+        self.render_console = render_console
+        self.console_keyboard = console_keyboard
 
 
     def flash_message(self, msg, t=3):
         ''' This function temporarily displays a message on the screen. '''
+
         self.echo_string = msg
 
         def delayed_reset_echo():
@@ -240,7 +263,6 @@ class Renderer(object):
 
     # main thread callback to above function
     def main_toggle_console(self):
-
         self.do_main_toggle_console = False
 
         # toggle console
@@ -266,7 +288,7 @@ class Renderer(object):
 
 
     def toggle_echo(self):
-        ''' This function toggles the echoing '''
+        ''' This function toggles echoing '''
 
         # toggle echo
         self.context.echo = not self.context.echo

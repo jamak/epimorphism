@@ -2,25 +2,27 @@ from phenom.datamanager import *
 
 import os
 import re
-import sys
 import hashlib
 import threading
-import StringIO
 import time
 
 from ctypes import *
 
-def bind_kernel(name):
+from common.log import *
+set_log("COMPILER")
+
+def get_functions(name):
+    ''' Creates & returns ctypes interfaces to the kernel .so '''
+    debug("Binding kernel: %s" % name)
 
     # attempt to load kernel
     try:
         lib = cdll.LoadLibrary("tmp/%s.so" % name)#, RTLD_LOCAL)
-        # os.system("rm tmp/" + name)
     except:
-        print "kernel not found.  exiting."
-        exit()
+        critical("Kernel not found")
+        os._exit()
 
-    # extract function
+    # extract function - this could probably be done more smartly
     kernel = lib.__device_stub__Z9kernel_fbP6float4mP6uchar4iffff
     kernel.restype = None
     kernel.argtypes = [ c_void_p, c_ulong, c_void_p, c_int, c_float, c_float, c_float, c_float ]
@@ -37,6 +39,7 @@ class Compiler(threading.Thread):
         The compilation can be restarted by a call to update. '''
 
     def __init__(self, data, callback, context):
+        debug("Initializing Compiler")
 
         self.callback, self.context = callback, context
 
@@ -56,6 +59,9 @@ class Compiler(threading.Thread):
 
 
     def splice_components(self):
+        ''' This method dynamicly generates the interpolated component switch
+            statements that are spliced into the kernels '''
+        debug("Splicing components")
 
         var = self.data
         for component_name in self.datamanager.components:
@@ -87,6 +93,8 @@ class Compiler(threading.Thread):
 
 
     def render_file(self, name):
+        ''' Substitues escape sequences in a .ecu file with dynamic content '''
+        debug("Rendering: %s", name)
 
         # open file & read contents
         file = open("aeon/" + name)
@@ -112,6 +120,8 @@ class Compiler(threading.Thread):
 
 
     def run(self):
+        ''' Executes the main Compiler sequence '''
+        debug("Executing")
 
         # render ecu files
         files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
@@ -133,7 +143,8 @@ class Compiler(threading.Thread):
 
         # compile if library doesn't exist
         if(not os.path.exists("tmp/%s.so" % name)):
-            print "compile kernel ", name
+            info("Compiling kernel - %s" % name)
+
             os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files

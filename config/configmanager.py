@@ -1,12 +1,15 @@
+import sys
+import os.path
+
 import noumena
 
 from config.migration import *
 from common.complex import *
 from phenom.stdmidi import *
 
-import os.path
+from common.log import *
+set_log("CONFIG")
 
-default_flag = False
 
 class MidiList(list):
     ''' This is an internal class to add midi synchronization to
@@ -16,18 +19,14 @@ class MidiList(list):
     old_set = list.__setitem__
 
     def __setitem__(self, key, val):
-
         # set value
         self.old_set(key, val)
 
         if(hasattr(self, "midi")):
-
             # lookup bindings
             bindings = self.midi.get_bindings()
             for binding in bindings:
-
                 if(bindings[binding][4] == (self, key)):
-
                     # compute value
                     f = bindings[binding][2]()
                     f = eval(bindings[binding][3])
@@ -41,15 +40,8 @@ class State(object):
         the Engine's kernel. '''
 
     def __init__(self, **vars):
-
         # update dict with migrated vars
         self.__dict__.update(migrate(vars))
-
-        # set par defaults
-        global default_flag
-        if(default_flag):
-            for i in xrange(len(self.par_names)):
-               self.par[i] = float(self.par_defaults[self.par_names[i]])
 
         # create midi_lists
         self.zn = MidiList(self.zn)
@@ -61,7 +53,6 @@ class Profile(object):
         Renderer and Engine. '''
 
     def __init__(self, **vars):
-
         # init
         self.__dict__.update(vars)
 
@@ -79,25 +70,29 @@ class ConfigManager(object):
     ''' The ConfigManager class is responsible for managing(save/load)
         the various config settings. '''
 
+
     # mappings from config extensions to classes/names
     extension_names = {"state" : "est", "profile" : "prf", "context" : "ctx"}
 
 
     def load_dict(self, type, name, **additional_vars):
+        ''' loads a dictionary into a dictionarized object '''
+
+        debug("loading %s - %s" % (type, name))
 
         # open file & extract contents
-        file = open("config/" + type + "/" + name + "." + self.extension_names[type])
+        try:
+            file = open("config/" + type + "/" + name + "." + self.extension_names[type])
+            contents = file.read()
+            file.close()
 
-        contents = file.read()
-        file.close()
+        except:
+            exception("couldn't read %s - %s" % (type, name))
+            sys.exit()
 
         # get vars
         vars = eval(contents.replace("\n", ""))
         vars.update(additional_vars)
-
-        # set default_flag
-        global default_flag
-        default_flag = name == "default"
 
         # return correct config object
         obj = eval(type.capitalize())(**vars)
@@ -107,6 +102,9 @@ class ConfigManager(object):
 
 
     def outp_dict(self, name, obj):
+        ''' dumps a dict to a file '''
+
+        debug("serializing dictionary %s" % name)
 
         # open file & dump repr(obj)
         file = open(name, "w")
@@ -115,6 +113,9 @@ class ConfigManager(object):
 
 
     def save_state(self, state, name=None):
+        ''' saves a state to disk '''
+
+        debug("saving state")
 
         # set correct version
         state.VERSION = noumena.VERSION
@@ -126,6 +127,8 @@ class ConfigManager(object):
             name = "state_" + str(i)
 
         state.name = name
+
+        debug("with name %s" % name)
 
         # output dict
         self.outp_dict("config/state/%s.est" % name, state)

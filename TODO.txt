@@ -43,6 +43,7 @@ generalize w=-1 response
 
 
 clean up states
+investigate PAR_DEFAULTS
 autorun all migrations option
 
 
@@ -54,6 +55,7 @@ when loading state, upload image too?
 
 ? general reset_buf mechanism
 
+compiler - intellegently load function from kernel.so
 
 
 ###################################
