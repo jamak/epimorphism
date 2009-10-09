@@ -8,21 +8,25 @@ from common.complex import *
 from phenom.stdmidi import *
 from phenom.setter import *
 
+from common.log import *
+set_log("MIDI")
+
+
 class MidiHandler(threading.Thread, Setter):
     ''' The MidiHandler object is a threaded object that handles midi input
         events and that sends midi output information '''
 
+
     def __init__(self, cmdcenter):
 
         self.cmdcenter, self.state = cmdcenter, cmdcenter.state
-
 
         # find devices
         for i in range(pypm.CountDevices()):
 
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(i)
             if(not re.compile("Midi Through Port|TiMidity").search(name)):
-                print "ID:", i, "INTERFACE:", interf, "NAME:", name, (inp == 1 and "INPUT" or "OUTPUT"), "OPENED?", opened
+                debug("ID: %d INTERFACE: %s NAME: %s %s OPENED? %s" % (i, interf, name, (inp == 1 and "INPUT" or "OUTPUT"), str(opened)))
 
             if(re.compile(self.cmdcenter.context.midi_controller).search(name) and inp == 1):
                 self.input_device = i
@@ -37,11 +41,11 @@ class MidiHandler(threading.Thread, Setter):
         try:
             self.midi_in = pypm.Input(self.input_device)
             self.midi_out = pypm.Output(self.output_device, 10)
-            print "Found MIDI device"
+            info("Found MIDI device")
         except:
             self.midi_in = None
             self.midi_out = None
-            print "MIDI device not found"
+            info("MIDI device not found")
             self.cmdcenter.context.midi = False
 
 
@@ -191,9 +195,6 @@ class MidiHandler(threading.Thread, Setter):
             while(not self.midi_in.Poll() and not self.cmdcenter.context.exit) : time.sleep(0.01)
             if(self.cmdcenter.context.exit) : exit()
 
-
-            # print "found something?"
-
             # read
             data = self.midi_in.Read(1)
 
@@ -206,7 +207,7 @@ class MidiHandler(threading.Thread, Setter):
             f = val / 128.0
             if(val == 127.0) : f = 1.0
 
-            print "MIDI", bank, channel, val, f
+            # print "MIDI", bank, channel, val, f
 
             # check bindings
             bindings = self.get_bindings()

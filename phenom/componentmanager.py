@@ -3,9 +3,12 @@ from noumena.compiler import *
 
 import time
 
-COMPILE_TIME = 1.9
+from common.log import *
+set_log("COMPONENT")
+
 
 class ComponentManager(object):
+    
 
     def __init__(self, cmdcenter, state, renderer, engine, context):
         self.cmdcenter, self.state, self.renderer, self.engine, self.context = cmdcenter, state, renderer, engine, context
@@ -28,12 +31,12 @@ class ComponentManager(object):
             idx = self.datamanager.components.index(component_name)
             val =  getattr(self.state, component_name.upper())
 
-            print component_name, ":", val
+            #print component_name, ":", val
 
             try:
                 self.engine.component_idx[2 * idx] = component_vals[idx].index(val)
             except:
-                print "couldn't find index for:", component_name, "-", val
+                error("couldn't find index for:", component_name, "-", val)
                 self.engine.component_idx[2 * idx] = 0
 
 
@@ -77,7 +80,7 @@ class ComponentManager(object):
             try:
                 component = [c for c in components if c[0] == val][0]
             except:
-                print "Can't load component:", component_name, "-", val
+                warning("Can't load component: %s - %s" % (component_name, val))
                 can_switch = False
 
         return can_switch
@@ -100,8 +103,9 @@ class ComponentManager(object):
             try:
                 component = [c for c in components if c[0] == val][0]
             except:
-                print "couldn't find val in components", component_name, val
+                error("couldn't find val in components - %s, %s" % (component_name, val))
                 return False
+
             val_idx = components.index(component)
             updates[component_name] = {"val":val, "component":component, "val_idx":val_idx, "idx_idx":idx_idx}
 

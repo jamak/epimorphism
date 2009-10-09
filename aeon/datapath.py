@@ -3,6 +3,7 @@ from common.complex import *
 
 def linear_1d(t, data):
     ''' 1 dimensional linear path '''
+
     if(t > 1):
         t = data['loop'] and fmod(t, 1.0) or 1
 
@@ -11,6 +12,7 @@ def linear_1d(t, data):
 
 def linear_2d(t, data):
     ''' 2 dimensional linear path '''
+
     if(t > 1):
         t = data['loop'] and fmod(t, 1.0) or 1
 
@@ -20,6 +22,7 @@ def linear_2d(t, data):
 
 def radial_2d(t, data):
     ''' 2 dimensional radial path '''
+
     if(t > 1):
         t = data['loop'] and fmod(t, 1.0) or 1
 
@@ -30,4 +33,5 @@ def radial_2d(t, data):
 
 def wave_1d(t, data):
     ''' 1 dimensional sinousoidal path '''
+
     return (data['a'] * sin(2.0 * pi * t + data['th']) + data['b'], True)

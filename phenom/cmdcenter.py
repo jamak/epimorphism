@@ -18,18 +18,18 @@ import sys
 
 import Image
 
+from common.log import *
+set_log("CMDCENTER")
 
 class CmdEnv(dict):
     ''' The CmdEnv object is a subclass of dict used as the execution
         environment for the CmdCenter.cmd method '''
 
     def __init__(self, data, funcs):
-
         self.data, self.funcs = data, funcs
 
 
     def __getitem__(self, key):
-
         # first check data
         for d in self.data:
             if d.has_key(key):
@@ -40,7 +40,6 @@ class CmdEnv(dict):
 
 
     def __setitem__(self, key, value):
-
         # set data
         for d in self.data:
             if d.has_key(key):
@@ -95,7 +94,6 @@ class CmdCenter(Setter, Animator):
                 self.midi.start()
 
         else:
-
             self.midi = None
 
         # start video_renderer
@@ -183,7 +181,7 @@ class CmdCenter(Setter, Animator):
 
     def moduleCmd(self, module, cmd, vars):
         cmd = "self.%s.%s(**%s)" % (module, cmd, vars)
-        print "cmd string", cmd
+        info("Module cmd string: %s" % cmd)
         exec(cmd)
 
 
@@ -250,7 +248,7 @@ class CmdCenter(Setter, Animator):
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
 
-        print "saved state as", name
+        info("saved state as: " % name)
 
         self.renderer.flash_message("saved state as %s" % name)
 
@@ -261,7 +259,7 @@ class CmdCenter(Setter, Animator):
         if(isinstance(name, int)):
             name = "state_%d" % name
 
-        print "loading state -", name
+        info("loading state: %s" % name)
 
         new_state = ConfigManager().load_dict("state", name)
 
@@ -275,10 +273,10 @@ class CmdCenter(Setter, Animator):
             delattr(new_state, name)
 
         if(not self.componentmanager.can_switch_to_components(updates)):
-            print "Failed to load state"
+            error("Failed to load state")
             return False
 
-        print "LOAD: updating components - ", updates
+        debug("Loading state, updating components: %s" % str(updates))
 
         # blend to zns
         for i in xrange(len(new_state.zn)):

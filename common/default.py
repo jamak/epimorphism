@@ -10,7 +10,6 @@ def clamp_r(zn, i, a, b):
 
 # min  a <= z_r
 def min_r(zn, i, a):
-
     p = r_to_p(zn[i])
     p[0] = max(p[0], a)
     zn[i] = p_to_r(p)

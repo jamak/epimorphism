@@ -2,6 +2,8 @@ import noumena
 import common.default
 
 import copy
+from common.log import *
+set_log("MIGRATION")
 
 from phenom.datamanager import *
 
@@ -20,7 +22,7 @@ def relayout_pars(vars, new_names, new_defaults):
 
 
 def migrate_0_93(vars):
-    print "executing migration 0.93"
+    info("Executing migration 0.93")
 
     if(vars["T"] == "zn[0] * (zn[2] * z + zn[3]) + zn[1]"):
         vars["T"] = "zn[0] * ((zn[2] * z + zn[3])) + zn[1]"
@@ -38,14 +40,14 @@ def migrate_0_93(vars):
 
 
 def migrate_0_916(vars):
-    print "executing migration 0.916"
+    info("Executing migration 0.916")
 
     vars["par"][vars["par_names"].index("_COLOR_PHI")] *= 2.0
     vars["par"][vars["par_names"].index("_COLOR_PSI")] *= 2.0
 
 
 def migrate_0_91(vars):
-    print "executing migration 0.91"
+    info("Executing migration 0.91")
 
     new_names = [
         '_SEED_W',

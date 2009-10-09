@@ -3,6 +3,9 @@ import socket
 
 from common.runner import *
 
+from common.log import *
+set_log("SERVER")
+
 class Server(threading.Thread):
     ''' The Server object is responsible for creating and maintaining
         connects to outside clients, and relaying messages to the
@@ -22,11 +25,12 @@ class Server(threading.Thread):
 
 
     def __del__(self):
-        print "close server"
+        debug("Closeing server")
         self.com.close()
 
 
     def handle_connection(self, channel):
+        ''' Receive & parse data from connection '''
 
         # get packets
         while(not self.cmdcenter.context.exit):
@@ -35,7 +39,7 @@ class Server(threading.Thread):
             cmd = channel.recv ( 100 )
 
             # execute command
-            print "executing: ", cmd
+            info("executing: %s" % cmd)
             res = self.cmdcenter.cmd(cmd, True)
 
             # send response
@@ -46,13 +50,14 @@ class Server(threading.Thread):
 
 
     def run(self):
+        ''' Async wait for a connection '''
 
         # accept connections
         while(not self.cmdcenter.context.exit):
 
             # accept connection
             channel, details = self.com.accept()
-            print "connected to: ", details
+            info("connected to: %s" % details)
 
             # spawn thread to handle connection
             async(self.handle_connection(channel))

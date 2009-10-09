@@ -11,7 +11,7 @@ from phenom.cmdcenter import *
 
 from common.log import *
 set_log("EPIMORPH")
-info("starting epimorphism")
+info("Starting Epimorphism")
 
 # define & register exit handler
 def exit():
@@ -68,10 +68,10 @@ renderer.set_inner_loop(inner_loop)
 
 # define start function
 def start():
-    debug("Starting")
+    info("Starting main loop")
     renderer.start()
 
-    debug("Main loop completed")
+    info("Main loop completed")
 
 # start
 if(context.autostart):

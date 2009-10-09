@@ -27,10 +27,10 @@ def set_log(name):
     logger.addHandler(fh)
 
     # add logger to calling context
-    sys._getframe(1).f_locals['debug'] = logger.debug
-    sys._getframe(1).f_locals['info'] = logger.info
-    sys._getframe(1).f_locals['warning'] = logger.warning
-    sys._getframe(1).f_locals['error'] = logger.error
-    sys._getframe(1).f_locals['critical'] = logger.critical
+    sys._getframe(1).f_locals['debug']     = logger.debug
+    sys._getframe(1).f_locals['info']      = logger.info
+    sys._getframe(1).f_locals['warning']   = logger.warning
+    sys._getframe(1).f_locals['error']     = logger.error
+    sys._getframe(1).f_locals['critical']  = logger.critical
     sys._getframe(1).f_locals['exception'] = logger.exception
 

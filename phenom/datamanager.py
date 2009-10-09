@@ -1,6 +1,8 @@
 import os
 import re
 
+from common.log import *
+set_log("DATAMANAGER")
 
 class DataManager(object):
     ''' The DataManager singleton object is resonsible for loading components from
@@ -90,7 +92,7 @@ class DataManager(object):
                         func_name = re.search("__device__ .+? (\S+)\(", func).group(1)
                         args = [arg.split(" ")[1] for arg in re.search("\(.+\)", func).group(0)[1:-1].split(", ")]
                     except:
-                        print "invalid function definition", func
+                        error("invalid function definition: %s" % func)
                         continue
 
                     # find comments

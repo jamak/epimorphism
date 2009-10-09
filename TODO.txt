@@ -5,20 +5,12 @@
 #
 
 
-maintain phase in speed changes
-
 states save clock time
 
+rework component_manager & datamanager & engine params
+rework phenom/cmdcenter
 
-final cleaning pass/logging/error checking/argument lists
-clean component_manager
-rework phenom
-
-
-kernel optimization
-
-
-fix library load location across 32 & 64 bit platforms in cuda_api.py
+fix glGetIntegerv bug
 
 
 ###################################
@@ -26,6 +18,12 @@ fix library load location across 32 & 64 bit platforms in cuda_api.py
 #  v 1.25
 #
 #
+
+clean midi
+
+maintain phase in speed changes
+
+kernel optimization
 
 finish/test picture upload
 
@@ -59,6 +57,9 @@ when loading state, upload image too?
 
 compiler - intellegently load function from kernel.so
 
+multi-threaded GLUT
+
+add argument lists to help
 
 ###################################
 #
