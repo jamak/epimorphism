@@ -18,10 +18,9 @@ class MidiHandler(threading.Thread, Setter):
 
 
     def __init__(self, cmdcenter):
-
         self.cmdcenter, self.state = cmdcenter, cmdcenter.state
 
-        # find devices
+        # find devices - MAYBE A BIT FLAKEY
         for i in range(pypm.CountDevices()):
 
             interf,name,inp,outp,opened = pypm.GetDeviceInfo(i)
@@ -35,8 +34,6 @@ class MidiHandler(threading.Thread, Setter):
             if(re.compile(self.cmdcenter.context.midi_controller).search(name) and outp == 1):
                 self.output_device = i
 
-        # self.input_device = self.output_device = int(raw_input("MIDI INPUT number: "))
-
         # open devices
         try:
             self.midi_in = pypm.Input(self.input_device)
@@ -48,9 +45,7 @@ class MidiHandler(threading.Thread, Setter):
             info("MIDI device not found")
             self.cmdcenter.context.midi = False
 
-
-        # create sefault zn bindings
-
+        # create sefault zn bindings for
         if(self.cmdcenter.context.midi_controller == "BCF2000"):
             self.bindings0 = {(0, 81): [self.zn_set_r_i(0),  "m5(f)", self.zn_get_r_i(0),  "m5_inv(f)", (self.state.zn, 0)],
                               (0, 82): [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
@@ -150,6 +145,18 @@ class MidiHandler(threading.Thread, Setter):
 
         # init thread
         threading.Thread.__init__(self)
+
+    def mirror(self, obj, key):
+        # lookup bindings
+        bindings = self.get_bindings()
+        for binding in bindings:
+            if(bindings[binding][4] == (obj, key)):
+                # compute value
+                f = bindings[binding][2]()
+                f = eval(bindings[binding][3])
+
+                # send value
+                self.writef(binding, f)
 
 
     def send_bindings(self):

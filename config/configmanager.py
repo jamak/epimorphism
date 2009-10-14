@@ -23,16 +23,7 @@ class MidiList(list):
         self.old_set(key, val)
 
         if(hasattr(self, "midi")):
-            # lookup bindings
-            bindings = self.midi.get_bindings()
-            for binding in bindings:
-                if(bindings[binding][4] == (self, key)):
-                    # compute value
-                    f = bindings[binding][2]()
-                    f = eval(bindings[binding][3])
-
-                    # send value
-                    self.midi.writef(binding, f)
+            self.midi.mirror(obj, key)
 
 
 class State(object):

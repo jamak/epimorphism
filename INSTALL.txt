@@ -13,4 +13,4 @@ Epimorphism Installation:
    sudo cp sources/vertex_buffer_object.py /usr/lib/python2.6/dist-packages/OpenGL/GL/ARB
 
 5. If on a 64 bit OS, execute
-   sudo ln -s /usr/local/cuda/lib64/libcudart.so /usr/local/cuda/lib/libcudart.so
+   sudo ln -s /usr/local/cuda/lib64/libcudart.so /usr/local/cuda/libcudart.so
