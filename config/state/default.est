@@ -1,4 +1,8 @@
 {'VERSION': 0.916,
+ 'component_switch_time' : 2.0,
+ 'manual_iter': False,
+ 'next_frame': False,
+
  'SEED': 'seed_wca(z)',
  'SEED_A': 'circular_alpha(w)',
  'SEED_C': 'simple_color(z, w)',
@@ -9,9 +13,6 @@
  'COLOR': 'rotate_hsls(v, z_z)',
  'REDUCE': 'torus_reduce(z)',
  'RESET': 'reset_hsls(x, y)',
- 'vp_center_x': 0.0,
- 'vp_center_y': 0.0,
- 'vp_scale': 1.0,
  'zn': [(1.0+0j),
  0j,
  (1.0+0j),

@@ -118,7 +118,7 @@ class ComponentManager(object):
         if(len(updates) == 1):
             self.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
-        while(time.clock() - self.engine.t_start - self.state.internal[first_idx] < self.context.component_switch_time):
+        while(time.clock() - self.engine.t_start - self.state.internal[first_idx] < self.state.component_switch_time):
             time.sleep(0.1)
 
         for component_name, update in updates.items():

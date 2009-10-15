@@ -16,10 +16,10 @@ class Engine(object):
         It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
         It communicates to the renderer via pbo  '''
 
-    def __init__(self, state, profile, context, pbo):
+    def __init__(self, state, profile, pbo):
         debug("Initializing Engine")
 
-        self.state, self.profile, self.context = state, profile, context
+        self.state, self.profile = state, profile
 
         debug("Setting up CUDA")
 
@@ -68,7 +68,7 @@ class Engine(object):
         debug("Compiling Kernel")
         self.kernel = None
         self.reset = None
-        Compiler(self.state.__dict__, self.set_new_kernel, self.context).start()
+        Compiler(self.state.__dict__, self.set_new_kernel, self.profile).start()
 
         # register_pbo
         self.pbo, self.pbo_ptr = pbo, c_void_p()
@@ -214,11 +214,6 @@ class Engine(object):
             self.do_get_fb = False
             self.get_fb_internal()
 
-        # return if necessary
-        if((self.context.manual_iter and not self.context.next_frame) or self.context.exit): return
-
-        self.context.next_frame = False
-
         # idle until kernel found
         while(not self.kernel and not self.new_kernel): time.sleep(0.01)
 
@@ -248,7 +243,7 @@ class Engine(object):
         cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
         # upload switch_time
-        switch_time = c_float(self.context.component_switch_time)
+        switch_time = c_float(self.state.component_switch_time)
         cudaMemcpyToSymbol("switch_time", byref(switch_time), sizeof(switch_time), 0, cudaMemcpyHostToDevice)
 
         # call kernel

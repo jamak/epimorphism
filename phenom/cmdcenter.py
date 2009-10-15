@@ -66,7 +66,7 @@ class CmdCenter(Setter, Animator):
         self.video_renderer = VideoRenderer(self)
 
         # create input handlers
-        mouse_handler = MouseHandler(self, renderer.profile)
+        mouse_handler = MouseHandler(self, self.context)
         keyboard_handler = KeyboardHandler(self)
 
         # create_console
@@ -280,11 +280,11 @@ class CmdCenter(Setter, Animator):
 
         # blend to zns
         for i in xrange(len(new_state.zn)):
-            self.radial_2d(self.state.zn, i, self.context.component_switch_time, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+            self.radial_2d(self.state.zn, i, self.state.component_switch_time, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
 
         # blend to pars
         for i in xrange(len(new_state.par)):
-            self.linear_1d(self.state.par, i, self.context.component_switch_time, self.state.par[i], new_state.par[i])
+            self.linear_1d(self.state.par, i, self.state.component_switch_time, self.state.par[i], new_state.par[i])
 
         self.componentmanager.switch_components(updates)
 
@@ -298,16 +298,15 @@ class CmdCenter(Setter, Animator):
     def manual(self):
         ''' Toggles manual iteration. '''
 
-        if(self.context.manual_iter):
-            self.context.next_frame = True
+        if(self.state.manual_iter):
+            self.state.next_frame = True
 
-        self.context.manual_iter = not self.context.manual_iter
+        self.state.manual_iter = not self.state.manual_iter
 
 
     def next(self):
         ''' If manual iteration toggles, andvances frame. '''
 
-        self.context.next_frame = True
-
+        self.state.next_frame = True        
 
 

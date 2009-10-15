@@ -38,10 +38,10 @@ class Compiler(threading.Thread):
     ''' A Compiler object if responsible for asynchronously calling nvcc.
         The compilation can be restarted by a call to update. '''
 
-    def __init__(self, data, callback, context):
+    def __init__(self, data, callback, profile):
         debug("Initializing Compiler")
 
-        self.callback, self.context = callback, context
+        self.callback, self.profile = callback, profile
 
         self.data = data.copy()
 
@@ -145,7 +145,7 @@ class Compiler(threading.Thread):
         if(not os.path.exists("tmp/%s.so" % name)):
             info("Compiling kernel - %s" % name)
 
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.context.ptxas_stats and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.profile.ptxas_stats and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]

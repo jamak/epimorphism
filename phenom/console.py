@@ -12,7 +12,7 @@ class Console(object):
 
     def __init__(self, cmdcenter):
 
-        self.cmdcenter, self.renderer = cmdcenter, cmdcenter.renderer
+        self.cmdcenter = cmdcenter
 
         # console parameters
         self.console_font_size = 12
@@ -36,10 +36,10 @@ class Console(object):
         num_rows = min(len(self.status_rows), self.max_num_status_rows)
 
         # calculate dimensions
-        dims = [1.0 - 2.0 * self.console_width / self.renderer.profile.viewport_width,
-                -1.0 + 2.0 * (10 + (self.console_font_size + 4) * (1 + num_rows)) / self.renderer.profile.viewport_height]
+        dims = [1.0 - 2.0 * self.console_width / self.cmdcenter.context.display_res[0],
+                -1.0 + 2.0 * (10 + (self.console_font_size + 4) * (1 + num_rows)) / self.cmdcenter.context.display_res[0]]
 
-        dims_v = [self.renderer.profile.viewport_width - self.console_width, 0]
+        dims_v = [self.cmdcenter.context.display_res[0] - self.console_width, 0]
 
         # draw box
         glColor4f(0.05, 0.05, 0.1, 0.85)
@@ -80,7 +80,7 @@ class Console(object):
 
         # toggle console
         elif(key == "`"):
-            self.renderer.toggle_console()
+            self.cmdcenter.renderer.toggle_console()
 
         # delete character
         elif(key == "\010"): # backspace

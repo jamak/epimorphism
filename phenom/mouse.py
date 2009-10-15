@@ -7,8 +7,8 @@ class MouseHandler(object):
         in the Renderer object during normal opperation '''
 
 
-    def __init__(self, cmdcenter, profile):
-        self.cmdcenter, self.profile, self.state = cmdcenter, profile, cmdcenter.state
+    def __init__(self, cmdcenter, context):
+        self.cmdcenter, self.context, self.state = cmdcenter, context, cmdcenter.state
 
         # init coords
         self.vp_start_x = 0
@@ -21,8 +21,8 @@ class MouseHandler(object):
         if(state == GLUT_DOWN):
             # set start center drag coords
             if(button == 0):
-                self.vp_start_x = self.state.vp_center_x
-                self.vp_start_y = self.state.vp_center_y
+                self.vp_start_x = self.context.viewport[0]
+                self.vp_start_y = self.context.viewport[1]
 
                 self.mouse_start_x = x
                 self.mouse_start_y = y
@@ -30,23 +30,23 @@ class MouseHandler(object):
         elif(state == GLUT_UP):
             # on right click, reset scale/center
             if(button == 2):
-                self.state.vp_scale = 1.0
-                self.state.vp_center_x = 0.0
-                self.state.vp_center_y = 0.0
+                self.context.viewport[2] = 1.0
+                self.context.viewport[0] = 0.0
+                self.context.viewport[1] = 0.0
 
             # mousewheel up, increase scale
             elif(button == 4):
-                self.state.vp_scale *= 1.1
+                self.context.viewport[2] *= 1.1
 
             # mousewheel up, decrease scale
             elif(button == 3):
-                self.state.vp_scale /= 1.1
+                self.context.viewport[2] /= 1.1
 
 
     def motion(self, x, y):
         # drag center
-        self.state.vp_center_x = self.vp_start_x + self.state.vp_scale * (x - self.mouse_start_x) / self.profile.viewport_width;
-        self.state.vp_center_y = self.vp_start_y + self.state.vp_scale * (y - self.mouse_start_y) / self.profile.viewport_height;
+        self.context.viewport[0] = self.vp_start_x + self.context.viewport[2] * (x - self.mouse_start_x) / self.context.display_res[0];
+        self.context.viewport[1] = self.vp_start_y + self.context.viewport[2] * (y - self.mouse_start_y) / self.context.display_res[1];
 
 
 

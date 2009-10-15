@@ -57,14 +57,18 @@ def main():
     debug("Initializing modules")
 
     global renderer, engine, cmdcenter
-    renderer  = Renderer(state, profile, context)
-    engine    = Engine(state, profile, context, renderer.pbo)
+    renderer  = Renderer(profile.kernel_dim, context)
+    engine    = Engine(state, profile, renderer.pbo)
     cmdcenter = CmdCenter(state, renderer, engine, context)
 
     # create execution loop
     def inner_loop():
         cmdcenter.do()
-        engine.do()
+        
+        if(not (state.manual_iter and not state.next_frame)): 
+            state.next_frame = False
+            engine.do()
+
         renderer.do()
 
         if(context.exit):

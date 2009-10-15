@@ -99,7 +99,7 @@ class BM2009(object):
     # event library
 
     def switch_t(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['T'] = True
         print "start switch_t"
         self.cmdcenter.inc_data("T", 1)
@@ -111,7 +111,7 @@ class BM2009(object):
         self.switch_exponent = 1
 
     def switch_t_seed(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['T_SEED'] = True
         print "start switch_t_seed"
         self.cmdcenter.inc_data("T_SEED", 1)
@@ -122,7 +122,7 @@ class BM2009(object):
         self.switch_exponent = 1
 
     def switch_seed_w(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['SEED_W'] = True
         print "start switch_seed_w"
         self.cmdcenter.inc_data("SEED_W", 1)
@@ -132,7 +132,7 @@ class BM2009(object):
         self.switch_exponent = 1
 
     def switch_seed_wt(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['SEED_WT'] = True
         print "start switch_seed_wt"
         self.cmdcenter.inc_data("SEED_WT", 1)
@@ -142,7 +142,7 @@ class BM2009(object):
         self.switch_exponent = 1
 
     def switch_seed_a(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['SEED_A'] = True
         print "start switch_seed_a"
         self.cmdcenter.inc_data("SEED_A", 1)
@@ -152,7 +152,7 @@ class BM2009(object):
         self.switch_exponent = 1
 
     def switch_reduce(self):
-        self.cmdcenter.context.component_switch_time = self.spb() * (2 ** self.switch_exponent)
+        self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['REDUCE'] = True
         print "start switch_reduce"
         self.cmdcenter.inc_data("REDUCE", 1)
