@@ -1,5 +1,3 @@
-from phenom.datamanager import *
-
 import os
 import re
 import hashlib
@@ -38,21 +36,12 @@ class Compiler(threading.Thread):
     ''' A Compiler object if responsible for asynchronously calling nvcc.
         The compilation can be restarted by a call to update. '''
 
-    def __init__(self, data, callback, profile):
+    def __init__(self, callback, config):
         debug("Initializing Compiler")
 
-        self.callback, self.profile = callback, profile
+        self.callback, self.config = callback, config
 
-        self.data = data.copy()
-
-        # init update_vars
-        self.update_vars = {}
-        self.update_vars.update(data)
-
-        # start datamanager & manage components
-        self.datamanager = DataManager()
-
-        self.splice_components()
+        self.substitutions = {}
 
         # init thread
         threading.Thread.__init__(self)
@@ -63,11 +52,10 @@ class Compiler(threading.Thread):
             statements that are spliced into the kernels '''
         debug("Splicing components")
 
-        var = self.data
-        for component_name in self.datamanager.components:
-            component_list = getattr(self.datamanager, component_name)
+        for component_name in self.config['datamanager'].components:
+            component_list = getattr(self.config['datamanager'], component_name)
 
-            idx = self.datamanager.components.index(component_name)
+            idx = self.config['datamanager'].components.index(component_name)
 
             clause1 = "switch(component_idx[%d][0]){\n" % idx
             for component in component_list:
@@ -87,7 +75,7 @@ class Compiler(threading.Thread):
             interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
             interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
 
-            self.data[component_name] = clause1 + interp
+            self.substitutions[component_name] = clause1 + interp
 
         return self
 
@@ -101,17 +89,20 @@ class Compiler(threading.Thread):
         contents = file.read()
         file.close()
 
+        # splice components
+        self.splice_components()
+
         # bind PAR_NAMES
         par_name_str = ""
 
-        for i in xrange(len(self.data["par_names"])):
-            par_name_str += "#define %s par[%d]\n" % (self.data["par_names"][i], i)
+        for i in xrange(len(self.config["par_names"])):
+            par_name_str += "#define %s par[%d]\n" % (self.config["par_names"][i], i)
 
-        contents = re.compile('\%PAR_NAMES\%').sub(par_name_str, contents)
+        self.substitutions["PAR_NAMES"] = par_name_str
 
         # replace variables
-        for key in self.update_vars:
-            contents = re.compile("\%" + key + "\%").sub(str(self.data[key]), contents)
+        for key in self.substitutions:
+            contents = re.compile("\%" + key + "\%").sub(str(self.substitutions[key]), contents)
 
         # write file contents
         file = open("aeon/__%s" % (name.replace(".ecu", ".cu")), 'w')
@@ -145,7 +136,7 @@ class Compiler(threading.Thread):
         if(not os.path.exists("tmp/%s.so" % name)):
             info("Compiling kernel - %s" % name)
 
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.profile.ptxas_stats and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]

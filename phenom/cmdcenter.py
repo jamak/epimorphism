@@ -1,5 +1,4 @@
 from phenom.animator import *
-from phenom.video import *
 from phenom.setter import *
 from phenom.componentmanager import *
 from phenom.BM2009 import *
@@ -47,22 +46,18 @@ class CmdCenter(Setter, Animator):
         provides an interface for executing code int the appropriate environment. '''
 
 
-    def __init__(self, state, interface, engine, context):
+    def __init__(self, state, interface, engine):
+        debug("Initializing CmdCenter")
 
-        self.state, self.interface, self.engine, self.context = state, interface, engine, context
+        self.state, self.interface, self.engine = state, interface, engine
+
+        engine.frame = state
 
         # init componentmanager
-        self.componentmanager = ComponentManager(self, self.state, self.engine, self.context)
+        self.componentmanager = ComponentManager(self, self.state, self.engine)
 
         # init animator
         Animator.__init__(self)
-
-        # create video_renderer
-        self.video_renderer = VideoRenderer(self)
-
-        # start video_renderer
-        if(self.context.render_video):
-            self.video_renderer.video_start()
 
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
@@ -77,18 +72,15 @@ class CmdCenter(Setter, Animator):
         # get functions from objects
         funcs = get_funcs(self)
         # funcs.update(get_funcs(self.renderer))
-        funcs.update(get_funcs(self.video_renderer))
+        # funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
         funcs.update(get_funcs(self.componentmanager))
         funcs.update(default_funcs)
 
         # generate cmd exec environment
-        self.env = CmdEnv([self.state.__dict__, self.context.__dict__], funcs)
+        self.env = CmdEnv([self.state.__dict__, self.interface.context.__dict__], funcs)        
 
         self.frame_cnt = 0
-
-        self.last_update_time = time.clock()
-
 
         # for cycling through existing states
         self.current_state_idx = -1
@@ -96,11 +88,6 @@ class CmdCenter(Setter, Animator):
 
     def __del__(self):
         pass
-
-        # kill server
-        #if(self.server):
-        #    self.server.__del___()
-
 
     def cmd(self, code, capture=False):
         # hijack stdout, if requested
@@ -133,14 +120,10 @@ class CmdCenter(Setter, Animator):
 
 
     def do(self):
+        self.frame_cnt += 1
+
         # execute animation paths
         self.execute_paths()
-
-        # capture video frames
-        if(self.context.render_video):
-            self.video_renderer.capture()
-
-        self.frame_cnt += 1
 
 
     def moduleCmd(self, module, cmd, vars):

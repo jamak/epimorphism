@@ -17,10 +17,10 @@ class KeyboardHandler(object):
     ''' The KeyboardHandler is the GLUT callback that handles keyboard events
         in the Renderer object during normal opperation '''
 
-    def __init__(self, cmdcenter):
+    def __init__(self, cmdcenter, context):
 
         self.cmdcenter = cmdcenter
-        self.state, self.context = self.cmdcenter.state, self.cmdcenter.context
+        self.state, self.context = self.cmdcenter.state, context
 
         #initialize component list
         self.components = cmdcenter.componentmanager.component_list()
@@ -58,7 +58,7 @@ class KeyboardHandler(object):
         else:
             # exit
             if(key == "\033"): # escape
-                self.cmdcenter.context.exit = True
+                self.context.exit = True
 
              # toggle manual iteration
             elif(key == "\011"): # tab
@@ -172,7 +172,7 @@ class KeyboardHandler(object):
             self.cmdcenter.moduleCmd('bm2009', 'set_var', {'var':'switch_exponent', 'val':-1})
 
         if(key == '|'): # escape
-            self.cmdcenter.context.exit = True
+            self.context.exit = True
 
         # toggle console
         elif(key == "`"):

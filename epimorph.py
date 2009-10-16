@@ -20,6 +20,10 @@ info("Starting Epimorphism")
 def exit():
     debug("Exiting program")
 
+    # interface.__del__()
+    # engine.__del__()
+    # cmdcenter.__del__()
+
     # remove unclutter
     os.system("killall unclutter")
 
@@ -53,33 +57,38 @@ profile = manager.load_dict("profile", context.profile, **parse_args("@"))
 def main():
     info("Starting main loop")
 
-    # initialize modules
+    # initialize & sync modules
     debug("Initializing modules")
 
     global interface, engine, cmdcenter
     interface = Interface(context)
-    engine    = Engine(state, profile)
-    cmdcenter = CmdCenter(state, interface, engine, context)
-    interface.sync_cmd(cmdcenter)
+    engine    = Engine(profile)
+    cmdcenter = CmdCenter(state, interface, engine)
 
+    interface.sync_cmd(cmdcenter)
     engine.sync(interface.renderer)
+
+    # compile engine kernel - this needs to be generalized
+    compiler_config = {'ptxas_stats': profile.ptxas_stats, 'par_names':state.par_names, 'datamanager':cmdcenter.componentmanager.datamanager}
+    Compiler(engine.set_new_kernel, compiler_config).start()
 
     # create execution loop
     def inner_loop():
-        cmdcenter.do()
         
+        # execute command center
+        cmdcenter.do()
+
+        # execute engine
         if(not (state.manual_iter and not state.next_frame)): 
             state.next_frame = False
             engine.do()
 
+        # execute interface
         interface.do()
 
+        # cleanup
         if(context.exit):
-           # interface.__del__()
-            engine.__del__()
-            cmdcenter.__del__()
-            sys.exit()
-            os._exit()
+            sys.exit()            
 
     # set execution loop & start - this is lame
     interface.renderer.set_inner_loop(inner_loop)

@@ -10,8 +10,8 @@ set_log("COMPONENT")
 class ComponentManager(object):
     
 
-    def __init__(self, cmdcenter, state, engine, context):
-        self.cmdcenter, self.state, self.engine, self.context = cmdcenter, state, engine, context
+    def __init__(self, cmdcenter, state, engine):
+        self.cmdcenter, self.state, self.engine = cmdcenter, state, engine
 
         self.switching_component = False
 

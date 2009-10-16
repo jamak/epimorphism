@@ -17,8 +17,8 @@ class MidiHandler(threading.Thread, Setter):
         events and that sends midi output information '''
 
 
-    def __init__(self, cmdcenter):
-        self.cmdcenter, self.state = cmdcenter, cmdcenter.state
+    def __init__(self, cmdcenter, context):
+        self.cmdcenter, self.state, self.context = cmdcenter, cmdcenter.state, context
 
         # find devices - MAYBE A BIT FLAKEY
         for i in range(pypm.CountDevices()):
@@ -27,11 +27,11 @@ class MidiHandler(threading.Thread, Setter):
             if(not re.compile("Midi Through Port|TiMidity").search(name)):
                 debug("ID: %d INTERFACE: %s NAME: %s %s OPENED? %s" % (i, interf, name, (inp == 1 and "INPUT" or "OUTPUT"), str(opened)))
 
-            if(re.compile(self.cmdcenter.context.midi_controller).search(name) and inp == 1):
+            if(re.compile(self.context.midi_controller).search(name) and inp == 1):
                 self.input_device = i
                 break
 
-            if(re.compile(self.cmdcenter.context.midi_controller).search(name) and outp == 1):
+            if(re.compile(self.context.midi_controller).search(name) and outp == 1):
                 self.output_device = i
 
         # open devices
@@ -43,10 +43,10 @@ class MidiHandler(threading.Thread, Setter):
             self.midi_in = None
             self.midi_out = None
             info("MIDI device not found")
-            self.cmdcenter.context.midi = False
+            self.context.midi = False
 
         # create sefault zn bindings for
-        if(self.cmdcenter.context.midi_controller == "BCF2000"):
+        if(self.context.midi_controller == "BCF2000"):
             self.bindings0 = {(0, 81): [self.zn_set_r_i(0),  "m5(f)", self.zn_get_r_i(0),  "m5_inv(f)", (self.state.zn, 0)],
                               (0, 82): [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
                               (0, 83): [self.zn_set_r_i(2),  "m5(f)", self.zn_get_r_i(2),  "m5_inv(f)", (self.state.zn, 2)],
@@ -68,7 +68,7 @@ class MidiHandler(threading.Thread, Setter):
             self.bindings1.update(dict([((0, 1 + i + 4), [self.zn_set_th_i(8+i), "m6(f)", self.zn_get_th_i(8+i), "m6_inv(f)", (self.state.zn, 8+i)]) for i in xrange(4)]))
 
 
-        if(self.cmdcenter.context.midi_controller == "BCF"):
+        if(self.context.midi_controller == "BCF"):
             self.bindings0 = {(0, 81): [self.zn_set_r_i(0),  "m1(f)", self.zn_get_r_i(0),  "m1_inv(f)", (self.state.zn, 0)],
                               (0, 82): [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
                               (0, 83): [self.zn_set_r_i(2),  "m1(f)", self.zn_get_r_i(2),  "m1_inv(f)", (self.state.zn, 2)],
@@ -102,7 +102,7 @@ class MidiHandler(threading.Thread, Setter):
 
 
 
-        if(self.cmdcenter.context.midi_controller == "UC-33"):
+        if(self.context.midi_controller == "UC-33"):
             self.bindings0 = {(0, 7): [self.zn_set_r_i(0),  "m5(f)", self.zn_get_r_i(0),  "m5_inv(f)", (self.state.zn, 0)],
                               (1, 7): [self.zn_set_r_i(1),  "m0(f)", self.zn_get_r_i(1),  "m0_inv(f)", (self.state.zn, 1)],
                               (2, 7): [self.zn_set_r_i(2),  "m5(f)", self.zn_get_r_i(2),  "m5_inv(f)", (self.state.zn, 2)],
@@ -196,11 +196,11 @@ class MidiHandler(threading.Thread, Setter):
     def run(self):
 
         # run loop
-        while(True and self.cmdcenter.context.midi):
+        while(True and self.context.midi):
 
             # sleep / exit
-            while(not self.midi_in.Poll() and not self.cmdcenter.context.exit) : time.sleep(0.01)
-            if(self.cmdcenter.context.exit) : exit()
+            while(not self.midi_in.Poll() and not self.context.exit) : time.sleep(0.01)
+            if(self.context.exit) : exit()
 
             # read
             data = self.midi_in.Read(1)

@@ -6,10 +6,10 @@ class VideoRenderer(object):
     ''' The VideoRenderer object is responsible for sequentially capturing the
         frames output by the engine '''
 
-    def __init__(self, cmdcenter):
+    def __init__(self, cmdcenter, context):
 
         # set vars
-        self.cmdcenter, self.context = cmdcenter, cmdcenter.context
+        self.cmdcenter, self.context = cmdcenter, context
         self.frame_num = 0
 
 

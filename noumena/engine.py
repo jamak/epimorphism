@@ -16,10 +16,10 @@ class Engine(object):
         It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
         It communicates to out via a pbo  '''
 
-    def __init__(self, state, profile):
+    def __init__(self, profile):
         debug("Initializing Engine")
 
-        self.state, self.profile = state, profile
+        self.profile = profile
 
         debug("Setting up CUDA")
 
@@ -64,11 +64,9 @@ class Engine(object):
         self.block = dim3(8, 8, 1)
         self.grid = dim3(self.profile.kernel_dim / 8, self.profile.kernel_dim / 8, 1)
 
-        # compile kernel
-        debug("Compiling Kernel")
+        # kernel vars
         self.kernel = None
-        self.reset = None
-        Compiler(self.state.__dict__, self.set_new_kernel, self.profile).start()
+        self.reset = None        
 
         # malloc host array
         self.host_array = c_void_p()
@@ -240,13 +238,13 @@ class Engine(object):
         self.frame_count += 1
 
         # upload par & zn & internal & components
-        par = (c_float * len(self.state.par))(*[p for p in self.state.par])
+        par = (c_float * len(self.frame.par))(*[p for p in self.frame.par])
         cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
 
-        internal = (c_float * len(self.state.internal))(*[p for p in self.state.internal])
+        internal = (c_float * len(self.frame.internal))(*[p for p in self.frame.internal])
         cudaMemcpyToSymbol("internal", byref(internal), sizeof(internal), 0, cudaMemcpyHostToDevice)
 
-        zn = (float2 * len(self.state.zn))(*[(z.real, z.imag) for z in self.state.zn])
+        zn = (float2 * len(self.frame.zn))(*[(z.real, z.imag) for z in self.frame.zn])
         cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
 
         if(self.component_idx):
@@ -258,7 +256,7 @@ class Engine(object):
         cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
 
         # upload switch_time
-        switch_time = c_float(self.state.component_switch_time)
+        switch_time = c_float(self.frame.component_switch_time)
         cudaMemcpyToSymbol("switch_time", byref(switch_time), sizeof(switch_time), 0, cudaMemcpyHostToDevice)
 
         # call kernel
@@ -271,7 +269,7 @@ class Engine(object):
         else:
             self.kernel(self.output_2D, c_ulong(self.output_2D_pitch.value / sizeof(float4)), self.pbo_ptr,
                         self.profile.kernel_dim, 1.0 / self.profile.kernel_dim, 1.0001 / self.profile.kernel_dim,
-                        1.0 / self.state.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.state.FRACT - 1.0)))
+                        1.0 / self.profile.FRACT ** 2, 2.0 / (self.profile.kernel_dim * (self.profile.FRACT - 1.0)))
 
         self.record_event(1)
 

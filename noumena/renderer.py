@@ -170,7 +170,7 @@ class Renderer(object):
 
 
     def do(self):
-        
+
         # test for existence of buffer_dim
         if(not self.pbo):
             critical("can't render without a pbo")
