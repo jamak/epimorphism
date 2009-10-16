@@ -5,7 +5,7 @@ import os
 import atexit
 
 from config.configmanager import *
-from noumena.renderer import *
+from noumena.interface import *
 from noumena.engine import *
 from phenom.cmdcenter import *
 
@@ -56,10 +56,13 @@ def main():
     # initialize modules
     debug("Initializing modules")
 
-    global renderer, engine, cmdcenter
-    renderer  = Renderer(profile.kernel_dim, context)
-    engine    = Engine(state, profile, renderer.pbo)
-    cmdcenter = CmdCenter(state, renderer, engine, context)
+    global interface, engine, cmdcenter
+    interface = Interface(context)
+    engine    = Engine(state, profile)
+    cmdcenter = CmdCenter(state, interface, engine, context)
+    interface.sync_cmd(cmdcenter)
+
+    engine.sync(interface.renderer)
 
     # create execution loop
     def inner_loop():
@@ -69,18 +72,18 @@ def main():
             state.next_frame = False
             engine.do()
 
-        renderer.do()
+        interface.do()
 
         if(context.exit):
-            renderer.__del__()
+           # interface.__del__()
             engine.__del__()
             cmdcenter.__del__()
             sys.exit()
             os._exit()
 
-    # set execution loop & start
-    renderer.set_inner_loop(inner_loop)
-    renderer.start()
+    # set execution loop & start - this is lame
+    interface.renderer.set_inner_loop(inner_loop)
+    interface.renderer.start()
 
     info("Main loop completed")
 

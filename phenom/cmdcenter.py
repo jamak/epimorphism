@@ -1,9 +1,4 @@
 from phenom.animator import *
-from phenom.console import *
-from phenom.keyboard import *
-from phenom.mouse import *
-from phenom.server import *
-from phenom.midi import *
 from phenom.video import *
 from phenom.setter import *
 from phenom.componentmanager import *
@@ -52,49 +47,18 @@ class CmdCenter(Setter, Animator):
         provides an interface for executing code int the appropriate environment. '''
 
 
-    def __init__(self, state, renderer, engine, context):
+    def __init__(self, state, interface, engine, context):
 
-        self.state, self.renderer, self.engine, self.context = state, renderer, engine, context
+        self.state, self.interface, self.engine, self.context = state, interface, engine, context
 
         # init componentmanager
-        self.componentmanager = ComponentManager(self, self.state, self.renderer, self.engine, self.context)
+        self.componentmanager = ComponentManager(self, self.state, self.engine, self.context)
 
         # init animator
         Animator.__init__(self)
 
         # create video_renderer
         self.video_renderer = VideoRenderer(self)
-
-        # create input handlers
-        mouse_handler = MouseHandler(self, self.context)
-        keyboard_handler = KeyboardHandler(self)
-
-        # create_console
-        console = Console(self)
-
-        # register callbacks & console with Renderer
-        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion)
-        self.renderer.register_console_callbacks(console.render_console, console.console_keyboard)
-
-        # start server
-        if(self.context.server):
-            self.server = Server(self)
-            self.server.start()
-
-        else:
-            self.server = None
-
-        # start midi
-        if(self.context.midi):
-            self.midi = MidiHandler(self)
-
-            if(self.context.midi):
-                self.state.zn.midi = self.midi
-                self.state.par.midi = self.midi
-                self.midi.start()
-
-        else:
-            self.midi = None
 
         # start video_renderer
         if(self.context.render_video):
@@ -112,7 +76,7 @@ class CmdCenter(Setter, Animator):
 
         # get functions from objects
         funcs = get_funcs(self)
-        funcs.update(get_funcs(self.renderer))
+        # funcs.update(get_funcs(self.renderer))
         funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
         funcs.update(get_funcs(self.componentmanager))
@@ -250,7 +214,7 @@ class CmdCenter(Setter, Animator):
 
         info("saved state as: " % name)
 
-        self.renderer.flash_message("saved state as %s" % name)
+        self.interface.renderer.flash_message("saved state as %s" % name)
 
 
     def load(self, name):

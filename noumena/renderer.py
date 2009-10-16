@@ -4,8 +4,6 @@ from OpenGL.GLUT import *
 
 import time
 
-from phenom.keyboard import *
-from phenom.mouse import *
 from common.runner import *
 
 import common.glFreeType
@@ -18,11 +16,11 @@ set_log("RENDERER")
 class Renderer(object):
     ''' The Renderer object is responsible for displaying the system via OpenGL/GLUT '''
 
-    def __init__(self, buffer_dim, context):
+    def __init__(self, context):
         debug("Initializing Renderer")
 
         # set variables
-        self.buffer_dim, self.context, self.display_res = buffer_dim, context, context.display_res
+        self.context, self.display_res = context, context.display_res
 
         # initialize glut
         glutInit(1, [])
@@ -55,26 +53,6 @@ class Renderer(object):
         # generate buffer object
         debug("Initializing GL, buffers & textures")
 
-        self.pbo = GLuint()
-        glGenBuffers(1, byref(self.pbo))
-        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
-        empty_buffer = (c_float * (sizeof(c_float) * 4 * self.buffer_dim ** 2))()
-        glBufferData(GL_ARRAY_BUFFER, (self.buffer_dim ** 2) * 4 * sizeof(c_float),
-                     empty_buffer, GL_DYNAMIC_DRAW)
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
-
-        # generate texture & set parameters
-        self.display_tex = glGenTextures(1)
-        glBindTexture(GL_TEXTURE_2D, self.display_tex)
-
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.buffer_dim, self.buffer_dim,
-                     0, GL_RGBA, GL_UNSIGNED_BYTE, None)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
         # init gl
         glEnable(GL_TEXTURE_2D)
         glClearColor(0.0, 0.0, 0.0, 0.0)
@@ -100,10 +78,7 @@ class Renderer(object):
 
         self.do_main_toggle_console = False
 
-    
-    def generate_pbo(self, buffer_dim):
-        self.buffer_dim = buffer_dim
-
+        self.pbo = None
 
 
     def __del__(self):
@@ -112,6 +87,35 @@ class Renderer(object):
         # bind & delete pbo
         glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
         glDeleteBuffers(1, self.pbo)
+
+
+    def generate_pbo(self, buffer_dim):
+        ''' Generate and return pbo of given dimension '''
+
+        self.buffer_dim = buffer_dim
+
+        # generate pbo
+        self.pbo = GLuint()
+        glGenBuffers(1, byref(self.pbo))
+        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
+        empty_buffer = (c_float * (sizeof(c_float) * 4 * self.buffer_dim ** 2))()
+        glBufferData(GL_ARRAY_BUFFER, (self.buffer_dim ** 2) * 4 * sizeof(c_float),
+                     empty_buffer, GL_DYNAMIC_DRAW)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+        # generate texture & set parameters
+        self.display_tex = glGenTextures(1)
+        glBindTexture(GL_TEXTURE_2D, self.display_tex)
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, self.buffer_dim, self.buffer_dim,
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, None)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+
+        return self.pbo
 
 
     def reshape(self, w, h):
@@ -164,7 +168,16 @@ class Renderer(object):
             glutSpecialFunc(self.keyboard)
             glutKeyboardFunc(self.keyboard)
 
+
     def do(self):
+        
+        # test for existence of buffer_dim
+        if(not self.pbo):
+            critical("can't render without a pbo")
+            import sys
+            sys.exit()
+            return
+
         if(self.context.exit): return
 
         # main thread toggle_console

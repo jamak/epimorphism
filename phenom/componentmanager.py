@@ -10,8 +10,8 @@ set_log("COMPONENT")
 class ComponentManager(object):
     
 
-    def __init__(self, cmdcenter, state, renderer, engine, context):
-        self.cmdcenter, self.state, self.renderer, self.engine, self.context = cmdcenter, state, renderer, engine, context
+    def __init__(self, cmdcenter, state, engine, context):
+        self.cmdcenter, self.state, self.engine, self.context = cmdcenter, state, engine, context
 
         self.switching_component = False
 
@@ -116,7 +116,7 @@ class ComponentManager(object):
             self.state.internal[idx_idx] = time.clock() - self.engine.t_start
 
         if(len(updates) == 1):
-            self.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
+            self.cmdcenter.interface.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
         while(time.clock() - self.engine.t_start - self.state.internal[first_idx] < self.state.component_switch_time):
             time.sleep(0.1)

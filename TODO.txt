@@ -12,6 +12,7 @@ rework phenom/cmdcenter
 
 fix glGetIntegerv bug
 
+make sure things are being cleaned(__del__)
 
 ###################################
 #
@@ -43,7 +44,6 @@ generalize w=-1 response
 
 
 clean up states
-investigate PAR_DEFAULTS
 autorun all migrations option
 
 
@@ -57,9 +57,8 @@ when loading state, upload image too?
 
 compiler - intellegently load function from kernel.so
 
-multi-threaded GLUT
-
 add argument lists to help
+
 
 ###################################
 #

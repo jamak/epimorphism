@@ -14,9 +14,9 @@ set_log("ENGINE")
 class Engine(object):
     ''' The Engine object is the applications interface, via cuda, to the graphics hardware.
         It is responsible for the setup and maintenence of the cuda environment and the graphics kernel.
-        It communicates to the renderer via pbo  '''
+        It communicates to out via a pbo  '''
 
-    def __init__(self, state, profile, pbo):
+    def __init__(self, state, profile):
         debug("Initializing Engine")
 
         self.state, self.profile = state, profile
@@ -70,11 +70,6 @@ class Engine(object):
         self.reset = None
         Compiler(self.state.__dict__, self.set_new_kernel, self.profile).start()
 
-        # register_pbo
-        self.pbo, self.pbo_ptr = pbo, c_void_p()
-        status = cudaGLRegisterBufferObject(self.pbo)
-        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
-
         # malloc host array
         self.host_array = c_void_p()
         cudaMallocHost(byref(self.host_array), 4 * (self.profile.kernel_dim ** 2) * sizeof(c_ubyte))
@@ -92,6 +87,8 @@ class Engine(object):
         self.do_get_fb = False
         self.fb_contents = None
 
+        self.pbo = None
+
 
     def __del__(self):
         debug("Deleting Engine")
@@ -107,6 +104,18 @@ class Engine(object):
 
         # delete events
         [cudaEventDestroy(event) for event in self.events]
+
+
+    def sync(self, output):
+        ''' Syncs output module with engine '''
+
+        # generate pbo
+        self.pbo = output.generate_pbo(self.profile.kernel_dim)
+
+        # register_pbo
+        self.pbo_ptr = c_void_p()
+        status = cudaGLRegisterBufferObject(self.pbo)
+        cudaGLMapBufferObject(byref(self.pbo_ptr), self.pbo)
 
 
     def record_event(self, idx):
@@ -208,6 +217,12 @@ class Engine(object):
 
     def do(self):
         ''' Main event loop '''
+
+        if(not self.pbo):
+            critical("can't render without a pbo")
+            import sys
+            sys.exit()
+            return
 
         # grab frame buffer
         if(self.do_get_fb):
