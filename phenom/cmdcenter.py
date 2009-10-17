@@ -89,6 +89,7 @@ class CmdCenter(Setter, Animator):
     def __del__(self):
         pass
 
+
     def cmd(self, code, capture=False):
         # hijack stdout, if requested
         out = StringIO.StringIO()
@@ -139,10 +140,6 @@ class CmdCenter(Setter, Animator):
         self.load(self.current_state_idx)
 
 
-    def t(self, val):
-        self.blend_to_component("T", val)
-
-
     def load_image(self, name, buffer_name):
         ''' Loads and image into the host memory
             and uploads it to a buffer.
@@ -159,9 +156,10 @@ class CmdCenter(Setter, Animator):
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
 
-        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
+        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), 
+                               self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
-        img.show()
+        # img.show()
 
         return img
 
@@ -190,7 +188,7 @@ class CmdCenter(Setter, Animator):
 
 
     def save(self, name=None):
-        ''' Saves the current state. '''
+        ''' Grabs a screenshot and saves the current state. '''
 
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
@@ -248,7 +246,7 @@ class CmdCenter(Setter, Animator):
         if(self.state.manual_iter):
             self.state.next_frame = True
 
-        self.state.manual_iter = not self.state.manual_iter
+        self.state.manual_iter = not self.state.manual_iter    
 
 
     def next(self):
