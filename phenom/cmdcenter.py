@@ -46,10 +46,10 @@ class CmdCenter(Setter, Animator):
         provides an interface for executing code int the appropriate environment. '''
 
 
-    def __init__(self, state, interface, engine):
+    def __init__(self, env, state, interface, engine):
         debug("Initializing CmdCenter")
 
-        self.state, self.interface, self.engine = state, interface, engine
+        self.env, self.state, self.interface, self.engine = env, state, interface, engine
 
         engine.frame = state
 
@@ -71,14 +71,14 @@ class CmdCenter(Setter, Animator):
 
         # get functions from objects
         funcs = get_funcs(self)
-        # funcs.update(get_funcs(self.renderer))
-        # funcs.update(get_funcs(self.video_renderer))
+        funcs.update(get_funcs(self.interface.renderer))
+        #funcs.update(get_funcs(self.interface.video_renderer))
         funcs.update(get_funcs(self.engine))
         funcs.update(get_funcs(self.componentmanager))
         funcs.update(default_funcs)
 
         # generate cmd exec environment
-        self.env = CmdEnv([self.state.__dict__, self.interface.context.__dict__], funcs)        
+        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__], funcs)
 
         self.frame_cnt = 0
 
@@ -100,11 +100,11 @@ class CmdCenter(Setter, Animator):
         # execute code
         if(capture):
             try:
-                exec(code) in self.env
+                exec(code) in self.cmd_env
             except:
                 err = traceback.format_exc().split("\n")[-2]
         else:
-            exec(code) in self.env
+            exec(code) in self.cmd_env
 
 
         # restore stdout
@@ -156,7 +156,7 @@ class CmdCenter(Setter, Animator):
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
 
-        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim), 
+        img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim),
                                self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
         # img.show()
@@ -243,15 +243,15 @@ class CmdCenter(Setter, Animator):
     def manual(self):
         ''' Toggles manual iteration. '''
 
-        if(self.state.manual_iter):
-            self.state.next_frame = True
+        if(self.env.manual_iter):
+            self.env.next_frame = True
 
-        self.state.manual_iter = not self.state.manual_iter    
+        self.env.manual_iter = not self.env.manual_iter
 
 
     def next(self):
         ''' If manual iteration toggles, andvances frame. '''
 
-        self.state.next_frame = True        
+        self.env.next_frame = True
 
 

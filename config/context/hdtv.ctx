@@ -1,6 +1,4 @@
 {
- 'name': 'default',
-
  'keyboard_func':'standard',
  'par_scale': 1,
  'midi': True,
@@ -8,11 +6,11 @@
  'kbd_switch_spd' : 0.2,
  'echo' : False,
  'midi_controller' : 'BCF2000',
- 'display_res' : [900, 900, False],
+ 'display_res' : [1920, 1080, True],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],
 
  'render_video': False,
  'video_frame_time': 10,
- 'max_video_frames': None
+ 'max_video_frames': None,
 }

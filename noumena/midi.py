@@ -156,7 +156,7 @@ class MidiHandler(threading.Thread, Setter):
                 f = eval(bindings[binding][3])
 
                 # send value
-                self.writef(binding, f)
+                self.writef(0, binding, f)
 
 
     def send_bindings(self):
@@ -199,8 +199,8 @@ class MidiHandler(threading.Thread, Setter):
         while(True and self.context.midi):
 
             # sleep / exit
-            while(not self.midi_in.Poll() and not self.context.exit) : time.sleep(0.01)
-            if(self.context.exit) : exit()
+            while(not self.midi_in.Poll() and not self.cmdcenter.env.exit) : time.sleep(0.01)
+            if(self.cmdcenter.env.exit) : exit()
 
             # read
             data = self.midi_in.Read(1)

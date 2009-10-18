@@ -33,7 +33,7 @@ class Server(threading.Thread):
         ''' Receive & parse data from connection '''
 
         # get packets
-        while(not self.cmdcenter.context.exit):
+        while(not self.cmdcenter.env.exit):
 
             # receive data
             cmd = channel.recv ( 100 )
@@ -53,7 +53,7 @@ class Server(threading.Thread):
         ''' Async wait for a connection '''
 
         # accept connections
-        while(not self.cmdcenter.context.exit):
+        while(not self.cmdcenter.env.exit):
 
             # accept connection
             channel, details = self.com.accept()

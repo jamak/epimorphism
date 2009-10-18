@@ -15,7 +15,7 @@ def get_functions(name):
 
     # attempt to load kernel
     try:
-        lib = cdll.LoadLibrary("tmp/%s.so" % name)#, RTLD_LOCAL)
+        lib = cdll.LoadLibrary("kernels/%s.so" % name)#, RTLD_LOCAL)
     except:
         critical("Kernel not found")
         os._exit()
@@ -133,10 +133,10 @@ class Compiler(threading.Thread):
         name = "kernel-%s" % hash
 
         # compile if library doesn't exist
-        if(not os.path.exists("tmp/%s.so" % name)):
+        if(not os.path.exists("kernels/%s.so" % name)):
             info("Compiling kernel - %s" % name)
 
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o tmp/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]

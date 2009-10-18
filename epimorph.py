@@ -31,7 +31,7 @@ atexit.register(exit)
 
 
 # run unclutter to remove mouse pointer
-os.system("unclutter -idle 0.25 -jitter 1 &")
+os.system("unclutter -idle 0.25 -jitter 1 -root&")
 
 
 # initialize state/profile/context
@@ -45,12 +45,13 @@ def parse_args(sym):
 if(len(sys.argv[1:]) != 0):
     debug("with args %s" % (str(sys.argv[1:])))
 
-context_vars = parse_args("~")
-context_vars.setdefault("context", "default")
+env_vars = parse_args("~")
+env_vars.setdefault("env", "default")
 
-context = manager.load_dict("context", context_vars["context"], **context_vars)
-state   = manager.load_dict("state", context.state, **parse_args("%"))
-profile = manager.load_dict("profile", context.profile, **parse_args("@"))
+env = manager.load_dict("environment", env_vars["env"], **env_vars)
+context = manager.load_dict("context", env.context, **parse_args("@"))
+profile = manager.load_dict("profile", env.profile, **parse_args("#"))
+state   = manager.load_dict("state", env.state, **parse_args("%"))
 
 
 # encapsulated for asynchronous execution
@@ -63,7 +64,7 @@ def main():
     global interface, engine, cmdcenter
     interface = Interface(context)
     engine    = Engine(profile)
-    cmdcenter = CmdCenter(state, interface, engine)
+    cmdcenter = CmdCenter(env, state, interface, engine)
 
     interface.sync_cmd(cmdcenter)
     engine.sync(interface.renderer)
@@ -74,21 +75,21 @@ def main():
 
     # create execution loop
     def inner_loop():
-        
+
         # execute command center
         cmdcenter.do()
 
         # execute engine
-        if(not (state.manual_iter and not state.next_frame)): 
-            state.next_frame = False
+        if(not (env.manual_iter and not env.next_frame)):
+            env.next_frame = False
             engine.do()
 
         # execute interface
         interface.do()
 
         # cleanup
-        if(context.exit):
-            sys.exit()            
+        if(env.exit):
+            sys.exit()
 
     # set execution loop & start - this is lame
     interface.renderer.set_inner_loop(inner_loop)
@@ -103,6 +104,6 @@ def start():
 
 
 # start
-if(context.autostart):
+if(env.autostart):
     start()
 

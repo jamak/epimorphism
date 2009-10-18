@@ -1,7 +1,7 @@
 {
- 'name': 'box1',
+ 'name': 'std',
  'debug_freq': 5.0,
- 'kernel_dim': 1024,
+ 'kernel_dim': 1536,
  'ptxas_stats' : False,
  'FRACT': 3
 }

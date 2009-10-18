@@ -178,8 +178,6 @@ class Renderer(object):
             sys.exit()
             return
 
-        if(self.context.exit): return
-
         # main thread toggle_console
         if(self.do_main_toggle_console) : self.main_toggle_console()
 

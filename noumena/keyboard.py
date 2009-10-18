@@ -58,7 +58,7 @@ class KeyboardHandler(object):
         else:
             # exit
             if(key == "\033"): # escape
-                self.context.exit = True
+                self.cmdcenter.env.exit = True
 
              # toggle manual iteration
             elif(key == "\011"): # tab
@@ -172,7 +172,7 @@ class KeyboardHandler(object):
             self.cmdcenter.moduleCmd('bm2009', 'set_var', {'var':'switch_exponent', 'val':-1})
 
         if(key == '|'): # escape
-            self.context.exit = True
+            self.cmdcenter.env.exit = True
 
         # toggle console
         elif(key == "`"):

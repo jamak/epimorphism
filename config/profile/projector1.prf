@@ -1,9 +1,0 @@
-{
- 'name': 'projector1',
- 'debug_freq': 5.0,
- 'full_screen': True,
- 'viewport_refresh': 60,
- 'kernel_dim': 1024,
- 'viewport_height': 768,
- 'viewport_width': 1024
-}

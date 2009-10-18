@@ -22,13 +22,12 @@ class MidiList(list):
         # set value
         self.old_set(key, val)
 
-        if(hasattr(self, "midi")):
-            self.midi.mirror(obj, key)
+        #if(hasattr(self, "midi")):
+        #    self.midi.mirror(self, key)
 
 
 class State(object):
-    ''' The State object contains the main configuration parameters for
-        the Engine's kernel. '''
+    ''' Configuration parameters for generating Frames. '''
 
     def __init__(self, **vars):
         # update dict with migrated vars
@@ -40,8 +39,7 @@ class State(object):
 
 
 class Profile(object):
-    ''' The Profile object contains the configuration settings for the
-        Renderer and Engine. '''
+    ''' Configuration settings for the Engine. '''
 
     def __init__(self, **vars):
         # init
@@ -49,8 +47,15 @@ class Profile(object):
 
 
 class Context(object):
-    ''' The Context object encapsulates the variables defining the
-        current execution context of the application. '''
+    ''' Configuration settings for the Interface. '''
+
+    def __init__(self, **vars):
+        # init
+        self.__dict__.update(vars)
+
+
+class Environment(object):
+    ''' Configuration settings for the application. '''
 
     def __init__(self, **vars):
         # init
@@ -63,7 +68,7 @@ class ConfigManager(object):
 
 
     # mappings from config extensions to classes/names
-    extension_names = {"state" : "est", "profile" : "prf", "context" : "ctx"}
+    extension_names = {"state": "est", "profile": "prf", "context": "ctx", "environment": "env"}
 
 
     def load_dict(self, type, name, **additional_vars):
