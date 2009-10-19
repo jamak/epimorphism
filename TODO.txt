@@ -5,23 +5,14 @@
 #
 
 
-states save clock time
-
-
 rework component_manager & datamanager
 
 clean midi
 
 fix glGetIntegerv bug
 
-finish/test picture upload
+synchronous save
 
-
-screenshots while manual iteration
-manual iteration fps_time
-
-
-force fps
 
 ###################################
 #
@@ -47,6 +38,15 @@ improve colorfunc
 compiler - intellegently load function from kernel.so
 
 make sure things are being cleaned(__del__)
+
+
+force fps
+
+load state.time
+
+manual iteration fps_time
+
+screenshots while manual iteration
 
 
 ###################################

@@ -51,11 +51,21 @@ class CmdCenter(Setter, Animator):
 
         self.env, self.state, self.interface, self.engine = env, state, interface, engine
 
+        # init animator
+        Animator.__init__(self)
+
         # init componentmanager
         self.componentmanager = ComponentManager(self, self.state)
 
-        # init animator
-        Animator.__init__(self)
+        # for cycling through existing states
+        self.current_state_idx = -1
+
+        # setup application
+        self.interface.renderer.set_inner_loop(self.do)
+        self.frame = {}
+        self.engine.frame = self.frame
+        self.t_start = None
+        self.t_phase = 0.0
 
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
@@ -63,7 +73,7 @@ class CmdCenter(Setter, Animator):
                           'video_time', 'set_inner_loop', 'time', 'cmd', 'execute_paths', 'echo', 'reshape',
                           'set_component_indices'] + dir(object) + dir(Setter)
 
-        # extract non-blacklist functions from an object
+        # extract non-blacklist functions & data from an object
         def get_funcs(obj):
             return dict([(attr, getattr(obj, attr)) for attr in dir(obj) if callable(getattr(obj, attr)) and attr not in func_blacklist])
 
@@ -76,15 +86,7 @@ class CmdCenter(Setter, Animator):
         funcs.update(default_funcs)
 
         # generate cmd exec environment
-        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
-
-        # for cycling through existing states
-        self.current_state_idx = -1
-
-        # setup application
-        self.interface.renderer.set_inner_loop(self.do)
-        self.frame = {}
-        self.engine.frame = self.frame
+        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__, self.env.__dict__, {"cmd":self.__dict__}], funcs)
 
 
     def __del__(self):
@@ -93,9 +95,11 @@ class CmdCenter(Setter, Animator):
 
     def start(self):
         ''' Start main loop '''
+        debug("Start main loop")
 
         self.t_start = time.clock()
         self.state.frame_cnt = 0
+
         self.interface.renderer.start()
 
 
@@ -107,10 +111,14 @@ class CmdCenter(Setter, Animator):
             self.env.next_frame = False
 
             # get time
-            if(self.env.fps_synv):
-                self.state.time = self.state.frame_cnt / self.env.fps_sync
+            if(self.env.fps_sync):
+                self.state.time = self.state.frame_cnt / self.env.fps_sync + self.t_phase
             else:
-                self.state.time = time.clock() - self.t_start
+                self.state.time = time.clock() - self.t_start + self.t_phase
+
+
+            print str(self.state.time), str(self.t_phase)
+
 
             # execute animation paths
             self.execute_paths()
@@ -201,6 +209,7 @@ class CmdCenter(Setter, Animator):
         ''' Loads and image into the host memory
             and uploads it to a buffer.
               buffer_name can be either fb or aux '''
+        debug("Load image: %s", name)
 
         data = Image.open("image/input/" + name).convert("RGBA").tostring("raw", "RGBA", 0, -1)
 
@@ -213,6 +222,7 @@ class CmdCenter(Setter, Animator):
 
     def grab_image(self):
         ''' Gets the framebuffer and binds it to an Image. '''
+        debug("Grab image")
 
         img = Image.frombuffer("RGBA", (self.engine.profile.kernel_dim, self.engine.profile.kernel_dim),
                                self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
@@ -258,6 +268,8 @@ class CmdCenter(Setter, Animator):
     def load(self, name):
         ''' Loads and blends to the given state. '''
 
+        debug("Load state: %s", name)
+
         if(isinstance(name, int)):
             name = "state_%d" % name
 
@@ -287,6 +299,12 @@ class CmdCenter(Setter, Animator):
         # blend to pars
         for i in xrange(len(new_state.par)):
             self.cmd('linear_1d(par, %d, component_switch_time, %f, %f)' % (i, self.state.par[i], new_state.par[i]))
+
+
+        print new_state.time, self.state.time, self.t_phase, self.state.component_switch_time
+
+        # shift t_start
+        # self.cmd('linear_1d(cmd, "t_phase", component_switch_time, %f, %f)' % (0, state.time + self.t_phase - 1.0) / 1.0))
 
         self.cmd("switch_components(%s)" % str(updates))
 

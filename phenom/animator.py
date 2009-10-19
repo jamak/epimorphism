@@ -1,9 +1,12 @@
 from aeon.datapath import *
 
+from common.log import *
+set_log("ANIMATOR")
 
 class Animator(object):
     ''' The Animator class is a module for Cmdcenter that is
         responsible for automation of data. '''
+
 
     def __init__(self):
         self.paths = []
@@ -11,12 +14,14 @@ class Animator(object):
 
     def radial_2d(self, obj, idx, spd, z0, z1):
         ''' Helper function for creating radial_2d paths. '''
+        debug("Radial 2d: %s %s %s %s %s", obj, idx, spd, str(z0), str(z1))
 
         self.animate_var("radial_2d", obj, idx, spd, {"s" : z0, "e" : z1, 'loop' : False})
 
 
     def linear_1d(self, obj, idx, spd, x0, x1):
         ''' Helper function for creating linear_1d paths. '''
+        debug("Linear 1d: %s %s %s %s %s", obj, idx, spd, x0, x1)
 
         self.animate_var("linear_1d", obj, idx, spd, {"s" : x0, "e" : x1, 'loop' : False})
 
