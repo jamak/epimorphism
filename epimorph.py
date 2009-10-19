@@ -6,7 +6,8 @@ import atexit
 
 from config.configmanager import *
 from noumena.interface import *
-from noumena.engine import *
+from viro.engine import *
+from viro.compiler import Compiler
 from phenom.cmdcenter import *
 
 from common.runner import *

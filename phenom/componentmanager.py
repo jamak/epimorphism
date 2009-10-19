@@ -1,5 +1,4 @@
 from phenom.datamanager import *
-from noumena.compiler import *
 
 import time
 
@@ -31,8 +30,6 @@ class ComponentManager(object):
         for component_name in self.datamanager.components:
             idx = self.datamanager.components.index(component_name)
             val =  getattr(self.state, component_name.upper())
-
-            #print component_name, ":", val
 
             try:
                 self.component_idx[2 * idx] = component_vals[idx].index(val)

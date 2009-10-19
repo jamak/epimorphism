@@ -3,7 +3,6 @@ __constant__ float2 zn[16];
 __constant__ float internal[10];
 __constant__ int component_idx[10][2];
 __constant__ float _clock;
-
 __constant__ float switch_time;
 
 %PAR_NAMES%

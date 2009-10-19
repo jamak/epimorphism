@@ -12,27 +12,28 @@ class Animator(object):
         self.paths = []
 
 
-    def radial_2d(self, obj, i, spd, z0, z1):
+    def radial_2d(self, obj, idx, spd, z0, z1):
         ''' Helper function for creating radial_2d paths. '''
 
-        self.animate_var((obj, i), "radial_2d", spd, {"s" : z0, "e" : z1, 'loop' : False})
+        self.animate_var("radial_2d", obj, idx, spd, {"s" : z0, "e" : z1, 'loop' : False})
 
 
-    def linear_1d(self, obj, i, spd, x0, x1):
+    def linear_1d(self, obj, idx, spd, x0, x1):
         ''' Helper function for creating linear_1d paths. '''
 
-        self.animate_var((obj, i), "linear_1d", spd, {"s" : x0, "e" : x1, 'loop' : False})
+        self.animate_var("linear_1d", obj, idx, spd, {"s" : x0, "e" : x1, 'loop' : False})
 
 
-    def animate_var(self, var, type, speed, data, exclude=True):
+    def animate_var(self, type, obj, idx, speed, data, exclude=True):
         ''' Adds a path to the animator. '''
 
         # if !exclude, don't add another path if one exists
-        if(exclude and any([path[0] == var for path in self.paths])):
+        if(exclude and any([(path["obj"] == obj and path["idx"] == idx) for path in self.paths])):
             return False
 
         # add path
-        self.paths.append((var, lambda t: eval(type)(t, data), self.time(), speed))
+
+        self.paths.append({"obj": obj, "idx":idx, "start": self.time(), "speed": speed, "func":(lambda t: eval(type)(t, data))})
 
         return True
 
@@ -46,10 +47,10 @@ class Animator(object):
         for path in self.paths[::-1]:
 
             # execute path
-            (res, status) = path[1]((t - path[2]) / path[3])
+            (res, status) = path["func"]((t - path["start"]) / path["speed"])
 
             # set result
-            path[0][0][path[0][1]] = res
+            path["obj"][path["idx"]] = res
 
             # if necessary, remove path
             if(not status):

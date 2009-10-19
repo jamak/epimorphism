@@ -4,7 +4,6 @@ from phenom.componentmanager import *
 from phenom.BM2009 import *
 from common.default import *
 from common.complex import *
-from noumena.compiler import *
 from config.configmanager import *
 
 import StringIO
@@ -124,6 +123,7 @@ class CmdCenter(Setter, Animator):
 
 
     def send_frame(self):
+        ''' Generates and sends the current frame to the Engine '''
 
         clock = time.clock() - self.t_start
         data = {"type":"float", "val":clock}
@@ -179,8 +179,8 @@ class CmdCenter(Setter, Animator):
         return res
 
 
-    def state_var(self, var, val):
-        cmd("state[%s] = %s" % (var, val))
+    def set_val(self, val, var, idx=None):
+        self.cmd("%s%s = %s" % (var, (((type(idx) == int) and "[%s]" or "['%s']") % idx), val))
 
 
     # UTILITY FUNCTIONS
@@ -199,6 +199,7 @@ class CmdCenter(Setter, Animator):
 
         if(buffer_name == "fb"):
             self.engine.set_fb(data, True, False)
+
         else:
             self.engine.set_aux(data, True, False)
 
@@ -210,7 +211,6 @@ class CmdCenter(Setter, Animator):
                                self.engine.get_fb(), "raw", "RGBA", 0, -1).convert("RGB")
 
         # img.show()
-
         return img
 
 
@@ -275,13 +275,13 @@ class CmdCenter(Setter, Animator):
 
         # blend to zns
         for i in xrange(len(new_state.zn)):
-            self.radial_2d(self.state.zn, i, self.state.component_switch_time, r_to_p(self.state.zn[i]), r_to_p(new_state.zn[i]))
+            self.cmd('radial_2d(zn, %d, component_switch_time, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(new_state.zn[i]))))
 
         # blend to pars
         for i in xrange(len(new_state.par)):
-            self.linear_1d(self.state.par, i, self.state.component_switch_time, self.state.par[i], new_state.par[i])
+            self.cmd('linear_1d(par, %d, component_switch_time, %f, %f)' % (i, self.state.par[i], new_state.par[i]))
 
-        self.componentmanager.switch_components(updates)
+        self.cmd("switch_components(%s)" % str(updates))
 
 
     def load_state(self, idx):

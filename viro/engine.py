@@ -2,8 +2,7 @@ from ctypes import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
-from noumena import compiler
-from noumena.compiler import Compiler
+from viro import compiler
 
 import time
 import Image
