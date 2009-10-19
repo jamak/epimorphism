@@ -107,7 +107,7 @@ class CmdCenter(Setter, Animator):
         ''' Main application loop '''
 
         # execute engine
-        if(not (self.env.manual_iter and not self.env.next_frame)):
+        if((not (self.env.manual_iter and not self.env.next_frame)) and not self.env.freeze):
             self.env.next_frame = False
 
             # get time
@@ -257,23 +257,25 @@ class CmdCenter(Setter, Animator):
     def save(self, name=None):
         ''' Grabs a screenshot and saves the current state. '''
 
-        name = ConfigManager().save_state(self.state, name)
-        self.grab_image().save("image/image_%s.png" % name)
+        img = self.grab_image()
 
+        self.env.freeze = True
+        img.save("image/image_%s.png" % name)
+
+        name = ConfigManager().save_state(self.state, name)
         info("saved state as: %s" % name)
 
         self.interface.renderer.flash_message("saved state as %s" % name)
+        self.env.freeze = False
 
 
     def load(self, name):
         ''' Loads and blends to the given state. '''
 
-        debug("Load state: %s", name)
-
         if(isinstance(name, int)):
             name = "state_%d" % name
 
-        info("loading state: %s" % name)
+        info("Loading state: %s" % name)
 
         new_state = ConfigManager().load_dict("state", name)
 

@@ -11,14 +11,16 @@ clean midi
 
 fix glGetIntegerv bug
 
-synchronous save
-
 
 ###################################
 #
 #  v 1.1
 #
 #
+
+improve colorfunc
+
+populate/upgrade seed database
 
 scripts
 
@@ -29,10 +31,6 @@ video stuff/write ffmpeg script
 populate animation database
 
 populate T & T_SEED databasees
-
-populate/upgrade seed database
-
-improve colorfunc
 
 
 compiler - intellegently load function from kernel.so
