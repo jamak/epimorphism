@@ -1,5 +1,8 @@
 {'VERSION': 0.916,
  'component_switch_time' : 2.0,
+ 'time': 0.0,
+ 'frame_cnt': 0,
+
 
  'SEED': 'seed_wca(z)',
  'SEED_A': 'circular_alpha(w)',

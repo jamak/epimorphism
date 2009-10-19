@@ -1,5 +1,3 @@
-import time
-
 from aeon.datapath import *
 
 
@@ -8,7 +6,6 @@ class Animator(object):
         responsible for automation of data. '''
 
     def __init__(self):
-        self.time = time.clock
         self.paths = []
 
 
@@ -33,7 +30,7 @@ class Animator(object):
 
         # add path
 
-        self.paths.append({"obj": obj, "idx":idx, "start": self.time(), "speed": speed, "func":(lambda t: eval(type)(t, data))})
+        self.paths.append({"obj": obj, "idx":idx, "start": self.state.time, "speed": speed, "func":(lambda t: eval(type)(t, data))})
 
         return True
 
@@ -41,7 +38,7 @@ class Animator(object):
     def execute_paths(self):
 
         # get time
-        t = self.time()
+        t = self.state.time
 
         # execute paths
         for path in self.paths[::-1]:

@@ -95,24 +95,31 @@ class CmdCenter(Setter, Animator):
         ''' Start main loop '''
 
         self.t_start = time.clock()
-        self.send_frame()
-        self.frame_cnt = 0
+        self.state.frame_cnt = 0
         self.interface.renderer.start()
 
 
     def do(self):
         ''' Main application loop '''
 
-        # execute animation paths
-        self.execute_paths()
-
         # execute engine
         if(not (self.env.manual_iter and not self.env.next_frame)):
             self.env.next_frame = False
 
+            # get time
+            if(self.env.fps_synv):
+                self.state.time = self.state.frame_cnt / self.env.fps_sync
+            else:
+                self.state.time = time.clock() - self.t_start
+
+            # execute animation paths
+            self.execute_paths()
+
+            # render frame
             self.send_frame()
             self.engine.do()
-            self.frame_cnt += 1
+
+            self.state.frame_cnt += 1
 
         # execute interface
         self.interface.do()
@@ -125,7 +132,7 @@ class CmdCenter(Setter, Animator):
     def send_frame(self):
         ''' Generates and sends the current frame to the Engine '''
 
-        clock = time.clock() - self.t_start
+        clock = self.state.time
         data = {"type":"float", "val":clock}
         self.frame["_clock"] = data
 

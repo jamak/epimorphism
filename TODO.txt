@@ -6,7 +6,6 @@
 
 
 states save clock time
-fps time
 
 
 rework component_manager & datamanager
@@ -15,12 +14,18 @@ clean midi
 
 fix glGetIntegerv bug
 
-make sure things are being cleaned(__del__)
+finish/test picture upload
 
+
+screenshots while manual iteration
+manual iteration fps_time
+
+
+force fps
 
 ###################################
 #
-#  v 1.25
+#  v 1.1
 #
 #
 
@@ -28,16 +33,9 @@ scripts
 
 recording events
 
-
-kernel optimization
-
-finish/test picture upload
-
-build state machine for T
-
 video stuff/write ffmpeg script
 
-animation framework, etc
+populate animation database
 
 populate T & T_SEED databasees
 
@@ -45,8 +43,23 @@ populate/upgrade seed database
 
 improve colorfunc
 
-generalize w=-1 response
 
+compiler - intellegently load function from kernel.so
+
+make sure things are being cleaned(__del__)
+
+
+###################################
+#
+#  v 1.2
+#
+#
+
+kernel optimization
+
+build state machine for T
+
+generalize w=-1 response
 
 maintain phase in speed changes
 
@@ -58,8 +71,6 @@ autorun all migrations option
 deal with state dumps that occur while blending
 when loading state, upload image too?
 
-
-compiler - intellegently load function from kernel.so
 
 add argument lists to help
 

@@ -111,12 +111,12 @@ class ComponentManager(object):
                 first_idx = idx_idx
 
             self.component_idx[2 * idx_idx + 1] = val_idx
-            self.state.internal[idx_idx] = time.clock() - self.cmdcenter.t_start
+            self.state.internal[idx_idx] = self.state.time
 
         if(len(updates) == 1):
             self.cmdcenter.interface.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
-        while(time.clock() - self.cmdcenter.t_start - self.state.internal[first_idx] < self.state.component_switch_time):
+        while(self.state.time - self.state.internal[first_idx] < self.state.component_switch_time):
             time.sleep(0.1)
 
         for component_name, update in updates.items():
