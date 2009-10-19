@@ -9,6 +9,7 @@ from config.configmanager import *
 
 import StringIO
 import sys
+import traceback
 
 import Image
 
@@ -90,7 +91,39 @@ class CmdCenter(Setter, Animator):
         pass
 
 
+    def start(self):
+        ''' Start main loop '''
+
+        self.interface.renderer.set_inner_loop(self.do)
+        self.interface.renderer.start()
+
+
+    def do(self):
+        ''' Main application loop '''
+
+        self.frame_cnt += 1
+
+        # execute animation paths
+        self.execute_paths()
+
+        # execute engine
+        if(not (self.env.manual_iter and not self.env.next_frame)):
+            self.env.next_frame = False
+            self.engine.do()
+
+        # execute interface
+        self.interface.do()
+
+        # cleanup
+        if(self.env.exit):
+            sys.exit()
+
+
     def cmd(self, code, capture=False):
+        ''' Execute code in the CmdEnv environment '''
+
+        debug("Executing cmd: %s", code)
+
         # hijack stdout, if requested
         out = StringIO.StringIO()
         sys.stdout = capture and out or sys.stdout
@@ -118,13 +151,6 @@ class CmdCenter(Setter, Animator):
 
         # return result
         return res
-
-
-    def do(self):
-        self.frame_cnt += 1
-
-        # execute animation paths
-        self.execute_paths()
 
 
     def moduleCmd(self, module, cmd, vars):
@@ -193,7 +219,7 @@ class CmdCenter(Setter, Animator):
         name = ConfigManager().save_state(self.state, name)
         self.grab_image().save("image/image_%s.png" % name)
 
-        info("saved state as: " % name)
+        info("saved state as: %s" % name)
 
         self.interface.renderer.flash_message("saved state as %s" % name)
 

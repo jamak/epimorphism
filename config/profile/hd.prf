@@ -1,0 +1,8 @@
+{
+ 'name': 'hd',
+
+ 'debug_freq': 5.0,
+ 'kernel_dim': 3072,
+ 'ptxas_stats' : False,
+ 'FRACT': 7
+}

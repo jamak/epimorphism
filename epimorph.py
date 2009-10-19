@@ -29,12 +29,10 @@ def exit():
 
 atexit.register(exit)
 
-
 # run unclutter to remove mouse pointer
 os.system("unclutter -idle 0.25 -jitter 1 -root&")
 
-
-# initialize state/profile/context
+# initialize env/state/profile/context
 debug("Initializing state/profile/context")
 
 manager = ConfigManager()
@@ -48,11 +46,10 @@ if(len(sys.argv[1:]) != 0):
 env_vars = parse_args("~")
 env_vars.setdefault("env", "default")
 
-env = manager.load_dict("environment", env_vars["env"], **env_vars)
+env     = manager.load_dict("environment", env_vars["env"], **env_vars)
 context = manager.load_dict("context", env.context, **parse_args("@"))
 profile = manager.load_dict("profile", env.profile, **parse_args("#"))
 state   = manager.load_dict("state", env.state, **parse_args("%"))
-
 
 # encapsulated for asynchronous execution
 def main():
@@ -66,42 +63,24 @@ def main():
     engine    = Engine(profile)
     cmdcenter = CmdCenter(env, state, interface, engine)
 
+    debug("Syncing modules")
     interface.sync_cmd(cmdcenter)
     engine.sync(interface.renderer)
 
     # compile engine kernel - this needs to be generalized
+    debug("Compiling kernel")
     compiler_config = {'ptxas_stats': profile.ptxas_stats, 'par_names':state.par_names, 'datamanager':cmdcenter.componentmanager.datamanager}
     Compiler(engine.set_new_kernel, compiler_config).start()
 
-    # create execution loop
-    def inner_loop():
-
-        # execute command center
-        cmdcenter.do()
-
-        # execute engine
-        if(not (env.manual_iter and not env.next_frame)):
-            env.next_frame = False
-            engine.do()
-
-        # execute interface
-        interface.do()
-
-        # cleanup
-        if(env.exit):
-            sys.exit()
-
-    # set execution loop & start - this is lame
-    interface.renderer.set_inner_loop(inner_loop)
-    interface.renderer.start()
+    # start main loop
+    debug("Starting")
+    cmdcenter.start()
 
     info("Main loop completed")
-
 
 # define start function
 def start():
     async(main)
-
 
 # start
 if(env.autostart):

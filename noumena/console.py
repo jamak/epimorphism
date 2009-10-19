@@ -80,7 +80,7 @@ class Console(object):
 
         # toggle console
         elif(key == "`"):
-            self.cmdcenter.renderer.toggle_console()
+            self.cmdcenter.interface.renderer.toggle_console()
 
         # delete character
         elif(key == "\010"): # backspace
