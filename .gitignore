@@ -13,3 +13,4 @@ log.txt*
 ptx
 est
 *.log
+sources/pypm/build/*
