@@ -52,10 +52,8 @@ class CmdCenter(Setter, Animator):
 
         self.env, self.state, self.interface, self.engine = env, state, interface, engine
 
-        engine.frame = state
-
         # init componentmanager
-        self.componentmanager = ComponentManager(self, self.state, self.engine)
+        self.componentmanager = ComponentManager(self, self.state)
 
         # init animator
         Animator.__init__(self)
@@ -79,12 +77,15 @@ class CmdCenter(Setter, Animator):
         funcs.update(default_funcs)
 
         # generate cmd exec environment
-        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__], funcs)
-
-        self.frame_cnt = 0
+        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
 
         # for cycling through existing states
         self.current_state_idx = -1
+
+        # setup application
+        self.interface.renderer.set_inner_loop(self.do)
+        self.frame = {}
+        self.engine.frame = self.frame
 
 
     def __del__(self):
@@ -94,14 +95,14 @@ class CmdCenter(Setter, Animator):
     def start(self):
         ''' Start main loop '''
 
-        self.interface.renderer.set_inner_loop(self.do)
+        self.t_start = time.clock()
+        self.send_frame()
+        self.frame_cnt = 0
         self.interface.renderer.start()
 
 
     def do(self):
         ''' Main application loop '''
-
-        self.frame_cnt += 1
 
         # execute animation paths
         self.execute_paths()
@@ -109,7 +110,10 @@ class CmdCenter(Setter, Animator):
         # execute engine
         if(not (self.env.manual_iter and not self.env.next_frame)):
             self.env.next_frame = False
+
+            self.send_frame()
             self.engine.do()
+            self.frame_cnt += 1
 
         # execute interface
         self.interface.do()
@@ -117,6 +121,28 @@ class CmdCenter(Setter, Animator):
         # cleanup
         if(self.env.exit):
             sys.exit()
+
+
+    def send_frame(self):
+
+        clock = time.clock() - self.t_start
+        data = {"type":"float", "val":clock}
+        self.frame["_clock"] = data
+
+        data = {"type":"float_array", "val":self.state.par}
+        self.frame["par"] = data
+
+        data = {"type":"float_array", "val":self.state.internal}
+        self.frame["internal"] = data
+
+        data = {"type":"int_array", "val":self.componentmanager.component_idx}
+        self.frame["component_idx"] = data
+
+        data = {"type":"complex_array", "val":self.state.zn}
+        self.frame["zn"] = data
+
+        data = {"type":"float", "val":self.state.component_switch_time}
+        self.frame["switch_time"] = data
 
 
     def cmd(self, code, capture=False):
@@ -153,10 +179,8 @@ class CmdCenter(Setter, Animator):
         return res
 
 
-    def moduleCmd(self, module, cmd, vars):
-        cmd = "self.%s.%s(**%s)" % (module, cmd, vars)
-        info("Module cmd string: %s" % cmd)
-        exec(cmd)
+    def state_var(self, var, val):
+        cmd("state[%s] = %s" % (var, val))
 
 
     # UTILITY FUNCTIONS

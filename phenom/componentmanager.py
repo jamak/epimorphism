@@ -8,10 +8,10 @@ set_log("COMPONENT")
 
 
 class ComponentManager(object):
-    
 
-    def __init__(self, cmdcenter, state, engine):
-        self.cmdcenter, self.state, self.engine = cmdcenter, state, engine
+
+    def __init__(self, cmdcenter, state):
+        self.cmdcenter, self.state = cmdcenter, state
 
         self.switching_component = False
 
@@ -19,11 +19,12 @@ class ComponentManager(object):
         self.datamanager = DataManager()
 
         # init indices for components
+        self.component_idx = [0 for i in xrange(20)]
+
         self.set_component_indices()
 
 
     def set_component_indices(self):
-        self.engine.component_idx = [0 for i in xrange(20)]
 
         component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.components]
 
@@ -34,10 +35,10 @@ class ComponentManager(object):
             #print component_name, ":", val
 
             try:
-                self.engine.component_idx[2 * idx] = component_vals[idx].index(val)
+                self.component_idx[2 * idx] = component_vals[idx].index(val)
             except:
                 error("couldn't find index for:", component_name, "-", val)
-                self.engine.component_idx[2 * idx] = 0
+                self.component_idx[2 * idx] = 0
 
 
     def component_list(self):
@@ -62,7 +63,7 @@ class ComponentManager(object):
         # get and update index
         idx_idx = self.datamanager.components.index(component_name)
 
-        val_idx = self.engine.component_idx[2 * idx_idx]
+        val_idx = self.component_idx[2 * idx_idx]
         val_idx += idx
         val_idx %= len(components)
 
@@ -112,13 +113,13 @@ class ComponentManager(object):
             if(not first_idx):
                 first_idx = idx_idx
 
-            self.engine.component_idx[2 * idx_idx + 1] = val_idx
-            self.state.internal[idx_idx] = time.clock() - self.engine.t_start
+            self.component_idx[2 * idx_idx + 1] = val_idx
+            self.state.internal[idx_idx] = time.clock() - self.cmdcenter.t_start
 
         if(len(updates) == 1):
             self.cmdcenter.interface.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
-        while(time.clock() - self.engine.t_start - self.state.internal[first_idx] < self.state.component_switch_time):
+        while(time.clock() - self.cmdcenter.t_start - self.state.internal[first_idx] < self.state.component_switch_time):
             time.sleep(0.1)
 
         for component_name, update in updates.items():
@@ -128,7 +129,8 @@ class ComponentManager(object):
 
             setattr(self.state, component_name, val)
             self.state.internal[idx_idx] = 0
-            self.engine.component_idx[2 * idx_idx] = val_idx
+            self.component_idx[2 * idx_idx] = val_idx
+
 
 
 

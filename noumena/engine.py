@@ -66,7 +66,7 @@ class Engine(object):
 
         # kernel vars
         self.kernel = None
-        self.reset = None        
+        self.reset = None
 
         # malloc host array
         self.host_array = c_void_p()
@@ -177,9 +177,6 @@ class Engine(object):
 
         debug("Switching to kernel: %s", self.new_kernel)
 
-        # start clock if necessary
-        if(not self.kernel) : self.t_start = time.clock()
-
         # get functions from kernel library
         (self.kernel, self.reset) = compiler.get_functions(self.new_kernel)
         self.new_kernel = None
@@ -237,27 +234,21 @@ class Engine(object):
         self.record_event(0)
         self.frame_count += 1
 
-        # upload par & zn & internal & components
-        par = (c_float * len(self.frame.par))(*[p for p in self.frame.par])
-        cudaMemcpyToSymbol("par", byref(par), sizeof(par), 0, cudaMemcpyHostToDevice)
+        # copy constants to kernel
+        for name, data in self.frame.items():
 
-        internal = (c_float * len(self.frame.internal))(*[p for p in self.frame.internal])
-        cudaMemcpyToSymbol("internal", byref(internal), sizeof(internal), 0, cudaMemcpyHostToDevice)
+            # convert to ctypes
+            if(data["type"] == "float"):
+                val = c_float(data["val"])
+            elif(data["type"] == "float_array"):
+                val = (c_float * len(data["val"]))(*[p for p in data["val"]])
+            elif(data["type"] == "int_array"):
+                val = (c_int * len(data["val"]))(*[p for p in data["val"]])
+            elif(data["type"] == "complex_array"):
+                val = (float2 * len(data["val"]))(*[(z.real, z.imag) for z in data["val"]])
 
-        zn = (float2 * len(self.frame.zn))(*[(z.real, z.imag) for z in self.frame.zn])
-        cudaMemcpyToSymbol("zn", byref(zn), sizeof(zn), 0, cudaMemcpyHostToDevice)
-
-        if(self.component_idx):
-            component_idx = (c_int * len(self.component_idx))(*[x for x in self.component_idx])
-            cudaMemcpyToSymbol("component_idx", byref(component_idx), sizeof(component_idx), 0, cudaMemcpyHostToDevice)
-
-        # upload clock
-        clock = c_float(time.clock() - self.t_start)
-        cudaMemcpyToSymbol("_clock", byref(clock), sizeof(clock), 0, cudaMemcpyHostToDevice)
-
-        # upload switch_time
-        switch_time = c_float(self.frame.component_switch_time)
-        cudaMemcpyToSymbol("switch_time", byref(switch_time), sizeof(switch_time), 0, cudaMemcpyHostToDevice)
+            # copy
+            cudaMemcpyToSymbol(name, byref(val), sizeof(val), 0, cudaMemcpyHostToDevice)
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)

@@ -4,8 +4,6 @@ import os.path
 import noumena
 
 from config.migration import *
-from common.complex import *
-from phenom.stdmidi import *
 
 from common.log import *
 set_log("CONFIG")
