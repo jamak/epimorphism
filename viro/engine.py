@@ -2,6 +2,7 @@ from ctypes import *
 from cuda.cuda_defs import *
 from cuda.cuda_api import *
 
+from viro.compiler import Compiler
 from viro import compiler
 
 import time
@@ -85,6 +86,10 @@ class Engine(object):
         self.fb_contents = None
 
         self.pbo = None
+
+
+        # compiler config
+        self.compiler_config = {}
 
 
     def __del__(self):
@@ -284,6 +289,13 @@ class Engine(object):
 
 
     ######################################### PUBLIC ##################################################
+
+    def compile(self, compiler_config):
+        # compile engine kernel - this needs to be generalized
+        debug("Compiling kernel")
+
+        self.compiler_config.update(compiler_config)
+        Compiler(self.set_new_kernel, self.compiler_config).start()
 
 
     def get_fb(self):

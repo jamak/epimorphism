@@ -88,8 +88,12 @@ class Compiler(threading.Thread):
         contents = file.read()
         file.close()
 
-        # splice components
-        self.splice_components()
+        # components
+        if(self.config['splice']):
+            self.splice_components()
+        else:
+            for component_name in self.config['datamanager'].component_names:
+                self.substitutions[component_name] = "%s = %s;" % (component_name.lower(),  getattr(self.config['state'], component_name))
 
         # bind PAR_NAMES
         par_name_str = ""
@@ -139,8 +143,8 @@ class Compiler(threading.Thread):
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            for file in files:
-                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            #for file in files:
+            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         else:

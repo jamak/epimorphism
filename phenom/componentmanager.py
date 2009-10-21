@@ -104,6 +104,24 @@ class ComponentManager(object):
         if(len(data) == 0):
             return True
 
+        # non-spliced
+        if(not self.cmdcenter.env.splice_components):
+            for component_name, val in data.items():
+                idx_idx = self.datamanager.component_names.index(component_name)
+                components = self.datamanager.components[component_name]
+                try:
+                    component = [c for c in components if c[0] == val][0]
+                except:
+                    error("couldn't find val in components - %s, %s" % (component_name, val))
+                    return False
+
+                val_idx = components.index(component)
+
+                setattr(self.state, component_name, val)
+                self.component_idx[2 * idx_idx] = val_idx
+                self.cmdcenter.engine.compile({})
+                return
+
         # generate updates
         updates = {}
         first_idx = None

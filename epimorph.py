@@ -7,7 +7,6 @@ import atexit
 from config.configmanager import *
 from noumena.interface import *
 from viro.engine import *
-from viro.compiler import Compiler
 from phenom.cmdcenter import *
 
 from common.runner import *
@@ -68,10 +67,8 @@ def main():
     interface.sync_cmd(cmdcenter)
     engine.sync(interface.renderer)
 
-    # compile engine kernel - this needs to be generalized
-    debug("Compiling kernel")
-    compiler_config = {'ptxas_stats': profile.ptxas_stats, 'par_names':state.par_names, 'datamanager':cmdcenter.componentmanager.datamanager}
-    Compiler(engine.set_new_kernel, compiler_config).start()
+    # compile engine
+    engine.compile({'ptxas_stats': profile.ptxas_stats, 'par_names':state.par_names, 'datamanager':cmdcenter.componentmanager.datamanager, 'splice':env.splice_components, 'state':state})
 
     # start main loop
     debug("Starting")
