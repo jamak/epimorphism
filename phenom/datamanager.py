@@ -123,8 +123,9 @@ class DataManager(object):
 
     def get_component_for_val(self, component_name, val):
         ''' This function returns the component object given its name and value '''
+
         # get list
-        res = [data for data in getattr(self, component_name) if len(data) != 0 and data[0] == val]
+        res = [data for data in self.components['component_name'] if len(data) != 0 and data[0] == val]
 
         # return component
         if(len(res) != 0):
@@ -135,6 +136,7 @@ class DataManager(object):
 
     def comment(self, component_name, val):
         ''' This function returns the comment for a given component_name with a given value '''
+
         # get component
         component = self.get_component_for_val(component_name, val)
 
