@@ -117,7 +117,7 @@ class CmdCenter(Setter, Animator):
                 self.state.time = time.clock() - self.t_start + self.t_phase
 
 
-            print str(self.state.time), str(self.t_phase)
+            #print str(self.state.time), str(self.t_phase)
 
 
             # execute animation paths

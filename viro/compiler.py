@@ -52,10 +52,10 @@ class Compiler(threading.Thread):
             statements that are spliced into the kernels '''
         debug("Splicing components")
 
-        for component_name in self.config['datamanager'].components:
+        for component_name in self.config['datamanager'].component_names:
             component_list = getattr(self.config['datamanager'], component_name)
 
-            idx = self.config['datamanager'].components.index(component_name)
+            idx = self.config['datamanager'].component_names.index(component_name)
 
             clause1 = "switch(component_idx[%d][0]){\n" % idx
             for component in component_list:

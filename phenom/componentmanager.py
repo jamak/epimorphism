@@ -25,10 +25,10 @@ class ComponentManager(object):
 
     def set_component_indices(self):
 
-        component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.components]
+        component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.component_names]
 
-        for component_name in self.datamanager.components:
-            idx = self.datamanager.components.index(component_name)
+        for component_name in self.datamanager.component_names:
+            idx = self.datamanager.component_names.index(component_name)
             val =  getattr(self.state, component_name.upper())
 
             try:
@@ -39,11 +39,11 @@ class ComponentManager(object):
 
 
     def component_list(self):
-        return self.datamanager.components
+        return self.datamanager.component_names
 
 
     def print_components(self):
-        keys = self.datamanager.components
+        keys = self.datamanager.component_names
 
         for i in xrange(len(keys)) :
             component = getattr(self.state, keys[i])
@@ -58,7 +58,7 @@ class ComponentManager(object):
         components = getattr(self.datamanager, component_name)
 
         # get and update index
-        idx_idx = self.datamanager.components.index(component_name)
+        idx_idx = self.datamanager.component_names.index(component_name)
 
         val_idx = self.component_idx[2 * idx_idx]
         val_idx += idx
@@ -73,7 +73,7 @@ class ComponentManager(object):
     def can_switch_to_components(self, data):
         can_switch = True
         for component_name, val in data.items():
-            idx_idx = self.datamanager.components.index(component_name)
+            idx_idx = self.datamanager.component_names.index(component_name)
             components = getattr(self.datamanager, component_name)
             try:
                 component = [c for c in components if c[0] == val][0]
@@ -96,7 +96,7 @@ class ComponentManager(object):
         updates = {}
         first_idx = None
         for component_name, val in data.items():
-            idx_idx = self.datamanager.components.index(component_name)
+            idx_idx = self.datamanager.component_names.index(component_name)
             components = getattr(self.datamanager, component_name)
             try:
                 component = [c for c in components if c[0] == val][0]

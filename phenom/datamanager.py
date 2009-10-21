@@ -115,8 +115,8 @@ class DataManager(object):
                         # add component
                         components.append(component)
 
-        self.components = self.__dict__.keys()
-        self.components.sort()
+        self.component_names = self.__dict__.keys()
+        self.component_names.sort()
 
 
     def get_component_for_val(self, component_name, val):
