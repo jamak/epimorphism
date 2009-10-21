@@ -18,6 +18,8 @@ class DataManager(object):
         # load components from files of form *.epi
         files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?.epi$", file)]
 
+        self.components = {}
+
         for file_name in files:
 
             # get component name
@@ -29,8 +31,8 @@ class DataManager(object):
             file.close()
 
             # set component
-            setattr(self, component_name.upper(), [])
-            components = getattr(self, component_name.upper())
+            self.components[component_name.upper()] = []
+            values = self.components[component_name.upper()]
 
             # get all components
             for line in contents.split("\n"):
@@ -62,7 +64,7 @@ class DataManager(object):
                 component.append(component_name)
 
                 # add component
-                components.append(component)
+                values.append(component)
 
         # load components from files of form *.cu
         files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?cu$", file)]
@@ -79,8 +81,8 @@ class DataManager(object):
             if(re.search("EPIMORPH library file", contents)):
 
                 # set component
-                setattr(self, component_name.upper(), [])
-                components = getattr(self, component_name.upper())
+                self.components[component_name.upper()] = []
+                values = self.components[component_name.upper()]
 
                 # get all function definitions
                 funcs = re.findall("^__device__.+?^}$", contents, re.M | re.S)
@@ -113,9 +115,9 @@ class DataManager(object):
                             component[1] = [cmd.strip() for cmd in comments[1].strip().split('#')]
 
                         # add component
-                        components.append(component)
+                        values.append(component)
 
-        self.component_names = self.__dict__.keys()
+        self.component_names = self.components.keys()
         self.component_names.sort()
 
 

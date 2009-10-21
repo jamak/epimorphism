@@ -25,16 +25,17 @@ class ComponentManager(object):
 
     def set_component_indices(self):
 
-        component_vals = [[items[0] for items in getattr(self.datamanager, component)] for component in self.datamanager.component_names]
-
         for component_name in self.datamanager.component_names:
+            #print component_name
             idx = self.datamanager.component_names.index(component_name)
             val =  getattr(self.state, component_name.upper())
 
             try:
-                self.component_idx[2 * idx] = component_vals[idx].index(val)
+                data = [elt[0] for elt in self.datamanager.components[component_name]]
+                #print data, val
+                self.component_idx[2 * idx] = data.index(val)
             except:
-                error("couldn't find index for:", component_name, "-", val)
+                error("couldn't find index for: %s - %s" %(component_name, val))
                 self.component_idx[2 * idx] = 0
 
 
@@ -55,7 +56,7 @@ class ComponentManager(object):
             return
 
         # get components
-        components = getattr(self.datamanager, component_name)
+        components = self.datamanager.components[component_name]
 
         # get and update index
         idx_idx = self.datamanager.component_names.index(component_name)
@@ -74,7 +75,7 @@ class ComponentManager(object):
         can_switch = True
         for component_name, val in data.items():
             idx_idx = self.datamanager.component_names.index(component_name)
-            components = getattr(self.datamanager, component_name)
+            components = self.datamanager.components[component_name]
             try:
                 component = [c for c in components if c[0] == val][0]
             except:
@@ -97,7 +98,7 @@ class ComponentManager(object):
         first_idx = None
         for component_name, val in data.items():
             idx_idx = self.datamanager.component_names.index(component_name)
-            components = getattr(self.datamanager, component_name)
+            components = self.datamanager.components[component_name]
             try:
                 component = [c for c in components if c[0] == val][0]
             except:

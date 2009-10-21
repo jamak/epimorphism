@@ -53,7 +53,7 @@ class Compiler(threading.Thread):
         debug("Splicing components")
 
         for component_name in self.config['datamanager'].component_names:
-            component_list = getattr(self.config['datamanager'], component_name)
+            component_list = self.config['datamanager'].components[component_name]
 
             idx = self.config['datamanager'].component_names.index(component_name)
 
@@ -62,7 +62,6 @@ class Compiler(threading.Thread):
                 name = component[0]
                 clause1 += "case %d: %s0 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
             clause1 += "}\n"
-
 
             clause2 = "switch(component_idx[%d][1]){\n" % idx
             for component in component_list:
