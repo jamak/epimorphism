@@ -18,7 +18,7 @@ def get_functions(name):
         lib = cdll.LoadLibrary("kernels/%s.so" % name)#, RTLD_LOCAL)
     except:
         critical("Kernel not found")
-        os._exit()
+        os._exit(0)
 
     # extract function - this could probably be done more smartly
     kernel = lib.__device_stub__Z9kernel_fbP6float4mP6uchar4iffff
@@ -143,8 +143,8 @@ class Compiler(threading.Thread):
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            #for file in files:
-            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            for file in files:
+                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         else:
