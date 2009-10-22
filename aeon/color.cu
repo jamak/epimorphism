@@ -87,7 +87,14 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
           (-1.0f * axis.x * s + (1.0f - c) * axis.y * axis.z) * v.y +
           (1.0f + (1.0f - c) * (axis.z * axis.z - 1.0f)) * v.z;
 
+
+  //float3 r = vec3(0.0f, 0.0f, 1.0f);
+  //float d = 0.0f;
+
+  //tmp = vec3(tmp.x, 0.0f, tmp.z);//tmp - r * (dot(r, tmp) + d) / dot(r, r);
+
   v = vec4(0.99999f * tmp.x, 0.99999f * tmp.y, 0.99999f * tmp.z, v.w);
+
 
   return HSLstoRGB(v);
 }

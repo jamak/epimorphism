@@ -146,6 +146,9 @@ class MidiHandler(threading.Thread, Setter):
         # init thread
         threading.Thread.__init__(self)
 
+
+
+
     def mirror(self, obj, key):
         # lookup bindings
         bindings = self.get_bindings()
