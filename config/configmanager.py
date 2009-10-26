@@ -5,59 +5,10 @@ import noumena
 
 from config.migration import *
 
+from config.structs import *
+
 from common.log import *
 set_log("CONFIG")
-
-
-class MidiList(list):
-    ''' This is an internal class to add midi synchronization to
-        changes in parameters. '''
-
-    # maintain copy of origonal setter
-    old_set = list.__setitem__
-
-    def __setitem__(self, key, val):
-        # set value
-        self.old_set(key, val)
-
-        #if(hasattr(self, "midi")):
-        #    self.midi.mirror(self, key)
-
-
-class State(object):
-    ''' Configuration parameters for generating Frames. '''
-
-    def __init__(self, **vars):
-        # update dict with migrated vars
-        self.__dict__.update(migrate(vars))
-
-        # create midi_lists
-        self.zn = MidiList(self.zn)
-        self.par = MidiList(self.par)
-
-
-class Profile(object):
-    ''' Configuration settings for the Engine. '''
-
-    def __init__(self, **vars):
-        # init
-        self.__dict__.update(vars)
-
-
-class Context(object):
-    ''' Configuration settings for the Interface. '''
-
-    def __init__(self, **vars):
-        # init
-        self.__dict__.update(vars)
-
-
-class Environment(object):
-    ''' Configuration settings for the application. '''
-
-    def __init__(self, **vars):
-        # init
-        self.__dict__.update(vars)
 
 
 class ConfigManager(object):
@@ -66,17 +17,16 @@ class ConfigManager(object):
 
 
     # mappings from config extensions to classes/names
-    extension_names = {"state": "est", "profile": "prf", "context": "ctx", "environment": "env"}
+    extension_names = {"state": "est", "profile": "prf", "context": "ctx", "environment": "env", "script": "scr"}
 
 
-    def load_dict(self, type, name, **additional_vars):
-        ''' loads a dictionary into a dictionarized object '''
-
-        debug("loading %s - %s" % (type, name))
+    def load_obj(type, name):
+        ''' Loads an object. '''
+        debug("Loading %s - %s" % (type, name))
 
         # open file & extract contents
         try:
-            file = open("config/" + type + "/" + name + "." + self.extension_names[type])
+            file = open("config/" + type + "/" + name + "." + ConfigManager.extension_names[type])
             contents = file.read()
             file.close()
 
@@ -84,8 +34,14 @@ class ConfigManager(object):
             exception("couldn't read %s - %s" % (type, name))
             sys.exit()
 
-        # get vars
-        vars = eval(contents.replace("\n", ""))
+        # create & return object
+        return eval(contents.replace("\n", ""))
+
+
+    def load_dict(type, name, **additional_vars):
+        ''' Loads a dictionary into a dictionarized object '''
+
+        vars = ConfigManager.load_obj(type, name)
         vars.update(additional_vars)
 
         # return correct config object
@@ -95,38 +51,25 @@ class ConfigManager(object):
         return obj
 
 
-    def outp_dict(self, name, obj):
-        ''' dumps a dict to a file '''
-
-        debug("serializing dictionary %s" % name)
-
-        # open file & dump repr(obj)
-        file = open(name, "w")
-        file.write(repr(obj.__dict__).replace(",", ",\n"))
-        file.close()
-
-
-    def save_state(self, state, name=None):
-        ''' saves a state to disk '''
-
-        debug("saving state")
-
-        # set correct version
-        state.VERSION = noumena.VERSION
+    def outp_obj(type, obj, name=None):
+        ''' Dumps an object to a file.  Adds newlines after commas for legibility '''
+        debug("Saving %s" % type)
 
         # generate name if necessary
         if(not name):
             i = 0
-            while(os.path.exists("config/state/state_%d.est" % i)) : i += 1
-            name = "state_" + str(i)
-
-        state.name = name
+            while(os.path.exists("config/%s/%s_%d.%s" % (type, type, i, ConfigManager.extension_names[type]))) : i += 1
+            name = "%s_%d" % (type, i)
 
         debug("with name %s" % name)
 
-        # output dict
-        self.outp_dict("config/state/%s.est" % name, state)
+        # set name if dict
+        if(type(obj) == dict):
+            obj.name = name
 
-        # return name
+        # open file & dump repr(obj)
+        file = open(name, "w")
+        file.write(repr(obj).replace(",", ",\n"))
+        file.close()
+
         return name
-

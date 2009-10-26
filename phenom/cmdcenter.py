@@ -140,7 +140,7 @@ class CmdCenter(Setter, Animator):
     def send_frame(self):
         ''' Generates and sends the current frame to the Engine '''
 
-        clock = self.state.time
+        clock = self.time()
         data = {"type":"float", "val":clock}
         self.frame["_clock"] = data
 
@@ -199,6 +199,12 @@ class CmdCenter(Setter, Animator):
 
 
     # UTILITY FUNCTIONS
+
+    def time(self):
+        ''' Returns current system time '''
+
+        return self.state.time
+
 
     def update_current_state_idx(self, idx):
         self.current_state_idx += idx
@@ -262,7 +268,7 @@ class CmdCenter(Setter, Animator):
         self.env.freeze = True
         img.save("image/image_%s.png" % name)
 
-        name = ConfigManager().save_state(self.state, name)
+        name = ConfigManager.save_obj("state", self.state.__dict__, name)
         info("saved state as: %s" % name)
 
         self.interface.renderer.flash_message("saved state as %s" % name)
@@ -277,7 +283,7 @@ class CmdCenter(Setter, Animator):
 
         info("Loading state: %s" % name)
 
-        new_state = ConfigManager().load_dict("state", name)
+        new_state = ConfigManager.load_dict("state", name)
 
         updates = {}
 

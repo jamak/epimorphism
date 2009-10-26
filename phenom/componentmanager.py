@@ -141,14 +141,14 @@ class ComponentManager(object):
                 first_idx = idx_idx
 
             self.component_idx[2 * idx_idx + 1] = val_idx
-            self.state.internal[idx_idx] = self.state.time
+            self.state.internal[idx_idx] = self.cmdcenter.time()
 
         # if were only changing 1 component, show a message
         if(len(updates) == 1):
             self.cmdcenter.interface.renderer.flash_message("switching %s to: %s" % (updates.keys()[0], updates[updates.keys()[0]]["val"]))
 
         # wait until interpolation is done
-        while(self.state.time - self.state.internal[first_idx] < self.state.component_switch_time):
+        while(self.cmdcenter.time() - self.state.internal[first_idx] < self.state.component_switch_time):
             time.sleep(0.1)
 
         # update state

@@ -35,7 +35,7 @@ class Animator(object):
 
         # add path
 
-        self.paths.append({"obj": obj, "idx":idx, "start": self.state.time, "speed": speed, "func":(lambda t: eval(type)(t, data))})
+        self.paths.append({"obj": obj, "idx":idx, "start": self.time(), "speed": speed, "func":(lambda t: eval(type)(t, data))})
 
         return True
 
@@ -43,7 +43,7 @@ class Animator(object):
     def execute_paths(self):
 
         # get time
-        t = self.state.time
+        t = self.time()
 
         # execute paths
         for path in self.paths[::-1]:

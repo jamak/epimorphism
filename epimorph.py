@@ -6,7 +6,7 @@ import atexit
 
 from config.configmanager import *
 from noumena.interface import *
-from viro.engine import *
+# from viro.engine import *
 from phenom.cmdcenter import *
 
 from common.runner import *
@@ -35,7 +35,6 @@ os.system("unclutter -idle 0.25 -jitter 1 -root&")
 # initialize env/state/profile/context
 debug("Initializing state/profile/context")
 
-manager = ConfigManager()
 
 def parse_args(sym):
     return dict(tuple(map(lambda x: (x[0], eval(x[1])), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == sym))))
@@ -46,10 +45,10 @@ if(len(sys.argv[1:]) != 0):
 env_vars = parse_args("~")
 env_vars.setdefault("env", "default")
 
-env     = manager.load_dict("environment", env_vars["env"], **env_vars)
-context = manager.load_dict("context", env.context, **parse_args("@"))
-profile = manager.load_dict("profile", env.profile, **parse_args("#"))
-state   = manager.load_dict("state", env.state, **parse_args("%"))
+env     = ConfigManager.load_dict("environment", env_vars["env"], **env_vars)
+context = ConfigManager.load_dict("context", env.context, **parse_args("@"))
+profile = ConfigManager.load_dict("profile", env.profile, **parse_args("#"))
+state   = ConfigManager.load_dict("state", env.state, **parse_args("%"))
 
 # encapsulated for asynchronous execution
 def main():
