@@ -93,8 +93,15 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
 
   //tmp = vec3(tmp.x, 0.0f, tmp.z);//tmp - r * (dot(r, tmp) + d) / dot(r, r);
 
-  v = vec4(0.99999f * tmp.x, 0.99999f * tmp.y, 0.99999f * tmp.z, v.w);
+  tmp = 0.9f * tmp;
 
+  s = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
+
+  // tmp = s * tmp + (1.0f - s) * vec3(0.2f, 0.5f, 0.8f);
+
+  tmp = s * tmp + (1.0f - s) * vec3(0.0f, -1.0f, 0.0f);
+
+  v = vec4(0.99999f * tmp.x, 0.99999f * tmp.y, 0.99999f * tmp.z, v.w);
 
   return HSLstoRGB(v);
 }

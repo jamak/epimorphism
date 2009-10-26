@@ -6,9 +6,9 @@ import time
 
 from common.complex import *
 from noumena.stdmidi import *
-from phenom.setter import *
+from noumena.setter import *
 
-import noumena.midibindings
+from noumena.mididevices import *
 
 from common.log import *
 set_log("MIDI")
@@ -47,29 +47,8 @@ class MidiHandler(threading.Thread):
             info("MIDI device not found")
             self.context.midi = False
 
-
-        # create device bindings
-        self.BCF2000 = []
-        self.BCF2000 = [{(0, 81): ["state.zn",  0,  "radius", (1.0, 1.0)],
-                         (0, 82): ["state.zn",  1,  "radius", (1.0, 0.0)],
-                         (0, 83): ["state.zn",  2,  "radius", (1.0, 1.0)],
-                         (0, 84): ["state.zn",  3,  "radius", (1.0, 0.0)],
-                         (0, 85): ["state.zn",  8,  "radius", (1.0, 1.0)],
-                         (0, 86): ["state.zn",  9,  "radius", (1.0, 0.0)],
-                         (0, 87): ["state.zn",  10, "radius", (1.0, 1.0)],
-                         (0, 88): ["state.zn",  11, "radius", (1.0, 0.0)],
-                         (0, 1) : ["state.par", 0,  "val",    (0.4, 0.2)],  # seed_w
-                         (0, 2) : ["state.par", 1,  "val",    (1.0, 0.0)],  # color_phi
-                         (0, 3) : ["state.par", 2,  "val",    (1.0, 0.0)],  # colod_psi
-                         (0, 4) : ["state.par", 3,  "val",    (0.6, 0.4)],  # color_a
-                         (0, 5) : ["state.par", 4,  "val",    (0.8, 0.2)],  # color_s
-                         (0, 6) : ["state.zn",  8,  "th",     (3.14, 0.0)], # zn[th][8]
-                         (0, 7) : ["state.par", 7,  "val",    (0.6, 0.0)],  # seed_w_thresh
-                         (0, 8) : ["state.par", 18, "val",    (1.0, 0.0)],  # colod_dhue
-                         }]
-
         # load bindings
-        self.bindings = getattr(self, self.context.midi_controller)
+        self.bindings = eval(self.context.midi_controller)
 
         # set default bindings
         self.binding_idx = 0
@@ -85,10 +64,8 @@ class MidiHandler(threading.Thread):
         ''' Evaluates and outputs value of a binding '''
 
         binding = self.bindings[self.binding_idx][binding_id]
+        f = ((eval("get_" + binding[2])(self.cmdcenter.get_val(binding[0], binding[1]))) - binding[3][1]) / binding[3][0]
 
-        f = eval("get_" + binding[2])((self.cmdcenter.get_val(binding[0], binding[1]) - binding[3][1]) / binding[3][0])
-
-        # print binding_id, binding, s, f
         self.writef(binding_id[0], binding_id[1], f)
 
 
@@ -117,7 +94,7 @@ class MidiHandler(threading.Thread):
         # send binding buttons - HACK: for switching bindings
         for i in xrange(0, 8):
             self.writef(0, 65 + i, 0.0)
-            if(self.bindings == i) : self.writef(0, 65 + i, 1.0)
+            if(self.binding_idx == i) : self.writef(0, 65 + i, 1.0)
 
 
     def writef(self, bank, channel, f):
@@ -161,16 +138,19 @@ class MidiHandler(threading.Thread):
             if(bindings.has_key((bank, channel))):
                 binding = bindings[(bank, channel)]
 
-                # compute & outpu value
+                # compute & output value
                 f = binding[3][0] * f + binding[3][1]
-                val = eval("set_" + binding[2])(self.cmdcenter.get_val(binding[0], binding[1]), f)
 
+                old = self.cmdcenter.get_val(binding[0], binding[1])
+                val = eval("set_" + binding[2])(old, f)
+
+                #self.cmdcenter.cmd('radial_2d(zn, %d, 0.08, %s, %s)' % (binding[1], str(r_to_p(old)), str(r_to_p(val))))
                 self.cmdcenter.set_val(val, binding[0], binding[1])
 
             # change bindings - HACK: buttons switch bindings
             elif(channel >= 65 and channel <= 72):
 
-                self.bindings = channel - 65
-                if val == 0 : self.bindings = 0
+                self.binding_idx = channel - 65
+                if val == 0 : self.binding_idx = 0
                 self.send_bindings()
 

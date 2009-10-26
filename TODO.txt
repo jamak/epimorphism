@@ -7,8 +7,6 @@
 
 fix glGetIntegerv bug
 
-remove midibindings & stdmidi
-
 
 ###################################
 #
@@ -87,7 +85,6 @@ t_surface / interesting way to explore t's
 
 quantize angles, etc
 
-midi smoothing. maybe keyboard smoothing
 
 smooth repeat switching of same func - is this possible?
 

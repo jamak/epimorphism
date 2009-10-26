@@ -1,5 +1,4 @@
 from phenom.animator import *
-from phenom.setter import *
 from phenom.componentmanager import *
 from phenom.script import *
 from common.default import *
@@ -282,7 +281,7 @@ class CmdCenter(Animator):
         self.env.freeze = True
         img.save("image/image_%s.png" % name)
 
-        name = configmanager.save_obj("state", self.state.__dict__, name)
+        name = configmanager.outp_obj("state", self.state.__dict__, name)
         info("saved state as: %s" % name)
 
         self.interface.renderer.flash_message("saved state as %s" % name)
