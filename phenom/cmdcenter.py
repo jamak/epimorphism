@@ -90,10 +90,6 @@ class CmdCenter(Animator):
         self.cmd_env = CmdEnv([{"cmd":self.__dict__, "state":self.state}, self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
 
 
-        script = Script(self, "script_2")
-        script.start()
-
-
     def __del__(self):
         ''' Exit handler '''
 
