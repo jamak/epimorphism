@@ -6,8 +6,7 @@ from OpenGL.GLUT import *
 
 from common.complex import *
 from common.runner import *
-
-from config.configmanager import *
+from config import configmanager
 
 import sys
 import time
@@ -141,13 +140,13 @@ class KeyboardHandler(object):
 
             # reset zn
             elif(key == GLUT_KEY_HOME):
-                default = ConfigManager.load_dict("state", "default")
+                default = configmanager.load_dict("state", "default")
                 for i in xrange(len(default.zn)):
                     self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
 
             # reset par
             elif(key == GLUT_KEY_END):
-                default = ConfigManager.load_dict("state", "default")
+                default = configmanager.load_dict("state", "default")
                 for i in xrange(len(default.par)):
                     self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
 
@@ -183,13 +182,13 @@ class KeyboardHandler(object):
 
         # reset zn
         elif(key == GLUT_KEY_HOME):
-            default = ConfigManager.load_dict("state", "default")
+            default = configmanager.load_dict("state", "default")
             for i in xrange(len(default.zn)):
                 self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
 
         # reset par
         elif(key == GLUT_KEY_END):
-            default = ConfigManager.load_dict("state", "default")
+            default = configmanager.load_dict("state", "default")
             for i in xrange(len(default.par)):
                 self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
 

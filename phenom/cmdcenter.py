@@ -4,7 +4,7 @@ from phenom.componentmanager import *
 from phenom.BM2009 import *
 from common.default import *
 from common.complex import *
-from config.configmanager import *
+from config import configmanager
 
 import StringIO
 import sys
@@ -268,7 +268,7 @@ class CmdCenter(Setter, Animator):
         self.env.freeze = True
         img.save("image/image_%s.png" % name)
 
-        name = ConfigManager.save_obj("state", self.state.__dict__, name)
+        name = configmanager.save_obj("state", self.state.__dict__, name)
         info("saved state as: %s" % name)
 
         self.interface.renderer.flash_message("saved state as %s" % name)
@@ -283,7 +283,7 @@ class CmdCenter(Setter, Animator):
 
         info("Loading state: %s" % name)
 
-        new_state = ConfigManager.load_dict("state", name)
+        new_state = configmanager.load_dict("state", name)
 
         updates = {}
 

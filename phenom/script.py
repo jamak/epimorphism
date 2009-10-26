@@ -5,7 +5,8 @@ from common.log import *
 set_log("SCRIPT")
 
 from common.runner import *
-from config.configmanager import *
+
+import config.configmanager
 
 class Script(object):
 
@@ -18,7 +19,7 @@ class Script(object):
         script.name = name
 
         # load events
-        script.events = ConfigManager.load_obj("script", name)
+        script.events = configmanager.load_obj("script", name)
 
         # return object
         return script
@@ -69,4 +70,4 @@ class Script(object):
         ''' Saves the script '''
 
         # output events
-        ConfigManager.outp_dict("script", self.events, name)
+        configmanager.outp_dict("script", self.events, name)

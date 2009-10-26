@@ -4,9 +4,9 @@ import sys
 import os
 import atexit
 
-from config.configmanager import *
+import config.configmanager
 from noumena.interface import *
-# from viro.engine import *
+from viro.engine import *
 from phenom.cmdcenter import *
 
 from common.runner import *
@@ -45,10 +45,10 @@ if(len(sys.argv[1:]) != 0):
 env_vars = parse_args("~")
 env_vars.setdefault("env", "default")
 
-env     = ConfigManager.load_dict("environment", env_vars["env"], **env_vars)
-context = ConfigManager.load_dict("context", env.context, **parse_args("@"))
-profile = ConfigManager.load_dict("profile", env.profile, **parse_args("#"))
-state   = ConfigManager.load_dict("state", env.state, **parse_args("%"))
+env     = configmanager.load_dict("environment", env_vars["env"], **env_vars)
+context = configmanager.load_dict("context", env.context, **parse_args("@"))
+profile = configmanager.load_dict("profile", env.profile, **parse_args("#"))
+state   = configmanager.load_dict("state", env.state, **parse_args("%"))
 
 # encapsulated for asynchronous execution
 def main():

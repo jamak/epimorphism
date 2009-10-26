@@ -1,3 +1,6 @@
+from config.migration import *
+
+
 class MidiList(list):
     ''' This is an internal class to add midi synchronization to
         changes in parameters. '''
