@@ -29,7 +29,7 @@ class ComponentManager(object):
 
         for component_name in self.datamanager.component_names:
             idx = self.datamanager.component_names.index(component_name)
-            val =  getattr(self.state, component_name.upper())
+            val = self.state.components[component_name.upper()]
 
             try:
                 data = [elt[0] for elt in self.datamanager.components[component_name]]
@@ -52,7 +52,7 @@ class ComponentManager(object):
 
         # print components
         for i in xrange(len(keys)) :
-            component = getattr(self.state, keys[i])
+            component = self.state.components[keys[i]]
             print i+1, ":", keys[i], "-", component, "-", self.datamanager.comment(keys[i], component)
 
 
@@ -117,7 +117,7 @@ class ComponentManager(object):
 
                 val_idx = components.index(component)
 
-                setattr(self.state, component_name, val)
+                self.state.components[component_name] = val
                 self.component_idx[2 * idx_idx] = val_idx
                 self.cmdcenter.engine.compile({})
                 return
@@ -157,7 +157,7 @@ class ComponentManager(object):
             idx_idx = update["idx_idx"]
             val = update["val"]
 
-            setattr(self.state, component_name, val)
+            self.state.components[component_name] = val
             self.state.internal[idx_idx] = 0
             self.component_idx[2 * idx_idx] = val_idx
 

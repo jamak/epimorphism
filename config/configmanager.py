@@ -37,8 +37,8 @@ def load_obj(type, name):
         file.close()
 
     except:
-        exception("couldn't read %s - %s" % (type, name))
-        sys.exit()
+        critical("couldn't read %s - %s" % (type, name))
+        return None
 
     # create & return object
     return eval(contents.replace("\n", ""))

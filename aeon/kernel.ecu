@@ -120,12 +120,12 @@ extern "C" {
     %COLOR%;
     result = color;
 
-    float4 new_result = vec4(0.0, 0.0, 0.0, result.w);
+    //float4 new_result = vec4(0.0, 0.0, 0.0, result.w);
 
     // new_result = result.x * vec4(0.2, 0.7, 0.1, 0.0) + result.y * vec4(0.7, 0.0, 0.0, 0.0) + new_result + result.z * vec4(0.0, 0.4, 0.8, 0.0);
-    new_result = (result.x * vec4(1.0, 1.0, 0.0, 0.0) + result.y * vec4(0.0, 0.0, 0.0, 0.0) + new_result + result.z * vec4(0.0, 0.4, 0.8, 0.0)) / 3.0;
+    //new_result = (result.x * vec4(1.0, 1.0, 0.0, 0.0) + result.y * vec4(0.0, 0.0, 0.0, 0.0) + new_result + result.z * vec4(0.0, 0.4, 0.8, 0.0)) / 3.0;
 
-    result = vec4(fminf(new_result.x, 1.0), fminf(new_result.y, 1.0), fminf(new_result.z, 1.0), new_result.w);
+    //result = vec4(fminf(new_result.x, 1.0), fminf(new_result.y, 1.0), fminf(new_result.z, 1.0), new_result.w);
 
     //result = vec4((z_z.x + 1.0f) / 2.0, 0.0, 0.0, 1.0);
     //if(result.w < 0.0f)

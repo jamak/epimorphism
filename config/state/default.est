@@ -1,19 +1,20 @@
-{'VERSION': 0.916,
+{'VERSION': 0.94,
  'component_switch_time' : 2.0,
  'time': 0.0,
  'frame_cnt': 0,
 
-
+ 'components': {
  'SEED': 'seed_wca(z)',
  'SEED_A': 'circular_alpha(w)',
  'SEED_C': 'simple_color(z, w)',
  'SEED_W': 'lines_box(z)',
  'SEED_WT': 'wt_id(w)',
- 'T': 'zn[0] * (zn[2] * z + zn[3]) + zn[1]',
- 'T_SEED': 'zn[8] * (zn[10] * z + zn[11]) + zn[9]',
+ 'T': 'zn[0] * ((zn[2] * z + zn[3])) + zn[1]',
+ 'T_SEED': 'zn[8] * ((zn[10] * z + zn[11])) + zn[9]',
  'COLOR': 'rotate_hsls(v, z_z)',
  'REDUCE': 'torus_reduce(z)',
- 'RESET': 'reset_hsls(x, y)',
+ 'RESET': 'reset_hsls(x, y)'
+ },
  'zn': [(1.0+0j),
  0j,
  (1.0+0j),

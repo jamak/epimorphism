@@ -93,7 +93,7 @@ class Compiler(threading.Thread):
             self.splice_components()
         else:
             for component_name in self.config['datamanager'].component_names:
-                self.substitutions[component_name] = "%s = %s;" % (component_name.lower(),  getattr(self.config['state'], component_name))
+                self.substitutions[component_name] = "%s = %s;" % (component_name.lower(),  self.config['state'].components[component_name])
 
         # bind PAR_NAMES
         par_name_str = ""
@@ -139,12 +139,12 @@ class Compiler(threading.Thread):
         if(not os.path.exists("kernels/%s.so" % name)):
             info("Compiling kernel - %s" % name)
 
-            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
+            print os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            for file in files:
-                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            #for file in files:
+            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         else:

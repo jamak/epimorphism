@@ -5,12 +5,10 @@
 #
 
 
-clean midi
-
 fix glGetIntegerv bug
 
+remove midibindings & stdmidi
 
-move state components into dict
 
 ###################################
 #

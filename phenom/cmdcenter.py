@@ -40,7 +40,7 @@ class CmdEnv(dict):
                 d[key] = value
 
 
-class CmdCenter(Setter, Animator):
+class CmdCenter(Animator):
     ''' The CmdCenter is the central control center for the engine and
         renderer.  All systems generating signals live here, and the object
         provides an interface for executing code int the appropriate environment. '''
@@ -71,7 +71,7 @@ class CmdCenter(Setter, Animator):
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
                           'video_time', 'set_inner_loop', 'time', 'cmd', 'execute_paths', 'echo', 'reshape',
-                          'set_component_indices'] + dir(object) + dir(Setter)
+                          'set_component_indices'] + dir(object)
 
         # extract non-blacklist functions & data from an object
         def get_funcs(obj):
@@ -86,7 +86,7 @@ class CmdCenter(Setter, Animator):
         funcs.update(default_funcs)
 
         # generate cmd exec environment
-        self.cmd_env = CmdEnv([self.state.__dict__, self.interface.context.__dict__, self.env.__dict__, {"cmd":self.__dict__}], funcs)
+        self.cmd_env = CmdEnv([{"cmd":self.__dict__, "state":self.state}, self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
 
 
     def __del__(self):
@@ -194,11 +194,16 @@ class CmdCenter(Setter, Animator):
         return res
 
 
-    def set_val(self, val, var, idx=None):
+    # UTILITY FUNCTIONS
+
+
+    def set_val(self, val, var, idx):
         self.cmd("%s[%s] = %s" % (var, (((type(idx) == int) and "%s" or "'%s'") % idx), val))
 
 
-    # UTILITY FUNCTIONS
+    def get_val(self, var, idx):
+        return eval("self.%s[%s]" % (var, (((type(idx) == int) and "%s" or "'%s'") % idx)))
+
 
     def time(self):
         ''' Returns current system time '''
@@ -289,8 +294,8 @@ class CmdCenter(Setter, Animator):
 
         # get update components
         for name in self.componentmanager.component_list():
-            if(getattr(self.state, name) != getattr(new_state, name)):
-                updates[name] = getattr(new_state, name)
+            if(self.state.components[name] != new_state.components[name]):
+                updates[name] = new_state.components[name]
 
             delattr(new_state, name)
 

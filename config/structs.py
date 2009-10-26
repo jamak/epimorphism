@@ -24,7 +24,7 @@ class State(object):
         self.__dict__.update(migrate(vars))
 
         # create midi_lists
-        self.zn = MidiList(self.zn)
+        self.zn  = MidiList(self.zn)
         self.par = MidiList(self.par)
 
 
