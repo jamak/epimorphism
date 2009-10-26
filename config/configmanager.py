@@ -2,7 +2,6 @@ import sys
 import os.path
 
 import noumena
-
 from config.structs import *
 
 from common.log import *
@@ -51,17 +50,19 @@ def outp_obj(type, obj, name=None):
     # generate name if necessary
     if(not name):
         i = 0
-        while(os.path.exists("config/%s/%s_%d.%s" % (type, type, i, extension_names[type]))) : i += 1
+
+        while(os.path.exists("config/%s/%s_%d.%s" % (type, type, i, extension_names[type]))):        i += 1
         name = "%s_%d" % (type, i)
+        path = "config/%s/%s_%d.%s" % (type, type, i, extension_names[type])
 
     debug("with name %s" % name)
 
     # set name if dict
-    if(type(obj) == dict):
-        obj.name = name
+    # if(type(obj) == dict):
+    #     obj.name = name
 
     # open file & dump repr(obj)
-    file = open(name, "w")
+    file = open(path, "w")
     file.write(repr(obj).replace(",", ",\n"))
     file.close()
 

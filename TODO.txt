@@ -25,17 +25,13 @@ populate animation database
 populate T & T_SEED databasees
 
 
-scripts
-
-recording events
-
 video stuff/write ffmpeg script
+
+MAKE VIDEO
+MAKE WEBSITE
 
 
 compiler - intellegently load function from kernel.so
-
-make sure things are being cleaned(__del__)
-
 
 
 clean & optimize non spiced component changes
@@ -47,6 +43,8 @@ load state.time
 manual iteration fps_time
 
 screenshots while manual iteration
+
+configmanager dump object newline issues(only really relevant for scripts)
 
 
 ###################################

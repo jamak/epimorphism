@@ -23,10 +23,10 @@ class Interface(object):
 
 
     def __del__(self):
-        pass
+        # self.renderer.__del__()
         # kill server
-        #if(self.server):
-        #    self.server.__del___()
+        if(self.server):
+            self.server.__del___()
 
 
     def sync_cmd(self, cmdcenter):

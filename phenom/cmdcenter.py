@@ -1,7 +1,7 @@
 from phenom.animator import *
 from phenom.setter import *
 from phenom.componentmanager import *
-from phenom.BM2009 import *
+from phenom.script import *
 from common.default import *
 from common.complex import *
 from config import configmanager
@@ -66,6 +66,7 @@ class CmdCenter(Animator):
         self.engine.frame = self.frame
         self.t_start = None
         self.t_phase = 0.0
+        self.recorded_events = None
 
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
@@ -89,8 +90,16 @@ class CmdCenter(Animator):
         self.cmd_env = CmdEnv([{"cmd":self.__dict__, "state":self.state}, self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
 
 
+        script = Script(self, "script_2")
+        script.start()
+
+
     def __del__(self):
-        pass
+        ''' Exit handler '''
+
+        # save events
+        if(self.env.record_events and self.recorded_events):
+            self.recorded_events.save()
 
 
     def start(self):
@@ -134,7 +143,7 @@ class CmdCenter(Animator):
 
         # cleanup
         if(self.env.exit):
-            sys.exit()
+            self.interface.renderer.stop()
 
 
     def send_frame(self):
@@ -162,6 +171,10 @@ class CmdCenter(Animator):
 
     def cmd(self, code, capture=False):
         ''' Execute code in the CmdEnv environment '''
+
+        if(self.env.record_events):
+            if(not self.recorded_events): self.recorded_events = Script(self)
+            self.recorded_events.push(self.time(), code)
 
         debug("Executing cmd: %s", code)
 
@@ -314,7 +327,7 @@ class CmdCenter(Animator):
             self.cmd('linear_1d(par, %d, component_switch_time, %f, %f)' % (i, self.state.par[i], new_state.par[i]))
 
 
-        print new_state.time, self.state.time, self.t_phase, self.state.component_switch_time
+        # print new_state.time, self.state.time, self.t_phase, self.state.component_switch_time
 
         # shift t_start
         # self.cmd('linear_1d(cmd, "t_phase", component_switch_time, %f, %f)' % (0, state.time + self.t_phase - 1.0) / 1.0))

@@ -20,10 +20,6 @@ info("Starting Epimorphism")
 def exit():
     debug("Exiting program")
 
-    # interface.__del__()
-    # engine.__del__()
-    # cmdcenter.__del__()
-
     # remove unclutter
     os.system("killall unclutter")
 
@@ -74,6 +70,11 @@ def main():
     cmdcenter.start()
 
     info("Main loop completed")
+
+    # clean objects
+    interface.__del__()
+    engine.__del__()
+    cmdcenter.__del__()
 
 # define start function
 def start():

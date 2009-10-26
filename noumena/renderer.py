@@ -25,6 +25,9 @@ class Renderer(object):
         # initialize glut
         glutInit(1, [])
 
+        # application will continue after glut exits
+        glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION)
+
         # create window
         debug("Creating window")
 
@@ -85,8 +88,8 @@ class Renderer(object):
         debug("Deleting Renderer")
 
         # bind & delete pbo
-        glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
-        glDeleteBuffers(1, self.pbo)
+        # glBindBuffer(GL_ARRAY_BUFFER, self.pbo)
+        # glDeleteBuffers(1, self.pbo)
 
 
     def generate_pbo(self, buffer_dim):
@@ -255,6 +258,13 @@ class Renderer(object):
         debug("Start GLUT main loop")
 
         glutMainLoop()
+
+
+    def stop(self):
+        ''' Stops the main glut loop '''
+        debug("Stop GLUT main loop")
+
+        glutLeaveMainLoop()
 
 
     def register_callbacks(self, keyboard, mouse, motion):
