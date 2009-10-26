@@ -1,3 +1,4 @@
+
 // constructors
 
 __device__ float2 vec2(float x, float y){
@@ -16,6 +17,10 @@ __device__ float4 vec4(float x, float y, float z, float w){
 // dot product
 __device__ float dot(float2 z1, float2 z2){
   return z1.x * z2.x + z1.y * z2.y;
+}
+
+__device__ float dot(float3 z1, float3 z2){
+  return z1.x * z2.x + z1.y * z2.y + z1.z * z2.z;
 }
 
 
@@ -73,7 +78,7 @@ __device__ float2 operator/(const float2 z1, const float2 z2){
 }
 
 
-// float 3 x m
+// float3 x m
 __device__ float3 operator/(const float3 z1, const float m){
   return vec3(z1.x / m, z1.y / m, z1.z / m);
 }
@@ -84,6 +89,16 @@ __device__ float3 operator*(float m, const float3 z1){
 
 __device__ float3 operator*(const float3 z1, float m){
   return vec3(z1.x * m, z1.y * m, z1.z * m);
+}
+
+
+// float3 x float3
+__device__ float3 operator+(const float3 z1, const float3 z2){
+  return vec3(z1.x + z2.x, z1.y + z2.y, z1.z + z2.z);
+}
+
+__device__ float3 operator-(const float3 z1, const float3 z2){
+  return vec3(z1.x - z2.x, z1.y - z2.y, z1.z - z2.z);
 }
 
 

@@ -10,7 +10,6 @@ from config.structs import *
 from common.log import *
 set_log("CONFIG")
 
-
 class ConfigManager(object):
     ''' The ConfigManager class is responsible for managing(save/load)
         the various config settings. '''

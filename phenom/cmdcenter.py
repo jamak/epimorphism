@@ -195,7 +195,7 @@ class CmdCenter(Setter, Animator):
 
 
     def set_val(self, val, var, idx=None):
-        self.cmd("%s%s = %s" % (var, (((type(idx) == int) and "[%s]" or "['%s']") % idx), val))
+        self.cmd("%s[%s] = %s" % (var, (((type(idx) == int) and "%s" or "'%s'") % idx), val))
 
 
     # UTILITY FUNCTIONS
