@@ -142,7 +142,6 @@ class Engine(object):
             if(self.frame_count % self.profile.debug_freq == 0):
                 # print times
                 for i in range(len(times)):
-
                     print "event" + str(i) + "-" + str(i + 1) + ": " + str(self.event_accum_tmp[i] / self.profile.debug_freq) + "ms"
                     print "event" + str(i) + "-" + str(i + 1) + "~ " + str(self.event_accum[i] / self.frame_count) + "ms"
 
@@ -152,13 +151,6 @@ class Engine(object):
 
                 # reset tmp accumulator
                 self.event_accum_tmp = [0 for i in range(len(self.events) - 1)]
-
-
-    def set_new_kernel(self, name):
-        ''' Compiler callback '''
-        debug("Setting new kernel: %s" % name)
-
-        self.new_kernel = name
 
 
     def get_fb_internal(self):
@@ -176,9 +168,15 @@ class Engine(object):
         self.fb_contents = (c_ubyte * (4 * (self.profile.kernel_dim ** 2))).from_address(self.host_array.value)
 
 
+    def set_new_kernel(self, name):
+        ''' Compiler callback '''
+        debug("Setting new kernel: %s" % name)
+
+        self.new_kernel = name
+
+
     def switch_kernel(self):
         ''' Main thread callback to interface with a new kernel '''
-
         debug("Switching to kernel: %s", self.new_kernel)
 
         # get functions from kernel library

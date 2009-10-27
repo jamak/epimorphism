@@ -5,7 +5,6 @@ import re
 import time
 
 from common.complex import *
-from noumena.stdmidi import *
 from noumena.setter import *
 
 from noumena.mididevices import *

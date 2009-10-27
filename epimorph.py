@@ -28,9 +28,8 @@ atexit.register(exit)
 # run unclutter to remove mouse pointer
 os.system("unclutter -idle 0.25 -jitter 1 -root&")
 
-# initialize env/state/profile/context
-debug("Initializing state/profile/context")
-
+# initialize env/state/profile/context/env
+debug("Initializing state/profile/context/env")
 
 def parse_args(sym):
     return dict(tuple(map(lambda x: (x[0], eval(x[1])), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == sym))))
@@ -76,11 +75,10 @@ def main():
     engine.__del__()
     cmdcenter.__del__()
 
-# define start function
+# start
 def start():
     async(main)
 
-# start
 if(env.autostart):
     start()
 

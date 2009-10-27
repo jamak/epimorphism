@@ -171,7 +171,7 @@ class CmdCenter(Animator):
             if(not self.recorded_events): self.recorded_events = Script(self)
             self.recorded_events.push(self.time(), code)
 
-        debug("Executing cmd: %s", code)
+        # debug("Executing cmd: %s", code)
 
         # hijack stdout, if requested
         out = StringIO.StringIO()
@@ -279,7 +279,8 @@ class CmdCenter(Animator):
         img = self.grab_image()
 
         self.env.freeze = True
-        img.save("image/image_%s.png" % name)
+        #img.save("image/image_%s.png" % name)
+        img.show()
 
         name = configmanager.outp_obj("state", self.state.__dict__, name)
         info("saved state as: %s" % name)

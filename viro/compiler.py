@@ -139,16 +139,16 @@ class Compiler(threading.Thread):
         if(not os.path.exists("kernels/%s.so" % name)):
             info("Compiling kernel - %s" % name)
 
-            print os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
+            os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
 
             # remove tmp files
-            files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
+            #files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
             #for file in files:
             #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
-        else:
-            time.sleep(1)
+        # else:
+        #     time.sleep(1)
 
         # execute callback
         self.callback(name)
