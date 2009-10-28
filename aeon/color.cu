@@ -101,7 +101,7 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
 
   //s = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
 
-  tmp = s * tmp + (1.0f - s) * vec3(-1.0f, 0.0f, 0.0f);
+  tmp = s * tmp + (1.0f - s) * vec3(0.5f, 0.5f, -0.5f);
 
   v = vec4(0.99999f * tmp.x, 0.99999f * tmp.y, 0.99999f * tmp.z, v.w);
 

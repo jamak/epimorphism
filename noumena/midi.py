@@ -63,7 +63,8 @@ class MidiHandler(threading.Thread):
         ''' Evaluates and outputs value of a binding '''
 
         binding = self.bindings[self.binding_idx][binding_id]
-        f = ((eval("get_" + binding[2])(self.cmdcenter.get_val(binding[0], binding[1]))) - binding[3][1]) / binding[3][0]
+
+        f = ((eval("get_" + binding[2])(self.cmdcenter.get_val(binding[0], eval(binding[1])))) - binding[3][1]) / binding[3][0]
 
         self.writef(binding_id[0], binding_id[1], f)
 
@@ -76,7 +77,7 @@ class MidiHandler(threading.Thread):
 
         # send correct binding - a bit weird
         for binding_id, binding in bindings.items():
-            if(eval("self.cmdcenter.%s" % binding[0]) == obj and binding[1] == key):
+            if(eval("self.cmdcenter.%s" % binding[0]) == obj and eval(binding[1]) == key):
                 self.output_binding(binding_id)
 
 
@@ -140,11 +141,11 @@ class MidiHandler(threading.Thread):
                 # compute & output value
                 f = binding[3][0] * f + binding[3][1]
 
-                old = self.cmdcenter.get_val(binding[0], binding[1])
+                old = self.cmdcenter.get_val(binding[0], eval(binding[1]))
                 val = eval("set_" + binding[2])(old, f)
 
-                #self.cmdcenter.cmd('radial_2d(zn, %d, 0.08, %s, %s)' % (binding[1], str(r_to_p(old)), str(r_to_p(val))))
-                self.cmdcenter.set_val(val, binding[0], binding[1])
+                #self.cmdcenter.cmd('radial_2d(zn, %d, 0.08, %s, %s)' % (eval(binding[1]), str(r_to_p(old)), str(r_to_p(val))))
+                self.cmdcenter.set_val(val, binding[0], eval(binding[1]))
 
             # change bindings - HACK: buttons switch bindings
             elif(channel >= 65 and channel <= 72):

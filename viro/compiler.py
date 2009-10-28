@@ -142,6 +142,7 @@ class Compiler(threading.Thread):
         if(self.config["splice"]):
             name = "kernel_spliced-%s" % hash
         else:
+            os.system("rm kernels/kernels_nonspliced*")
             name = "kernel_nonspliced-%s" % hash
 
         # compile if library doesn't exist

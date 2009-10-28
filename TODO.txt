@@ -31,14 +31,12 @@ MAKE WEBSITE
 
 compiler - intellegently load function from kernel.so
 
-
-clean & optimize non spiced component changes
-
-force fps
+bmp counter
 
 load state.time
 
 manual iteration fps_time
+save image fps_time
 
 screenshots while manual iteration
 
@@ -67,8 +65,9 @@ autorun all migrations option
 deal with state dumps that occur while blending
 when loading state, upload image too?
 
-
 add argument lists to help
+
+force fps
 
 
 ###################################

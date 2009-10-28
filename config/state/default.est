@@ -2,6 +2,7 @@
  'component_switch_time' : 2.0,
  'time': 0.0,
  'frame_cnt': 0,
+ 'bmp': 120,
 
  'components': {
  'SEED': 'seed_wca(z)',
