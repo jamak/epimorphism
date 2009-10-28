@@ -249,7 +249,7 @@ class Engine(object):
                 val = (float2 * len(data["val"]))(*[(z.real, z.imag) for z in data["val"]])
 
             # copy
-            print cudaMemcpyToSymbol(name, byref(val), sizeof(val), 0, cudaMemcpyHostToDevice)
+            cudaMemcpyToSymbol(name, byref(val), sizeof(val), 0, cudaMemcpyHostToDevice)
 
         # call kernel
         cudaConfigureCall(self.grid, self.block, 0, 0)

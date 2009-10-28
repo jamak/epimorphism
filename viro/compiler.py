@@ -1,3 +1,4 @@
+import time
 import os
 import re
 import hashlib
@@ -8,6 +9,7 @@ from ctypes import *
 
 from common.log import *
 set_log("COMPILER")
+
 
 def get_functions(name):
     ''' Creates & returns ctypes interfaces to the kernel .so '''
@@ -130,10 +132,17 @@ class Compiler(threading.Thread):
         for file in files:
             contents += open("aeon/" + file).read()
 
+        # seed to force recompilation if necessary
+        if(not self.config["splice"]): contents += str(time.clock())
+
+        # hash
         hash = hashlib.sha1(contents).hexdigest()
 
         # make name
-        name = "kernel-%s" % hash
+        if(self.config["splice"]):
+            name = "kernel_spliced-%s" % hash
+        else:
+            name = "kernel_nonspliced-%s" % hash
 
         # compile if library doesn't exist
         if(not os.path.exists("kernels/%s.so" % name)):
@@ -142,13 +151,10 @@ class Compiler(threading.Thread):
             os.system("/usr/local/cuda/bin/nvcc  --host-compilation=c -Xcompiler -fPIC -o kernels/%s.so --shared %s aeon/__kernel.cu" % (name, self.config['ptxas_stats'] and "--ptxas-options=-v" or ""))
 
             # remove tmp files
-            #files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            #for file in files:
-            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
+            for file in files:
+                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
-
-        # else:
-        #     time.sleep(1)
 
         # execute callback
         self.callback(name)
