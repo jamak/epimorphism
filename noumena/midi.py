@@ -28,11 +28,11 @@ class MidiHandler(threading.Thread):
             if(not re.compile("Midi Through Port|TiMidity").search(name)):
                 debug("ID: %d INTERFACE: %s NAME: %s %s OPENED? %s" % (i, interf, name, (inp == 1 and "INPUT" or "OUTPUT"), str(opened)))
 
-            if(re.compile(self.context.midi_controller).search(name) and inp == 1):
+            if(re.compile(self.context.midi_controller[0]).search(name) and inp == 1):
                 self.input_device = i
                 break
 
-            if(re.compile(self.context.midi_controller).search(name) and outp == 1):
+            if(re.compile(self.context.midi_controller[0]).search(name) and outp == 1):
                 self.output_device = i
 
         # open devices
@@ -47,7 +47,7 @@ class MidiHandler(threading.Thread):
             self.context.midi = False
 
         # load bindings
-        self.bindings = eval(self.context.midi_controller)
+        self.bindings = eval(self.context.midi_controller[1])
 
         # set default bindings
         self.binding_idx = 0
