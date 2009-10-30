@@ -16,18 +16,20 @@ class Animator(object):
         ''' Helper function for creating radial_2d paths. '''
         debug("Radial 2d: %s %s %s %s %s", obj, idx, spd, str(z0), str(z1))
 
-        self.animate_var("radial_2d", obj, idx, spd, {"s" : z0, "e" : z1, 'loop' : False})
+        self.animate_var("radial_2d", obj, idx, spd, {"s" : z0, "e" : z1})
 
 
     def linear_1d(self, obj, idx, spd, x0, x1):
         ''' Helper function for creating linear_1d paths. '''
         debug("Linear 1d: %s %s %s %s %s", obj, idx, spd, x0, x1)
 
-        self.animate_var("linear_1d", obj, idx, spd, {"s" : x0, "e" : x1, 'loop' : False})
+        self.animate_var("linear_1d", obj, idx, spd, {"s" : x0, "e" : x1})
 
 
     def animate_var(self, type, obj, idx, speed, data, exclude=True):
         ''' Adds a path to the animator. '''
+
+        if(not data.has_key("loop")): data["loop"] = False
 
         # if !exclude, don't add another path if one exists
         if(exclude and any([(path["obj"] == obj and path["idx"] == idx) for path in self.paths])):

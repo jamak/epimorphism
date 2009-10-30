@@ -318,10 +318,11 @@ class Renderer(object):
 
     def toggle_echo(self):
         ''' Toggles echoing '''
-        debug("Toggle echo")
 
         # toggle echo
         self.context.echo = not self.context.echo
+
+        info("Toggle echo %s", str(self.context.echo))
 
 
 

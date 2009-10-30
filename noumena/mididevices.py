@@ -39,13 +39,13 @@ BCF_LIVE = [{(0, 81): ["state.zn",  '0',  "radius", (1.0, 1.0)],
 
 # create advanced device bindings for BCF2000
 BCF_FULL = [{(0, 81): ["state.zn", '0', "radius", (4.0, 0.0)],
-             (0, 82): ["state.zn", '1', "radius", (1.0, 0.0)],
+             (0, 82): ["state.zn", '1', "radius", (4.0, 0.0)],
              (0, 83): ["state.zn", '2', "radius", (4.0, 0.0)],
-             (0, 84): ["state.zn", '3', "radius", (1.0, 0.0)],
-             (0, 85): ["state.zn", '4', "radius", (1.0, 0.0)],
-             (0, 86): ["state.zn", '5', "radius", (1.0, 0.0)],
-             (0, 87): ["state.zn", '6', "radius", (1.0, 0.0)],
-             (0, 88): ["state.zn", '7', "radius", (1.0, 0.0)]}]
+             (0, 84): ["state.zn", '3', "radius", (4.0, 0.0)],
+             (0, 85): ["state.zn", '4', "radius", (4.0, 0.0)],
+             (0, 86): ["state.zn", '5', "radius", (4.0, 0.0)],
+             (0, 87): ["state.zn", '6', "radius", (4.0, 0.0)],
+             (0, 88): ["state.zn", '7', "radius", (4.0, 0.0)]}]
 BCF_FULL[0].update(dict([((0, 1 + i), ["state.zn", str(i), "th", (2.0 * 3.14159, 0.0)]) for i in xrange(8)]))
 
 BCF_FULL.append({(0, 81): ["state.zn", '8',  "radius", (4.0, 0.0)],

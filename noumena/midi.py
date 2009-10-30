@@ -131,7 +131,7 @@ class MidiHandler(threading.Thread):
             f = val / 128.0
             if(val == 127.0) : f = 1.0
 
-            # print "MIDI", bank, channel, val, f
+            #print "MIDI", bank, channel, val, f
 
             # check bindings
             bindings = self.bindings[self.binding_idx]
@@ -154,3 +154,7 @@ class MidiHandler(threading.Thread):
                 if val == 0 : self.binding_idx = 0
                 self.send_bindings()
 
+            elif(channel >= 33 and channel <= 40):
+
+                self.binding_idx = channel - 33
+                self.send_bindings()

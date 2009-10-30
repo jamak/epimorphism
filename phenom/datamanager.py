@@ -9,12 +9,8 @@ class DataManager(object):
         .epi and .cu library files in the aeon directory '''
 
 
-    # for singleton implementation
-    def __call__(self):
-        return self
-
-
-    def __init__(self):
+    def __init__(self, env):
+        self.env = env
         # load components from files of form *.epi
         files = [file for file in os.listdir("aeon") if re.search("^[^_\.][^#]*?.epi$", file)]
 
@@ -47,10 +43,11 @@ class DataManager(object):
                 component[0] = component[0].strip()
 
                 # HACK for certain types of components
-                if(component_name == "t"):
-                    component[0] = "zn[0] * (%s) + zn[1]" % component[0].replace("(z)", "(zn[2] * z + zn[3])")
-                elif(component_name == "t_seed"):
-                    component[0] = "zn[8] * (%s) + zn[9]" % component[0].replace("(z)", "(zn[10] * z + zn[11])")
+                if(self.env.auto_param_T):
+                    if(component_name == "t"):
+                        component[0] = "zn[0] * (%s) + zn[1]" % component[0].replace("(z)", "(zn[2] * z + zn[3])")
+                    elif(component_name == "t_seed"):
+                        component[0] = "zn[8] * (%s) + zn[9]" % component[0].replace("(z)", "(zn[10] * z + zn[11])")
 
                 # print component_name, component[0]
 
@@ -146,6 +143,3 @@ class DataManager(object):
         else:
             return ""
 
-
-# for singleton implementation
-DataManager = DataManager()

@@ -1,6 +1,7 @@
 from phenom.animator import *
 from phenom.componentmanager import *
 from phenom.script import *
+from phenom.eventmanager import *
 from common.default import *
 from common.complex import *
 from config import configmanager
@@ -56,6 +57,9 @@ class CmdCenter(Animator):
         # init componentmanager
         self.componentmanager = ComponentManager(self, self.state)
 
+        # init eventmanager
+        self.eventmanager = EventManager(self)
+
         # for cycling through existing states
         self.current_state_idx = -1
 
@@ -87,6 +91,10 @@ class CmdCenter(Animator):
 
         # generate cmd exec environment
         self.cmd_env = CmdEnv([{"cmd":self.__dict__, "state":self.state}, self.state.__dict__, self.interface.context.__dict__, self.env.__dict__], funcs)
+
+        # tap tempo info
+        self.tempo_events = []
+        self.last_tempo_event_time = 0
 
 
     def __del__(self):
@@ -276,14 +284,14 @@ class CmdCenter(Animator):
     def save(self, name=None):
         ''' Grabs a screenshot and saves the current state. '''
 
+        name = configmanager.outp_obj("state", self.state.__dict__, name)
+        info("saved state as: %s" % name)
+
         img = self.grab_image()
 
         self.env.freeze = True
-        #img.save("image/image_%s.png" % name)
-        img.show()
-
-        name = configmanager.outp_obj("state", self.state.__dict__, name)
-        info("saved state as: %s" % name)
+        img.save("image/image_%s.png" % name)
+        # img.show()
 
         self.interface.renderer.flash_message("saved state as %s" % name)
         self.env.freeze = False
@@ -352,3 +360,25 @@ class CmdCenter(Animator):
         self.env.next_frame = True
 
 
+    def tap_tempo(self):
+        ''' Uses tap tempo to set bmp '''
+
+        t = self.time()
+
+        # reset if necessary
+        if(t - self.last_tempo_event_time > 2):
+            self.tempo_events = []
+
+        # set & append
+        self.last_tempo_event_time = t
+        self.tempo_events.append(t)
+
+        # max 20 events
+        if(len(self.tempo_events) > 20):
+            self.tempo_events.pop(0)
+
+        # compute tempo
+        if(len(self.tempo_events) > 1):
+            lst = [self.tempo_events[i + 1] - self.tempo_events[i] for i in xrange(len(self.tempo_events) - 1)]
+            self.state.bmp = 1.0 / (sum(lst) / (len(self.tempo_events) - 1)) * 60
+            info("Tempo: %s bmp" % self.state.bmp)

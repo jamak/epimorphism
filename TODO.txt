@@ -14,7 +14,9 @@ fix glGetIntegerv bug
 #
 #
 
-improve colorfunc
+
+cmd options hash
+component levels
 
 populate/upgrade seed database
 
@@ -29,9 +31,9 @@ MAKE VIDEO
 MAKE WEBSITE
 
 
-compiler - intellegently load function from kernel.so
+remove aeon/.#* files
 
-bmp counter
+compiler - intellegently load function from kernel.so
 
 load state.time
 

@@ -15,7 +15,7 @@ class ComponentManager(object):
         self.switching_component = False
 
         # start datamanager
-        self.datamanager = DataManager()
+        self.datamanager = DataManager(self.cmdcenter.env)
 
         # init indices for components
         self.component_idx = [0 for i in xrange(20)]

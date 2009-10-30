@@ -40,21 +40,6 @@ class BM2009(object):
         exec("print self.%s" % (var))
 
 
-    def tap_tempo(self):
-        t = time.clock()
-        if(t - self.last_tempo_event_time > 5):
-            print "resetting tempo events"
-            self.tempo_events = []
-
-        self.last_tempo_event_time = t
-
-        self.tempo_events.append(t)
-        if(len(self.tempo_events) > 1):
-            lst = [self.tempo_events[i + 1] - self.tempo_events[i] for i in xrange(len(self.tempo_events) - 1)]
-            self.tempo = 1.0 / (sum(lst) / (len(self.tempo_events) - 1)) * 60
-            print self.tempo
-
-
     def switch_events(self):
         self.event_index = (self.event_index + 1) % len(self.all_events)
         self.events = self.all_events[self.event_index]
@@ -154,14 +139,14 @@ class BM2009(object):
     def switch_reduce(self):
         self.cmdcenter.state.component_switch_time = self.spb() * (2 ** self.switch_exponent)
         self.locked_events['REDUCE'] = True
-        print "start switch_reduce"
+
+
         self.cmdcenter.inc_data("REDUCE", 1)
-        print "stop switch_reduce"
+
+
         self.num_active_events -= 1
         self.locked_events['REDUCE'] = False
         self.switch_exponent = 1
-
-
 
 
     def path0(self):

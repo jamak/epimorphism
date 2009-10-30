@@ -1,13 +1,13 @@
 {
  'name': 'default',
 
- 'keyboard_func':'standard',
+ 'keyboard':'live',
  'par_scale': 1,
  'midi': True,
  'server': False,
  'kbd_switch_spd' : 0.2,
- 'echo' : False,
- 'midi_controller' : ('BCF2000', 'BCF_LIVE'),
+ 'echo' : True,
+ 'midi_controller' : ('BCF2000', 'BCF_FULL'),
  'display_res' : [900, 900, False],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],

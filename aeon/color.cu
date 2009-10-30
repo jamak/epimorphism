@@ -78,36 +78,25 @@ __device__ float4 rotate_hsls(float4 v, float2 z_z){
   float3 axis = vec3(cosf(psi) * cosf(phi), cosf(psi) * sinf(phi), sinf(psi));
 
   // compute rotation theta
-  float th =  2.0f * PI * (_COLOR_DHUE + a + l + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
+  float th =  2.0f * PI * (a + l + _clock * _COLOR_SPEED_TH * _GLOBAL_SPEED / 10.0f);
 
-  // compute constants
-  float c = cosf(th);
-  float s = sinf(th);
+  // compute rotation 1
+  float3 tmp = vec3(v.x, v.y, v.z);
+  tmp = rotate3D(tmp, axis, th);
 
-  // compute rotation
-  float3 tmp = vec3(0.0f, 0.0f, 0.0f);
-  tmp.x = (1.0f + (1.0f - c) * (axis.x * axis.x - 1.0f)) * v.x +
-          (axis.z * s + (1.0f - c) * axis.x * axis.y) * v.y +
-          (-1.0f * axis.y * s + (1.0f - c) * axis.x * axis.z) * v.z;
+  // compute rotation 2
+  th = 2.0f * PI * _COLOR_DHUE;
+  axis = vec3(axis.y, axis.z, axis.x);
+  tmp = rotate3D(tmp, axis, th);
 
-  tmp.y = (-1.0f * axis.z * s + (1.0f - c) * axis.x * axis.y) * v.x +
-          (1.0f + (1.0f - c) * (axis.y * axis.y - 1.0f)) * v.y +
-          (axis.x * s + (1.0f - c) * axis.y * axis.z) * v.z;
-
-  tmp.z = (axis.y * s + (1.0f - c) * axis.x * axis.z) * v.x +
-          (-1.0f * axis.x * s + (1.0f - c) * axis.y * axis.z) * v.y +
-          (1.0f + (1.0f - c) * (axis.z * axis.z - 1.0f)) * v.z;
-
-  // compute base
-  tmp = _COLOR_SKEW_R * tmp;
-
-  s = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
-
-  phi = 2.0f * PI * _COLOR_BASE_PHI / 2.0f;
-  psi = 2.0f * PI * _COLOR_BASE_PSI / 2.0f;
+  //
+  float s = sqrt(tmp.x * tmp.x + tmp.y * tmp.y + tmp.z * tmp.z);
+  phi = 2.0f * PI * _COLOR_BASE_PHI;
+  psi = 2.0f * PI * _COLOR_BASE_PSI;
   float3 base = _COLOR_BASE_R * vec3(cosf(psi) * cosf(phi), cosf(psi) * sinf(phi), sinf(psi));
-
   tmp = s * tmp + (1.0f - s) * base;
+
+  tmp = _COLOR_I * tmp + (1.0f - _COLOR_I) * vec3(v.x, v.y, v.z);
 
   // get result
   v = vec4(0.99999f * tmp.x, 0.99999f * tmp.y, 0.99999f * tmp.z, v.w);

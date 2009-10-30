@@ -30,8 +30,7 @@ class KeyboardHandler(object):
         # get modifiers
         modifiers = glutGetModifiers()
 
-
-        async(lambda : eval("self." + self.context.keyboard_func)(key, modifiers))
+        async(lambda : eval("self." + self.context.keyboard)(key, modifiers))
 
 
     def standard(self, key, modifiers):
@@ -59,7 +58,11 @@ class KeyboardHandler(object):
             if(key == "\033"): # escape
                 self.cmdcenter.env.exit = True
 
-             # toggle manual iteration
+            # tap tempo
+            elif(key == GLUT_KEY_F1):
+                self.cmdcenter.cmd("tap_tempo()")
+
+            # toggle manual iteration
             elif(key == "\011"): # tab
                 self.cmdcenter.cmd("manual()")
 
@@ -192,9 +195,9 @@ class KeyboardHandler(object):
             for i in xrange(len(default.par)):
                 self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
 
-        # switch events
+        # tap tempo
         elif(key == GLUT_KEY_F1):
-            self.cmdcenter.moduleCmd('bm2009', 'tap_tempo', {})
+            self.cmdcenter.cmd("tap_tempo")
 
         # switch events
         elif(key == GLUT_KEY_F10):
@@ -226,5 +229,69 @@ class KeyboardHandler(object):
         elif(key == "6"):
             self.cmdcenter.moduleCmd('bm2009', 'switch_seed_wt', {})
 
+
+
+
+
+    def live(self, key, modifiers):
+
+        multiplier = 1
+
+        if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
+            multiplier = 2
+
+        if((modifiers & GLUT_ACTIVE_ALT) == GLUT_ACTIVE_ALT):
+            multiplier = 0
+
+        if(key == '|'): # escape
+            self.cmdcenter.env.exit = True
+
+        # toggle console
+        elif(key == "`"):
+            self.cmdcenter.cmd("toggle_console()")
+
+        # reset fb
+        elif(key == "\\"):
+            self.cmdcenter.cmd("reset_fb()")
+
+        # reset zn
+        elif(key == GLUT_KEY_HOME):
+            default = configmanager.load_dict("state", "default")
+            for i in xrange(len(default.zn)):
+                self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
+
+        # reset par
+        elif(key == GLUT_KEY_END):
+            default = configmanager.load_dict("state", "default")
+            for i in xrange(len(default.par)):
+                self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
+
+        # tap tempo
+        elif(key == GLUT_KEY_F1):
+            self.cmdcenter.cmd("tap_tempo()")
+
+        # toggle echo
+        elif(key == GLUT_KEY_F11):
+            self.cmdcenter.cmd("toggle_echo()")
+
+        # toggle fps
+        elif(key == GLUT_KEY_F12):
+            self.cmdcenter.cmd("toggle_fps()")
+
+        elif(key == "1"):
+            self.cmdcenter.eventmanager.switch_component("T", multiplier)
+        elif(key == "2"):
+            self.cmdcenter.eventmanager.switch_component("T_SEED", multiplier)
+        elif(key == "3"):
+            self.cmdcenter.eventmanager.switch_component("SEED_W", multiplier)
+        elif(key == "4"):
+            self.cmdcenter.eventmanager.switch_component("REDUCE", multiplier)
+        elif(key == "5"):
+            self.cmdcenter.eventmanager.switch_component("SEED_WT", multiplier)
+        elif(key == "6"):
+            self.cmdcenter.eventmanager.switch_component("SEED_A", multiplier)
+
+        elif(key == "q"):
+            self.cmdcenter.eventmanager.transLoop(9, multiplier)
 
 

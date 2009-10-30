@@ -79,3 +79,25 @@ __device__ float2 B(float2 v0){
   float mid = v0.x + K * sinf( pi * (v0.y + 1) ) / pi - 1;
   return vec2(mid, v0.y + mid);
 }
+
+__device__ float3 rotate3D(float3 v, float3 axis, float th){
+  // compute constants
+  float c = cosf(th);
+  float s = sinf(th);
+
+  // compute rotation
+  float3 res = vec3(0.0f, 0.0f, 0.0f);
+  res.x = (1.0f + (1.0f - c) * (axis.x * axis.x - 1.0f)) * v.x +
+          (axis.z * s + (1.0f - c) * axis.x * axis.y) * v.y +
+          (-1.0f * axis.y * s + (1.0f - c) * axis.x * axis.z) * v.z;
+
+  res.y = (-1.0f * axis.z * s + (1.0f - c) * axis.x * axis.y) * v.x +
+          (1.0f + (1.0f - c) * (axis.y * axis.y - 1.0f)) * v.y +
+          (axis.x * s + (1.0f - c) * axis.y * axis.z) * v.z;
+
+  res.z = (axis.y * s + (1.0f - c) * axis.x * axis.z) * v.x +
+          (-1.0f * axis.x * s + (1.0f - c) * axis.y * axis.z) * v.y +
+          (1.0f + (1.0f - c) * (axis.z * axis.z - 1.0f)) * v.z;
+
+  return res;
+}
