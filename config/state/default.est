@@ -38,6 +38,7 @@
  0.0,
  1.0,
  0.9,
+ 0.1,
  1.0,
  1.0,
  1.0,
@@ -54,7 +55,6 @@
  0.2,
  0.5,
  0.0,
- 0.1,
  0.0,
  0.0,
  0.0,
@@ -93,6 +93,7 @@
  '_COLOR_BASE_PSI',
  '_COLOR_BASE_R',
  '_COLOR_I',
+ '_COLOR_DHUE',
  '_COLOR_A',
  '_COLOR_S',
  '_COLOR_V',
@@ -108,7 +109,6 @@
  '_SEED_CIRCLE_R',
  '_SEED_GRID_N',
  '_HSLS_RESET_Z',
- '_CULL_DEPTH',
- '_COLOR_DHUE'
+ '_CULL_DEPTH'
  ]}
 

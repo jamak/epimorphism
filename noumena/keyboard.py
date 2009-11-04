@@ -162,77 +162,6 @@ class KeyboardHandler(object):
                 self.cmdcenter.cmd("toggle_echo()")
 
 
-
-
-    def bm2009(self, key, modifiers):
-
-        if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
-            self.cmdcenter.moduleCmd('bm2009', 'set_var', {'var':'switch_exponent', 'val':2})
-
-        if((modifiers & GLUT_ACTIVE_ALT) == GLUT_ACTIVE_ALT):
-            self.cmdcenter.moduleCmd('bm2009', 'set_var', {'var':'switch_exponent', 'val':-1})
-
-        if(key == '|'): # escape
-            self.cmdcenter.env.exit = True
-
-        # toggle console
-        elif(key == "`"):
-            self.cmdcenter.cmd("toggle_console()")
-
-        # reset fb
-        elif(key == "\\"):
-            self.cmdcenter.cmd("reset_fb()")
-
-        # reset zn
-        elif(key == GLUT_KEY_HOME):
-            default = configmanager.load_dict("state", "default")
-            for i in xrange(len(default.zn)):
-                self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
-
-        # reset par
-        elif(key == GLUT_KEY_END):
-            default = configmanager.load_dict("state", "default")
-            for i in xrange(len(default.par)):
-                self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
-
-        # tap tempo
-        elif(key == GLUT_KEY_F1):
-            self.cmdcenter.cmd("tap_tempo")
-
-        # switch events
-        elif(key == GLUT_KEY_F10):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_events', {})
-
-        # toggle echo
-        elif(key == GLUT_KEY_F11):
-            self.cmdcenter.cmd("toggle_echo()")
-
-        # toggle fps
-        elif(key == GLUT_KEY_F12):
-            self.cmdcenter.cmd("toggle_fps()")
-
-        elif(key == "1"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_t', {})
-
-        elif(key == "2"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_t_seed', {})
-
-        elif(key == "3"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_seed_w', {})
-
-        elif(key == "4"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_reduce', {})
-
-        elif(key == "5"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_seed_a', {})
-
-        elif(key == "6"):
-            self.cmdcenter.moduleCmd('bm2009', 'switch_seed_wt', {})
-
-
-
-
-
     def live(self, key, modifiers):
 
         multiplier = 1
@@ -277,6 +206,10 @@ class KeyboardHandler(object):
         # toggle fps
         elif(key == GLUT_KEY_F12):
             self.cmdcenter.cmd("toggle_fps()")
+
+        # save state
+        elif(key == "\015"): # enter
+            self.cmdcenter.cmd("save()")
 
         elif(key == "1"):
             self.cmdcenter.eventmanager.switch_component("T", multiplier)

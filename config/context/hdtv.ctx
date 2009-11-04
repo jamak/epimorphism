@@ -1,11 +1,11 @@
 {
- 'keyboard':'standard',
+ 'keyboard':'live',
  'par_scale': 1,
  'midi': True,
  'server': False,
  'kbd_switch_spd' : 0.2,
  'echo' : True,
- 'midi_controller' : ('BCF2000', 'BCF_LIVE'),
+ 'midi_controller' : ('BCF2000', 'BCF_FULL'),
  'display_res' : [1920, 1080, True],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],

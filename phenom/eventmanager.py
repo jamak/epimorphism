@@ -74,7 +74,7 @@ class EventManager(object):
         z0 = r_to_p(self.state.zn[component])
         z1 = [z0[0], z0[1]]
         z1[1] += 2.0 * pi
-        self.cmdcenter.cmd("animate_var('radial_2d', zn, %d, %s, {'s' : %s, 'e' : %s, 'loop' : True})" % (component, 16.0 * time, str(z0), str(z1)))
+        self.cmdcenter.cmd("animate_var('radial_2d', zn, %d, %s, {'s' : %s, 'e' : %s, 'loop' : True})" % (component, 32.0 * time, str(z0), str(z1)))
 
 
     @handle_event
@@ -84,4 +84,4 @@ class EventManager(object):
         z0 = r_to_p(self.state.zn[component])
         z1 = [z0[0], z0[1]]
         z1[0] += 2.0
-        self.cmdcenter.cmd("animate_var('radial_2d', zn, %d, %s, {'s' : %s, 'e' : %s, 'loop' : True})" % (component, 4.0 * time, str(z0), str(z1)))
+        self.cmdcenter.cmd("animate_var('radial_2d', zn, %d, %s, {'s' : %s, 'e' : %s, 'loop' : True})" % (component, 8.0 * time, str(z0), str(z1)))
