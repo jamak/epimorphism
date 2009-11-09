@@ -11,6 +11,8 @@ from config import configmanager
 import sys
 import time
 
+from common.log import *
+set_log("KEYBOARD")
 
 class KeyboardHandler(object):
     ''' The KeyboardHandler is the GLUT callback that handles keyboard events
@@ -166,10 +168,10 @@ class KeyboardHandler(object):
 
         multiplier = 1
 
-        if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
+        if((modifiers & GLUT_ACTIVE_ALT) == GLUT_ACTIVE_ALT):
             multiplier = 2
 
-        if((modifiers & GLUT_ACTIVE_ALT) == GLUT_ACTIVE_ALT):
+        if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
             multiplier = 0
 
         if(key == '|'): # escape
@@ -199,6 +201,17 @@ class KeyboardHandler(object):
         elif(key == GLUT_KEY_F1):
             self.cmdcenter.cmd("tap_tempo()")
 
+        # switch_midi
+        elif(key == GLUT_KEY_F10):
+            if(self.context.midi_controller[1] == "BCF_LIVE"):
+                info("Switch to BCF_FULL bindings")
+                self.context.midi_controller[1] = "BCF_FULL"
+                self.cmdcenter.interface.midi.load_bindings()
+            elif(self.context.midi_controller[1] == "BCF_FULL"):
+                info("Switch to BCF_LIVE bindings")
+                self.context.midi_controller[1] = "BCF_LIVE"
+                self.cmdcenter.interface.midi.load_bindings()
+
         # toggle echo
         elif(key == GLUT_KEY_F11):
             self.cmdcenter.cmd("toggle_echo()")
@@ -218,13 +231,19 @@ class KeyboardHandler(object):
         elif(key == "3"):
             self.cmdcenter.eventmanager.switch_component("SEED_W", multiplier)
         elif(key == "4"):
-            self.cmdcenter.eventmanager.switch_component("REDUCE", multiplier)
-        elif(key == "5"):
             self.cmdcenter.eventmanager.switch_component("SEED_WT", multiplier)
-        elif(key == "6"):
+        elif(key == "5"):
             self.cmdcenter.eventmanager.switch_component("SEED_A", multiplier)
+        elif(key == "6"):
+            self.cmdcenter.eventmanager.switch_component("REDUCE", multiplier)
 
         elif(key == "q"):
-            self.cmdcenter.eventmanager.transLoop(9, multiplier)
+            self.cmdcenter.eventmanager.rotate90(0, multiplier)
+        elif(key == "w"):
+            self.cmdcenter.eventmanager.rotate90(2, multiplier)
+        elif(key == "e"):
+            self.cmdcenter.eventmanager.rotate90(8, multiplier)
+        elif(key == "r"):
+            self.cmdcenter.eventmanager.rotate90(10, multiplier)
 
 

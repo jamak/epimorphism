@@ -42,14 +42,14 @@ class Interface(object):
             self.video_renderer.video_start()
 
         # create input handlers
-        mouse_handler = MouseHandler(self.cmdcenter, self.context)
-        keyboard_handler = KeyboardHandler(self.cmdcenter, self.context)
+        self.mouse_handler = MouseHandler(self.cmdcenter, self.context)
+        self.keyboard_handler = KeyboardHandler(self.cmdcenter, self.context)
 
         # create_console
         console = Console(self.cmdcenter)
 
         # register callbacks & console with Renderer
-        self.renderer.register_callbacks(keyboard_handler.keyboard, mouse_handler.mouse, mouse_handler.motion)
+        self.renderer.register_callbacks(self.keyboard_handler.keyboard, self.mouse_handler.mouse, self.mouse_handler.motion)
         self.renderer.register_console_callbacks(console.render_console, console.console_keyboard)
 
         # start server

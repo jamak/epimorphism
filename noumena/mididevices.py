@@ -30,11 +30,11 @@ BCF_LIVE = [{(0, 81): ["state.zn",  '0',  "radius", (1.0, 1.0)],
              (0, 1) : ["state.par", 'self.cmdcenter.state.par_names.index("_SEED_W")',  "val",    (0.4, 0.2)],
              (0, 2) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_PHI")',  "val",    (1.0, 0.0)],
              (0, 3) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_PSI")',  "val",    (1.0, 0.0)],
-             (0, 4) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_A")',  "val",    (0.6, 0.4)],
-             (0, 5) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_S")',  "val",    (0.8, 0.2)],
-             (0, 6) : ["state.zn",  '8',  "th",     (3.14, 0.0)],
-             (0, 7) : ["state.par", 'self.cmdcenter.state.par_names.index("_SEED_W_THRESH")',  "val",    (0.6, 0.0)],
-             (0, 8) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_DHUE")', "val",    (1.0, 0.0)],
+             (0, 4) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_BASE_PHI")',  "val",    (1.0, 0.0)],
+             (0, 5) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_BASE_PSI")',  "val",    (1.0, 0.0)],
+             (0, 6) : ["state.par", 'self.cmdcenter.state.par_names.index("_COLOR_A")',  "val",    (0.6, 0.4)],
+             (0, 7) : ["state.par", 'self.cmdcenter.state.par_names.index("_SEED_W_THRESH")', "val",    (0.6, 0.0)],
+             (0, 8) : ["state.zn",  '8',  "th",     (3.14, 0.0)]
              }]
 
 # create advanced device bindings for BCF2000

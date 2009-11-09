@@ -46,17 +46,24 @@ class MidiHandler(threading.Thread):
             info("MIDI device not found")
             self.context.midi = False
 
-        # load bindings
-        self.bindings = eval(self.context.midi_controller[1])
-
         # set default bindings
         self.binding_idx = 0
 
-        # send defaults
-        self.send_bindings()
+        # load bindings
+        self.load_bindings()
 
         # init thread
         threading.Thread.__init__(self)
+
+
+    def load_bindings(self):
+        ''' Loads bindings '''
+        debug("Loading bindings")
+
+        self.bindings = eval(self.context.midi_controller[1])
+
+        # send defaults
+        self.send_bindings()
 
 
     def output_binding(self, binding_id):
@@ -116,7 +123,8 @@ class MidiHandler(threading.Thread):
         while(True and self.context.midi):
 
             # sleep / exit
-            while(not self.midi_in.Poll() and not self.cmdcenter.env.exit) : time.sleep(0.01)
+            while(not self.midi_in.Poll() and not self.cmdcenter.env.exit) :
+                time.sleep(0.01)
             if(self.cmdcenter.env.exit) : exit()
 
             # read
@@ -148,13 +156,16 @@ class MidiHandler(threading.Thread):
                 self.cmdcenter.set_val(val, binding[0], eval(binding[1]))
 
             # change bindings - HACK: buttons switch bindings
-            elif(channel >= 65 and channel <= 72):
 
-                self.binding_idx = channel - 65
-                if val == 0 : self.binding_idx = 0
-                self.send_bindings()
+            elif(self.context.midi_controller[1] == 'BCF_FULL'):
+                if(channel >= 65 and channel <= 72):
 
-            elif(channel >= 33 and channel <= 40):
+                    self.binding_idx = channel - 65
+                    if val == 0 : self.binding_idx = 0
+                    self.send_bindings()
 
-                self.binding_idx = channel - 33
-                self.send_bindings()
+                elif(channel >= 33 and channel <= 40):
+
+                    self.binding_idx = channel - 33
+                    self.send_bindings()
+

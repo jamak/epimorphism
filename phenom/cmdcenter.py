@@ -15,6 +15,10 @@ import Image
 from common.log import *
 set_log("CMDCENTER")
 
+from random import *
+from common.runner import *
+
+
 class CmdEnv(dict):
     ''' The CmdEnv object is a subclass of dict used as the execution
         environment for the CmdCenter.cmd method '''
@@ -96,6 +100,9 @@ class CmdCenter(Animator):
         self.tempo_events = []
         self.last_tempo_event_time = 0
 
+        self.last_event_time = 0
+        seed()
+
 
     def __del__(self):
         ''' Exit handler '''
@@ -147,6 +154,20 @@ class CmdCenter(Animator):
         # cleanup
         if(self.env.exit):
             self.interface.renderer.stop()
+
+
+        #if(self.time() - self.last_event_time > 10):
+        #    print "EVENT!!!"
+        #    self.last_event_time = self.time()
+
+            #i = randint(0,2)
+#            if(i == 0):
+ #               async(lambda :self.componentmanager.inc_data('T', 1))
+  #          elif(i == 1):
+   #             async(lambda :self.componentmanager.inc_data('SEED_W', 1))
+
+
+
 
 
     def send_frame(self):
@@ -290,9 +311,13 @@ class CmdCenter(Animator):
         img = self.grab_image()
 
         self.env.freeze = True
-        img.save("image/image_%s.png" % name)
+        async(lambda : self.__save_image(img, name))
         # img.show()
 
+
+    def __save_image(self, img, name):
+        ''' Save image '''
+        img.save("image/image_%s.png" % name)
         self.interface.renderer.flash_message("saved state as %s" % name)
         self.env.freeze = False
 
