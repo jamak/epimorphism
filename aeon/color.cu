@@ -3,14 +3,14 @@
 
 __device__ float4 rgb_id(float4 v, float2 z_z){
   // identity
-  // RESET = "reset_black(x,y)"
+  // FULL
   return v;
 }
 
 
 __device__ float4 rg_swizzle(float4 v, float2 z_z){
   // red/green switch
-  // RESET = "reset_black(x,y)"
+  // FULL
 
   return vec4(v.y, v.x, v.z, v.w);
 }
@@ -18,7 +18,7 @@ __device__ float4 rg_swizzle(float4 v, float2 z_z){
 
 __device__ float4 gb_swizzle(float4 v, float2 z_z){
   // green/blue switch
-  // RESET = "reset_black(x,y)"
+  // FULL
 
   return vec4(v.x, v.z, v.y, v.w);
 }
@@ -26,7 +26,7 @@ __device__ float4 gb_swizzle(float4 v, float2 z_z){
 
 __device__ float4 rgb_swizzle(float4 v, float2 z_z){
   // rotate red/green/blue
-  // RESET = "reset_black(x,y)"
+  // FULL
 
   return vec4(v.y, v.z, v.x, v.w);
 }
@@ -34,7 +34,7 @@ __device__ float4 rgb_swizzle(float4 v, float2 z_z){
 
 __device__ float4 rotate_hsv(float4 v, float2 z_z){
   // hsv rotation
-  // RESET = "reset_black(x,y)"
+  // FULL
 
   v = RGBtoHSV(v);
 
@@ -56,7 +56,7 @@ __device__ float4 rotate_hsv(float4 v, float2 z_z){
 
 __device__ float4 rotate_hsls(float4 v, float2 z_z){
   // complex hsls rotation
-  // RESET = "reset_hsls(x,y)"
+  // FULL, LIVE
 
   v = RGBtoHSLs(v);
 

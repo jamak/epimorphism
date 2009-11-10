@@ -1,21 +1,28 @@
-no interpolation if only 1 component
-component levels
-take display out of context
-state modularization
-better command line arguments - no eval
+
 
 rewrite seed framework
 opengl squares
 large T function
 better T_SEED
-live state
 
+
+smarter randomization
+common keyboard functionality
 remove event paths
 stepped animation events
 better keyboard multipliers
 
 touchscreen/better interface
 installer
+
+
+
+
+take display out of context
+state modularization
+better command line arguments - no eval
+live state
+
 
 ###################################
 #

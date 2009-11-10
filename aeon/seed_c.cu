@@ -3,6 +3,7 @@
 
 __device__ float4 simple_color(float2 z, float w){
   // simple coloring function
+  // FULL, LIVE
 
   float a = 0.0f;
 

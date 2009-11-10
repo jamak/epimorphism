@@ -1,9 +1,6 @@
 // EPIMORPH library file
 // seed shape functions for the seed_wca seed function
 
-
-
-
 __device__ float trans_w(float w){
   // EXCLUDE
   float ep = nextafterf(0.0f, -1.0f);
@@ -17,6 +14,8 @@ __device__ float trans_w(float w){
 
 __device__ float fade(float2 z){
   // linear l-r gradient
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = (z.x + 1.0f) / 2.0f;
   return trans_w(w);
@@ -25,6 +24,8 @@ __device__ float fade(float2 z){
 
 __device__ float wave(float2 z){
   // sinousoid
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = (2.0f + sinf(2.0f * PI * (z.y + _clock * _GLOBAL_SPEED / 10.0f))) / 4.0f;
   return trans_w(w);
@@ -33,6 +34,8 @@ __device__ float wave(float2 z){
 
 __device__ float circle(float2 z){
   // circle
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float r = len(z);
   float w = nextafterf(0.0f, -1.0f);
@@ -44,6 +47,8 @@ __device__ float circle(float2 z){
 
 __device__ float lines_lr(float2 z){
   // parallel vertical lines
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   if(z.x > (1.0f - _SEED_W))
@@ -56,6 +61,8 @@ __device__ float lines_lr(float2 z){
 
 __device__ float lines_box(float2 z){
   // 4 lines in a box
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   if(z.x > (1.0f - _SEED_W))
@@ -122,6 +129,8 @@ device__ float hex_lattice(float2 z){
 
 __device__ float lines_box_stag(float2 z){
   // 4 lines in a box, staggered
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   if(z.x > (1.0f - _SEED_W))
@@ -138,6 +147,8 @@ __device__ float lines_box_stag(float2 z){
 
 __device__ float lines_inner(float2 z){
   // lines in a cross
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   if(fabsf(z.x) < _SEED_W)
@@ -150,6 +161,8 @@ __device__ float lines_inner(float2 z){
 
 __device__ float anti_grid_fade(float2 z){
   // inverse grid, radially shaded
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   z = rem(floorf(5.0f * _SEED_GRID_N) / 2.0f * z, 1.0f);
@@ -161,6 +174,8 @@ __device__ float anti_grid_fade(float2 z){
 
 __device__ float grid_fade(float2 z){
   // grid, radially shaded
+  // FULL, LIVE
+
   z = grid_reduce(z);
   float w = nextafterf(0.0f, -1.0f);
   z = rem(floorf(5.0f * _SEED_GRID_N) /2.0f * z, 1.0f);

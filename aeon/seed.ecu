@@ -3,7 +3,7 @@
 
 __device__ float4 seed_wca(float2 z){
   // width, color, alpha, width_trans templated seed family
-
+  // FULL, LIVE
 
   float4 res;
   float ep = nextafterf(0.0f, -1.0f);

@@ -102,17 +102,17 @@ class DataManager(object):
 
                     # skip EXCLUDE funcs
                     if(not re.match("EXCLUDE", comments[0])):
+                        levels = [level.strip() for level in comments[1].split(',')]
 
-                        # make clause
-                        clause = "(" + ", ".join(args) + ")"
-                        component = [func_name + clause, [], comments[0]]
+                        # filter by level
+                        if(env.component_level in levels):
+                            # make clause
+                            clause = "(" + ", ".join(args) + ")"
+                            component = [func_name + clause, comments[0]]
+                            print component
 
-                        # get defaults
-                        if(len(comments) == 2):
-                            component[1] = [cmd.strip() for cmd in comments[1].strip().split('#')]
-
-                        # add component
-                        values.append(component)
+                            # add component
+                            values.append(component)
 
         self.component_names = self.components.keys()
         self.component_names.sort()
@@ -139,7 +139,7 @@ class DataManager(object):
 
         # get comment
         if(component):
-            return component[2]
+            return component[1]
         else:
             return ""
 

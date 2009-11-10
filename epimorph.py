@@ -61,7 +61,7 @@ def main():
     interface.sync_cmd(cmdcenter)
     engine.sync(interface.renderer)
 
-    # compile engine
+    # compile engine - CLEAN THIS
     engine.compile({'ptxas_stats': profile.ptxas_stats, 'par_names':state.par_names, 'datamanager':cmdcenter.componentmanager.datamanager, 'splice':env.splice_components, 'state':state})
 
     # start main loop

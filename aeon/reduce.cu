@@ -4,6 +4,8 @@
 
 __device__ float2 torus_reduce(float2 z){
   // reduction based on the reflective torus
+  // FULL, LIVE
+
   z = z + vec2(1.0f, 1.0f);
 
   z = rem(z, 4.0f);
@@ -60,7 +62,7 @@ device__ float2 hex_reduce(float2 z){
 
 __device__ float2 awesome(float2 z){
   // hex reduce
-  // 5 == 5
+  // FULL
 
   z = z * 2.0;
 

@@ -67,6 +67,9 @@ class ComponentManager(object):
         # get components
         components = self.datamanager.components[component_name]
 
+        if(len(components) == 1):
+            return
+
         # get and update index
         idx_idx = self.datamanager.component_names.index(component_name)
 

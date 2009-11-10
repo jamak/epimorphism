@@ -59,24 +59,29 @@ class Compiler(threading.Thread):
 
             idx = self.config['datamanager'].component_names.index(component_name)
 
-            clause1 = "switch(component_idx[%d][0]){\n" % idx
-            for component in component_list:
-                name = component[0]
-                clause1 += "case %d: %s0 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
-            clause1 += "}\n"
+            if(len(component_list) == 1):
+                self.substitutions[component_name] = "%s = %s;" % (component_name.lower(), component_list[0][0])
 
-            clause2 = "switch(component_idx[%d][1]){\n" % idx
-            for component in component_list:
-                name = component[0]
-                clause2 += "case %d: %s1 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
-            clause2 += "}\n"
+            else:
 
-            interp = "if(internal[%d] != 0){" % idx
-            sub = "min((_clock - internal[%d]) / switch_time, 1.0f)" % (idx)
-            interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
-            interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
+                clause1 = "switch(component_idx[%d][0]){\n" % idx
+                for component in component_list:
+                    name = component[0]
+                    clause1 += "case %d: %s0 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+                clause1 += "}\n"
 
-            self.substitutions[component_name] = clause1 + interp
+                clause2 = "switch(component_idx[%d][1]){\n" % idx
+                for component in component_list:
+                    name = component[0]
+                    clause2 += "case %d: %s1 = %s;break;\n" % (component_list.index(component), component_name.lower(), name)
+                clause2 += "}\n"
+
+                interp = "if(internal[%d] != 0){" % idx
+                sub = "min((_clock - internal[%d]) / switch_time, 1.0f)" % (idx)
+                interp += "%s\n%s = ((1.0f - %s) * (%s0) + %s * (%s1));" % (clause2,  component_name.lower(), sub, component_name.lower(), sub, component_name.lower())
+                interp += "}else{\n%s = %s0;\n}" % (component_name.lower(), component_name.lower())
+
+                self.substitutions[component_name] = clause1 + interp
 
         return self
 
@@ -153,8 +158,8 @@ class Compiler(threading.Thread):
 
             # remove tmp files
             files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]
-            for file in files:
-                os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
+            #for file in files:
+            #    os.system("rm aeon/__%s" % (file.replace(".ecu", ".cu")))
             if(os.path.exists("__kernel.linkinfo")) : os.system("rm __kernel.linkinfo")
 
         # execute callback

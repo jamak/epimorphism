@@ -2,10 +2,16 @@
 // reset functions
 
 __device__ float4 reset_black(int x, int y){
+  // black reset function
+  // FULL, LIVE
+
   return vec4(0.0f, 0.0f, 0.0f, -10000000.0f);
 }
 
 __device__ float4 reset_hsls(int x, int y){
+  // hsls reset function
+  // FULL, LIVE
+
   float phi = 2.0f * PI * _COLOR_PHI;
   float psi = 2.0f * PI * _COLOR_PSI;
 
