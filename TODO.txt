@@ -7,7 +7,6 @@ better T_SEED
 
 
 smarter randomization
-common keyboard functionality
 remove event paths
 stepped animation events
 better keyboard multipliers

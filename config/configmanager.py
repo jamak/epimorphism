@@ -1,5 +1,6 @@
 import sys
 import os.path
+import copy
 
 import noumena
 from config.structs import *
@@ -17,6 +18,11 @@ def load_dict(type, name, **additional_vars):
 
     vars = load_obj(type, name)
     vars.update(additional_vars)
+
+    # hack for states
+    if(type == "state"):
+        vars['par_names'] = vars['par'][::2]
+        vars['par'] = vars['par'][1::2]
 
     # return correct config object
     obj = eval(type.capitalize())(**vars)
@@ -47,6 +53,9 @@ def outp_obj(type, obj, name=None):
     ''' Dumps an object to a file.  Adds newlines after commas for legibility '''
     debug("Saving %s" % type)
 
+    # copy object
+    obj = copy.copy(obj)
+
     # generate name if necessary
     if(not name):
         i = 0
@@ -56,6 +65,13 @@ def outp_obj(type, obj, name=None):
         path = "config/%s/%s_%d.%s" % (type, type, i, extension_names[type])
 
     debug("with name %s" % name)
+
+
+    # hack for state
+    if(type == "state"):
+        obj['par'] = list(reduce(lambda s,t: s + t, zip(obj['par_names'], obj['par']), ()))
+        del(obj['par_names'])
+
 
     # set name if dict
     # if(type(obj) == dict):

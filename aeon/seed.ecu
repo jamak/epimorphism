@@ -8,9 +8,10 @@ __device__ float4 seed_wca(float2 z){
   float4 res;
   float ep = nextafterf(0.0f, -1.0f);
   float4 seed_c, seed_c0, seed_c1;
-  float seed_w, seed_w0, seed_w1, seed_wt, seed_wt0, seed_wt1, seed_a, seed_a0, seed_a1;
+  float seed_wt, seed_wt0, seed_wt1, seed_a, seed_a0, seed_a1;
+  float2 seed_w, seed_w0, seed_w1;
   %SEED_W%
-  float w = seed_w;
+  float w = seed_w.x;
 
   w = fmaxf(fminf(w, 1.0f), ep);
 

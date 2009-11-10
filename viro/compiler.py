@@ -95,6 +95,12 @@ class Compiler(threading.Thread):
         contents = file.read()
         file.close()
 
+        # cull mode
+        if(self.config['cull_enabled']):
+            self.substitutions['CULL_ENABLED'] = "#define CULL_ENABLED"
+        else:
+            self.substitutions['CULL_ENABLED'] = ""
+
         # components
         if(self.config['splice']):
             self.splice_components()
@@ -106,7 +112,8 @@ class Compiler(threading.Thread):
         par_name_str = ""
 
         for i in xrange(len(self.config["par_names"])):
-            par_name_str += "#define %s par[%d]\n" % (self.config["par_names"][i], i)
+            if(self.config["par_names"][i] != ""):
+                par_name_str += "#define %s par[%d]\n" % (self.config["par_names"][i], i)
 
         self.substitutions["PAR_NAMES"] = par_name_str
 

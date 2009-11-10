@@ -120,6 +120,7 @@ class CmdCenter(Animator):
         self.state.frame_cnt = 0
 
         self.interface.renderer.start()
+        self.load('default')
 
 
     def do(self):
@@ -339,7 +340,7 @@ class CmdCenter(Animator):
             if(self.state.components[name] != new_state.components[name]):
                 updates[name] = new_state.components[name]
 
-            delattr(new_state, name)
+            del(new_state.components[name])
 
         if(not self.componentmanager.can_switch_to_components(updates)):
             error("Failed to load state")

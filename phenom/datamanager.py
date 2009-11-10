@@ -109,7 +109,6 @@ class DataManager(object):
                             # make clause
                             clause = "(" + ", ".join(args) + ")"
                             component = [func_name + clause, comments[0]]
-                            print component
 
                             # add component
                             values.append(component)

@@ -35,7 +35,60 @@ class KeyboardHandler(object):
         async(lambda : eval("self." + self.context.keyboard)(key, modifiers))
 
 
-    def standard(self, key, modifiers):
+    def common(self, key, modifiers):
+        # exit
+        if(key == '|'): # escape
+            self.cmdcenter.env.exit = True
+
+        # toggle console
+        elif(key == "`"):
+            self.cmdcenter.cmd("toggle_console()")
+
+        # reset fb
+        elif(key == "\\"):
+            self.cmdcenter.cmd("reset_fb()")
+
+        # reset zn
+        elif(key == GLUT_KEY_HOME):
+            default = configmanager.load_dict("state", "default")
+            for i in xrange(len(default.zn)):
+                self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
+
+        # reset par
+        elif(key == GLUT_KEY_END):
+            default = configmanager.load_dict("state", "default")
+            for i in xrange(len(default.par)):
+                self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
+
+        # tap tempo
+        elif(key == GLUT_KEY_F1):
+            self.cmdcenter.cmd("tap_tempo()")
+
+        # toggle echo
+        elif(key == GLUT_KEY_F11):
+            self.cmdcenter.cmd("toggle_echo()")
+
+        # toggle fps
+        elif(key == GLUT_KEY_F12):
+            self.cmdcenter.cmd("toggle_fps()")
+
+        # save state
+        elif(key == "\015"): # enter
+            self.cmdcenter.cmd("save()")
+
+        # toggle manual iteration
+        elif(key == "\011"): # tab
+            self.cmdcenter.cmd("manual()")
+
+        # toggle next frame
+        elif(key == "\040"): # space
+            self.cmdcenter.cmd("next()")
+
+
+    def full(self, key, modifiers):
+
+        self.common(key, modifiers)
+
         # set pars if CTRL
         if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
 
@@ -56,43 +109,9 @@ class KeyboardHandler(object):
                 self.cmdcenter.cmd('linear_1d(par, %d, kbd_switch_spd, %f, %f)' % (i, x0, x1))
 
         else:
-            # exit
-            if(key == "\033"): # escape
-                self.cmdcenter.env.exit = True
-
-            # tap tempo
-            elif(key == GLUT_KEY_F1):
-                self.cmdcenter.cmd("tap_tempo()")
-
-            # toggle manual iteration
-            elif(key == "\011"): # tab
-                self.cmdcenter.cmd("manual()")
-
-            # toggle next frame
-            elif(key == "\040"): # space
-                self.cmdcenter.cmd("next()")
-
-            # save state
-            elif(key == "\015"): # enter
-                self.cmdcenter.cmd("save()")
-
-            # toggle console
-            elif(key == "`"):
-                self.cmdcenter.cmd("toggle_console()")
-
-            # reset fb
-            elif(key == "\\"):
-                self.cmdcenter.cmd("reset_fb()")
-
-            # update idx
-            elif(key == "="):
-                self.cmdcenter.update_current_state_idx(1)
-
-            elif(key == "-"):
-                self.cmdcenter.update_current_state_idx(-1)
 
             # increment component
-            elif(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]):
+            if(key in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]):
                 i = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].index(key)
                 self.cmdcenter.cmd("inc_data('%s', 1)" % self.components[i])
 
@@ -143,28 +162,11 @@ class KeyboardHandler(object):
             elif(key == GLUT_KEY_PAGE_DOWN):
                 self.context.par_scale /= 2.0
 
-            # reset zn
-            elif(key == GLUT_KEY_HOME):
-                default = configmanager.load_dict("state", "default")
-                for i in xrange(len(default.zn)):
-                    self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
-
-            # reset par
-            elif(key == GLUT_KEY_END):
-                default = configmanager.load_dict("state", "default")
-                for i in xrange(len(default.par)):
-                    self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
-
-            # toggle fps
-            elif(key == GLUT_KEY_F12):
-                self.cmdcenter.cmd("toggle_fps()")
-
-            # toggle echo
-            elif(key == GLUT_KEY_F11):
-                self.cmdcenter.cmd("toggle_echo()")
 
 
     def live(self, key, modifiers):
+
+        self.common(key, modifiers)
 
         multiplier = 1
 
@@ -174,35 +176,8 @@ class KeyboardHandler(object):
         if((modifiers & GLUT_ACTIVE_CTRL) == GLUT_ACTIVE_CTRL):
             multiplier = 0
 
-        if(key == '|'): # escape
-            self.cmdcenter.env.exit = True
-
-        # toggle console
-        elif(key == "`"):
-            self.cmdcenter.cmd("toggle_console()")
-
-        # reset fb
-        elif(key == "\\"):
-            self.cmdcenter.cmd("reset_fb()")
-
-        # reset zn
-        elif(key == GLUT_KEY_HOME):
-            default = configmanager.load_dict("state", "default")
-            for i in xrange(len(default.zn)):
-                self.cmdcenter.cmd('radial_2d(zn, %d, 0.4, %s, %s)' % (i, str(r_to_p(self.state.zn[i])), str(r_to_p(default.zn[i]))))
-
-        # reset par
-        elif(key == GLUT_KEY_END):
-            default = configmanager.load_dict("state", "default")
-            for i in xrange(len(default.par)):
-                self.cmdcenter.cmd('linear_1d(par, %d, 0.4, %f, %f)' % (i, self.state.par[i], default.par[i]))
-
-        # tap tempo
-        elif(key == GLUT_KEY_F1):
-            self.cmdcenter.cmd("tap_tempo()")
-
         # switch_midi
-        elif(key == GLUT_KEY_F10):
+        if(key == GLUT_KEY_F10):
             if(self.context.midi_controller[1] == "BCF_LIVE"):
                 info("Switch to BCF_FULL bindings")
                 self.context.midi_controller[1] = "BCF_FULL"
@@ -211,18 +186,6 @@ class KeyboardHandler(object):
                 info("Switch to BCF_LIVE bindings")
                 self.context.midi_controller[1] = "BCF_LIVE"
                 self.cmdcenter.interface.midi.load_bindings()
-
-        # toggle echo
-        elif(key == GLUT_KEY_F11):
-            self.cmdcenter.cmd("toggle_echo()")
-
-        # toggle fps
-        elif(key == GLUT_KEY_F12):
-            self.cmdcenter.cmd("toggle_fps()")
-
-        # save state
-        elif(key == "\015"): # enter
-            self.cmdcenter.cmd("save()")
 
         elif(key == "1"):
             self.cmdcenter.eventmanager.switch_component("T", multiplier)

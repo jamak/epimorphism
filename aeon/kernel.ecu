@@ -7,6 +7,8 @@ __constant__ float switch_time;
 
 %PAR_NAMES%
 
+%CULL_ENABLED%
+
 #define PI 3.1415926535f
 #define $I vec2(0.0, 1.0)
 
@@ -86,6 +88,8 @@ extern "C" {
 
         seed = _gamma3(seed, 2.2f);
 
+        #ifdef CULL_ENABLED
+
         float new_w;
 
         if(frame.w >= 0.0f)
@@ -110,7 +114,13 @@ extern "C" {
 
           if(result.w > 20 * _CULL_DEPTH - 0.000001)
             result = vec4(0.0f, 0.0f, 0.0f, -10000000.0f);
-       }
+        }
+
+        #else
+
+        result = result + seed.w * seed + (1.0f - seed.w) * frame;
+
+        #endif
 
         z = z_c;
 
