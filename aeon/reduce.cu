@@ -4,7 +4,7 @@
 
 __device__ float2 torus_reduce(float2 z){
   // reduction based on the reflective torus
-  // FULL, LIVE
+  // FULL, LIVE, DEV
 
   z = z + vec2(1.0f, 1.0f);
 

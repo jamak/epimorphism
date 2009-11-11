@@ -120,7 +120,6 @@ class CmdCenter(Animator):
         self.state.frame_cnt = 0
 
         self.interface.renderer.start()
-        self.load('default')
 
 
     def do(self):

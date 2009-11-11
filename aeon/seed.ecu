@@ -28,3 +28,37 @@ __device__ float4 seed_wca(float2 z){
 
   return res;
 }
+
+
+__device__ float4 seed_adv(float2 z){
+  // new seed function
+  // DEV
+
+  float2 z_t_circle = grid_reduce(z + vec2(2.0f * _SEED_CIRCLE_X - 1.0f, 2.0f *  _SEED_CIRCLE_Y - 1.0f));
+  float r_circle = len(z_t_circle);
+  float w_circle = nextafterf(0.0f, -1.0f);
+  if(r_circle > _SEED_CIRCLE_R - _SEED_CIRCLE_W / 2.0f && r_circle < _SEED_CIRCLE_R + _SEED_CIRCLE_W / 2.0f)
+    w_circle = (1.0f - 2.0f * fabsf(r_circle - _SEED_CIRCLE_R) / _SEED_CIRCLE_W);
+  float4 res_circle = w_circle > 0.0f ? vec4(w_circle, 0.0f, 0.0f, 1.0) : vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+
+  float2 line_rot = vec2(cos(2.0f * PI * _SEED_LINE_TH), sinf(2.0f * PI * _SEED_LINE_TH));
+  float2 z_t_line = grid_reduce(line_rot * z + vec2(2.0f * _SEED_LINE_X - 1.0f, 0.0f));
+  float w_line = nextafterf(0.0f, -1.0f);
+  z_t_line.x = fabsf(fabsf(z_t_line.x) - _SEED_LINE_SPLIT);
+  if(z_t_line.x < _SEED_LINE_W)
+    w_line = (1.0f - z_t_line.x / _SEED_LINE_W);
+  float4 res_line = w_line > 0.0f ? vec4(w_line, 0.0f, 0.0f, 1.0) : vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+
+  float w_grid = nextafterf(0.0f, -1.0f);
+  float2 z_t_grid = rem(floorf(5.0f * _SEED_GRID_N) / 2.0f * grid_reduce(z), 1.0f);
+  if((z_t_grid.x > 0.5f * (1.0f - _SEED_GRID_W) && z_t_grid.x < 0.5f * (1.0f + _SEED_GRID_W)) && (z_t_grid.y < 0.5f * (1.0f + _SEED_GRID_W) && z_t_grid.y > 0.5f * (1.0f - _SEED_GRID_W)))
+    w_grid = min((1.0f - 2.0f * fabsf(z_t_grid.y - 0.5f) / _SEED_GRID_W), (1.0f - 2.0f * fabsf(z_t_grid.x - 0.5f) / _SEED_GRID_W));
+
+  float4 res_grid= w_grid > 0.0f ? vec4(w_grid, 0.0f, 0.0f, 1.0) : vec4(0.0f, 0.0f, 0.0f, 0.0f);
+
+
+
+  return fmaxf(fmaxf(res_circle, res_grid), res_line);
+}

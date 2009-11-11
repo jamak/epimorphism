@@ -154,6 +154,11 @@ __device__ float2 floorf(float2 z){
   return vec2(floorf(z.x), floorf(z.y));
 }
 
+__device__ float4 fmaxf(float4 z1, float4 z2){
+  return vec4(fmaxf(z1.x, z2.x), fmaxf(z1.y, z2.y), fmaxf(z1.z, z2.z), fmaxf(z1.w, z2.w));
+}
+
+
 __device__ float recover(float x){
   if(isnan(x) || isinf(x))
     x = 0.0f;

@@ -59,7 +59,10 @@ class Compiler(threading.Thread):
 
             idx = self.config['datamanager'].component_names.index(component_name)
 
-            if(len(component_list) == 1):
+            if(len(component_list) == 0):
+                self.substitutions[component_name] = ""
+
+            elif(len(component_list) == 1):
                 self.substitutions[component_name] = "%s = %s;" % (component_name.lower(), component_list[0][0])
 
             else:
@@ -106,7 +109,10 @@ class Compiler(threading.Thread):
             self.splice_components()
         else:
             for component_name in self.config['datamanager'].component_names:
-                self.substitutions[component_name] = "%s = %s;" % (component_name.lower(),  self.config['state'].components[component_name])
+                if(component_name in self.config['state'].components):
+                    self.substitutions[component_name] = "%s = %s;" % (component_name.lower(),  self.config['state'].components[component_name])
+                else:
+                    self.substitutions[component_name] = ""
 
         # bind PAR_NAMES
         par_name_str = ""
@@ -130,6 +136,9 @@ class Compiler(threading.Thread):
     def run(self):
         ''' Executes the main Compiler sequence '''
         debug("Executing")
+
+        # remove emacs crap
+        os.system("rm aeon/.#*")
 
         # render ecu files
         files = [file for file in os.listdir("aeon") if re.search("\.ecu$", file)]

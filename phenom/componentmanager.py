@@ -29,7 +29,10 @@ class ComponentManager(object):
 
         for component_name in self.datamanager.component_names:
             idx = self.datamanager.component_names.index(component_name)
-            val = self.state.components[component_name.upper()]
+            if(component_name.upper() not in self.state.components):
+                val = ""
+            else:
+                val = self.state.components[component_name.upper()]
 
             try:
                 data = [elt[0] for elt in self.datamanager.components[component_name]]

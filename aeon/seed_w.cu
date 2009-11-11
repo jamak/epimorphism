@@ -3,7 +3,6 @@
 
 __device__ float trans_w(float w){
   // EXCLUDE
-  float ep = nextafterf(0.0f, -1.0f);
   if(w < _SEED_W_THRESH && w > 0.0f)
     w = 1.0f;
   if(_SEED_W_BASE != 0.0f && w < 0.0f)
