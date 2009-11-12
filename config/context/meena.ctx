@@ -8,7 +8,7 @@
  'kbd_switch_spd' : 0.2,
  'echo' : False,
  'midi_controller' : ('BCF2000', 'BCF_FULL'),
- 'display_res' : [1280, 800, False],
+ 'display_res' : [1280, 800, True],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],
 

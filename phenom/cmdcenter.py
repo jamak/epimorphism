@@ -4,6 +4,7 @@ from phenom.script import *
 from phenom.eventmanager import *
 from common.default import *
 from common.complex import *
+from common.runner import *
 from config import configmanager
 
 import StringIO
@@ -11,6 +12,8 @@ import sys
 import traceback
 
 import Image
+
+from random import *
 
 from common.log import *
 set_log("CMDCENTER")
@@ -96,6 +99,8 @@ class CmdCenter(Animator):
         self.tempo_events = []
         self.last_tempo_event_time = 0
 
+        self.last_event_time = 0
+
 
     def __del__(self):
         ''' Exit handler '''
@@ -143,6 +148,17 @@ class CmdCenter(Animator):
 
         # execute interface
         self.interface.do()
+
+        if(self.time() - self.last_event_time > 10):
+            print "EVENT!!!"
+            self.last_event_time = self.time()
+
+            i = randint(0,2)
+            if(i == 0):
+                async(lambda :self.componentmanager.inc_data('T', 1))
+            elif(i == 1):
+                async(lambda :self.componentmanager.inc_data('SEED_W', 1))
+
 
         # cleanup
         if(self.env.exit):
