@@ -1,4 +1,5 @@
 {
+
  'keyboard':'live',
  'par_scale': 1,
  'midi': True,
@@ -6,7 +7,7 @@
  'kbd_switch_spd' : 0.2,
  'echo' : True,
  'midi_controller' : ['BCF2000', 'BCF_FULL'],
- 'display_res' : [1680, 1050, True],
+ 'screen' : [1680, 1050, True],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],
 

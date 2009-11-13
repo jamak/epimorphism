@@ -3,6 +3,7 @@
 import sys
 import os
 import atexit
+import re
 
 import config.configmanager
 from noumena.interface import *
@@ -31,19 +32,35 @@ os.system("unclutter -idle 0.25 -jitter 1 -root&")
 # initialize env/state/profile/context/env
 debug("Initializing state/profile/context/env")
 
-def parse_args(sym):
-    return dict(tuple(map(lambda x: (x[0], eval(x[1])), (cmd[1:].split(':') for cmd in sys.argv[1:] if cmd[0] == sym))))
-
 if(len(sys.argv[1:]) != 0):
     debug("with args %s" % (str(sys.argv[1:])))
 
-env_vars = parse_args("~")
-env_vars.setdefault("env", "default")
+# parse command line arguments
+args={"application":"default", "app":{}, "env":{}, "context":{}, "profile":{}, "state":{}}
+for arg in sys.argv[1:]:
+    
+    # application
+    split = re.compile("=").split(arg)
+    if(len(split) == 1): 
+        args["application"] = arg
+        continue
 
-env     = configmanager.load_dict("environment", env_vars["env"], **env_vars)
-context = configmanager.load_dict("context", env.context, **parse_args("@"))
-profile = configmanager.load_dict("profile", env.profile, **parse_args("#"))
-state   = configmanager.load_dict("state", env.state, **parse_args("%"))
+    # parse True & False
+    val = split[1]
+    if(val == "True"): val = True
+    if(val == "False"): val = False
+
+    # create vars
+    split = re.compile("\.").split(split[0])
+    if(len(split) == 1): args["app"][split[0]] = val
+    else : args[split[0]][split[1]] = val
+
+# create structures
+app     = configmanager.load_dict("app", args["application"], **args["app"])
+env     = configmanager.load_dict("environment", app.env, **args["env"])
+context = configmanager.load_dict("context", app.context, **args["context"])
+profile = configmanager.load_dict("profile", app.profile, **args["profile"])
+state   = configmanager.load_dict("state", app.state, **args["state"])
 
 # encapsulated for asynchronous execution
 def main():

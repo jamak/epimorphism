@@ -50,3 +50,11 @@ class Environment(object):
     def __init__(self, **vars):
         # init
         self.__dict__.update(vars)
+
+
+class App(object):
+    ''' Encapsulates one of each other struct. '''
+
+    def __init__(self, **vars):
+        # init
+        self.__dict__.update(vars)

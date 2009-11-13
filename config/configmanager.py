@@ -10,7 +10,7 @@ set_log("CONFIG")
 
 
 # mappings from config extensions to classes/names
-extension_names = {"state": "est", "profile": "prf", "context": "ctx", "environment": "env", "script": "scr"}
+extension_names = {"state": "est", "profile": "prf", "context": "ctx", "environment": "env", "script": "scr", "app":"app"}
 
 
 def load_dict(type, name, **additional_vars):

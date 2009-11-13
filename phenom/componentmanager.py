@@ -38,7 +38,7 @@ class ComponentManager(object):
                 data = [elt[0] for elt in self.datamanager.components[component_name]]
                 self.component_idx[2 * idx] = data.index(val)
             except:
-                error("couldn't find index for: %s - %s" %(component_name, val))
+                warning("couldn't find index for: %s - %s" %(component_name, val))
                 self.component_idx[2 * idx] = 0
 
 

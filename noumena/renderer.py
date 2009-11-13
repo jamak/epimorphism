@@ -20,7 +20,7 @@ class Renderer(object):
         debug("Initializing Renderer")
 
         # set variables
-        self.context, self.display_res = context, context.display_res
+        self.context, self.screen = context, context.screen
 
         # initialize glut
         glutInit(1, [])
@@ -34,13 +34,13 @@ class Renderer(object):
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA)
 
         try:
-            if(self.context.display_res[2]):
-                glutGameModeString(str(self.context.display_res[0]) + "x" +
-                                   str(self.context.display_res[1]) + ":24@60")
+            if(self.context.screen[2]):
+                glutGameModeString(str(self.context.screen[0]) + "x" +
+                                   str(self.context.screen[1]) + ":24@60")
                 glutEnterGameMode()
 
             else:
-                glutInitWindowSize(self.context.display_res[0], self.context.display_res[1])
+                glutInitWindowSize(self.context.screen[0], self.context.screen[1])
                 glutInitWindowPosition(10, 10)
                 glutCreateWindow("Epimorphism")
         except:
@@ -48,7 +48,7 @@ class Renderer(object):
             sys.exit()
 
         # reshape
-        self.reshape(self.context.display_res[0], self.context.display_res[1])
+        self.reshape(self.context.screen[0], self.context.screen[1])
 
         # register callbacks
         glutReshapeFunc(self.reshape)
@@ -76,7 +76,7 @@ class Renderer(object):
         self.fps_font = common.glFreeType.font_data(FONT_PATH, self.fps_font_size)
 
         self.echo_string = None
-        self.echo_font_size = int(0.0123 * self.context.display_res[0] + 2.666)
+        self.echo_font_size = int(0.0123 * self.context.screen[0] + 2.666)
         self.echo_font = common.glFreeType.font_data(FONT_PATH, self.echo_font_size)
 
         self.do_main_toggle_console = False
@@ -125,10 +125,10 @@ class Renderer(object):
         debug("Reshape %dx%d" % (w, h))
 
         # set viewport
-        self.context.display_res[0] = w
-        self.context.display_res[1] = h
+        self.context.screen[0] = w
+        self.context.screen[1] = h
         self.aspect = float(w) / float(h)
-        glViewport(0, 0, self.context.display_res[0], self.context.display_res[1])
+        glViewport(0, 0, self.context.screen[0], self.context.screen[1])
 
         # configure projection matrix
         glMatrixMode(GL_PROJECTION)
@@ -143,8 +143,8 @@ class Renderer(object):
 
         # render text into ulc
         glColor3ub(0xff, 0xff, 0xff)
-        self.fps_font.glPrint(6, self.context.display_res[1] - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
-        self.fps_font.glPrint(6, self.context.display_res[1] - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
+        self.fps_font.glPrint(6, self.context.screen[1] - self.fps_font_size - 6, "fps: %.2f" % (1000.0 / self.fps))
+        self.fps_font.glPrint(6, self.context.screen[1] - 2 * self.fps_font_size - 10, "avg: %.2f" % (1000.0 / self.fps_avg))
 
 
     def echo(self):
