@@ -51,13 +51,13 @@ __device__ float4 seed_adv(float2 z){
   float4 res_line = w_line > 0.0f ? vec4(w_line, 0.0f, 0.0f, 1.0) : vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 
+  float2 grid_rot = vec2(cos(2.0f * PI * _SEED_GRID_TH), sinf(2.0f * PI * _SEED_GRID_TH));
   float w_grid = nextafterf(0.0f, -1.0f);
-  float2 z_t_grid = rem(floorf(5.0f * _SEED_GRID_N) / 2.0f * grid_reduce(z), 1.0f);
+  float2 z_t_grid = rem(floorf(20.0f * _SEED_GRID_N) / 2.0f * grid_reduce(z), 1.0f);
   if((z_t_grid.x > 0.5f * (1.0f - _SEED_GRID_W) && z_t_grid.x < 0.5f * (1.0f + _SEED_GRID_W)) && (z_t_grid.y < 0.5f * (1.0f + _SEED_GRID_W) && z_t_grid.y > 0.5f * (1.0f - _SEED_GRID_W)))
     w_grid = min((1.0f - 2.0f * fabsf(z_t_grid.y - 0.5f) / _SEED_GRID_W), (1.0f - 2.0f * fabsf(z_t_grid.x - 0.5f) / _SEED_GRID_W));
 
   float4 res_grid= w_grid > 0.0f ? vec4(w_grid, 0.0f, 0.0f, 1.0) : vec4(0.0f, 0.0f, 0.0f, 0.0f);
-
 
 
   return fmaxf(fmaxf(res_circle, res_grid), res_line);

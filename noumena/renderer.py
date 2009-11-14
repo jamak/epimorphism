@@ -1,6 +1,7 @@
 from ctypes import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+from OpenGL.GLU import *
 
 import time
 
@@ -133,7 +134,8 @@ class Renderer(object):
         # configure projection matrix
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+        # glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+        gluPerspective(45.0, self.aspect, 0.1, 100.0)
         glMatrixMode(GL_MODELVIEW)
 
 
@@ -212,18 +214,25 @@ class Renderer(object):
 
         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        grid_size = 1
+        scale = 5
+        base_depth = -2.4142 * scale
+
         # render texture
+
         glBegin(GL_QUADS)
-
-        glTexCoord2f(x0, y0)
-        glVertex3f(-1.0, -1.0, 0)
-        glTexCoord2f(x1, y0)
-        glVertex3f(1.0, -1.0, 0)
-        glTexCoord2f(x1, y1)
-        glVertex3f(1.0, 1.0, 0)
-        glTexCoord2f(x0, y1)
-        glVertex3f(-1.0, 1.0, 0)
-
+        for i in xrange(grid_size):
+            for j in xrange(grid_size):
+                glTexCoord2f(x0 + (x1 - x0) / grid_size * i, y0 + (y1 - y0) / grid_size * j)
+                glVertex3f(scale * (-1.0 + 2.0 / grid_size * i), scale * (-1.0 + 2.0 / grid_size * j), base_depth)
+                glTexCoord2f(x0 + (x1 - x0) / grid_size * (i + 1.0), y0 + (y1 - y0) / grid_size * j)
+                glVertex3f(scale * (-1.0 + 2.0 / grid_size * (i + 1.0)), scale * (-1.0 + 2.0 / grid_size * j), base_depth)
+                glTexCoord2f(x0 + (x1 - x0) / grid_size * (i + 1.0), y0 + (y1 - y0) / grid_size * (j + 1.0))
+                glVertex3f(scale * (-1.0 + 2.0 / grid_size * (i + 1.0)), scale * (-1.0 + 2.0 / grid_size * (j + 1.0)), base_depth)
+                glTexCoord2f(x0 + (x1 - x0) / grid_size * i, y0 + (y1 - y0) / grid_size * (j + 1.0))
+                glVertex3f(scale * (-1.0 + 2.0 / grid_size * i), scale * (-1.0 + 2.0 / grid_size * (j + 1.0)), base_depth)                
         glEnd()
 
         # render console

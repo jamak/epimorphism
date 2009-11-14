@@ -52,6 +52,9 @@ class Interface(object):
         self.renderer.register_callbacks(self.keyboard_handler.keyboard, self.mouse_handler.mouse, self.mouse_handler.motion)
         self.renderer.register_console_callbacks(console.render_console, console.console_keyboard)
 
+        # register cmdcenter with renderer
+        self.renderer.cmdcenter = cmdcenter
+        
         # start server
         if(self.context.server):
             self.server = Server(self.cmdcenter)
