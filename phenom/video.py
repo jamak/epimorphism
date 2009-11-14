@@ -22,8 +22,7 @@ class VideoRenderer(object):
         
 
     def capture(self):
-
-        info("Capturing video frame %d" % self.frame_num)
+        info("Capturing video frame %d at time %s" % (self.frame_num, self.cmdcenter.time()))
 
         # return if necessary
         if(not self.env.render_video):

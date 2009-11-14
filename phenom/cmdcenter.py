@@ -111,12 +111,19 @@ class CmdCenter(Animator):
         self.last_event_time = 0
         seed()
 
+        # load initial script
+        if(self.env.initial_script):
+            self.initial_script = Script(self, self.env.initial_script)
+        else:
+            self.initial_script = None
+
 
     def __del__(self):
         ''' Exit handler '''
 
         # save events
         if(self.env.record_events and self.recorded_events):
+            info("Saving events")
             self.recorded_events.save()
 
 
@@ -127,6 +134,8 @@ class CmdCenter(Animator):
         self.t_start = time.clock()
         self.state.frame_cnt = 0
 
+        if(self.initial_script):
+            self.initial_script.start()
         self.interface.renderer.start()
 
 
@@ -139,7 +148,7 @@ class CmdCenter(Animator):
 
             # get time
             if(self.env.fps_sync):
-                self.state.time = self.state.frame_cnt / self.env.fps_sync + self.t_phase
+                self.state.time = self.state.frame_cnt / float(self.env.fps_sync) + self.t_phase
             else:
                 self.state.time = time.clock() - self.t_start + self.t_phase
 
@@ -177,9 +186,6 @@ class CmdCenter(Animator):
  #               async(lambda :self.componentmanager.inc_data('T', 1))
   #          elif(i == 1):
    #             async(lambda :self.componentmanager.inc_data('SEED_W', 1))
-
-
-
 
 
     def send_frame(self):

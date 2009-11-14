@@ -1,3 +1,5 @@
+import config
+
 import sys
 import os.path
 import time
@@ -7,7 +9,6 @@ set_log("SCRIPT")
 
 from common.runner import *
 
-from config import configmanager
 
 
 class Script(object):
@@ -19,7 +20,7 @@ class Script(object):
 
         self.cmdcenter, self.name = cmdcenter, name
 
-        self.events = (self.name and configmanager.load_obj("script", name)) or []
+        self.events = (self.name and config.configmanager.load_obj("script", name)) or []
         self.current_idx = 0
 
 
@@ -30,7 +31,6 @@ class Script(object):
         # main execution loop
         while(self.current_idx < len(self.events) and not self.cmdcenter.env.exit):
             while(self.current_idx < len(self.events) and self.cmdcenter.time() >= self.events[self.current_idx]["time"]):
-                debug("Cmd from script %s" % (self.name or ""))
                 self.cmdcenter.cmd(self.events[self.current_idx]["cmd"])
                 self.current_idx += 1
             time.sleep(0.001)
@@ -73,4 +73,4 @@ class Script(object):
         ''' Saves the script '''
 
         # output events
-        self.name = configmanager.outp_obj("script", self.events, self.name)
+        self.name = config.configmanager.outp_obj("script", self.events, self.name)

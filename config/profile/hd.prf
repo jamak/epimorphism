@@ -2,7 +2,7 @@
  'name': 'hd',
 
  'debug_freq': 5.0,
- 'kernel_dim': 3072,
+ 'kernel_dim': 1536,
  'ptxas_stats' : False,
  'FRACT': 7
 }
