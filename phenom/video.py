@@ -1,6 +1,8 @@
 import time
 import os.path
 
+import math
+
 from common.runner import *
 
 from common.log import *
@@ -39,7 +41,13 @@ class VideoRenderer(object):
 
             # save frame
             image = self.cmdcenter.grab_image()
-            image.save("video/%s/%d.png" % (self.video_name, self.frame_num))
+
+            # pad frame_num
+            digit_size = 5
+            padded = "".join(["0" for i in xrange(digit_size - int(math.log10(self.frame_num + 1)) - 1)]) + str(self.frame_num + 1)
+            
+            # save
+            image.save("video/%s/%s.png" % (self.video_name, padded))
 
             # inc frame num
             self.frame_num += 1
@@ -94,7 +102,7 @@ class VideoRenderer(object):
 
         # run script to compress video
         if(compress):
-            pass
+            "mencoder mf://video/2/*.png -mf w=512:h=512:fps=20:type=png -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell -oac copy -o 3.avi"
 
         # turn off fps sync
         self.env.fps_sync = False
