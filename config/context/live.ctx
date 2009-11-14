@@ -11,8 +11,4 @@
  'screen' : [1024,768,True],
  'fps_frames' : 10,
  'viewport' : [0.0, 0.0, 1.0],
-
- 'render_video': False,
- 'video_frame_time': 10,
- 'max_video_frames': None
 }

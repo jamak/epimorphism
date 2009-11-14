@@ -6,23 +6,23 @@ class VideoRenderer(object):
     ''' The VideoRenderer object is responsible for sequentially capturing the
         frames output by the engine '''
 
-    def __init__(self, cmdcenter, context):
+    def __init__(self, cmdcenter, env):
 
         # set vars
-        self.cmdcenter, self.context = cmdcenter, context
+        self.cmdcenter, self.env = cmdcenter, env
         self.frame_num = 0
 
 
     def video_time(self):
 
         # return the simulated video time
-        return (self.frame_num * self.context.video_frame_time) / 1000.0
+        return (self.frame_num * self.env.video_frame_time) / 1000.0
 
 
     def capture(self):
 
         # return if necessary
-        if(not self.context.render_video):
+        if(not self.env.render_video):
             return False
 
         # save frame
@@ -33,7 +33,7 @@ class VideoRenderer(object):
         self.frame_num += 1
 
         # stop video if necessary
-        if(self.context.max_video_frames and self.frame_num == self.context.max_video_frames):
+        if(self.env.max_video_frames and self.frame_num == self.env.max_video_frames):
             self.stop_video(True)
 
 
@@ -45,7 +45,7 @@ class VideoRenderer(object):
 
         # set vars
         self.frame_num = 0
-        self.context.render_video = True
+        self.env.render_video = True
 
         # get video name if necessary
         if(not video_name):
@@ -67,11 +67,11 @@ class VideoRenderer(object):
     def stop_video(self, compress=False):
 
         # return if necessary
-        if(not self.context.render_video):
+        if(not self.env.render_video):
             return False
 
         # set vars
-        self.context.render_video = False
+        self.env.render_video = False
 
         # run script to compress video
         if(compress):

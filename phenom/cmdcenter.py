@@ -1,3 +1,5 @@
+from phenom.video import *
+
 from phenom.animator import *
 from phenom.componentmanager import *
 from phenom.script import *
@@ -103,6 +105,13 @@ class CmdCenter(Animator):
         self.last_event_time = 0
         seed()
 
+        # create video_renderer
+        self.video_renderer = VideoRenderer(self, self.env)
+
+        # start video_renderer
+        if(self.env.render_video):
+            self.video_renderer.video_start()
+
 
     def __del__(self):
         ''' Exit handler '''
@@ -150,6 +159,10 @@ class CmdCenter(Animator):
 
         # execute interface
         self.interface.do()
+
+        # capture video frames
+        if(self.env.render_video):
+            self.video_renderer.capture()
 
         # cleanup
         if(self.env.exit):

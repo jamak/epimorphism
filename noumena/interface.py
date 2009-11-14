@@ -1,5 +1,4 @@
 from noumena.renderer import *
-from noumena.video import *
 
 from noumena.console import *
 from noumena.keyboard import *
@@ -33,13 +32,6 @@ class Interface(object):
         debug("Syncing with CmdCenter")
 
         self.cmdcenter = cmdcenter
-
-        # create video_renderer
-        self.video_renderer = VideoRenderer(self.cmdcenter, self.context)
-
-        # start video_renderer
-        if(self.context.render_video):
-            self.video_renderer.video_start()
 
         # create input handlers
         self.mouse_handler = MouseHandler(self.cmdcenter, self.context)
@@ -78,8 +70,4 @@ class Interface(object):
 
 
     def do(self):
-        # capture video frames
-        if(self.context.render_video):
-            self.video_renderer.capture()
-
         self.renderer.do()
