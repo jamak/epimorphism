@@ -45,8 +45,9 @@ for arg in sys.argv[1:]:
         args["application"] = arg
         continue
 
-    # parse True & False
+    # parse val
     val = split[1]
+    if(val[0] == '$'): val = eval(val[1:])
     if(val == "True"): val = True
     if(val == "False"): val = False
 

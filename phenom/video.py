@@ -1,6 +1,10 @@
 import time
 import os.path
 
+from common.runner import *
+
+from common.log import *
+set_log("VIDEO")
 
 class VideoRenderer(object):
     ''' The VideoRenderer object is responsible for sequentially capturing the
@@ -8,41 +12,58 @@ class VideoRenderer(object):
 
     def __init__(self, cmdcenter, env):
 
+        debug("Initializing video renderer")
+
         # set vars
         self.cmdcenter, self.env = cmdcenter, env
         self.frame_num = 0
 
-
-    def video_time(self):
-
-        # return the simulated video time
-        return (self.frame_num * self.env.video_frame_time) / 1000.0
-
+        self.waiting_for_frame = False
+        
 
     def capture(self):
+
+        info("Capturing video frame %d" % self.frame_num)
 
         # return if necessary
         if(not self.env.render_video):
             return False
 
-        # save frame
-        image = self.cmdcenter.grab_image()
-        image.save("video/%s/%d.png" % (self.video_name, self.frame_num))
+        while(self.waiting_for_frame and not self.env.exit):
+            time.sleep(0.01)
 
-        # inc frame num
-        self.frame_num += 1
+        # info("Done waiting")
 
-        # stop video if necessary
-        if(self.env.max_video_frames and self.frame_num == self.env.max_video_frames):
-            self.stop_video(True)
+        # define internal function for async execution
+        def grab_frame():
+            # info("Grabbing frame")
+
+            # save frame
+            image = self.cmdcenter.grab_image()
+            image.save("video/%s/%d.png" % (self.video_name, self.frame_num))
+
+            # inc frame num
+            self.frame_num += 1
+
+            # stop video if necessary
+            if(self.env.max_video_frames and self.frame_num == int(self.env.max_video_frames)):
+                self.stop_video(True)
+            
+            self.waiting_for_frame = False
+
+        # grab frame
+        if(not self.env.exit):
+            self.waiting_for_frame = True
+            async(grab_frame)
 
 
     def start_video(self, video_name=None):
 
-        # return if necessary
-        if(self.contest.render_video):
-            return False
+        info("Starting video renderer")
 
+        # turn on fps sync
+        self.env.fps_sync = self.env.video_frame_rate
+        
         # set vars
         self.frame_num = 0
         self.env.render_video = True
@@ -60,11 +81,10 @@ class VideoRenderer(object):
         # set video name
         self.video_name = video_name
 
-        # set cmdcenter time function
-        self.cmdcenter.time = self.video_time
-
 
     def stop_video(self, compress=False):
+
+        info("Stopping video renderer")
 
         # return if necessary
         if(not self.env.render_video):
@@ -77,5 +97,5 @@ class VideoRenderer(object):
         if(compress):
             pass
 
-        # restore cmdcenter clock
-        self.cmdcenter.time = time.clock
+        # turn off fps sync
+        self.env.fps_sync = False

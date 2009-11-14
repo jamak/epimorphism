@@ -77,6 +77,12 @@ class CmdCenter(Animator):
         self.t_phase = 0.0
         self.recorded_events = None
 
+        # create video_renderer
+        self.video_renderer = VideoRenderer(self, self.env)
+
+        if(self.env.render_video):
+            self.video_renderer.start_video()
+
         # create cmd_env function blacklist
         func_blacklist = ['do', '__del__', '__init__', 'kernel', 'print_timings', 'record_event', 'start', 'switch_kernel',
                           'keyboard', 'console_keyboard', 'register_callbacks', 'render_console', 'capture', 'render_fps',
@@ -90,7 +96,7 @@ class CmdCenter(Animator):
         # get functions from objects
         funcs = get_funcs(self)
         funcs.update(get_funcs(self.interface.renderer))
-        #funcs.update(get_funcs(self.interface.video_renderer))
+        funcs.update(get_funcs(self.video_renderer))
         funcs.update(get_funcs(self.engine))
         funcs.update(get_funcs(self.componentmanager))
         funcs.update(default_funcs)
@@ -104,13 +110,6 @@ class CmdCenter(Animator):
 
         self.last_event_time = 0
         seed()
-
-        # create video_renderer
-        self.video_renderer = VideoRenderer(self, self.env)
-
-        # start video_renderer
-        if(self.env.render_video):
-            self.video_renderer.video_start()
 
 
     def __del__(self):
