@@ -1,0 +1,40 @@
+EPIMORPHISM - v1.0b
+
+Epimorphism is a real time video feedback simultation that runs on Nvidia graphics hardware using CUDA.  Epimorphism is not a simple program.  In order to seriously use it for its intended purpose, which is to make beautiful art, you need at least a cursory understanding of how the program actually works.  The default interface binding, however, is designed so that even the clueless can push buttons on the keyboard and have something good happen.
+
+
+BASIC CONTROLS:
+The program is controlled by two types of variables - continuous and discrete. The continuous variables are numerical parameters, corresponding normally either to real numbers, or components(r, th, x, y) of complex numbers.  The discrete variables simply choose one value from a collection of possibilities.
+
+KEYBOARD:
+There are a number of mappings from keys on the keyboard to these variables and other actions.  See keybindings.txt for details.  For the main keyboard body, all generally tend to follow a similar scheme where the key underneath(below & to the right) is opposite to the key above.  For instance the '1' key may cycle through the possibilities for a discrete variable, while the 'q' key would cycle in the opposite direction.  Similarly for continuous variables.  'a' may increase a variable by 0.1, but 'z' would decrease it by 0.1
+
+
+EXPLANATION:
+
+This application simulates video feedback. On a high level, on each cycle, the following actions occur:
+
+1. Grab the previously rendered frame
+2. Draw something on top of it
+3. Put the image through a spatial transformation
+4. Put the image through a color transformation
+5. Draw the result
+
+As such there are 3 main areas of the application that can be modified in real time, corresponding to 2,3,4.  There
+
+
+
+
+
+
+Application - An object which contains one of each of the following:
+Profile     - Contains CUDA & internal rendering configuration parameters.  Basically controls the fidelity of the images produced
+Context     - Configures the UI, both inputs & outputs.  Configures screen resolution, keyboard, mouse, and midi mappings, etc...
+Environment - Configures miscelaneous application settings
+State       - Contains all information the CUDA engine needs to make a frame.
+
+
+
+Application Flow:
+
+There is an

@@ -16,12 +16,11 @@ class VideoRenderer(object):
 
         debug("Initializing video renderer")
 
-        # set vars
+        # initialize vars
         self.cmdcenter, self.env = cmdcenter, env
         self.frame_num = 0
-
         self.waiting_for_frame = False
-        
+
 
     def capture(self):
         info("Capturing video frame %d at time %s" % (self.frame_num, self.cmdcenter.time()))
@@ -45,7 +44,7 @@ class VideoRenderer(object):
             # pad frame_num
             digit_size = 5
             padded = "".join(["0" for i in xrange(digit_size - int(math.log10(self.frame_num + 1)) - 1)]) + str(self.frame_num + 1)
-            
+
             # save
             image.save("video/%s/%s.png" % (self.video_name, padded))
 
@@ -55,7 +54,7 @@ class VideoRenderer(object):
             # stop video if necessary
             if(self.env.max_video_frames and self.frame_num == int(self.env.max_video_frames)):
                 self.stop_video(True)
-            
+
             self.waiting_for_frame = False
 
         # grab frame
@@ -70,7 +69,7 @@ class VideoRenderer(object):
 
         # turn on fps sync
         self.env.fps_sync = self.env.video_frame_rate
-        
+
         # set vars
         self.frame_num = 0
         self.env.render_video = True
@@ -102,7 +101,7 @@ class VideoRenderer(object):
 
         # run script to compress video
         if(compress):
-            "mencoder mf://video/2/*.png -mf w=512:h=512:fps=20:type=png -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell -oac copy -o 3.avi"
+            "mencoder mf://video/2/*.png -mf w=512:h=512:fps=20:type=png -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell -oac copy -o %s.avi" % self.video_name
 
         # turn off fps sync
         self.env.fps_sync = False

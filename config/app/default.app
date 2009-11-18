@@ -4,5 +4,5 @@
  'env': 'default',
  'context': 'default',
  'profile': 'std',
- 'state': 'default',
+ 'state': 'default'
 }

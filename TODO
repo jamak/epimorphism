@@ -15,11 +15,7 @@ touchscreen/better interface
 installer
 
 
-
-
-take display out of context
 state modularization
-better command line arguments - no eval
 live state
 
 
